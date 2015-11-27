@@ -6,7 +6,7 @@
  * TODO - Replace this content of this view to suite the needs of your application.
  */
 Ext.define('SppAppClassic.view.main.Main', {
-    extend: 'Ext.tab.Panel',
+    extend: 'Ext.panel.Panel',
     xtype: 'app-main',
 
     requires: [
@@ -26,8 +26,8 @@ Ext.define('SppAppClassic.view.main.Main', {
     controller: 'main',
     viewModel: 'main',
 
-    ui: 'navigation',
-
+    //ui: 'navigation',
+    /*
     tabBarHeaderPosition: 1,
     titleRotation: 0,
     tabRotation: 0,
@@ -79,8 +79,11 @@ Ext.define('SppAppClassic.view.main.Main', {
             }
         }
     },
-
-    items: [{
+    */
+    layout: "border",
+    items: [
+    /*
+    {
         title: 'Home',
         iconCls: 'fa-home',
         // The following grid shares a store with the classic version's grid as well!
@@ -106,14 +109,34 @@ Ext.define('SppAppClassic.view.main.Main', {
             html: '{loremIpsum}'
         }
     },
+    */
     // include GeoExt3 map
-    
-    {
-        title: 'GeoExt3 OL3 Map',
-        iconCls: 'fa-map-marker',
+    {   
+        region: "north",
+        title: 'North',
+        //iconCls: 'fa-map-marker',
+        layout: 'fit',
+        items: [{
+            xtype: 'panel'
+        }]
+    },
+    {   
+        region: "east",
+        title: 'Layers',
+        //iconCls: 'fa-map-marker',
+        layout: 'fit',
+        items: [{
+            xtype: 'panel'
+        }]
+    },
+    {   
+        region: "center",
+        title: 'Map',
+        //iconCls: 'fa-map-marker',
         layout: 'fit',
         items: [{
             xtype: 'mappanel'  // defined in Map.js
         }]
+        
     }]
 });
