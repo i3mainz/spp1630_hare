@@ -16,10 +16,13 @@ Ext.define('SppAppClassic.view.main.Main', {
         'SppAppClassic.view.main.MainController',
         'SppAppClassic.view.main.MainModel',
         'SppAppClassic.view.main.List',
+        // no need to require Main.js since it
+        // gets extended
 
-        // not sure if needed
-        'SppAppClassic.view.main.MapModel',
+        // not sure if they are all needed or
+        // if the are loaded anyway
         'SppAppClassic.view.main.MapController',
+        'SppAppClassic.view.main.MapModel',
         'SppAppClassic.view.main.Map'
     ],
 
@@ -80,6 +83,7 @@ Ext.define('SppAppClassic.view.main.Main', {
         }
     },
     */
+    //title: "ParentTitle",
     layout: "border",
     items: [
     /*
@@ -113,14 +117,14 @@ Ext.define('SppAppClassic.view.main.Main', {
     // include GeoExt3 map
     {   
         region: "north",
-        title: 'North',
+        //title: 'ParentTitle',
         //iconCls: 'fa-map-marker',
-        layout: 'fit',
+        layout: 'fit', // auto-adjusts items' hight and width
         items: [{
-            xtype: 'panel'
+            xtype: 'navpanel'  // defined in Map.js
         }]
     },
-    {   
+    /*{   
         region: "east",
         title: 'Layers',
         //iconCls: 'fa-map-marker',
@@ -128,10 +132,10 @@ Ext.define('SppAppClassic.view.main.Main', {
         items: [{
             xtype: 'panel'
         }]
-    },
+    },*/
     {   
         region: "center",
-        title: 'Map',
+        //title: 'parentTitle',
         //iconCls: 'fa-map-marker',
         layout: 'fit',
         items: [{

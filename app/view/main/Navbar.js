@@ -1,6 +1,7 @@
 
 Ext.define("SppAppClassic.view.main.Navbar",{
     extend: "Ext.panel.Panel",
+    xtype: "navpanel",  // alias
 
     requires: [
         "SppAppClassic.view.main.NavbarController",
@@ -11,6 +12,6 @@ Ext.define("SppAppClassic.view.main.Navbar",{
     viewModel: {
         type: "main-navbar"
     },
-
-    html: "Hello, World!!"
+    title: "SPP Virtual Research Environment"
+    //html: "Hello, World!!"
 });
