@@ -38,17 +38,11 @@ Ext.define('SppAppClassic.view.main.MapController', {
 		var transformed_coordinate = ol.proj.transform(coord, "EPSG:900913", "EPSG:4326");
 		console.log(transformed_coordinate);
     },
+    
     onZoomToMaxExtent: function() {
     	"use strict";
     	console.log("zooming to maximum extend!");
     	console.log(ol3Map);
     	//ol3Map.getView().fitExtent(extent, map.getSize());
     }
-    /*
-    map.on('singleclick', function(evt){
-	var coord = evt.coordinate;
-	var transformed_coordinate = ol.proj.transform(coord, "EPSG:900913", "EPSG:4326");
-	console.log(transformed_coordinate);
-	*/
-
 });

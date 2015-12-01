@@ -85,8 +85,25 @@ Ext.define('SppAppClassic.view.main.Main', {
     */
     //title: "ParentTitle",
     title: "SPP Virtual Research Environment",
+    
+    // settings for title bar
+    header: {
+        titlePosition: 2,
+        titleAlign: "left",
+        buttonAlign: 'right',
+        tools: [ // tools within title bar
+            //{type: "pin"},
+            {
+                xtype: 'button',
+                text: 'Logout',
+                glyph: 'xf08b@fontawesome',
+                handler: 'onClickButton'
+            }
+        ]
+    },
     //html: "Hello, World!!"
     
+    /*
     dockedItems: [{
         xtype: 'toolbar',
         cls: "navbar",  // custom class for css styling
@@ -101,8 +118,14 @@ Ext.define('SppAppClassic.view.main.Main', {
             }
         ]
     }],
+    */
 
-    layout: "border",
+    //layout: "border",
+    layout: {
+        type: 'border',
+        padding: 5
+    },
+    border: true,
     items: [
     /*
     {

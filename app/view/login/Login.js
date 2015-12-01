@@ -9,10 +9,14 @@ Ext.define('SppAppClassic.view.login.Login', {
 
     controller: 'login',  // needs to be in requires
     bodyPadding: 10,
-    title: 'Login Window',
+    title: 'Login',
     closable: true,  // show close-button
     autoShow: true,
     floating: true,
+    maximizable: true,
+    glyph: 'xf090@fontawesome',
+    animate: true,  // not sure if this does anything
+    constrain: true,  // keeps window inside browser area
 
     items: {
         xtype: 'form',
