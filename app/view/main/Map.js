@@ -11,7 +11,8 @@ function createOL3Layer(layername, displayname, zIndex) {
           params: {'LAYERS': layername, 'TILED': true},
           serverType: 'geoserver'
         }),
-        name: displayname
+        name: displayname,
+        visible: false
     });
     return layer;
 }
@@ -27,14 +28,79 @@ bridgesLayer.setZIndex(1);
 olMap.addLayer(aqueductsLayer);
 */
 
-var layers = [
-    // basemaps
-    
+var access = new ol.layer.Group({
+    layers: [
+        createOL3Layer("SPP:v_public_offen", "Open"),
+        createOL3Layer("SPP:v_public_agintern", "AG only")
+    ],
+    name: "SPP: Access",
+    visible: false
+});
 
-    // overlays
-    createOL3Layer("SPP:darmc_aqueducts", "Aqueducts!"),
-    createOL3Layer("SPP:darmc_bridges", "Bridges!")
-];
+var query = new ol.layer.Group({
+    layers: [
+        //createOL3Layer("SPP:darmc_aqueducts", "Aqueducts!"),
+        //createOL3Layer("SPP:darmc_bridges", "Bridges!")
+    ],
+    name: "SPP: Query",
+    visible: false
+});
+
+var statusGroup = new ol.layer.Group({
+    layers: [
+        //createOL3Layer("SPP:darmc_aqueducts", "Aqueducts!"),
+        //createOL3Layer("SPP:darmc_bridges", "Bridges!")
+    ],
+    name: "SPP: Status",
+    visible: false
+});
+
+var projects = new ol.layer.Group({
+    layers: [
+        //createOL3Layer("SPP:darmc_aqueducts", "Aqueducts!"),
+        //createOL3Layer("SPP:darmc_bridges", "Bridges!")
+    ],
+    name: "SPP: Projects",
+    visible: false
+});
+
+var hydrology = new ol.layer.Group({
+    layers: [
+        createOL3Layer("SPP:lakes", "Lakes"),
+        createOL3Layer("SPP:streams", "Streams")
+    ],
+    name: "Hydrology",
+    visible: false
+});
+
+var barrington = new ol.layer.Group({
+    layers: [
+        createOL3Layer("SPP:aqueduct", "Aqueducts"),
+        createOL3Layer("SPP:bath", "Baths"),
+        createOL3Layer("SPP:bridge", "Bridges"),
+        createOL3Layer("SPP:port", "Ports"),
+        createOL3Layer("SPP:canal", "Canals"),
+        createOL3Layer("SPP:settlement", "Settlements"),
+        createOL3Layer("SPP:road", "Roads")
+    ],
+    name: "Barrington Atlas",
+    visible: false
+});
+
+var darmc = new ol.layer.Group({
+    layers: [
+        createOL3Layer("SPP:darmc_aqueducts", "Aqueducts"),
+        createOL3Layer("SPP:darmc_bridges", "Bridges"),
+        createOL3Layer("SPP:darmc_roads", "Roads"),
+        createOL3Layer("SPP:darmc_cities", "Cities"),
+        createOL3Layer("SPP:darmc_baths", "Baths"),
+        createOL3Layer("SPP:darmc_ports", "Ports"),
+        createOL3Layer("SPP:darmc_harbours", "Harbours"),
+        createOL3Layer("SPP:darmc_canals", "Canals")
+    ],
+    name: "DARMC",
+    visible: false
+});
 
 // sort using OL3 groups
 var baselayers = new ol.layer.Group({
@@ -51,6 +117,7 @@ var baselayers = new ol.layer.Group({
           name: "OSM",
           visible: false  // not activated on start
         }),
+        createOL3Layer("SPP:world_borders_simple", "Simple World Borders"),
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
                 url: 'http://ows.terrestris.de/osm-gray/service',
@@ -63,14 +130,6 @@ var baselayers = new ol.layer.Group({
     name: "Basemaps"
 });
 
-var darmc = new ol.layer.Group({
-    layers: [
-        createOL3Layer("SPP:darmc_aqueducts", "Aqueducts!"),
-        createOL3Layer("SPP:darmc_bridges", "Bridges!")
-    ],
-    name: "DARMC"
-});
-
 var controls = ol.control.defaults().extend([  // keeps default controls
     new ol.control.FullScreen(),
     new ol.control.ScaleLine(),
@@ -80,7 +139,16 @@ var controls = ol.control.defaults().extend([  // keeps default controls
 ]);
 
 var olMap = new ol.Map({
-    layers: [baselayers, darmc],  // these get sorted in geoext3 layertree accordingly
+    layers: [
+        baselayers,
+        darmc,
+        barrington,
+        hydrology,
+        projects,
+        statusGroup,
+        query,
+        access
+    ],  // these get sorted in geoext3 layertree accordingly
     controls: controls,
     view: new ol.View({
         //center: [0, 0],
@@ -127,7 +195,7 @@ var treePanel = Ext.create('Ext.tree.Panel', {
 
 
 var mapComponent = Ext.create("GeoExt.component.Map", {
-    map: olMap,
+    map: olMap
 });
 
 var mapPanel = Ext.create('Ext.panel.Panel', {
