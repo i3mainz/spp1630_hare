@@ -15,7 +15,6 @@ Ext.define('SppAppClassic.view.main.Main', {
 
         'SppAppClassic.view.main.MainController',
         'SppAppClassic.view.main.MainModel',
-        'SppAppClassic.view.main.List',
         // no need to require Main.js since it
         // gets extended
 
@@ -28,6 +27,7 @@ Ext.define('SppAppClassic.view.main.Main', {
 
     controller: 'main',
     viewModel: 'main',
+    plugins: 'viewport',  // fullscreen
 
     //ui: 'navigation',
     /*
@@ -84,6 +84,24 @@ Ext.define('SppAppClassic.view.main.Main', {
     },
     */
     //title: "ParentTitle",
+    title: "SPP Virtual Research Environment",
+    //html: "Hello, World!!"
+    
+    dockedItems: [{
+        xtype: 'toolbar',
+        cls: "navbar",  // custom class for css styling
+        dock: 'top',
+        items: [
+            "->",  // align next to right  
+            {
+                xtype: 'button',
+                text: 'Logout',
+                //margin: '10 0',
+                handler: 'onClickButton'
+            }
+        ]
+    }],
+
     layout: "border",
     items: [
     /*
@@ -115,24 +133,6 @@ Ext.define('SppAppClassic.view.main.Main', {
     },
     */
     // include GeoExt3 map
-    {   
-        region: "north",
-        //title: 'ParentTitle',
-        //iconCls: 'fa-map-marker',
-        layout: 'fit', // auto-adjusts items' hight and width
-        items: [{
-            xtype: 'navpanel'  // defined in Map.js
-        }]
-    },
-    /*{   
-        region: "east",
-        title: 'Layers',
-        //iconCls: 'fa-map-marker',
-        layout: 'fit',
-        items: [{
-            xtype: 'panel'
-        }]
-    },*/
     {   
         region: "center",
         //title: 'parentTitle',

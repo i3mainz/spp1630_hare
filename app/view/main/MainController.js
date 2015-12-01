@@ -10,12 +10,32 @@ Ext.define('SppAppClassic.view.main.MainController', {
     alias: 'controller.main',
 
     onItemSelected: function (sender, record) {
+        "use strict";
         Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
     },
 
     onConfirm: function (choice) {
+        "use strict";
         if (choice === 'yes') {
             //
         }
+    },
+
+    // reverts code from LoginCOntroller.js
+    onClickButton: function () {
+        "use strict";
+        // Remove the localStorage key/value
+        localStorage.removeItem('TutorialLoggedIn');
+
+        // Remove Main View
+        this.getView().destroy();
+
+        //Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?');
+
+        // Add the Login Window
+        
+        Ext.create({
+            xtype: 'login'
+        });
     }
 });
