@@ -1,9 +1,9 @@
 var GEOSERVER_URL = "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?";
 
-function createOL3Layer(layername, displayname, zIndex) {
+function createOL3Layer(layername, displayname, visible, zIndex) {
+    "use strict";
     zIndex = zIndex || 0;  // set default
-    console.log(zIndex);
-
+    visible = visible || false;  // set default
     var layer = new ol.layer.Tile({
         //extent: [-13884991, 2870341, -7455066, 6338219],
         source: new ol.source.TileWMS({
@@ -12,7 +12,7 @@ function createOL3Layer(layername, displayname, zIndex) {
           serverType: 'geoserver'
         }),
         name: displayname,
-        visible: false
+        visible: visible
     });
     return layer;
 }
@@ -30,11 +30,11 @@ olMap.addLayer(aqueductsLayer);
 
 var access = new ol.layer.Group({
     layers: [
-        createOL3Layer("SPP:v_public_offen", "Open"),
+        createOL3Layer("SPP:v_public_offen", "Open", true),
         createOL3Layer("SPP:v_public_agintern", "AG only")
     ],
     name: "SPP: Access",
-    visible: false
+    visible: true
 });
 
 var query = new ol.layer.Group({
