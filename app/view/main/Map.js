@@ -174,7 +174,7 @@ var mapToolbar = Ext.create('Ext.Toolbar', {
         //{text: 'fullscreen', glyph: "xf065@FontAwesome", handler: "fullscreen" },
         {text: 'coordinates!', handler: "calcCoordinates"},
         //{text: 'pan', glyph:'xf047@FontAwesome', handler: ""},
-        {text: 'maxExtend', glyph:'', handler: onZoomToMaxExtent1}
+        {text: 'maxExtend', glyph:'xf0b2@FontAwesome', handler: "onZoomToMaxExtent"}
         //{text: 'legendurl', handler: "updateLegendUrl"}
     ]
 });
@@ -183,7 +183,7 @@ var treeStore = Ext.create('GeoExt.data.store.LayersTree', {
     layerGroup: olMap.getLayerGroup()
 });
 
-
+var treeHeight = Ext.getBody().getViewSize().height*0.6;
 var treePanel = Ext.create('Ext.tree.Panel', {
     title: 'Layers',
     viewConfig: {
@@ -193,22 +193,31 @@ var treePanel = Ext.create('Ext.tree.Panel', {
     //maxHeight: 600,
     //height: 600,
     //collapsible: true,
-    rootVisible: false
+    rootVisible: false,
+    height: treeHeight, // workaround, shoul use flex: 6 ???
+    fill: true,
     //flex: 8
     //width: 200,
-    //lines: false,
+    lines: false,
     //collapsible: true,
     //autoScroll: false,
     //border: false
     //split: true
+    listeners: {  // alternative to treePanel.on('select', function())
+        
+        // refresh legend every time a node is selected
+        checkchange: 'onNodeCheckChange' // defined in MapController
+    }
 });
 
 //var legend = getLegend("SPP:streams");
-
+var legendHeight = Ext.getBody().getViewSize().height*0.39;
 var legendPanel = Ext.create("Ext.panel.Panel", {
     title: 'Legend',
-    collapsible: false,
-    collapsed: false
+    collapsible: true,
+    collapsed: false,
+    autoScroll: true,
+    height: legendHeight // workaround, shoul use flex: 4 ))?
     //flex: 2
     //html: legend  // gets filled dynamically
 });
@@ -227,7 +236,7 @@ var accordPanel = Ext.create("Ext.panel.Panel", {
     animate: true,
     align: "stretch",
     activeOnTop: false,
-    autoScroll: true,
+    autoScroll: false,  // each panel scrolls independently
     items: [treePanel, legendPanel]
 });
 
@@ -261,83 +270,3 @@ Ext.define("SppAppClassic.view.main.Map",{
     layout: "border",
     items: [accordPanel, mapPanel]
 });
-
-// TODO -> put this in Controller
-function onZoomToMaxExtent1() {
-    "use strict";
-    console.log("zooming to maximum extend new!");
-    var max_extend = olMap.getSize();
-    olMap.setCenter(ol.proj.fromLonLat( [8.751278, 50.611368] ));
-    //olMap.getView().fitExtent(olMap.getSize());
-}
-
-// listen for events
-/*
-barringtonLayer1.on('change:visible', function() {
-    "use strict";
-    //console.log("updating legend!");
-    // update legend if layer is active
-    if (this.getVisible() === true) {  // layer is active
-        var layer_url = this.getSource().Y;
-        var layer_name = layer_url.match("#LAYERS-(.*)#")[1];
-        var legend = getLegend(layer_name);
-        legendPanel.update(legend);
-    
-    // if layer is inactive, clear legend
-    } else {
-        legendPanel.update("");
-    }
-});
-*/
-
-// check each layer group for layer changes
-/*
-darmc.on('change:visible', function() {
-    "use strict";
-    console.log("layergroup changed!");
-
-    // check what layers are active
-    var layers = this.getLayers();  // collection of layers in this group
-    layers.forEach(function(layer) {
-        if (layer.checked === true) {
-            console.log(layer.text);
-        }
-    });
-
-    // generate legend including all active layers
-});
-*/
-
-
-
-//select( this, record, index, eOpts )
-
-// listen for any node to be selected -> then get its corresponding layer
-// group-clicks will be ignored for now -> TODO: generate Legend for all layers of a group if the 
-// group folder and all of its layers are getting activated 
-treePanel.on('select', function(treeModel, selectedNode) {  // 'select' fires only on activate
-    "use strict";
-    var olLayer = selectedNode.data;
-    if (olLayer.isLayerGroup === false) {   // ignore selected layerGroup for now
-        var layer_url = olLayer.getSource().Y;
-        console.log(layer_url);
-        var layer_name = layer_url.match("#LAYERS-(.*)#")[1];
-        //console.log(layer_name);
-        var legend = getLegend(layer_name);
-        legendPanel.update(legend);
-    } else {
-        console.log("layergroup selected. legends will not load! FIX!");
-    }
-});
-
-// currently not working
-treePanel.on('deselect', function() { 
-    "use strict";
-    console.log("unselect");
-    legendPanel.update("");  // clear legend
-});
-
-// todo: treePanel.on('deselect'); -> remove layers from legend if deselected
-// todo: treePanel.on('select'); ollayer.isLayerGroup -> create Legend for all layers
-// todo: always create legend for all active layers -> 
-// two options: loop through all active OL3Layers or all selected nodes

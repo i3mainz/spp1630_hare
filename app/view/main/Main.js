@@ -88,16 +88,31 @@ Ext.define('SppAppClassic.view.main.Main', {
     
     // settings for title bar
     header: {
-        titlePosition: 2,
-        titleAlign: "left",
-        buttonAlign: 'right',
+        //titlePosition: 2,
+        //titleAlign: "left",
+        //buttonAlign: 'right',
         tools: [ // tools within title bar
-            //{type: "pin"},
+            //{type: "pin"}
+            /*
+            {
+                type:'refresh',
+                tooltip: 'Refresh form Data',
+                handler: function(event, toolEl, panel){
+                    // refresh logic
+                }
+            },
+            {
+                type:'help',
+                tooltip: 'Get Help',
+                handler: ""
+            },
+            */
             {
                 xtype: 'button',
                 text: 'Logout',
+                align: "right",
                 glyph: 'xf08b@fontawesome',
-                handler: 'onClickButton'
+                handler: 'onClickLogout'
             }
         ]
     },

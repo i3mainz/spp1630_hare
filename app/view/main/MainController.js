@@ -22,7 +22,7 @@ Ext.define('SppAppClassic.view.main.MainController', {
     },
 
     // reverts code from LoginCOntroller.js
-    onClickButton: function () {
+    onClickLogout: function () {
         "use strict";
         // Remove the localStorage key/value
         localStorage.removeItem('TutorialLoggedIn');
