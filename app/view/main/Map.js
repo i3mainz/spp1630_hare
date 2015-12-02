@@ -226,7 +226,7 @@ var legendPanel = Ext.create("Ext.panel.Panel", {
 var accordPanel = Ext.create("Ext.panel.Panel", {
     // global
     region: "west",
-    width: 200,
+    width: 250,
     split: true,
     margins: '5 0 5 5',
 
