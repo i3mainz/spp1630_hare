@@ -226,8 +226,9 @@ var legendPanel = Ext.create("Ext.panel.Panel", {
 var accordPanel = Ext.create("Ext.panel.Panel", {
     // global
     region: "west",
-    width: 250,
-    split: true,
+    width: 300,
+    split: false,
+    collapsible: true,
     margins: '5 0 5 5',
 
     // accordion specific
@@ -237,7 +238,7 @@ var accordPanel = Ext.create("Ext.panel.Panel", {
     align: "stretch",
     activeOnTop: false,
     autoScroll: false,  // each panel scrolls independently
-    items: [treePanel, legendPanel]
+    items: [treePanel]
 });
 
 var mapComponent = Ext.create("GeoExt.component.Map", {

@@ -132,10 +132,14 @@ Ext.define('SppAppClassic.view.main.MapController', {
         treePanel.getChecked().forEach(function(node) {  // loop all active nodes
             var olLayer = node.data;
             if (!olLayer.isLayerGroup) {  // ignore layerGroup-folders
-                if (olLayer.getSource().G === "geoserver") {  // ingore layers not hosted on the local geoserver (just basemaps for now)
-                    var layer_url = olLayer.getSource().Y;
-                    var layer_name = layer_url.match("#LAYERS-(.*)#")[1];
-                    layerNameList.push(layer_name);
+                var source = olLayer.getSource();
+                console.log(source);
+                if (source.D === "geoserver") {  // ingore layers not hosted on the local geoserver (just basemaps for now)
+                    //var layer_url = source.getUrls();
+                    console.log(source.getParams());
+                    //var layer_name = layer_url.match("#LAYERS-(.*)#")[1];
+                    var layerName = source.getParams().LAYERS;
+                    layerNameList.push(layerName);
                 }
             }
         });
