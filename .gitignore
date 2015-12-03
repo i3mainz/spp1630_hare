@@ -5,6 +5,7 @@ build/
 bootstrap.json
 bootstrap.js
 bootstrap.css
+sass/example/bootstrap.js
 
 .architect
 
