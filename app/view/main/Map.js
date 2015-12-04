@@ -150,7 +150,15 @@ var countryStyle = new ol.style.Style({
 });
 function getLegendUrl(layer_name) {
     "use strict";
-    return GEOSERVER_URL + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&HEIGHT=50&LAYER=" + layer_name + "&LEGEND_OPTIONS=fontName:arial;dpi:180";
+    return GEOSERVER_URL + "REQUEST=GetLegendGraphic&" + 
+        "VERSION=1.0.0&" + 
+        "FORMAT=image/png&" + 
+        "WIDTH=50&HEIGHT=50&" + 
+        "TRANSPARENT=true&" +
+        "LAYER=" + layer_name + "&" + 
+        "LEGEND_OPTIONS=" + 
+            "fontName:arial;" + 
+            "dpi:180";
 }
 
 function createOL3Layer(layername, displayname, visible, zIndex) {
@@ -177,7 +185,6 @@ function createOL3VectorLayerFromGeoJson(layername, displayname, style, visible)
     var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
     var workspace = layername.split(":")[0];
     var layer = layername.split(":")[1];
-    console.log(workspace, layer);
     //var BBOX = "-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562";
     var EPSG = "4326";
 
@@ -193,7 +200,8 @@ function createOL3VectorLayerFromGeoJson(layername, displayname, style, visible)
 
     var vectorLayer = new ol.layer.Vector({
         source: vectorSource,
-        legendUrl: getLegendUrl(layername),  // through plugin
+        //legendUrl: getLegendUrl(layername),  // gets legend from geoserver -> is wrong when 
+        // used as GeoJSON and applied new style 
         style: style,
         name: displayname,
         visible: visible 
