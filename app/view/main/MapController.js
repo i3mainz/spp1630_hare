@@ -93,7 +93,7 @@ Ext.define('SppAppClassic.view.main.MapController', {
     */
 
     // slider handlers
-    onSliderChange: function() {
+    onSliderChangeComplete: function() {
         //console.log("changed slider!");
         console.log(slider.getValues());
     }

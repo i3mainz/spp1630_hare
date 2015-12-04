@@ -264,7 +264,7 @@ var slider = Ext.create('Ext.slider.Multi', {
     //constrainThumbs: true,
     values: [10, 90],
     listeners: {  
-        change: 'onSliderChange'
+        changecomplete: 'onSliderChangeComplete'
     }
 });
 
