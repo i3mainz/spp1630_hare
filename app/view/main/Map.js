@@ -1,4 +1,7 @@
+"use strict";
 var GEOSERVER_URL = "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?";
+var GEOSERVER_URL_WMS = "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?";
+var MAP_CENTER = ol.proj.fromLonLat([8.751278, 50.611368]);
 
 function createOL3Layer(layername, displayname, visible, zIndex) {
     "use strict";
@@ -144,23 +147,19 @@ var olMap = new ol.Map({
     ],  // these get sorted in geoext3 layertree accordingly
     controls: controls,
     view: new ol.View({
-        //center: [0, 0],
-        //zoom: 2
-        center: ol.proj.fromLonLat( [8.751278, 50.611368] ),
-        zoom: 5
+        center: MAP_CENTER,  // [0, 0],
+        zoom: 5  // 2
     })
 });
 
 var mapToolbar = Ext.create('Ext.Toolbar', {
     items: [
-        // todo create functions and remove strings
-        {text: 'add/remove', handler: "addRemoveLayer"},
-        //{text: 'export as PNG', glyph:'xf03e@FontAwesome', handler: "exportMap"},  // handler defined in MapController.js
-        //{text: 'fullscreen', glyph: "xf065@FontAwesome", handler: "fullscreen" },
-        {text: 'coordinates!', handler: "calcCoordinates"},
-        //{text: 'pan', glyph:'xf047@FontAwesome', handler: ""},
-        {text: 'maxExtend', glyph:'xf0b2@FontAwesome', handler: "onZoomToMaxExtent"}
-        //{text: 'legendurl', handler: "updateLegendUrl"}
+        {text: 'Zoom In', glyph: "xf00e@FontAwesome", handler: "zoomIn"},
+        {text: 'Zoom Out', glyph: "xf010@FontAwesome", handler: "zoomOut"},
+        {text: 'rotate!', glyph: "xf0e2@FontAwesome", handler: "onRotate"},
+        {text: 'maxExtent', glyph:'xf0b2@FontAwesome', handler: "onCenter"}
+        //{text: 'fullscreen', handler: "fullscreen"}
+        //slider
     ]
 });
 
@@ -188,7 +187,7 @@ var treePanel = Ext.create('Ext.tree.Panel', {
     listeners: {  // alternative to treePanel.on('select', function())
         
         // refresh legend every time a node is selected
-        checkchange: 'onNodeCheckChange' // defined in MapController
+        //checkchange: 'onNodeCheckChange' // defined in MapController
     }
 });
 
