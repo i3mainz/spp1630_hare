@@ -1,7 +1,79 @@
 "use strict";
 var GEOSERVER_URL = "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?";
-var GEOSERVER_URL_WMS = "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?";
 var MAP_CENTER = ol.proj.fromLonLat([8.751278, 50.611368]);
+
+/**
+ * A plugin for Ext.grid.column.Column s that overwrites the internal cellTpl to
+ * support legends.
+ */
+Ext.define('BasicTreeColumnLegends', {
+    extend: 'Ext.AbstractPlugin',
+    alias: 'plugin.basic_tree_column_legend',
+
+    /**
+     * @private
+     */
+    originalCellTpl: Ext.clone(Ext.tree.Column.prototype.cellTpl).join(''),
+
+    /**
+     * The Xtemplate strings that will be used instead of the plain {value}
+     * when rendering
+     */
+    valueReplacementTpl: [
+        '{value}',
+        '<tpl if="this.hasLegend(values.record)"><br />',
+        '<tpl for="lines">',
+        '<img src="{parent.blankUrl}"',
+        ' class="{parent.childCls} {parent.elbowCls}-img ',
+        '{parent.elbowCls}-<tpl if=".">line<tpl else>empty</tpl>"',
+        ' role="presentation"/>',
+        '</tpl>',
+        '<img src="{blankUrl}" class="{childCls} x-tree-elbow-img">',
+        '<img src="{blankUrl}" class="{childCls} x-tree-elbow-img">',
+        '<img src="{blankUrl}" class="{childCls} x-tree-elbow-img">',
+        '{[this.getLegendHtml(values.record)]}',
+        '</tpl>'
+    ],
+
+    /**
+     * The context for methods available in the template
+     */
+    valueReplacementContext: {
+        hasLegend: function(rec){
+            var isChecked = rec.get('checked');
+            var layer = rec.data;
+            return isChecked && !(layer instanceof ol.layer.Group);
+        },
+        getLegendHtml: function(rec){
+            var layer = rec.data;
+            var legendUrl = layer.get('legendUrl');
+            if (!legendUrl) {
+                legendUrl = "http://geoext.github.io/geoext2/" +
+                    "website-resources/img/GeoExt-logo.png";
+            }
+            return '<img class="legend" src="' + legendUrl + '" height="32" />';
+        }
+    },
+
+    init: function(column){
+        var me = this;
+        if(!(column instanceof Ext.grid.column.Column)) {
+            Ext.log.warn("Plugin shall only be applied to instances of" +
+                    " Ext.grid.column.Column");
+            return;
+        }
+        var valuePlaceHolderRegExp = /\{value\}/g;
+        var replacementTpl = me.valueReplacementTpl.join('');
+        var newCellTpl = me.originalCellTpl.replace(
+            valuePlaceHolderRegExp, replacementTpl
+        );
+
+        column.cellTpl = [
+            newCellTpl,
+            me.valueReplacementContext
+        ];
+    }
+});
 
 // line styles
 var blueLineStyle = new ol.style.Style({
@@ -76,6 +148,10 @@ var countryStyle = new ol.style.Style({
         lineJoin: 'round'
     })
 });
+function getLegendUrl(layer_name) {
+    "use strict";
+    return GEOSERVER_URL + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&HEIGHT=50&LAYER=" + layer_name + "&LEGEND_OPTIONS=fontName:arial;dpi:180";
+}
 
 function createOL3Layer(layername, displayname, visible, zIndex) {
     "use strict";
@@ -88,6 +164,7 @@ function createOL3Layer(layername, displayname, visible, zIndex) {
           params: {'LAYERS': layername, 'TILED': true},
           serverType: 'geoserver'
         }),
+        legendUrl: getLegendUrl(layername),  // through plugin
         name: displayname,
         visible: visible
     });
@@ -98,14 +175,16 @@ function createOL3VectorLayerFromGeoJson(layername, displayname, style, visible)
     // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
     visible = visible || false;  // set default to zero
     var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
-    var WORKSPACE = "SPP";
+    var workspace = layername.split(":")[0];
+    var layer = layername.split(":")[1];
+    console.log(workspace, layer);
     //var BBOX = "-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562";
     var EPSG = "4326";
 
     var vectorSource = new ol.source.Vector({
         format: new ol.format.GeoJSON(),
         url: function(extent, resolution, projection) {
-            return PROXY_URL + "bereich=" + WORKSPACE + "&layer=" + layername + "&bbox=" + extent.join(',') + "&epsg=" + EPSG;
+            return PROXY_URL + "bereich=" + workspace + "&layer=" + layer + "&bbox=" + extent.join(',') + "&epsg=" + EPSG;
         },
         strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
             maxZoom: 19
@@ -114,6 +193,7 @@ function createOL3VectorLayerFromGeoJson(layername, displayname, style, visible)
 
     var vectorLayer = new ol.layer.Vector({
         source: vectorSource,
+        legendUrl: getLegendUrl(layername),  // through plugin
         style: style,
         name: displayname,
         visible: visible 
@@ -173,12 +253,12 @@ var hydrology = new ol.layer.Group({
 var barrington = new ol.layer.Group({
     layers: [
         //createOL3VectorLayerFromGeoJson("barr_ports", "Barr_Ports", blueStyle),
-        createOL3VectorLayerFromGeoJson("aqueduct", "Aqueducts", blueStyle),
-        createOL3VectorLayerFromGeoJson("bridge", "Bridges", blueStyle),
-        createOL3VectorLayerFromGeoJson("bath", "Baths", blueStyle),
-        createOL3VectorLayerFromGeoJson("settlement", "Settlements", blueStyle, false),
-        createOL3VectorLayerFromGeoJson("canal", "Canals", blueStyle),
-        createOL3VectorLayerFromGeoJson("road", "Roads", redLineStyle)
+        createOL3VectorLayerFromGeoJson("SPP:aqueduct", "Aqueducts", blueStyle),
+        createOL3VectorLayerFromGeoJson("SPP:bridge", "Bridges", blueStyle),
+        createOL3VectorLayerFromGeoJson("SPP:bath", "Baths", blueStyle),
+        createOL3VectorLayerFromGeoJson("SPP:settlement", "Settlements", blueStyle, false),
+        createOL3VectorLayerFromGeoJson("SPP:canal", "Canals", blueStyle),
+        createOL3VectorLayerFromGeoJson("SPP:road", "Roads", redLineStyle)
     ],
     name: "Barrington Atlas",
     visible: false
@@ -293,15 +373,31 @@ var treePanel = Ext.create('Ext.tree.Panel', {
     rootVisible: false,
     fill: true,
     width: 250,
+    border: false,
+    hideHeaders: true,
     region: "west",
-    //flex: 8
+    //flex: 1,
     lines: false,
     autoScroll: true,
     margin: "0 5 0 0",
     //border: false
     split: false,
-    listeners: {  // alternative to treePanel.on('select', function())
-        
+
+    // display legend
+    columns: {
+        header: false,
+        items: [{
+            xtype: 'treecolumn',
+            dataIndex: 'text',
+            flex: 1,
+            plugins: [{
+                ptype: 'basic_tree_column_legend'
+            }]
+        }]
+    },
+
+    // alternative to treePanel.on('select', function())
+    listeners: {  
         // refresh legend every time a node is selected
         //checkchange: 'onNodeCheckChange' // defined in MapController
     }
