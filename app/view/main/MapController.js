@@ -31,15 +31,11 @@ Ext.define('SppAppClassic.view.main.MapController', {
     
     // get view variables 
     refs: [
-        {ref: 'treePanel', selector: 'treePanel'},  // access via treePanel
-        {ref: 'legendPanel', selector: 'legendPanel'},
         {ref: 'olMap', selector: 'olMap'},
-        {ref: 'accesslayerGroup', selector: 'access'},
         {ref: 'mapComponent', selector: 'mapComponent'},
-        {ref: 'mapPanel', selector: 'mapPanel'}
-
-         
+        {ref: 'slider', selector: 'slider'}
     ],
+
     zoomIn: function() {
         var view = olMap.getView();
         var currentZoom = view.getZoom();
@@ -64,7 +60,7 @@ Ext.define('SppAppClassic.view.main.MapController', {
         var currentRotation = view.getRotation();
         console.log(currentRotation);
         olMap.getView().setRotation(currentRotation + 0.5);
-     }
+    },
     /*
     // custom radio button functions for basemaps
     treePanel.on('select', function(treeModel, selectedNode) { 
@@ -95,5 +91,11 @@ Ext.define('SppAppClassic.view.main.MapController', {
         }
     });  
     */
+
+    // slider handlers
+    onSliderChange: function() {
+        //console.log("changed slider!");
+        console.log(slider.getValues());
+    }
 
 });

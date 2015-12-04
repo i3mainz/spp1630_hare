@@ -227,13 +227,14 @@ var baselayers = new ol.layer.Group({
     name: "Basemaps"
 });
 
-var controls = ol.control.defaults().extend([  // keeps default controls
+// ol.control.defaults().extend(  // keeps default controls  
+var controls = [  
     new ol.control.FullScreen(),
-    new ol.control.ScaleLine(),
-    new ol.control.ZoomToExtent({
+    new ol.control.ScaleLine()
+    /*new ol.control.ZoomToExtent({
         extent:undefined
-    })
-]);
+    })*/
+];
 
 var olMap = new ol.Map({
     layers: [
@@ -253,14 +254,28 @@ var olMap = new ol.Map({
     })
 });
 
+var slider = Ext.create('Ext.slider.Multi', {
+    //renderTo: 'multi-slider-horizontal',
+    hideLabel: true,
+    width: 200,
+    //increment: 10,
+    minValue: 0,
+    maxValue: 100,
+    //constrainThumbs: true,
+    values: [10, 90],
+    listeners: {  
+        change: 'onSliderChange'
+    }
+});
+
 var mapToolbar = Ext.create('Ext.Toolbar', {
     items: [
         {text: 'Zoom In', glyph: "xf00e@FontAwesome", handler: "zoomIn"},
         {text: 'Zoom Out', glyph: "xf010@FontAwesome", handler: "zoomOut"},
         {text: 'rotate!', glyph: "xf0e2@FontAwesome", handler: "onRotate"},
-        {text: 'maxExtent', glyph:'xf0b2@FontAwesome', handler: "onCenter"}
+        {text: 'maxExtent', glyph:'xf0b2@FontAwesome', handler: "onCenter"},
+        slider
         //{text: 'fullscreen', handler: "fullscreen"}
-        //slider
     ]
 });
 
