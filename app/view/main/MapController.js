@@ -61,6 +61,28 @@ Ext.define('SppAppClassic.view.main.MapController', {
         console.log(currentRotation);
         olMap.getView().setRotation(currentRotation + 0.5);
     },
+    onToggleHover: function() {
+        console.log("toggle hover!");
+        var interactions = olMap.getInteractions();
+        var selectInteraction; 
+        interactions.forEach(function(interaction) {
+            if (interaction instanceof ol.interaction.Select) {
+                selectInteraction = interaction;
+            }
+        });
+
+        // toogle on
+        if (selectInteraction) {
+            olMap.removeInteraction(selectInteraction);
+        
+        // toogle off
+        } else {
+            var newInteraction = new ol.interaction.Select({
+                condition: ol.events.condition.pointerMove  // empty -> select on click
+            });
+            olMap.addInteraction(newInteraction);
+        }
+    },
     /*
     // custom radio button functions for basemaps
     treePanel.on('select', function(treeModel, selectedNode) { 

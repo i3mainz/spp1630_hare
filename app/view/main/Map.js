@@ -248,7 +248,7 @@ var projects = new ol.layer.Group({
 
 var hydrology = new ol.layer.Group({
     layers: [
-        createOL3Layer("SPP:lakes", "Streams"),
+        createOL3Layer("SPP:lakes", "Lakes"),
         createOL3Layer("SPP:streams", "Streams")
     ],
     name: "Hydrology",
@@ -372,6 +372,7 @@ var mapToolbar = Ext.create('Ext.Toolbar', {
         {text: 'Zoom Out', glyph: "xf010@FontAwesome", handler: "zoomOut"},
         {text: 'rotate!', glyph: "xf0e2@FontAwesome", handler: "onRotate"},
         {text: 'maxExtent', glyph:'xf0b2@FontAwesome', handler: "onCenter"},
+        {text: 'toggleHover', glyph:'', handler: "onToggleHover"},
         slider
         //{text: 'fullscreen', handler: "fullscreen"}
     ]
