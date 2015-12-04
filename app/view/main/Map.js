@@ -210,7 +210,6 @@ function createOL3VectorLayerFromGeoJson(layername, displayname, style, visible)
     return vectorLayer;
 }
 
-
 var access = new ol.layer.Group({
     layers: [
         createOL3Layer("SPP:v_public_offen", "Open", true),
@@ -247,11 +246,9 @@ var projects = new ol.layer.Group({
     visible: false
 });
 
-var hydrologyLayer1 = createOL3Layer("SPP:lakes", "Lakes");
-
 var hydrology = new ol.layer.Group({
     layers: [
-        hydrologyLayer1,
+        createOL3Layer("SPP:lakes", "Streams"),
         createOL3Layer("SPP:streams", "Streams")
     ],
     name: "Hydrology",
@@ -261,11 +258,11 @@ var hydrology = new ol.layer.Group({
 var barrington = new ol.layer.Group({
     layers: [
         //createOL3VectorLayerFromGeoJson("barr_ports", "Barr_Ports", blueStyle),
-        createOL3VectorLayerFromGeoJson("SPP:aqueduct", "Aqueducts", blueStyle),
-        createOL3VectorLayerFromGeoJson("SPP:bridge", "Bridges", blueStyle),
-        createOL3VectorLayerFromGeoJson("SPP:bath", "Baths", blueStyle),
-        createOL3VectorLayerFromGeoJson("SPP:settlement", "Settlements", blueStyle, false),
-        createOL3VectorLayerFromGeoJson("SPP:canal", "Canals", blueStyle),
+        createOL3VectorLayerFromGeoJson("SPP:aqueduct", "Aqueducts", redStyle),
+        createOL3VectorLayerFromGeoJson("SPP:bridge", "Bridges", redStyle),
+        createOL3VectorLayerFromGeoJson("SPP:bath", "Baths", redStyle),
+        createOL3VectorLayerFromGeoJson("SPP:settlement", "Settlements", redStyle, false),
+        createOL3VectorLayerFromGeoJson("SPP:canal", "Canals", redStyle),
         createOL3VectorLayerFromGeoJson("SPP:road", "Roads", redLineStyle)
     ],
     name: "Barrington Atlas",
@@ -290,26 +287,31 @@ var darmc = new ol.layer.Group({
 // sort using OL3 groups
 var baselayers = new ol.layer.Group({
     layers: [
+        createOL3Layer("SPP:world_borders_simple", "Simple World Borders"),
         new ol.layer.Tile({
             source: new ol.source.Stamen({
                 layer: 'watercolor'
             }),
             name: "Stamen Watercolor",
-            visible: true
+            visible: false
+        }),
+        new ol.layer.Tile({
+            source: new ol.source.MapQuest({layer: 'sat'}),
+            name: "MapQuest Satelite",
+            visible: false
         }),
         new ol.layer.Tile({
           source: new ol.source.OSM(),
           name: "OSM",
           visible: false  // not activated on start
         }),
-        createOL3Layer("SPP:world_borders_simple", "Simple World Borders"),
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
                 url: 'http://ows.terrestris.de/osm-gray/service',
                 params: {'LAYERS': 'OSM-WMS', 'TILED': true}
             }),
             name: "OSM gray",
-            visible: false
+            visible: true
         })
     ],
     name: "Basemaps"
@@ -324,6 +326,13 @@ var controls = [
     })*/
 ];
 
+var interactions = ol.interaction.defaults().extend([
+    // select features on hover
+    new ol.interaction.Select({
+        condition: ol.events.condition.pointerMove  // empty -> select on click
+    })
+]); 
+
 var olMap = new ol.Map({
     layers: [
         baselayers,
@@ -336,6 +345,7 @@ var olMap = new ol.Map({
         access
     ],  // these get sorted in geoext3 layertree accordingly
     controls: controls,
+    interactions: interactions,
     view: new ol.View({
         center: MAP_CENTER,  // [0, 0],
         zoom: 5  // 2
@@ -411,9 +421,43 @@ var treePanel = Ext.create('Ext.tree.Panel', {
     }
 });
 
+/*
+// used on mapComponentListener
+var popup = Ext.create('GeoExt.component.Popup', {
+    map: olMap,
+    width: 140
+});
+*/
 var mapComponent = Ext.create("GeoExt.component.Map", {
     map: olMap
+    // pop up requirements
+    /*
+    pointerRest: true,
+    pointerRestInterval: 750,
+    pointerRestPixelTolerance: 5
+    */
 });
+
+/*
+// Add a pointerrest handler to the map component to render the popup.
+mapComponent.on('pointerrest', function(evt) {
+    var coordinate = evt.coordinate,
+        hdms = ol.coordinate.toStringHDMS(ol.proj.transform(
+                coordinate, 'EPSG:3857', 'EPSG:4326'));
+    // Insert a linebreak after either N or S in hdms
+    hdms = hdms.replace(/([NS])/, '$1<br>');
+
+    // set content and position popup
+    popup.setHtml('<p><strong>Pointer rested on</strong>' +
+        '<br /><code>' + hdms + '</code></p>');
+    popup.position(coordinate);
+    popup.show();
+});
+
+// hide the popup once it isn't on the map any longer
+mapComponent.on('pointerrestout', popup.hide, popup);
+*/
+
 
 var mapPanel = Ext.create('Ext.panel.Panel', {
     region: "center",
