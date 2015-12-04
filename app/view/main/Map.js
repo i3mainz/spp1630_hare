@@ -3,6 +3,80 @@ var GEOSERVER_URL = "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?";
 var GEOSERVER_URL_WMS = "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?";
 var MAP_CENTER = ol.proj.fromLonLat([8.751278, 50.611368]);
 
+// line styles
+var blueLineStyle = new ol.style.Style({
+    stroke: new ol.style.Stroke({
+        color: 'rgba(0, 0, 255, 1.0)',
+        width: 2
+    })
+});
+var redLineStyle = new ol.style.Style({
+    stroke: new ol.style.Stroke({
+        color: 'rgba(255, 0, 0, 1.0)',
+        width: 1
+    })
+});
+var randomStyle = new ol.style.Style({
+    image: new ol.style.Icon({
+      anchor: [0.5, 0.5],
+      size: [52, 52],
+      offset: [52, 0],
+      opacity: 1,
+      scale: 0.25,
+      src: '../assets/img/dots.png'
+    })
+  });
+// point styles
+var blueStyle = new ol.style.Style({
+    image: new ol.style.Circle({
+        radius: 6,
+        fill: new ol.style.Fill({
+            color: '#0099CC'
+        }),
+        stroke: new ol.style.Stroke({
+            color: '#fff',
+            width: 2
+        })
+    })
+});
+var redStyle = new ol.style.Style({
+    image: new ol.style.Circle({
+        radius: 6,
+        fill: new ol.style.Fill({
+            color: '#8B0000'
+        }),
+        stroke: new ol.style.Stroke({
+            color: '#fff',
+            width: 2
+        })
+    })
+});
+
+var selectStyle = new ol.style.Style({
+    image: new ol.style.Circle({
+        radius: 6,
+        fill: new ol.style.Fill({
+            color: '#EE0000'
+        }),
+        stroke: new ol.style.Stroke({
+            color: 'gray',
+            width: 3
+        })
+    })
+});
+
+// polygon styles
+var countryStyle = new ol.style.Style({
+    fill: new ol.style.Fill({
+        color: [0, 255, 255, 1]
+    }),
+    stroke: new ol.style.Stroke({
+        color: [127,127,127,1.0],
+        width: 1,
+        lineJoin: 'round'
+    })
+});
+
 function createOL3Layer(layername, displayname, visible, zIndex) {
     "use strict";
     zIndex = zIndex || 0;  // set default
@@ -19,6 +93,35 @@ function createOL3Layer(layername, displayname, visible, zIndex) {
     });
     return layer;
 }
+
+function createOL3VectorLayerFromGeoJson(layername, displayname, style, visible) {
+    // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
+    visible = visible || false;  // set default to zero
+    var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
+    var WORKSPACE = "SPP";
+    //var BBOX = "-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562";
+    var EPSG = "4326";
+
+    var vectorSource = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: function(extent, resolution, projection) {
+            return PROXY_URL + "bereich=" + WORKSPACE + "&layer=" + layername + "&bbox=" + extent.join(',') + "&epsg=" + EPSG;
+        },
+        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+            maxZoom: 19
+        }))
+    });
+
+    var vectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+        style: style,
+        name: displayname,
+        visible: visible 
+    });
+    //console.log(vectorLayer instanceof ol.layer.Vector);
+    return vectorLayer;
+}
+
 
 var access = new ol.layer.Group({
     layers: [
@@ -67,17 +170,15 @@ var hydrology = new ol.layer.Group({
     visible: false
 });
 
-var barringtonLayer1 = createOL3Layer("SPP:aqueduct", "Aqueducts");
-
 var barrington = new ol.layer.Group({
     layers: [
-        barringtonLayer1,
-        createOL3Layer("SPP:bath", "Baths"),
-        createOL3Layer("SPP:bridge", "Bridges"),
-        createOL3Layer("SPP:port", "Ports"),
-        createOL3Layer("SPP:canal", "Canals"),
-        createOL3Layer("SPP:settlement", "Settlements"),
-        createOL3Layer("SPP:road", "Roads")
+        //createOL3VectorLayerFromGeoJson("barr_ports", "Barr_Ports", blueStyle),
+        createOL3VectorLayerFromGeoJson("aqueduct", "Aqueducts", blueStyle),
+        createOL3VectorLayerFromGeoJson("bridge", "Bridges", blueStyle),
+        createOL3VectorLayerFromGeoJson("bath", "Baths", blueStyle),
+        createOL3VectorLayerFromGeoJson("settlement", "Settlements", blueStyle, false),
+        createOL3VectorLayerFromGeoJson("canal", "Canals", blueStyle),
+        createOL3VectorLayerFromGeoJson("road", "Roads", redLineStyle)
     ],
     name: "Barrington Atlas",
     visible: false
