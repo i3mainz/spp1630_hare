@@ -74,13 +74,14 @@ Ext.define('SppAppClassic.view.main.MapController', {
         // toogle on
         if (selectInteraction) {
             olMap.removeInteraction(selectInteraction);
-        
+            //Ext.getCmp("hoverButton").setText("end hover");
         // toogle off
         } else {
             var newInteraction = new ol.interaction.Select({
                 condition: ol.events.condition.pointerMove  // empty -> select on click
             });
             olMap.addInteraction(newInteraction);
+            //Ext.getCmp("hoverButton").setText("start hover");
         }
     },
     /*
