@@ -17,21 +17,6 @@ function createOL3Layer(layername, displayname, visible, zIndex) {
     return layer;
 }
 
-function getLegend(layer_name) {
-    "use strict";
-    var html = '<img id="legend" src="http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=15&HEIGHT=15&LAYER=' + layer_name + '&LEGEND_OPTIONS=fontName:arial">';
-    return html;
-}
-/*
-var bridgesLayer = createOL3Layer("SPP:darmc_bridges", "Bridges!");
-bridgesLayer.setZIndex(2);
-olMap.addLayer(bridgesLayer);
-
-var aqueductsLayer = createOL3Layer("SPP:darmc_aqueducts", "Aqueducts!");
-bridgesLayer.setZIndex(1);
-olMap.addLayer(aqueductsLayer);
-*/
-
 var access = new ol.layer.Group({
     layers: [
         createOL3Layer("SPP:v_public_offen", "Open", true),
@@ -183,62 +168,28 @@ var treeStore = Ext.create('GeoExt.data.store.LayersTree', {
     layerGroup: olMap.getLayerGroup()
 });
 
-var treeHeight = Ext.getBody().getViewSize().height*0.6;
 var treePanel = Ext.create('Ext.tree.Panel', {
     title: 'Layers',
     viewConfig: {
         plugins: { ptype: 'treeviewdragdrop' }
     },
     store: treeStore,
-    //maxHeight: 600,
-    //height: 600,
-    //collapsible: true,
+    collapsible: true,
     rootVisible: false,
-    height: treeHeight, // workaround, shoul use flex: 6 ???
     fill: true,
+    width: 250,
+    region: "west",
     //flex: 8
-    //width: 200,
     lines: false,
-    //collapsible: true,
-    //autoScroll: false,
+    autoScroll: true,
+    margin: "0 5 0 0",
     //border: false
-    //split: true
+    split: false,
     listeners: {  // alternative to treePanel.on('select', function())
         
         // refresh legend every time a node is selected
         checkchange: 'onNodeCheckChange' // defined in MapController
     }
-});
-
-//var legend = getLegend("SPP:streams");
-var legendHeight = Ext.getBody().getViewSize().height*0.39;
-var legendPanel = Ext.create("Ext.panel.Panel", {
-    title: 'Legend',
-    collapsible: true,
-    collapsed: false,
-    autoScroll: true,
-    height: legendHeight // workaround, shoul use flex: 4 ))?
-    //flex: 2
-    //html: legend  // gets filled dynamically
-});
-
-// accordion panel containing treePanel and legend
-var accordPanel = Ext.create("Ext.panel.Panel", {
-    // global
-    region: "west",
-    width: 300,
-    split: false,
-    collapsible: true,
-    margins: '5 0 5 5',
-
-    // accordion specific
-    type: 'accordion',
-    titleCollapse: false,
-    animate: true,
-    align: "stretch",
-    activeOnTop: false,
-    autoScroll: false,  // each panel scrolls independently
-    items: [treePanel]
 });
 
 var mapComponent = Ext.create("GeoExt.component.Map", {
@@ -269,5 +220,5 @@ Ext.define("SppAppClassic.view.main.Map",{
         type: "main-map"
     },
     layout: "border",
-    items: [accordPanel, mapPanel]
+    items: [treePanel, mapPanel]
 });

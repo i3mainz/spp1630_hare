@@ -29,84 +29,10 @@ Ext.define('SppAppClassic.view.main.Main', {
     viewModel: 'main',
     plugins: 'viewport',  // fullscreen
 
-    //ui: 'navigation',
-    /*
-    tabBarHeaderPosition: 1,
-    titleRotation: 0,
-    tabRotation: 0,
-
-    header: {
-        layout: {
-            align: 'stretchmax'
-        },
-        title: {
-            bind: {
-                text: '{name}'
-            },
-            flex: 0
-        },
-        iconCls: 'fa-th-list'
-    },
-
-    tabBar: {
-        flex: 1,
-        layout: {
-            align: 'stretch',
-            overflowHandler: 'none'
-        }
-    },
-
-    responsiveConfig: {
-        tall: {
-            headerPosition: 'top'
-        },
-        wide: {
-            headerPosition: 'left'
-        }
-    },
-
-    defaults: {
-        bodyPadding: 20,
-        tabConfig: {
-            plugins: 'responsive',
-            responsiveConfig: {
-                wide: {
-                    iconAlign: 'left',
-                    textAlign: 'left'
-                },
-                tall: {
-                    iconAlign: 'top',
-                    textAlign: 'center',
-                    width: 120
-                }
-            }
-        }
-    },
-    */
-    //title: "ParentTitle",
     title: "SPP Virtual Research Environment",
     
-    // settings for title bar
     header: {
-        //titlePosition: 2,
-        //titleAlign: "left",
-        //buttonAlign: 'right',
-        tools: [ // tools within title bar
-            //{type: "pin"}
-            /*
-            {
-                type:'refresh',
-                tooltip: 'Refresh form Data',
-                handler: function(event, toolEl, panel){
-                    // refresh logic
-                }
-            },
-            {
-                type:'help',
-                tooltip: 'Get Help',
-                handler: ""
-            },
-            */
+        tools: [
             {
                 xtype: 'button',
                 text: 'Logout',
@@ -116,65 +42,13 @@ Ext.define('SppAppClassic.view.main.Main', {
             }
         ]
     },
-    //html: "Hello, World!!"
-    
-    /*
-    dockedItems: [{
-        xtype: 'toolbar',
-        cls: "navbar",  // custom class for css styling
-        dock: 'top',
-        items: [
-            "->",  // align next to right  
-            {
-                xtype: 'button',
-                text: 'Logout',
-                //margin: '10 0',
-                handler: 'onClickButton'
-            }
-        ]
-    }],
-    */
-
-    //layout: "border",
     layout: {
         type: 'border',
         padding: 5
     },
     border: true,
-    items: [
-    /*
-    {
-        title: 'Home',
-        iconCls: 'fa-home',
-        // The following grid shares a store with the classic version's grid as well!
-        items: [{
-            xtype: 'mainlist'
-        }]
-    }, {
-        title: 'Users',
-        iconCls: 'fa-user',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    }, {
-        title: 'Groups',
-        iconCls: 'fa-users',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    }, {
-        title: 'Settings',
-        iconCls: 'fa-cog',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    },
-    */
-    // include GeoExt3 map
-    {   
+    items: [{   
         region: "center",
-        //title: 'parentTitle',
-        //iconCls: 'fa-map-marker',
         layout: 'fit',
         items: [{
             xtype: 'mappanel'  // defined in Map.js
