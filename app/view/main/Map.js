@@ -372,6 +372,7 @@ var mapToolbar = Ext.create('Ext.Toolbar', {
         {text: 'Zoom Out', glyph: "xf010@FontAwesome", handler: "zoomOut"},
         {text: 'rotate!', glyph: "xf0e2@FontAwesome", handler: "onRotate"},
         {text: 'maxExtent', glyph:'xf0b2@FontAwesome', handler: "onCenter"},
+        
         {
             xtype: 'button',
             id: 'hoverButton',  // to reference it in controller

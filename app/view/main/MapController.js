@@ -45,7 +45,13 @@ Ext.define('SppAppClassic.view.main.MapController', {
         var view = olMap.getView();
         var currentZoom = view.getZoom();
         view.setZoom(currentZoom - 1);
+    }, 
+    zoomAnimated: function() {
+       var zoom = ol.animation.zoom({duration: 500, resolution: olMap.getView().getResolution()});
+       //olMap.beforeRender(zoom);
+       olMap.getView().setZoom(zoom);
     },
+
     /* zoomTomax extend -> get Center of map on start of app. 
     then set farthest zoom level */
     onCenter: function() {
@@ -70,7 +76,6 @@ Ext.define('SppAppClassic.view.main.MapController', {
                 selectInteraction = interaction;
             }
         });
-
         // toogle on
         if (selectInteraction) {
             olMap.removeInteraction(selectInteraction);
