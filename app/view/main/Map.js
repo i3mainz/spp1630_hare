@@ -149,7 +149,6 @@ var countryStyle = new ol.style.Style({
     })
 });
 function getLegendUrl(layer_name) {
-    "use strict";
     return GEOSERVER_URL + "REQUEST=GetLegendGraphic&" + 
         "VERSION=1.0.0&" + 
         "FORMAT=image/png&" + 
@@ -162,7 +161,6 @@ function getLegendUrl(layer_name) {
 }
 
 function createOL3Layer(layername, displayname, visible, zIndex) {
-    "use strict";
     zIndex = zIndex || 0;  // set default
     visible = visible || false;  // set default
     var layer = new ol.layer.Tile({
@@ -170,7 +168,8 @@ function createOL3Layer(layername, displayname, visible, zIndex) {
         source: new ol.source.TileWMS({
           url: GEOSERVER_URL,
           params: {'LAYERS': layername, 'TILED': true},
-          serverType: 'geoserver'
+          serverType: 'geoserver',
+          wrapX: false   // dont repeat on X axis
         }),
         legendUrl: getLegendUrl(layername),  // through plugin
         name: displayname,
@@ -191,11 +190,16 @@ function createOL3VectorLayerFromGeoJson(layername, displayname, style, visible)
     var vectorSource = new ol.source.Vector({
         format: new ol.format.GeoJSON(),
         url: function(extent, resolution, projection) {
-            return PROXY_URL + "bereich=" + workspace + "&layer=" + layer + "&bbox=" + extent.join(',') + "&epsg=" + EPSG;
+            return PROXY_URL + 
+                    "bereich=" + workspace + 
+                    "&layer=" + layer + 
+                    "&bbox=" + extent.join(',') + 
+                    "&epsg=" + EPSG;
         },
         strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
             maxZoom: 19
-        }))
+        })),
+        wrapX: false  // dont repeat on X axis
     });
 
     var vectorLayer = new ol.layer.Vector({
@@ -208,6 +212,27 @@ function createOL3VectorLayerFromGeoJson(layername, displayname, style, visible)
     });
     //console.log(vectorLayer instanceof ol.layer.Vector);
     return vectorLayer;
+}
+
+function createVectorSource(layername) {
+    // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
+    var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
+    var workspace = layername.split(":")[0];
+    var layer = layername.split(":")[1];
+    //var BBOX = "-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562";
+    var EPSG = "4326";
+
+    var vectorSource = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: function(extent, resolution, projection) {
+            return PROXY_URL + "bereich=" + workspace + "&layer=" + layer + "&bbox=" + extent.join(',') + "&epsg=" + EPSG;
+        },
+        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+            maxZoom: 19
+        }))
+    });
+
+    return vectorSource;
 }
 
 var access = new ol.layer.Group({
@@ -255,11 +280,20 @@ var hydrology = new ol.layer.Group({
     visible: false
 });
 
+var bridgeSource = createVectorSource("SPP:bridge");
+var bridgeLayer = new ol.layer.Vector({
+    source: bridgeSource,
+    style: redStyle,
+    name: "bridgeTest",
+    visible: false 
+});
+
 var barrington = new ol.layer.Group({
     layers: [
         //createOL3VectorLayerFromGeoJson("barr_ports", "Barr_Ports", blueStyle),
         createOL3VectorLayerFromGeoJson("SPP:aqueduct", "Aqueducts", redStyle),
-        createOL3VectorLayerFromGeoJson("SPP:bridge", "Bridges", redStyle),
+        //createOL3VectorLayerFromGeoJson("SPP:bridge", "Bridges", redStyle),
+        bridgeLayer,
         createOL3VectorLayerFromGeoJson("SPP:bath", "Baths", redStyle),
         createOL3VectorLayerFromGeoJson("SPP:settlement", "Settlements", redStyle, false),
         createOL3VectorLayerFromGeoJson("SPP:canal", "Canals", redStyle),
@@ -290,25 +324,27 @@ var baselayers = new ol.layer.Group({
         createOL3Layer("SPP:world_borders_simple", "Simple World Borders"),
         new ol.layer.Tile({
             source: new ol.source.Stamen({
-                layer: 'watercolor'
+                layer: 'watercolor',
+                wrapX: false
             }),
             name: "Stamen Watercolor",
             visible: false
         }),
         new ol.layer.Tile({
-            source: new ol.source.MapQuest({layer: 'sat'}),
+            source: new ol.source.MapQuest({layer: 'sat', wrapX: false}),
             name: "MapQuest Satelite",
             visible: false
         }),
         new ol.layer.Tile({
-          source: new ol.source.OSM(),
+          source: new ol.source.OSM({wrapX: false}),
           name: "OSM",
           visible: false  // not activated on start
         }),
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
                 url: 'http://ows.terrestris.de/osm-gray/service',
-                params: {'LAYERS': 'OSM-WMS', 'TILED': true}
+                params: {'LAYERS': 'OSM-WMS', 'TILED': true},
+                wrapX: false
             }),
             name: "OSM gray",
             visible: true
@@ -346,9 +382,17 @@ var olMap = new ol.Map({
     ],  // these get sorted in geoext3 layertree accordingly
     controls: controls,
     interactions: interactions,
+    
+    // renderer: CANVAS,
+    // Improve user experience by loading tiles while dragging/zooming. Will make
+    // zooming choppy on mobile or slow devices.
+    loadTilesWhileInteracting: true,
+
     view: new ol.View({
         center: MAP_CENTER,  // [0, 0],
-        zoom: 5  // 2
+        zoom: 5,  // 2,
+        minZoom: 3  // prevents zoom too far out
+        //restrictedExtent: new ol.extent(-180, -90, 180, 90)  // prevents going over 'edge' of map
     })
 });
 
@@ -358,9 +402,27 @@ var slider = Ext.create('Ext.slider.Multi', {
     width: 200,
     //increment: 10,
     minValue: 0,
-    maxValue: 100,
+    maxValue: 9,
+    useTips: true,  // show toolptips, default: true
+
+    tipText: function(thumb){
+        var choices = [
+            '4th Century',  // 0
+            '5th Century',
+            '6th Century',
+            '7th Century',
+            '8th Century',
+            '9th Century',
+            '10th Century',
+            '11th Century',
+            '12th Century',
+            '13th Century'  // 9
+        ];
+        var value = Ext.String.format(choices[thumb.value]);
+        return value;
+    },
     //constrainThumbs: true,
-    values: [10, 90],
+    values: [0, 9],
     listeners: {  
         changecomplete: 'onSliderChangeComplete'
     }
@@ -495,3 +557,14 @@ Ext.define("SppAppClassic.view.main.Map",{
     layout: "border",
     items: [treePanel, mapPanel]
 });
+
+/*
+// this updates multiple times since it's only loading what is needed
+bridgeSource.on('change', function(evt){
+    var source = evt.target;
+    if (source.getState() === 'ready') {
+        var numFeatures = source.getFeatures().length; 
+        console.log("Count after change: " + numFeatures);
+    }
+});
+*/
