@@ -294,7 +294,7 @@ var barrington = new ol.layer.Group({
         createOL3VectorLayerFromGeoJson("SPP:aqueduct", "Aqueducts", redStyle),
         //createOL3VectorLayerFromGeoJson("SPP:bridge", "Bridges", redStyle),
         bridgeLayer,
-        createOL3VectorLayerFromGeoJson("SPP:bath", "Baths", redStyle),
+        createOL3VectorLayerFromGeoJson("SPP:bath", "Baths", redStyle, true),
         createOL3VectorLayerFromGeoJson("SPP:settlement", "Settlements", redStyle, false),
         createOL3VectorLayerFromGeoJson("SPP:canal", "Canals", redStyle),
         createOL3VectorLayerFromGeoJson("SPP:road", "Roads", redLineStyle)
@@ -363,7 +363,7 @@ var controls = [
 ];
 
 var interactions = ol.interaction.defaults().extend([
-    // select features on hover
+    // highlight features on hover, click events are seperate -> this is just highlight
     new ol.interaction.Select({
         condition: ol.events.condition.pointerMove  // empty -> select on click
     })
@@ -501,35 +501,50 @@ var popup = Ext.create('GeoExt.component.Popup', {
 });
 */
 var mapComponent = Ext.create("GeoExt.component.Map", {
-    map: olMap
-    // pop up requirements
-    /*
-    pointerRest: true,
-    pointerRestInterval: 750,
-    pointerRestPixelTolerance: 5
-    */
+    map: olMap,
 });
 
-/*
-// Add a pointerrest handler to the map component to render the popup.
-mapComponent.on('pointerrest', function(evt) {
-    var coordinate = evt.coordinate,
-        hdms = ol.coordinate.toStringHDMS(ol.proj.transform(
-                coordinate, 'EPSG:3857', 'EPSG:4326'));
-    // Insert a linebreak after either N or S in hdms
-    hdms = hdms.replace(/([NS])/, '$1<br>');
-
-    // set content and position popup
-    popup.setHtml('<p><strong>Pointer rested on</strong>' +
-        '<br /><code>' + hdms + '</code></p>');
-    popup.position(coordinate);
-    popup.show();
+var popup = Ext.create('GeoExt.component.Popup', {
+    map: olMap,
+    width: 140,
+    border: 3,
+    //alwaysOnTop: true
+    //height: 200,
+    //padding: 20,
+    //draggable: true, 
+    style: {
+        color: '#000000',
+        backgroundColor: '#FFFFFF',
+        opacity: 0.8
+    },
+    listeners: {
+        click: function() {
+            console.log('click on popup!');  // not working right now
+        }
+    } 
 });
 
-// hide the popup once it isn't on the map any longer
-mapComponent.on('pointerrestout', popup.hide, popup);
-*/
+// show popup when feature is clicked or hide if not
+olMap.on("click", function(evt) {
+    var coordinate = evt.coordinate;  // needed to place popup
+    
 
+    // check if click was on a feature
+    var feature = olMap.forEachFeatureAtPixel(evt.pixel,
+        function(feature, layer) {
+            return feature;
+    });
+
+    if (feature) {   // clicked on feature
+        popup.setHtml('<p><strong>clicked!!!!</strong>' +
+        '<br /><code>' + "hello! :D" + '</code></p>');
+        popup.position(coordinate);
+        popup.show();
+
+    } else {  // clicked somewhere else
+        popup.hide();
+    } 
+});
 
 var mapPanel = Ext.create('Ext.panel.Panel', {
     region: "center",
