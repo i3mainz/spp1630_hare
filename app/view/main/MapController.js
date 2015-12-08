@@ -59,7 +59,7 @@ function createVectorSource2(layername, filter) {
 }
 
 function getQueryString(startDate, endDate) {
-        /*
+    /*
     '4th Century',   // 0, date_4_Jh
     '5th Century',   // 1
     '6th Century',   // 2
@@ -199,6 +199,8 @@ Ext.define('SppAppClassic.view.main.MapController', {
                         var filter = getQueryString(startDate, endDate);
                         console.log(filter);
                         var newSource = createVectorSource2("SPP:v_public_offen", filter);
+                        //console.log(newSource.getFeatures().length);  -> doesnt work, async!
+
                         layer.setSource(newSource);  // this refreshes automatically
                     }
                 }

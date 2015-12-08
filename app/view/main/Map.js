@@ -386,7 +386,7 @@ var olMap = new ol.Map({
     // renderer: CANVAS,
     // Improve user experience by loading tiles while dragging/zooming. Will make
     // zooming choppy on mobile or slow devices.
-    loadTilesWhileInteracting: true,
+    //loadTilesWhileInteracting: true,
 
     view: new ol.View({
         center: MAP_CENTER,  // [0, 0],
