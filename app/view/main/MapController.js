@@ -97,10 +97,12 @@ Ext.define('SppAppClassic.view.main.MapController', {
     //views: ['Map'],
     
     // get view variables 
+    // methods can be used automatically, no need to add them here
     refs: [
         {ref: 'olMap', selector: 'olMap'},
         {ref: 'mapComponent', selector: 'mapComponent'},
-        {ref: 'slider', selector: 'slider'}
+        {ref: 'slider', selector: 'slider'},
+        {ref: 'popup', selector: 'popup'}
     ],
 
     zoomIn: function() {
@@ -157,7 +159,8 @@ Ext.define('SppAppClassic.view.main.MapController', {
         }
     },
 
-
+    onMapClick: function(evt) {
+    },
 
     // slider handlers
     onSliderChangeComplete: function() {

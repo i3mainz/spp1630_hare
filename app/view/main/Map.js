@@ -235,9 +235,18 @@ function createVectorSource(layername) {
     return vectorSource;
 }
 
+function getFeatureInfoHtml(olFeature) {
+    var html = "";
+    var attributes = olFeature.getKeys();
+    attributes.forEach(function(attribute, i) {
+        html +="<strong>" + attribute + ": </strong>" + olFeature.get(attribute) + "<br>";
+    });
+    return html;
+}
+
 var access = new ol.layer.Group({
     layers: [
-        createOL3Layer("SPP:v_public_offen", "Open", true),
+        createOL3VectorLayerFromGeoJson("SPP:v_public_offen", "Open", redStyle, true),
         createOL3Layer("SPP:v_public_agintern", "AG only")
     ],
     name: "SPP: Access",
@@ -294,7 +303,7 @@ var barrington = new ol.layer.Group({
         createOL3VectorLayerFromGeoJson("SPP:aqueduct", "Aqueducts", redStyle),
         //createOL3VectorLayerFromGeoJson("SPP:bridge", "Bridges", redStyle),
         bridgeLayer,
-        createOL3VectorLayerFromGeoJson("SPP:bath", "Baths", redStyle, true),
+        createOL3VectorLayerFromGeoJson("SPP:bath", "Baths", redStyle),
         createOL3VectorLayerFromGeoJson("SPP:settlement", "Settlements", redStyle, false),
         createOL3VectorLayerFromGeoJson("SPP:canal", "Canals", redStyle),
         createOL3VectorLayerFromGeoJson("SPP:road", "Roads", redLineStyle)
@@ -492,57 +501,37 @@ var treePanel = Ext.create('Ext.tree.Panel', {
         //checkchange: 'onNodeCheckChange' // defined in MapController
     }
 });
-
-/*
-// used on mapComponentListener
-var popup = Ext.create('GeoExt.component.Popup', {
-    map: olMap,
-    width: 140
-});
-*/
+var popupPanel = Ext.create("SppAppClassic.view.main.Popup");
 var mapComponent = Ext.create("GeoExt.component.Map", {
-    map: olMap,
-});
-
-var popup = Ext.create('GeoExt.component.Popup', {
-    map: olMap,
-    width: 140,
-    border: 3,
-    //alwaysOnTop: true
-    //height: 200,
-    //padding: 20,
-    //draggable: true, 
-    style: {
-        color: '#000000',
-        backgroundColor: '#FFFFFF',
-        opacity: 0.8
-    },
-    listeners: {
-        click: function() {
-            console.log('click on popup!');  // not working right now
-        }
-    } 
+    map: olMap
 });
 
 // show popup when feature is clicked or hide if not
 olMap.on("click", function(evt) {
     var coordinate = evt.coordinate;  // needed to place popup
-    
-
+        
     // check if click was on a feature
+    // by default, all visible layers will be tested
     var feature = olMap.forEachFeatureAtPixel(evt.pixel,
         function(feature, layer) {
+            //console.log(feature.getKeys());
             return feature;
     });
 
     if (feature) {   // clicked on feature
-        popup.setHtml('<p><strong>clicked!!!!</strong>' +
-        '<br /><code>' + "hello! :D" + '</code></p>');
-        popup.position(coordinate);
-        popup.show();
+        // hide window if already open (in case feature has changed)
+        //mapComponent.getComponent(popupPanel).hide();
+        popupPanel.setHtml('<p>' + getFeatureInfoHtml(feature) + '</p>');
+        
+        popupPanel.show();
+        // TODO: show popup window next to feature 
+        //popupPanel.showAt(evt.getXY());
 
     } else {  // clicked somewhere else
-        popup.hide();
+        // get panels
+        //var popupPanel = Ext.getComponent("SppAppClassic.view.main.Popup");
+        //var element = Ext.getBody().child('[xtype=popup]');
+        popupPanel.hide();
     } 
 });
 
@@ -572,14 +561,3 @@ Ext.define("SppAppClassic.view.main.Map",{
     layout: "border",
     items: [treePanel, mapPanel]
 });
-
-/*
-// this updates multiple times since it's only loading what is needed
-bridgeSource.on('change', function(evt){
-    var source = evt.target;
-    if (source.getState() === 'ready') {
-        var numFeatures = source.getFeatures().length; 
-        console.log("Count after change: " + numFeatures);
-    }
-});
-*/
