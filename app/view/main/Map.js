@@ -148,6 +148,14 @@ var countryStyle = new ol.style.Style({
         lineJoin: 'round'
     })
 });
+function encode_utf8(s) {
+    return unescape(encodeURIComponent(s));
+}
+
+function decode_utf8(s) {
+    return decodeURIComponent(escape(s));
+}
+
 function getLegendUrl(layer_name) {
     return GEOSERVER_URL + "REQUEST=GetLegendGraphic&" + 
         "VERSION=1.0.0&" + 
@@ -522,6 +530,9 @@ olMap.on("click", function(evt) {
     if (feature) {   // clicked on feature
         // hide window if already open (in case feature has changed)
         //mapComponent.getComponent(popupPanel).hide();
+        //response.setCharacterEncoding("UTF-8");
+        //var featureHTML = getFeatureInfoHtml(feature).setCharacterEncoding("UTF-8");
+
         popupPanel.setHtml('<p>' + getFeatureInfoHtml(feature) + '</p>');
         
         popupPanel.show();

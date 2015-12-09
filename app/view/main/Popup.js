@@ -22,7 +22,7 @@ Ext.define("SppAppClassic.view.main.Popup",{
     minHeight: 250,
     autoScroll: true,
     hideable: true,
-    collapsible: true,
+    //collapsible: true,
     constrain: true,  // prevents dragging out of browser window size
 
     // assign hide to close-button
