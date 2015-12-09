@@ -159,7 +159,8 @@ Ext.define('SppAppClassic.view.main.MapController', {
         }
     },
 
-    onMapClick: function(evt) {
+    onMapClick: function() {
+        console.log("clicked on map!! :DD");
     },
 
     // slider handlers

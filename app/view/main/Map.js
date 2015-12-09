@@ -552,7 +552,12 @@ var mapPanel = Ext.create('Ext.panel.Panel', {
     title: "Map",
     layout: "fit",
     items: [mapComponent],
-    dockedItems: mapToolbar
+    dockedItems: mapToolbar,
+
+    listeners: {
+        click: "onMapClick",
+        itemclick: "onMapClick"  // clicked on one of items -> mapComponent
+    }
 });
 
 Ext.define("SppAppClassic.view.main.Map",{

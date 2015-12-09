@@ -22,7 +22,10 @@ Ext.define('SppAppClassic.view.main.Main', {
         // if the are loaded anyway
         'SppAppClassic.view.main.MapController',
         'SppAppClassic.view.main.MapModel',
-        'SppAppClassic.view.main.Map'
+        'SppAppClassic.view.main.Map',
+        'SppAppClassic.view.main.PopupController',
+        'SppAppClassic.view.main.PopupModel',
+        'SppAppClassic.view.main.Popup'
     ],
 
     controller: 'main',
