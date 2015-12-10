@@ -72,11 +72,11 @@ Ext.define('BasicTreeColumnLegends', {
         ];
     }
 });
-
+/*
 var treeStore = Ext.create('GeoExt.data.store.LayersTree', {
     layerGroup: olMap.getLayerGroup()
 });
-
+*/
 Ext.define("SppAppClassic.view.main.LayerTree",{
     extend: "Ext.tree.Panel",
     xtype: "layertree",
@@ -91,11 +91,17 @@ Ext.define("SppAppClassic.view.main.LayerTree",{
         type: "main-layertree"
     },
 
-    title: 'Layers',
+    //title: 'Layers',
     viewConfig: {
         plugins: { ptype: 'treeviewdragdrop' }
     },
-    store: treeStore,
+
+    // define parameters and set defaults
+    config: {
+        title: "defaultTitle"
+    },
+    title: "Layers",
+    //store: this.treeStore,
     collapsible: true,
     rootVisible: false,
     fill: true,
@@ -128,4 +134,5 @@ Ext.define("SppAppClassic.view.main.LayerTree",{
         // refresh legend every time a node is selected
         //checkchange: 'onNodeCheckChange' // defined in MapController
     }
+
 });

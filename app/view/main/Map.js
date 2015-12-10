@@ -432,6 +432,20 @@ olMap.on("click", function(evt) {
     } 
 });
 
+// change cursor when feature is clickable
+olMap.on("pointermove", function(evt) {
+    var pixel = olMap.getEventPixel(evt.originalEvent);
+    var hasFeature = olMap.forEachFeatureAtPixel(pixel, function(feature, layer) {
+        return true;
+    });
+    if (hasFeature) {
+        olMap.getTarget().style.cursor = 'pointer';
+    } else {
+        olMap.getTarget().style.cursor = '';
+    }   
+});
+
+
 var mapPanel = Ext.create('Ext.panel.Panel', {
     region: "center",
     title: "Map",
@@ -444,6 +458,20 @@ var mapPanel = Ext.create('Ext.panel.Panel', {
         itemclick: "onMapClick"  // clicked on one of items -> mapComponent
     }
 });
+
+var treeStore = Ext.create('GeoExt.data.store.LayersTree', {
+    layerGroup: olMap.getLayerGroup()
+});
+
+//console.log(treeStore);
+var layerTreePanel = Ext.create('SppAppClassic.view.main.LayerTree', {
+    title: "Layers"
+});
+layerTreePanel.setStore(treeStore);
+
+//console.log(layerTreePanel.getTitle());
+
+//layerTreePanel.setStore(treeStore);
 
 Ext.define("SppAppClassic.view.main.Map",{
     extend: "Ext.panel.Panel",
@@ -463,7 +491,7 @@ Ext.define("SppAppClassic.view.main.Map",{
     },
     layout: "border",
     items: [
-        {xtype: "layertree"},  // defined in LayerTree.js
+        layerTreePanel,
         mapPanel
     ]
 });
