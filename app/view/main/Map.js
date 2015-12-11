@@ -2,87 +2,6 @@
 var GEOSERVER_URL = "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?";
 var MAP_CENTER = ol.proj.fromLonLat([8.751278, 50.611368]);
 
-// line styles
-var blueLineStyle = new ol.style.Style({
-    stroke: new ol.style.Stroke({
-        color: 'rgba(0, 0, 255, 1.0)',
-        width: 2
-    })
-});
-var redLineStyle = new ol.style.Style({
-    stroke: new ol.style.Stroke({
-        color: 'rgba(255, 0, 0, 1.0)',
-        width: 1
-    })
-});
-var randomStyle = new ol.style.Style({
-    image: new ol.style.Icon({
-      anchor: [0.5, 0.5],
-      size: [52, 52],
-      offset: [52, 0],
-      opacity: 1,
-      scale: 0.25,
-      src: '../assets/img/dots.png'
-    })
-  });
-// point styles
-var blueStyle = new ol.style.Style({
-    image: new ol.style.Circle({
-        radius: 6,
-        fill: new ol.style.Fill({
-            color: '#0099CC'
-        }),
-        stroke: new ol.style.Stroke({
-            color: '#fff',
-            width: 2
-        })
-    })
-});
-var redStyle = new ol.style.Style({
-    image: new ol.style.Circle({
-        radius: 6,
-        fill: new ol.style.Fill({
-            color: '#8B0000'
-        }),
-        stroke: new ol.style.Stroke({
-            color: '#fff',
-            width: 2
-        })
-    })
-});
-
-var selectStyle = new ol.style.Style({
-    image: new ol.style.Circle({
-        radius: 6,
-        fill: new ol.style.Fill({
-            color: '#EE0000'
-        }),
-        stroke: new ol.style.Stroke({
-            color: 'gray',
-            width: 3
-        })
-    })
-});
-
-// polygon styles
-var countryStyle = new ol.style.Style({
-    fill: new ol.style.Fill({
-        color: [0, 255, 255, 1]
-    }),
-    stroke: new ol.style.Stroke({
-        color: [127,127,127,1.0],
-        width: 1,
-        lineJoin: 'round'
-    })
-});
-function encode_utf8(s) {
-    return unescape(encodeURIComponent(s));
-}
-
-function decode_utf8(s) {
-    return decodeURIComponent(escape(s));
-}
-
 function getLegendUrl(layer_name) {
     return GEOSERVER_URL + "REQUEST=GetLegendGraphic&" + 
         "VERSION=1.0.0&" + 
@@ -95,6 +14,7 @@ function getLegendUrl(layer_name) {
             "dpi:180";
 }
 
+// tODO put that into controller
 function createOL3Layer(layername, displayname, visible, zIndex) {
     zIndex = zIndex || 0;  // set default
     visible = visible || false;  // set default
@@ -112,7 +32,7 @@ function createOL3Layer(layername, displayname, visible, zIndex) {
     });
     return layer;
 }
-
+// tODO put that into controller
 function createOL3VectorLayerFromGeoJson(layername, displayname, style, visible) {
     // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
     visible = visible || false;  // set default to zero
@@ -148,7 +68,7 @@ function createOL3VectorLayerFromGeoJson(layername, displayname, style, visible)
     //console.log(vectorLayer instanceof ol.layer.Vector);
     return vectorLayer;
 }
-
+// tODO put that into controller
 function createVectorSource(layername) {
     // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
     var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
@@ -169,7 +89,7 @@ function createVectorSource(layername) {
 
     return vectorSource;
 }
-
+// tODO put that into controller
 function getFeatureInfoHtml(olFeature) {
     var html = "";
     var attributes = olFeature.getKeys();
@@ -179,69 +99,53 @@ function getFeatureInfoHtml(olFeature) {
     return html;
 }
 
+
 var access = new ol.layer.Group({
     layers: [
-        createOL3VectorLayerFromGeoJson("SPP:v_public_offen", "Open", redStyle, true),
-        createOL3Layer("SPP:v_public_agintern", "AG only")
+        Layers.open,  // layerStyles is singleton class
+        Layers.agOnly
     ],
     name: "SPP: Access",
     visible: true
 });
 
 var query = new ol.layer.Group({
-    layers: [
-        //createOL3Layer("SPP:darmc_aqueducts", "Aqueducts!"),
-        //createOL3Layer("SPP:darmc_bridges", "Bridges!")
-    ],
+    layers: [],
     name: "SPP: Query",
     visible: false
 });
 
 var statusGroup = new ol.layer.Group({
-    layers: [
-        //createOL3Layer("SPP:darmc_aqueducts", "Aqueducts!"),
-        //createOL3Layer("SPP:darmc_bridges", "Bridges!")
-    ],
+    layers: [],
     name: "SPP: Status",
     visible: false
 });
 
 var projects = new ol.layer.Group({
-    layers: [
-        //createOL3Layer("SPP:darmc_aqueducts", "Aqueducts!"),
-        //createOL3Layer("SPP:darmc_bridges", "Bridges!")
-    ],
+    layers: [],
     name: "SPP: Projects",
     visible: false
 });
 
 var hydrology = new ol.layer.Group({
     layers: [
-        createOL3Layer("SPP:lakes", "Lakes"),
-        createOL3Layer("SPP:streams", "Streams")
+        Layers.lakes,  // legends dont work
+        Layers.streams
     ],
     name: "Hydrology",
     visible: false
 });
 
-var bridgeSource = createVectorSource("SPP:bridge");
-var bridgeLayer = new ol.layer.Vector({
-    source: bridgeSource,
-    style: redStyle,
-    name: "bridgeTest",
-    visible: false 
-});
-
 var barrington = new ol.layer.Group({
     layers: [
         //createOL3VectorLayerFromGeoJson("barr_ports", "Barr_Ports", blueStyle),
-        createOL3VectorLayerFromGeoJson("SPP:aqueduct", "Aqueducts", redStyle),
+        createOL3VectorLayerFromGeoJson("SPP:aqueduct", "Aqueducts", LayerStyles.redPoints),
         //createOL3VectorLayerFromGeoJson("SPP:bridge", "Bridges", redStyle),
-        bridgeLayer,
-        createOL3VectorLayerFromGeoJson("SPP:bath", "Baths", redStyle),
-        createOL3VectorLayerFromGeoJson("SPP:settlement", "Settlements", redStyle, false),
-        createOL3VectorLayerFromGeoJson("SPP:canal", "Canals", redStyle),
-        createOL3VectorLayerFromGeoJson("SPP:road", "Roads", redLineStyle)
+        //bridgeLayer,
+        createOL3VectorLayerFromGeoJson("SPP:bath", "Baths", LayerStyles.redPoints),
+        createOL3VectorLayerFromGeoJson("SPP:settlement", "Settlements", LayerStyles.redPoints, false),
+        createOL3VectorLayerFromGeoJson("SPP:canal", "Canals", LayerStyles.redPoints),
+        createOL3VectorLayerFromGeoJson("SPP:road", "Roads", LayerStyles.redLines)
     ],
     name: "Barrington Atlas",
     visible: false
@@ -249,14 +153,14 @@ var barrington = new ol.layer.Group({
 
 var darmc = new ol.layer.Group({
     layers: [
-        createOL3Layer("SPP:darmc_aqueducts", "Aqueducts"),
-        createOL3Layer("SPP:darmc_bridges", "Bridges"),
-        createOL3Layer("SPP:darmc_roads", "Roads"),
-        createOL3Layer("SPP:darmc_cities", "Cities"),
-        createOL3Layer("SPP:darmc_baths", "Baths"),
-        createOL3Layer("SPP:darmc_ports", "Ports"),
-        createOL3Layer("SPP:darmc_harbours", "Harbours"),
-        createOL3Layer("SPP:darmc_canals", "Canals")
+        Layers.aqueducts,
+        Layers.bridges,
+        Layers.roads,
+        Layers.cities,
+        Layers.baths,
+        Layers.ports,
+        Layers.harbours,
+        Layers.canals
     ],
     name: "DARMC",
     visible: false
@@ -265,34 +169,11 @@ var darmc = new ol.layer.Group({
 // sort using OL3 groups
 var baselayers = new ol.layer.Group({
     layers: [
-        createOL3Layer("SPP:world_borders_simple", "Simple World Borders"),
-        new ol.layer.Tile({
-            source: new ol.source.Stamen({
-                layer: 'watercolor',
-                wrapX: false
-            }),
-            name: "Stamen Watercolor",
-            visible: false
-        }),
-        new ol.layer.Tile({
-            source: new ol.source.MapQuest({layer: 'sat', wrapX: false}),
-            name: "MapQuest Satelite",
-            visible: false
-        }),
-        new ol.layer.Tile({
-          source: new ol.source.OSM({wrapX: false}),
-          name: "OSM",
-          visible: false  // not activated on start
-        }),
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: 'http://ows.terrestris.de/osm-gray/service',
-                params: {'LAYERS': 'OSM-WMS', 'TILED': true},
-                wrapX: false
-            }),
-            name: "OSM gray",
-            visible: true
-        })
+        Layers.world,
+        Layers.watercolor,
+        Layers.mapquest,
+        Layers.osm,
+        Layers.osmGray
     ],
     name: "Basemaps"
 });
@@ -340,44 +221,23 @@ var olMap = new ol.Map({
     })
 });
 
-var slider = Ext.create('Ext.slider.Multi', {
-    //renderTo: 'multi-slider-horizontal',
-    hideLabel: true,
-    width: 200,
-    //increment: 10,
-    minValue: 0,
-    maxValue: 9,
-    useTips: true,  // show toolptips, default: true
-
-    tipText: function(thumb){
-        var choices = [
-            '4th Century',  // 0
-            '5th Century',
-            '6th Century',
-            '7th Century',
-            '8th Century',
-            '9th Century',
-            '10th Century',
-            '11th Century',
-            '12th Century',
-            '13th Century'  // 9
-        ];
-        var value = Ext.String.format(choices[thumb.value]);
-        return value;
-    },
-    //constrainThumbs: true,
-    values: [0, 9],
-    listeners: {  
-        changecomplete: 'onSliderChangeComplete'
-    }
-});
-
 var mapToolbar = Ext.create('Ext.Toolbar', {
+    requires: [
+        "SppAppClassic.view.main.CenturySlider"
+    ],
     items: [
         {text: 'Zoom In', glyph: "xf00e@FontAwesome", handler: "zoomIn"},
         {text: 'Zoom Out', glyph: "xf010@FontAwesome", handler: "zoomOut"},
         //{text: 'rotate!', glyph: "xf0e2@FontAwesome", handler: "onRotate"},
-        {text: 'maxExtent', glyph:'xf0b2@FontAwesome', handler: "onCenter"}
+        {text: 'maxExtent', glyph:'xf0b2@FontAwesome', handler: "onCenter"},
+        //{xtype: "multislider"},
+        {
+            xtype: "centuryslider",
+            reference: "slider",
+            listeners: {
+                changecomplete: 'onSliderChangeComplete'
+            } 
+        }
         /*
         {
             xtype: 'button',
@@ -395,8 +255,9 @@ var mapToolbar = Ext.create('Ext.Toolbar', {
 });
 
 
-var popupPanel = Ext.create("SppAppClassic.view.main.Popup");
+//var popupPanel = Ext.create("SppAppClassic.view.main.Popup");
 var mapComponent = Ext.create("GeoExt.component.Map", {
+    reference: "geoextMap",
     map: olMap
 });
 
@@ -412,23 +273,17 @@ olMap.on("click", function(evt) {
             return feature;
     });
 
+    var popup = Ext.getCmp('popupWindow');
     if (feature) {   // clicked on feature
-        // hide window if already open (in case feature has changed)
-        //mapComponent.getComponent(popupPanel).hide();
-        //response.setCharacterEncoding("UTF-8");
-        //var featureHTML = getFeatureInfoHtml(feature).setCharacterEncoding("UTF-8");
-
-        popupPanel.setHtml('<p>' + getFeatureInfoHtml(feature) + '</p>');
-        
-        popupPanel.show();
+        popup.setHtml('<p>' + getFeatureInfoHtml(feature) + '</p>');
+        popup.show();
         // TODO: show popup window next to feature 
         //popupPanel.showAt(evt.getXY());
 
     } else {  // clicked somewhere else
-        // get panels
-        //var popupPanel = Ext.getComponent("SppAppClassic.view.main.Popup");
-        //var element = Ext.getBody().child('[xtype=popup]');
-        popupPanel.hide();
+        if (popup !== undefined) {  // in case it got destroyed
+            popup.hide();
+        }
     } 
 });
 
@@ -481,7 +336,9 @@ Ext.define("SppAppClassic.view.main.Map",{
     requires: [
         "SppAppClassic.view.main.MapController",
         "SppAppClassic.view.main.MapModel",
-        "SppAppClassic.view.main.LayerTree"  // required tp load xtype
+        "SppAppClassic.view.main.LayerTree",  // required tp load xtype
+        "LayerStyles",  // singleton -> not sure if needed
+        "Layers"  // singleton -> not sure if needed
     ],
     
     controller: "main-map",

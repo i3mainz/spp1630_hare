@@ -32,78 +32,19 @@ function getActiveLayers(onlyVectors) {
     return activeOlLayers;
 }
 
-function createVectorSource2(layername, filter) {
-    // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
-    filter = filter || "";
-
-    var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
-    var workspace = layername.split(":")[0];
-    var layer = layername.split(":")[1];
-    //var BBOX = "-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562";
-    var EPSG = "4326";
-
-    var vectorSource = new ol.source.Vector({
-        format: new ol.format.GeoJSON(),
-        url: function(extent, resolution, projection) {
-            return PROXY_URL + 
-                "bereich=" + workspace + 
-                "&layer=" + layer +  
-                "&epsg=" + EPSG + 
-                "&CQL_FILTER=" + filter;
-        },
-        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-            maxZoom: 19
-        }))
-    });
-    return vectorSource;
-}
-
-function getQueryString(startDate, endDate) {
-    /*
-    '4th Century',   // 0, date_4_Jh
-    '5th Century',   // 1
-    '6th Century',   // 2
-    '7th Century',   // 3
-    '8th Century',   // 4
-    '9th Century',   // 5
-    '10th Century',  // 6
-    '11th Century',  // 7
-    '12th Century',  // 8
-    '13th Century'   // 9  date_13_Jh // ja, nein
-    */
-    var startCentury = startDate + 4;
-    var endCentury = endDate + 4;
-    //var timeSpan = endCentury - startCentury;
-    //console.log(timeSpan);
-
-    var queryString = "";
-    var counter = 0;
-    for (var i = startCentury; i < endCentury + 1; i++) { 
-        //console.log(i);
-        if (counter === 0) {
-            queryString += "date_" + i + "_Jh='ja'";
-        } else {
-            queryString += ";date_" + i + "_Jh='ja'";
-        }
-        counter += 1;  // keep track of ANDs
-    } 
-    return queryString;
-}
-
 Ext.define('SppAppClassic.view.main.MapController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.main-map',
-
-    //views: ['Map'],
     
-    // get view variables 
-    // methods can be used automatically, no need to add them here
+    // refs not working -> using lookupReference() for now
+    /*
     refs: [
         {ref: 'olMap', selector: 'olMap'},
         {ref: 'mapComponent', selector: 'mapComponent'},
-        {ref: 'slider', selector: 'slider'},
+        {ref: 'centuryslider', selector: 'centuryslider', xtype: 'centuryslider'},
         {ref: 'popup', selector: 'popup'}
     ],
+    */
 
     zoomIn: function() {
         var view = olMap.getView();
@@ -163,7 +104,65 @@ Ext.define('SppAppClassic.view.main.MapController', {
         console.log("clicked on map!! :DD");
     },
 
-    // slider handlers
+    getQueryString: function(startDate, endDate) {
+        /*
+        '4th Century',   // 0, date_4_Jh
+        '5th Century',   // 1
+        '6th Century',   // 2
+        '7th Century',   // 3
+        '8th Century',   // 4
+        '9th Century',   // 5
+        '10th Century',  // 6
+        '11th Century',  // 7
+        '12th Century',  // 8
+        '13th Century'   // 9  date_13_Jh // ja, nein
+        */
+        var startCentury = startDate + 4;
+        var endCentury = endDate + 4;
+        //var timeSpan = endCentury - startCentury;
+        //console.log(timeSpan);
+
+        var queryString = "";
+        var counter = 0;
+        for (var i = startCentury; i < endCentury + 1; i++) { 
+            //console.log(i);
+            if (counter === 0) {
+                queryString += "date_" + i + "_Jh='ja'";
+            } else {
+                queryString += ";date_" + i + "_Jh='ja'";
+            }
+            counter += 1;  // keep track of ANDs
+        } 
+        return queryString;
+    },
+
+    createVectorSource: function(layername, filter) {
+        // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
+        filter = filter || "";
+
+        var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
+        var workspace = layername.split(":")[0];
+        var layer = layername.split(":")[1];
+        //var BBOX = "-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562";
+        var EPSG = "4326";
+
+        var vectorSource = new ol.source.Vector({
+            format: new ol.format.GeoJSON(),
+            url: function(extent, resolution, projection) {
+                return PROXY_URL + 
+                    "bereich=" + workspace + 
+                    "&layer=" + layer +  
+                    "&epsg=" + EPSG + 
+                    "&CQL_FILTER=" + filter;
+            },
+            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            }))
+        });
+        return vectorSource;
+    },
+
+    // slider functions
     onSliderChangeComplete: function() {
         /* sources appear tp be empty, since they are loaded async */
         /* retrieving the previous source istn working because
@@ -183,12 +182,14 @@ Ext.define('SppAppClassic.view.main.MapController', {
         '12th Century',  // 8
         '13th Century'   // 9  date_13_Jh // ja, nein
         */
+        var me = this;
+        var slider = me.lookupReference('slider');  // TODO use refs instead
+        var mapComp = me.lookupReference('geoextMap');
 
         var startDate = slider.getValues()[0];
         var endDate = slider.getValues()[1];
-
         var activeLayers = getActiveLayers(true);
-        var layerGroups = mapComponent.getLayers();
+        var layerGroups = mapComp.getLayers();
         layerGroups.forEach(function(layerGroup) {
             var layers = layerGroup.getLayers();
             layers.forEach(function(layer, i) {
@@ -197,47 +198,25 @@ Ext.define('SppAppClassic.view.main.MapController', {
                     if (source instanceof ol.source.Vector) {  // layer has a vector source
                         // source is usually empty because of the 
                         // tile loading strategy
-                        //var newSource = createVectorSource("SPP:v_public_offen", "date_4_Jh='ja'");
-                        //console.log(startDate);
-                        //var query = "date_6_Jh='ja'"
-                        var filter = getQueryString(startDate, endDate);
-                        console.log(filter);
-                        var newSource = createVectorSource2("SPP:v_public_offen", filter);
-                        //console.log(newSource.getFeatures().length);  -> doesnt work, async!
+                        // so i have to create name myself
 
-                        layer.setSource(newSource);  // this refreshes automatically
+
+                        //var sourceName = "SPP:" + layer.get("name");
+
+                        // only works for SPP:v_public_offen right now
+                        if (layer.get("name") === "Open") {  // layer is "SPP:v_public_offen"
+                            var filter = me.getQueryString(startDate, endDate);     
+                            console.log(filter);                   
+                            var newSource = me.createVectorSource("SPP:v_public_offen", filter);
+                            //layer.setSource(newSource);  // this refreshes automatically
+                        }
+                        
                     }
                 }
                 
             });
         });
-        
-        //console.log(allLayers[1].getSource().getKeys()); 
-        //console.log([1].getSource().getKeys());
-        /*
-        activeLayers.forEach(function(vectorLayer) {
-            if (vectorLayer instanceof ol.layer.Vector) { // double check output
-                var vectorSource = vectorLayer.getSource();
-                if (vectorSource instanceof ol.source.Vector) { // double check output
-                    console.log("has vector source!");
-                    
-                    console.log(vectorSource);
-                    
 
-                    //console.log(vectorSource.set(wrapX, true));
-                    //console.log(vectorSource.clear(true));  // refresh layer
-                    //return PROXY_URL + "bereich=" + workspace + "&layer=" + layer + "&bbox=" + extent.join(',') + "&epsg=" + EPSG;
-                    
-                    // set source of layer to newly created source
-
-                    // getSource.clear(true) -> reloads layer
-                    //update url of source
-                }
-            }
-        });*/
-
-        // filter for vectorLayers
-        //console.log(currentParams);
     }
 
 });

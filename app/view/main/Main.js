@@ -14,18 +14,12 @@ Ext.define('SppAppClassic.view.main.Main', {
         'Ext.window.MessageBox',
 
         'SppAppClassic.view.main.MainController',
-        'SppAppClassic.view.main.MainModel',
+        'SppAppClassic.view.main.MainModel'
         // no need to require Main.js since it
         // gets extended
 
         // not sure if they are all needed or
         // if the are loaded anyway
-        'SppAppClassic.view.main.MapController',
-        'SppAppClassic.view.main.MapModel',
-        'SppAppClassic.view.main.Map',
-        'SppAppClassic.view.main.PopupController',
-        'SppAppClassic.view.main.PopupModel',
-        'SppAppClassic.view.main.Popup'
     ],
 
     controller: 'main',
@@ -53,13 +47,18 @@ Ext.define('SppAppClassic.view.main.Main', {
     items: [{   
         region: "center",
         layout: 'fit',
-        items: [{
-            xtype: 'mappanel'  // defined in Map.js
-            /* mappanel includes two panels: the treepanel and the
-            panel containing the GeoExt3 map component. since they both need a reference
-            to the OL3 map, I dont know how to separate the logic into
-            the MapModel.js file */
-        }]
+        items: [
+            {
+                xtype: 'mappanel',  // defined in Map.js
+                /* mappanel includes two panels: the treepanel and the
+                panel containing the GeoExt3 map component. since they both need a reference
+                to the OL3 map, I dont know how to separate the logic into
+                the MapModel.js file */
+            },{
+                xtype: "popup",  // create hidden window to use as popup later
+                id: "popupWindow"  // used to reference and fill it in Map.js
+            }
+        ]
         
     }]
 });
