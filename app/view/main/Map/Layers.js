@@ -11,11 +11,13 @@ Ext.define('Layers', {
 
     singleton: true,
 
-   
-    // access layers
+   	requires: [
+   		"LayerStyles"
+   	],
 
+    // access layers
 	open: new ol.layer.Vector({
-        source: new ol.source.Vector({
+        source: new ol.source.Vector({  // TODO create class for vector source
 	        format: new ol.format.GeoJSON(),
 	        url: function(extent, resolution, projection) {
 	            return PROXY_URL + 
@@ -32,8 +34,7 @@ Ext.define('Layers', {
         style: LayerStyles.redPoints,
         name: "Open",
         visible: true
-    }), 
-
+    }),
 
     agOnly: new ol.layer.Tile({
         source: new ol.source.TileWMS({
@@ -46,6 +47,13 @@ Ext.define('Layers', {
         visible: false
     }),
 
+    // query layers
+
+    // status layers
+
+    // projects layers
+
+    // hydrology layers
     lakes: new ol.layer.Tile({
         source: new ol.source.TileWMS({
           url: "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?",
@@ -68,6 +76,148 @@ Ext.define('Layers', {
         visible: false
     }),
 
+    // barrington atlas layers
+    barrAqueducts: new ol.layer.Vector({
+        source: new ol.source.Vector({
+	        format: new ol.format.GeoJSON(),
+	        url: function(extent, resolution, projection) {
+	            return PROXY_URL + 
+	                    "bereich=" + "SPP" + 
+	                    "&layer=" + "aqueduct" + 
+	                    "&bbox=" + extent.join(',') + 
+	                    "&epsg=" + "4326";
+	        },
+	        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+	            maxZoom: 19
+	        })),
+	        wrapX: false  // dont repeat on X axis
+	    }),
+        style: LayerStyles.redPoints,
+        name: "Aqueducts",
+        visible: true
+    }),
+
+    barrBridges: new ol.layer.Vector({
+        source: new ol.source.Vector({
+	        format: new ol.format.GeoJSON(),
+	        url: function(extent) {
+	            return PROXY_URL + 
+	                    "bereich=" + "SPP" + 
+	                    "&layer=" + "bridge" + 
+	                    "&bbox=" + extent.join(',') + 
+	                    "&epsg=" + "4326";
+	        },
+	        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+	            maxZoom: 19
+	        })),
+	        wrapX: false  // dont repeat on X axis
+	    }),
+        style: LayerStyles.redPoints,
+        name: "Bridges",
+        visible: true
+    }),
+
+    barrBaths: new ol.layer.Vector({
+        source: new ol.source.Vector({
+	        format: new ol.format.GeoJSON(),
+	        url: function(extent) {
+	            return PROXY_URL + 
+	                    "bereich=" + "SPP" + 
+	                    "&layer=" + "bath" + 
+	                    "&bbox=" + extent.join(',') + 
+	                    "&epsg=" + "4326";
+	        },
+	        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+	            maxZoom: 19
+	        })),
+	        wrapX: false  // dont repeat on X axis
+	    }),
+        style: LayerStyles.redPoints,
+        name: "Baths",
+        visible: true
+    }),
+
+    barrPorts: new ol.layer.Vector({
+        source: new ol.source.Vector({
+	        format: new ol.format.GeoJSON(),
+	        url: function(extent) {
+	            return PROXY_URL + 
+	                    "bereich=" + "SPP" + 
+	                    "&layer=" + "port" + 
+	                    "&bbox=" + extent.join(',') + 
+	                    "&epsg=" + "4326";
+	        },
+	        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+	            maxZoom: 19
+	        })),
+	        wrapX: false  // dont repeat on X axis
+	    }),
+        style: LayerStyles.redPoints,
+        name: "Ports",
+        visible: true
+    }),
+
+    barrSettlements: new ol.layer.Vector({
+        source: new ol.source.Vector({
+	        format: new ol.format.GeoJSON(),
+	        url: function(extent) {
+	            return PROXY_URL + 
+	                    "bereich=" + "SPP" + 
+	                    "&layer=" + "settlement" + 
+	                    "&bbox=" + extent.join(',') + 
+	                    "&epsg=" + "4326";
+	        },
+	        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+	            maxZoom: 19
+	        })),
+	        wrapX: false  // dont repeat on X axis
+	    }),
+        style: LayerStyles.redPoints,
+        name: "Settlements",
+        visible: true
+    }),
+
+    barrCanals: new ol.layer.Vector({
+        source: new ol.source.Vector({
+	        format: new ol.format.GeoJSON(),
+	        url: function(extent) {
+	            return PROXY_URL + 
+	                    "bereich=" + "SPP" + 
+	                    "&layer=" + "canal" + 
+	                    "&bbox=" + extent.join(',') + 
+	                    "&epsg=" + "4326";
+	        },
+	        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+	            maxZoom: 19
+	        })),
+	        wrapX: false  // dont repeat on X axis
+	    }),
+        style: LayerStyles.redPoints,
+        name: "Canals",
+        visible: true
+    }),
+
+    barrRoads: new ol.layer.Vector({
+        source: new ol.source.Vector({
+	        format: new ol.format.GeoJSON(),
+	        url: function(extent) {
+	            return PROXY_URL + 
+	                    "bereich=" + "SPP" + 
+	                    "&layer=" + "road" + 
+	                    "&bbox=" + extent.join(',') + 
+	                    "&epsg=" + "4326";
+	        },
+	        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+	            maxZoom: 19
+	        })),
+	        wrapX: false  // dont repeat on X axis
+	    }),
+        style: LayerStyles.redLines,
+        name: "Roads",
+        visible: true
+    }),
+
+    // darmc layers
     aqueducts: new ol.layer.Tile({
         source: new ol.source.TileWMS({
           url: GEOSERVER_URL,

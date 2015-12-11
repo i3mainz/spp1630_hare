@@ -2,7 +2,96 @@
 // contains any view-related logic,
 // event handling of the view, and any app logic. 
 
+/*
+// tODO put that into controller
+function createOL3Layer(layername, displayname, visible, zIndex) {
+    zIndex = zIndex || 0;  // set default
+    visible = visible || false;  // set default
+    var layer = new ol.layer.Tile({
+        //extent: [-13884991, 2870341, -7455066, 6338219],
+        source: new ol.source.TileWMS({
+          url: GEOSERVER_URL,
+          params: {'LAYERS': layername, 'TILED': true},
+          serverType: 'geoserver',
+          wrapX: false   // dont repeat on X axis
+        }),
+        legendUrl: getLegendUrl(layername),  // through plugin
+        name: displayname,
+        visible: visible
+    });
+    return layer;
+}
+// tODO put that into controller
+function createOL3VectorLayerFromGeoJson(layername, displayname, style, visible) {
+    // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
+    visible = visible || false;  // set default to zero
+    var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
+    var workspace = layername.split(":")[0];
+    var layer = layername.split(":")[1];
+    //var BBOX = "-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562";
+    var EPSG = "4326";
 
+    var vectorSource = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: function(extent, resolution, projection) {
+            return PROXY_URL + 
+                    "bereich=" + workspace + 
+                    "&layer=" + layer + 
+                    "&bbox=" + extent.join(',') + 
+                    "&epsg=" + EPSG;
+        },
+        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+            maxZoom: 19
+        })),
+        wrapX: false  // dont repeat on X axis
+    });
+
+    var vectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+        //legendUrl: getLegendUrl(layername),  // gets legend from geoserver -> is wrong when 
+        // used as GeoJSON and applied new style 
+        style: style,
+        name: displayname,
+        visible: visible 
+    });
+    //console.log(vectorLayer instanceof ol.layer.Vector);
+    return vectorLayer;
+}
+// tODO put that into controller
+function createVectorSource(layername) {
+    // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
+    var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
+    var workspace = layername.split(":")[0];
+    var layer = layername.split(":")[1];
+    //var BBOX = "-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562";
+    var EPSG = "4326";
+
+    var vectorSource = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: function(extent, resolution, projection) {
+            return PROXY_URL + "bereich=" + workspace + "&layer=" + layer + "&bbox=" + extent.join(',') + "&epsg=" + EPSG;
+        },
+        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+            maxZoom: 19
+        }))
+    });
+
+    return vectorSource;
+}
+*/
+/*
+function getLegendUrl(layer_name) {
+    return GEOSERVER_URL + "REQUEST=GetLegendGraphic&" + 
+        "VERSION=1.0.0&" + 
+        "FORMAT=image/png&" + 
+        "WIDTH=50&HEIGHT=50&" + 
+        "TRANSPARENT=true&" +
+        "LAYER=" + layer_name + "&" + 
+        "LEGEND_OPTIONS=" + 
+            "fontName:arial;" + 
+            "dpi:180";
+}
+*/
 function getActiveLayers(onlyVectors) {
     /* returns a list of OL3 Layer objects 
     that includes all selected nodes. 
@@ -45,6 +134,9 @@ Ext.define('SppAppClassic.view.main.MapController', {
         {ref: 'popup', selector: 'popup'}
     ],
     */
+    someFn: function() {
+        Ext.Msg.alert('Status', 'Some function!!!');
+    },
 
     zoomIn: function() {
         var view = olMap.getView();
