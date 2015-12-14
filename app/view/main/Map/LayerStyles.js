@@ -38,7 +38,7 @@ Ext.define('LayerStyles', {
 	    stroke: new ol.style.Stroke({
 	        color: 'rgba(0, 0, 255, 1.0)',
 	        width: 2
-	    }),
+	    })
 	}),
 	redLines: new ol.style.Style({
 	    stroke: new ol.style.Stroke({

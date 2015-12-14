@@ -94,7 +94,7 @@ Ext.define('Layers', {
 	    }),
         style: LayerStyles.redPoints,
         name: "Aqueducts",
-        visible: true
+        visible: false
     }),
 
     barrBridges: new ol.layer.Vector({
@@ -114,7 +114,7 @@ Ext.define('Layers', {
 	    }),
         style: LayerStyles.redPoints,
         name: "Bridges",
-        visible: true
+        visible: false
     }),
 
     barrBaths: new ol.layer.Vector({
@@ -134,7 +134,7 @@ Ext.define('Layers', {
 	    }),
         style: LayerStyles.redPoints,
         name: "Baths",
-        visible: true
+        visible: false
     }),
 
     barrPorts: new ol.layer.Vector({
@@ -154,7 +154,7 @@ Ext.define('Layers', {
 	    }),
         style: LayerStyles.redPoints,
         name: "Ports",
-        visible: true
+        visible: false
     }),
 
     barrSettlements: new ol.layer.Vector({
@@ -174,7 +174,7 @@ Ext.define('Layers', {
 	    }),
         style: LayerStyles.redPoints,
         name: "Settlements",
-        visible: true
+        visible: false
     }),
 
     barrCanals: new ol.layer.Vector({
@@ -194,7 +194,7 @@ Ext.define('Layers', {
 	    }),
         style: LayerStyles.redPoints,
         name: "Canals",
-        visible: true
+        visible: false
     }),
 
     barrRoads: new ol.layer.Vector({
@@ -214,7 +214,7 @@ Ext.define('Layers', {
 	    }),
         style: LayerStyles.redLines,
         name: "Roads",
-        visible: true
+        visible: false
     }),
 
     // darmc layers

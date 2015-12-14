@@ -1,12 +1,12 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.CenturySlider",{
+Ext.define("SppAppClassic.view.main.CenturySlider", {
     extend: "Ext.slider.Multi",
     xtype: "centuryslider",  // map.centuryslider
     //alias: 'widget.centuryslider',
-
-    requires: [],
-
+    reference: "centuryslider",  // used in controllers
+    //controller: "main-centuryslider", // slider is a component. only containers can have controllers!
+    
     hideLabel: true,
     width: 200,
     //increment: 10,
@@ -41,11 +41,14 @@ Ext.define("SppAppClassic.view.main.CenturySlider",{
         self.callParent(arguments);
     },
     */
-    /*
-    listeners: {
-        changecomplete: "onChangeComplete"
+    init: function() {
+        console.log("test123");
+    }
 
-    } // are defined in MapController.js
+    /*
+    // defined in MapController.js
+    listeners: {
+        changecomplete: "onChangeComplete",
+    }
     */
 });
-

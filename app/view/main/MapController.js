@@ -92,86 +92,63 @@ function getLegendUrl(layer_name) {
             "dpi:180";
 }
 */
-function getActiveLayers(onlyVectors) {
-    /* returns a list of OL3 Layer objects 
-    that includes all selected nodes. 
-    isVector: if true, only active Vectorlayers are returned, 
-    WMS layers are ommitted */
-    onlyVectors = onlyVectors || false;  // set default to false
-
-    var activeOlLayers = [];
-    olMap.getLayers().forEach(function(layer, i) {
-        if (layer instanceof ol.layer.Group) {  // all layers are nested inside a layergroup
-            //console.log("is a layer group!"); 
-            layer.getLayers().forEach(function(subLayer, j) {
-                // actual layer level in this case
-                //console.log("is a layer!"); 
-                if (subLayer.getVisible() === true) {  // is active
-                    if (onlyVectors) {
-                        if (subLayer instanceof ol.layer.Vector) {  // skip WMS etcs
-                            activeOlLayers.push(subLayer);
-                        }  
-                    } else {
-                        activeOlLayers.push(subLayer);
-                    } 
-                }
-            });
-        }
-    });
-    return activeOlLayers;
-}
 
 Ext.define('SppAppClassic.view.main.MapController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.main-map',
     
-    // refs not working -> using lookupReference() for now
+    // using lookupReference() instead of refs, see
+    // <https://docs.sencha.com/extjs/6.0/application_architecture/view_controllers.html>
+    
     /*
-    refs: [
-        {ref: 'olMap', selector: 'olMap'},
-        {ref: 'mapComponent', selector: 'mapComponent'},
-        {ref: 'centuryslider', selector: 'centuryslider', xtype: 'centuryslider'},
-        {ref: 'popup', selector: 'popup'}
-    ],
+    control: {
+        '#': {  // matches the view itself
+            changecomplete: "onChangeComplete",
+        },
     */
+
     someFn: function() {
         Ext.Msg.alert('Status', 'Some function!!!');
     },
 
     zoomIn: function() {
-        var view = olMap.getView();
+        console.log("zoom in!");
+        var view = OL3Map.map.getView();
         var currentZoom = view.getZoom();
         view.setZoom(currentZoom + 1);
     },
     zoomOut: function() {
-        var view = olMap.getView();
+        console.log("zoom out!");
+        var view = OL3Map.map.getView();
         var currentZoom = view.getZoom();
         view.setZoom(currentZoom - 1);
     }, 
     zoomAnimated: function() {
-       var zoom = ol.animation.zoom({duration: 500, resolution: olMap.getView().getResolution()});
+
+       var zoom = ol.animation.zoom({duration: 500, resolution: OL3Map.map.getView().getResolution()});
        //olMap.beforeRender(zoom);
-       olMap.getView().setZoom(zoom);
+       OL3Map.map.getView().setZoom(zoom);
     },
 
     /* zoomTomax extend -> get Center of map on start of app. 
     then set farthest zoom level */
     onCenter: function() {
-        var view = olMap.getView();
+        console.log("center in!");
+        var view = OL3Map.map.getView();
         view.setCenter(MAP_CENTER);
         view.setZoom(4);
         view.setRotation(0);
     },
     onRotate: function() {
         console.log("rotate!");
-        var view = olMap.getView();
+        var view = OL3Map.map.getView();
         var currentRotation = view.getRotation();
         console.log(currentRotation);
-        olMap.getView().setRotation(currentRotation + 0.5);
+        OL3Map.map.getView().setRotation(currentRotation + 0.5);
     },
     onToggleHover: function() {
         console.log("toggle hover!");
-        var interactions = olMap.getInteractions();
+        var interactions = OL3Map.map.getInteractions();
         var selectInteraction; 
         interactions.forEach(function(interaction) {
             if (interaction instanceof ol.interaction.Select) {
@@ -180,14 +157,14 @@ Ext.define('SppAppClassic.view.main.MapController', {
         });
         // toogle on
         if (selectInteraction) {
-            olMap.removeInteraction(selectInteraction);
+            OL3Map.map.removeInteraction(selectInteraction);
             //Ext.getCmp("hoverButton").setText("end hover");
         // toogle off
         } else {
             var newInteraction = new ol.interaction.Select({
                 condition: ol.events.condition.pointerMove  // empty -> select on click
             });
-            olMap.addInteraction(newInteraction);
+            OL3Map.map.addInteraction(newInteraction);
             //Ext.getCmp("hoverButton").setText("start hover");
         }
     },
@@ -196,7 +173,7 @@ Ext.define('SppAppClassic.view.main.MapController', {
         console.log("clicked on map!! :DD");
     },
 
-    getQueryString: function(startDate, endDate) {
+    getQueryString: function(dates) {
         /*
         '4th Century',   // 0, date_4_Jh
         '5th Century',   // 1
@@ -209,8 +186,8 @@ Ext.define('SppAppClassic.view.main.MapController', {
         '12th Century',  // 8
         '13th Century'   // 9  date_13_Jh // ja, nein
         */
-        var startCentury = startDate + 4;
-        var endCentury = endDate + 4;
+        var startCentury = dates[0] + 4;
+        var endCentury = dates[1] + 4;
         //var timeSpan = endCentury - startCentury;
         //console.log(timeSpan);
 
@@ -254,8 +231,37 @@ Ext.define('SppAppClassic.view.main.MapController', {
         return vectorSource;
     },
 
+    getActiveLayers: function(map, onlyVectors) {
+        /* returns a list of OL3 Layer objects 
+        that includes all selected nodes. 
+        isVector: if true, only active Vectorlayers are returned, 
+        WMS layers are ommitted */
+        onlyVectors = onlyVectors || false;  // set default to false
+
+        var activeLayers = [];
+        
+        var layerGroups = map.getLayers();
+        layerGroups.forEach(function(layerGroup) {      // loop layergroups  
+            var layers = layerGroup.getLayers();
+            layers.forEach(function(layer, i) {         // loop layers
+                if (layer.getVisible()) {               // skip inactive layers
+                    var source = layer.getSource();
+                    if (onlyVectors) {
+                        if (source instanceof ol.source.Vector) {
+                            activeLayers.push(layer);
+                        }
+                    } else {
+                        activeLayers.push(layer);
+                    }
+                }
+            });
+        });
+        return activeLayers;
+    },
+
     // slider functions
     onSliderChangeComplete: function() {
+        console.log("slider change complete!");
         /* sources appear tp be empty, since they are loaded async */
         /* retrieving the previous source istn working because
         of the tile loading strategy. possible to grab features but not the
@@ -275,40 +281,27 @@ Ext.define('SppAppClassic.view.main.MapController', {
         '13th Century'   // 9  date_13_Jh // ja, nein
         */
         var me = this;
-        var slider = me.lookupReference('slider');  // TODO use refs instead
-        var mapComp = me.lookupReference('geoextMap');
+        var slider = me.lookupReference('centuryslider');
+        //var map = me.lookupReference('geoextmap');
+        //var olMap = me.lookupReference('ol3map');  // not working: fix!
+        var map = OL3Map.map; // replace with correct lookupreference!
+        
+        var layers = this.getActiveLayers(map, true);
 
-        var startDate = slider.getValues()[0];
-        var endDate = slider.getValues()[1];
-        var activeLayers = getActiveLayers(true);
-        var layerGroups = mapComp.getLayers();
-        layerGroups.forEach(function(layerGroup) {
-            var layers = layerGroup.getLayers();
-            layers.forEach(function(layer, i) {
-                if (layer.getVisible()) {
-                    var source = layer.getSource();
-                    if (source instanceof ol.source.Vector) {  // layer has a vector source
-                        // source is usually empty because of the 
-                        // tile loading strategy
-                        // so i have to create name myself
-
-
-                        //var sourceName = "SPP:" + layer.get("name");
-
-                        // only works for SPP:v_public_offen right now
-                        if (layer.get("name") === "Open") {  // layer is "SPP:v_public_offen"
-                            var filter = me.getQueryString(startDate, endDate);     
-                            console.log(filter);                   
-                            var newSource = me.createVectorSource("SPP:v_public_offen", filter);
-                            //layer.setSource(newSource);  // this refreshes automatically
-                        }
-                        
-                    }
-                }
+        layers.forEach(function(layer, i) {         // loop layers
+    
+            console.log(layer.get("name"));
+            // only works for SPP:v_public_offen right now
+            if (layer.get("name") === "Open") {  // layer is "SPP:v_public_offen"
+                var filter = me.getQueryString(slider.getValues());     
+                console.log(filter);                   
+                var newSource = me.createVectorSource("SPP:v_public_offen", filter);
                 
-            });
-        });
 
+                // query not ciorrect
+                layer.setSource(newSource);  // this refreshes automatically
+            }
+        });
     }
 
 });

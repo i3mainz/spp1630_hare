@@ -96,9 +96,9 @@ Ext.define("SppAppClassic.view.main.LayerTree",{
         plugins: { ptype: 'treeviewdragdrop' }
     },
 
-    // define parameters and set defaults
+    // define parameters and set defaults -> no need, just declare together with xtype
     config: {
-        title: "defaultTitle"
+        title: "Layers"  // overrides title
     },
     title: "Layers",
     //store: this.treeStore,
@@ -108,7 +108,6 @@ Ext.define("SppAppClassic.view.main.LayerTree",{
     width: 250,
     border: false,
     hideHeaders: true,
-    region: "west",
     //flex: 1,
     lines: false,
     autoScroll: true,
