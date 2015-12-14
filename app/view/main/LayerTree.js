@@ -80,6 +80,7 @@ var treeStore = Ext.create('GeoExt.data.store.LayersTree', {
 Ext.define("SppAppClassic.view.main.LayerTree",{
     extend: "Ext.tree.Panel",
     xtype: "layertree",
+    reference: "layertree",
 
     requires: [
         "SppAppClassic.view.main.LayerTreeController",
@@ -130,6 +131,9 @@ Ext.define("SppAppClassic.view.main.LayerTree",{
 
     // alternative to treePanel.on('select', function())
     listeners: {  
+        checkchange: function() {
+            //console.log("checkchange");
+        }
         // refresh legend every time a node is selected
         //checkchange: 'onNodeCheckChange' // defined in MapController
     }

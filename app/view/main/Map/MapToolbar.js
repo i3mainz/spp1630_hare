@@ -3,7 +3,10 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
     
     xtype: 'maptoolbar',
     
-    requires: ["SppAppClassic.view.main.CenturySlider"],
+    requires: [
+        "SppAppClassic.view.main.CenturySlider",
+        "SppAppClassic.view.main.FilterPanel"
+    ],
     
     controller: "main-map",  // not sure if this is needed -> works without
     // toolbar is a component. only containers can have controllers
@@ -22,12 +25,12 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
         },*/
         {
             xtype: 'button',
-            reference: "sliderButton",
+            //reference: "sliderButton",
             text : 'Filter',
             glyph: 'xf0b0@FontAwesome',
             enableToggle: true,
             pressed: false,
-            handler: "onToggleFilter"
+            handler: 'onToggleFilter'
         },
         /*
         {

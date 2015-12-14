@@ -7,7 +7,7 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
     reference: "centuryslider",  // used in controllers
     //controller: "main-centuryslider", // slider is a component. only containers can have controllers!
     
-    hideLabel: true,
+    //hideLabel: true,  // not sure what that does
     width: 200,
     //increment: 10,
     minValue: 0,
@@ -36,6 +36,7 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
             '13th Century'  // 13
         ];
         var value = Ext.String.format(choices[thumb.value]);
+
         return value;
     },
 
@@ -56,3 +57,33 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
     }
     */
 });
+
+
+
+/*
+toolTip.on('show', function(){
+
+    var timeout;
+
+    toolTip.getEl().on('mouseout', function(){
+        timeout = window.setTimeout(function(){
+            toolTip.hide();
+        }, 500);
+    });
+
+    toolTip.getEl().on('mouseover', function(){
+        window.clearTimeout(timeout);
+    });
+
+    Ext.get(targetId).on('mouseover', function(){
+        window.clearTimeout(timeout);
+    });
+
+    Ext.get(targetId).on('mouseout', function(){
+        timeout = window.setTimeout(function(){
+            toolTip.hide();
+        }, 500);
+    });
+
+});
+*/

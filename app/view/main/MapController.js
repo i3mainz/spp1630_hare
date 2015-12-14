@@ -276,12 +276,14 @@ Ext.define('SppAppClassic.view.main.MapController', {
     },
 
     
-    // slider functions
-    
+    // slider function    
     // show century slider 
     onToggleFilter: function() {
-        var filterPanel = this.lookupReference("filterPanel");
-        filterPanel.show();
+        var me = this;
+        //var filterPanel = me.lookupReference('filterpanel1');  // not working
+        var filterPanel = Ext.getCmp('filterPanel');
+        //filterPanel.show();
+        filterPanel.toggleCollapse();       
     },
 
     onSliderChangeComplete: function() {
@@ -304,8 +306,22 @@ Ext.define('SppAppClassic.view.main.MapController', {
         '12th Century',  // 8
         '13th Century'   // 9  date_13_Jh // ja, nein
         */
+
         var me = this;
         var slider = me.lookupReference('centuryslider');
+        var filterPanel = Ext.getCmp('filterPanel');
+        console.log(filterPanel);
+
+        // update text next to slider
+        var labelText = "C" + slider.getValues()[0] + "th - C" + slider.getValues()[1] + "th";
+        filterPanel.add({
+            xtype: 'label',
+            //forId: 'myFieldId',
+            text: labelText,
+            margin: '0 0 0 5'
+        });
+
+        //var tree = me.lookupReference('layertree');
         //var map = me.lookupReference('geoextmap');
         //var olMap = me.lookupReference('ol3map');  // not working: fix!
         var map = OL3Map.map; // replace with correct lookupreference!
@@ -318,12 +334,17 @@ Ext.define('SppAppClassic.view.main.MapController', {
             // only works for SPP:v_public_offen right now
             if (layer.get("name") === "Open") {  // layer is "SPP:v_public_offen"
                 var filter = me.getQueryString(slider.getValues());     
-                console.log(filter);                   
+                //console.log(filter);                   
                 var newSource = me.createVectorSource("SPP:v_public_offen", filter);
                 
 
-                // query not ciorrect
                 layer.setSource(newSource);  // this refreshes automatically
+
+                // update layername to include ("Filtered")
+                //layer.set("name", layer.get("name") + " (F)");
+                // -> get node by name
+                //console.log(tree.nextNode.getText());
+
             }
         });
     }
