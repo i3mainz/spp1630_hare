@@ -173,35 +173,51 @@ Ext.define('SppAppClassic.view.main.MapController', {
         console.log("clicked on map!! :DD");
     },
 
-    getQueryString: function(dates) {
-        /*
-        '4th Century',   // 0, date_4_Jh
-        '5th Century',   // 1
-        '6th Century',   // 2
-        '7th Century',   // 3
-        '8th Century',   // 4
-        '9th Century',   // 5
-        '10th Century',  // 6
-        '11th Century',  // 7
-        '12th Century',  // 8
-        '13th Century'   // 9  date_13_Jh // ja, nein
-        */
-        var startCentury = dates[0] + 4;
-        var endCentury = dates[1] + 4;
-        //var timeSpan = endCentury - startCentury;
-        //console.log(timeSpan);
+    getQueryString: function(dates, allowNull) {
+        // all selected must be "ja" -> "null" and "nein" ignored for now
+        allowNull = allowNull || false;
 
-        var queryString = "";
-        var counter = 0;
-        for (var i = startCentury; i < endCentury + 1; i++) { 
-            //console.log(i);
-            if (counter === 0) {
-                queryString += "date_" + i + "_Jh='ja'";
-            } else {
-                queryString += ";date_" + i + "_Jh='ja'";
-            }
-            counter += 1;  // keep track of ANDs
+        /*
+        '1st Century BC',   // 0 
+        '1st Century',      // 1 
+        '2nd Century',      // 2 
+        '3rd Century',      // 3 
+        '4th Century',      // 4 
+        '5th Century',      // 5
+        '6th Century',      // 6
+        '7th Century',      // 7
+        '8th Century',      // 8
+        '9th Century',      // 9
+        '10th Century',     // 10
+        '11th Century',     // 11
+        '12th Century',     // 12
+        '13th Century'      // 13  date_13_Jh // ja, nein
+        */
+        var startCentury = dates[0];
+        var endCentury = dates[1];
+
+        var filterList = [];
+        //var queryString = "";
+
+        for (var century = 0; century < 14; century++) { 
+            if (century < startCentury || century > endCentury) {  // not selected
+                /*
+                if (century === 0) {  // special for 1st BC
+                    filterList.push("date_1_Jhv='nein'");
+                } else {
+                    filterList.push("date_" + century + "_Jh='nein'");
+                }
+                */
+            } else {  // within selection
+                if (century === 0) {  // special for 1st BC
+                    filterList.push("date_1_Jhv='ja'");
+                } else {
+                    filterList.push("date_" + century + "_Jh='ja'");
+                }
+            }  
         } 
+        // remove leading ";"
+        var queryString = filterList.join(' AND ');
         return queryString;
     },
 
@@ -259,7 +275,15 @@ Ext.define('SppAppClassic.view.main.MapController', {
         return activeLayers;
     },
 
+    
     // slider functions
+    
+    // show century slider 
+    onToggleFilter: function() {
+        var filterPanel = this.lookupReference("filterPanel");
+        filterPanel.show();
+    },
+
     onSliderChangeComplete: function() {
         console.log("slider change complete!");
         /* sources appear tp be empty, since they are loaded async */

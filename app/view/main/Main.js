@@ -46,10 +46,11 @@ Ext.define('SppAppClassic.view.main.Main', {
     border: true,
     items: [{   
         region: "center",
-        layout: 'fit',
+        layout: 'border',
         items: [
             {
-                xtype: 'mappanel'  // defined in Map.js
+                xtype: 'mappanel',  // defined in Map.js
+                region: "center",
                 /* mappanel includes two panels: the treepanel and the
                 panel containing the GeoExt3 map component. since they both need a reference
                 to the OL3 map, I dont know how to separate the logic into

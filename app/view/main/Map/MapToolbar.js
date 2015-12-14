@@ -14,12 +14,21 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
         //{text: 'rotate!', glyph: "xf0e2@FontAwesome", handler: "onRotate"},
         {text: 'maxExtent', glyph:'xf0b2@FontAwesome', handler: "onCenter"},
         //{xtype: "multislider"},
-        {
+        /*{
             xtype: "centuryslider",
             listeners: {
                 changecomplete: 'onSliderChangeComplete'  // refers to MapController.js -> since Toolbar cannot have it's own controller
             } 
-        }
+        },*/
+        {
+            xtype: 'button',
+            reference: "sliderButton",
+            text : 'Filter',
+            glyph: 'xf0b0@FontAwesome',
+            enableToggle: true,
+            pressed: false,
+            handler: "onToggleFilter"
+        },
         /*
         {
             xtype: 'button',

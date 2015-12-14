@@ -7,7 +7,7 @@ var treeStore = Ext.create('GeoExt.data.store.LayersTree', {
     layerGroup: OL3Map.map.getLayerGroup()
 });
 
-Ext.define("SppAppClassic.view.main.Map",{
+Ext.define("SppAppClassic.view.main.Map", {
     extend: "Ext.panel.Panel",
     
     xtype: 'mappanel',  // alias for future reference
@@ -25,7 +25,8 @@ Ext.define("SppAppClassic.view.main.Map",{
         type: "main-map"
     },
     layout: "border",
-    items: [{
+    items: [
+        {
             xtype: "layertree",  // LayerTree.js
             region: "west",
             store: treeStore
@@ -33,14 +34,27 @@ Ext.define("SppAppClassic.view.main.Map",{
             xtype: "panel",
             region: "center",
             title: "Map",
-            layout: "fit",
-            items: [{
-                xtype: "gx_map",  // GeoExt.component.Map
-                reference: "geoextmap",
-                map: OL3Map.map // defined in OL3Map.js
-            }],
-    
-    dockedItems: {xtype: "maptoolbar"}  // MapToolbar.js
-    }]
+            layout: "border",
+            dockedItems: {xtype: "maptoolbar"},  // MapToolbar.js
+            items: [
+                {   
+                    xtype: "gx_map",  // GeoExt.component.Map
+                    region: "center",
+                    reference: "geoextmap",
+                    map: OL3Map.map // defined in OL3Map.js
+                }, {
+                    xtype: "panel",
+                    region: "south",
+                    reference: "filterPanel",
+                    height: 200,
+                    collapsed: true,
+                    collapsible: true,
+                    title: "Filters",
+                    collapseMode: "mini"  // dont show header
 
+                }
+            ]
+        }
+    ]
+    
 });
