@@ -309,17 +309,11 @@ Ext.define('SppAppClassic.view.main.MapController', {
 
         var me = this;
         var slider = me.lookupReference('centuryslider');
-        var filterPanel = Ext.getCmp('filterPanel');
-        console.log(filterPanel);
+        //var filterPanel = Ext.getCmp('filterPanel');
 
         // update text next to slider
         var labelText = "C" + slider.getValues()[0] + "th - C" + slider.getValues()[1] + "th";
-        filterPanel.add({
-            xtype: 'label',
-            //forId: 'myFieldId',
-            text: labelText,
-            margin: '0 0 0 5'
-        });
+        me.lookupReference('sliderlabel').setText(labelText);
 
         //var tree = me.lookupReference('layertree');
         //var map = me.lookupReference('geoextmap');

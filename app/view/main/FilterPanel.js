@@ -19,6 +19,7 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
     //split: true,
     //collapsible: true,
     title: "Filters",
+    layout: 'anchor',
     //collapseMode: "mini",  // applied directly in Map.js
     items: [{
         xtype: "centuryslider",
@@ -26,7 +27,17 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
         listeners: {
             changecomplete: 'onSliderChangeComplete'  // refers to MapController.js -> since Toolbar cannot have it's own controller
         }
-    }] 
+    },{
+        xtype: 'label',
+        reference: "sliderlabel",
+        text: "",
+        margin: '0 0 0 5'
+    }/*,{
+        xtype: 'button',
+        text: 'reset',
+        padding: 5,
+        handler: 'onButtonReset'
+    }*/] 
 
 });
 
