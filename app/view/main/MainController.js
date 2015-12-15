@@ -5,7 +5,7 @@
  * TODO - Replace this content of this view to suite the needs of your application.
  */
 Ext.define('SppAppClassic.view.main.MainController', {
-    extend: 'Ext.app.ViewController',
+    extend: "Ext.app.ViewController",
 
     alias: 'controller.main',
 
