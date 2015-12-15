@@ -1,47 +1,48 @@
-Ext.define('SppAppClassic.view.login.Login', {
-    extend: 'Ext.window.Window',
-    xtype: 'login',  // alias
+"use strict";
+Ext.define("SppAppClassic.view.login.Login", {
+    extend: "Ext.window.Window",
+    xtype: "login",  // alias
 
     requires: [
-        'SppAppClassic.view.login.LoginController',
-        'Ext.form.Panel'  // used later as xtype "form"
+        "SppAppClassic.view.login.LoginController",
+        "Ext.form.Panel"  // used later as xtype "form"
     ],
 
-    controller: 'login',  // needs to be in requires
+    controller: "login",  // needs to be in requires
     bodyPadding: 10,
-    title: 'Login',
+    title: "Login",
     closable: true,  // show close-button
     autoShow: true,
     floating: true,
     maximizable: true,
-    glyph: 'xf090@fontawesome',
+    glyph: "xf090@fontawesome",
     animate: true,  // not sure if this does anything
     constrain: true,  // keeps window inside browser area
 
     items: {
-        xtype: 'form',
-        reference: 'form',
+        xtype: "form",
+        reference: "loginform",
         items: [{
-            xtype: 'textfield',
-            name: 'username',
-            fieldLabel: 'Username',
+            xtype: "textfield",
+            name: "username",
+            fieldLabel: "Username",
             allowBlank: false
         }, {
-            xtype: 'textfield',
-            name: 'password',
-            inputType: 'password',
-            fieldLabel: 'Password',
+            xtype: "textfield",
+            name: "password",
+            inputType: "password",
+            fieldLabel: "Password",
             allowBlank: false
         }/*, {
-            xtype: 'displayfield',
+            xtype: "displayfield",
             hideEmptyLabel: false,
-            value: 'Enter any non-blank password'
+            value: "Enter any non-blank password"
         }*/],
         buttons: [{
-            text: 'Login',
+            text: "Login",
             formBind: true,
             listeners: {
-                click: 'onLoginClick'
+                click: "onLoginClick"
             }
         }]
     }
