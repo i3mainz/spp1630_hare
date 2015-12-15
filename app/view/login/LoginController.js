@@ -3,80 +3,23 @@ Ext.define('SppAppClassic.view.login.LoginController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.login',
 
-    gerText: "Ungültige Kombination von Benutzername und Kennwort.",
-    engText: "Invalid username/password combination.",
-
-    geoserverLogin: function() {
-
-        // temporarily disable buttons to prevent further
-        // requests being sent
-        //loginPanel.buttons[0].disable();
-
-        // get form via var panel
-        var form = loginPanel.getForm();
-
-        //var mythis = this;
-        if (form.isValid()) {
-            var formData = form.getFieldValues();
-
-            // The form will submit an AJAX request to this URL when submitted
-            // it works!!!
-            form.submit({
-                method: "POST",
-                url: "http://localhost:8080/geoserver/geoserver/j_spring_security_check",
-                //headers: {"Content-Type": "application/x-www-form-urlencoded"},
-
-                // login successfull (defined by errorreader in loginPanel)
-                success: function(form, action) {
-                    //Ext.Msg.alert('Success', action.result.msg);
-                    console.log("login successfull!");
-                    /*
-                    // set "user" cookie to entered login username
-                    // to remember that user has working JSESSION ID and remains
-                    // authorized and shown next to login/logout button
-                    //console.log("my custom cookie: " + $.cookie("geoexplorer-user"));
-                    mythis.setCookieValue("geoexplorer-user", formData.username);
-                    //console.log("my custom cookie after login: " + $.cookie("geoexplorer-user"));
-
-                    // set role to "authorized"
-                    mythis.setAuthorizedRoles(["ROLE_ADMINISTRATOR"]);
-                    
-                    // refresh layers - workaround -> fix!
-                    console.log("refreshing layers!");
-                    //mythis.activate();
-                    location.reload();   
-
-                    // replace "login"-button with "logout"-button and entered username
-                    mythis.showLogoutButton(formData.username);
-
-                    // close login window
-                    win.close();
-                    */
-                },
-
-                // login failed (defined by errorreader)
-                failure: function(form, action) {
-                    //Ext.Msg.alert('Failure', action.result.msg);
-                    console.log("login failed!");
-                    /*
-                    mythis.deAuthorize();   // everything but unset authorizedroles
-                    mythis.setAuthorizedRoles([]);   // works
-                    // reactive buttons
-                    loginPanel.buttons[0].enable(); */
-                }
-            });
-        }
-
-    },
+    //gerText: "Ungültige Kombination von Benutzername und Kennwort.",
+    //engText: "Invalid username/password combination.",
 
     onLoginClick: function() {
         console.log("starting auth");
         var me = this;
-        var formData = me.lookupReference("loginform").getValues();
+        var loginForm = me.lookupReference("loginform");
+        var formData = loginForm.getValues();
+
+        // disable all form items (fields + buttons) to prevent multiple requests 
+        // and to provide user feedback
+        loginForm.disable();
 
         // try to login
         Ext.Ajax.request({
-            url: "http://localhost:8080/geoserver/j_spring_security_check",
+            //url: "http://localhost:8080/geoserver/j_spring_security_check",
+            url: "/geoserver/j_spring_security_check",
             method: "POST",
             withCredentials : true,
             useDefaultXhrHeader : false,
@@ -91,9 +34,10 @@ Ext.define('SppAppClassic.view.login.LoginController', {
 
             failure: function(response, request) {
                 console.log("AJAX request to GeoServer failed! Server Down?");
+                Ext.Msg.alert("AJAX request to GeoServer failed! Server Down?");
+                loginForm.enable();
             }
         });
-
     },
 
     /*
@@ -118,6 +62,33 @@ Ext.define('SppAppClassic.view.login.LoginController', {
 
     onLoginFail: function() {
         console.log("login failed!!!");
+
+        // unblock form 
+        var me = this;
+        var loginForm = me.lookupReference("loginform");
+        loginForm.enable();
+
+        // display error message
+        
+        // create displayField for error message if it doesnt already exist
+        var loginMessageField = me.lookupReference("loginMessageField");
+        if (loginMessageField) {
+            loginMessageField.setValue("Login failed!");
+        } else {
+            loginForm.add({
+                xtype: "displayfield",
+                reference: "loginMessageField",
+                hideEmptyLabel: true,
+                //cls: "errorField",
+                value: "Login failed!"
+            });
+            loginMessageField = me.lookupReference("loginMessageField");
+            loginMessageField.setValue("Login failed!");
+        }
+    },
+
+    onGuestClick: function() {
+        this.onLoginSuccess("Guest");
     },
 
     onLoginSuccess: function(username) {
@@ -126,6 +97,9 @@ Ext.define('SppAppClassic.view.login.LoginController', {
         // Set the localStorage value to true
         localStorage.setItem("TutorialLoggedIn", true);
 
+        // set local cookie -> used to display name in logout
+        Ext.util.Cookies.set("sppCookie", username, new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 10))); // expires after 10 days
+
         // Remove Login Window
         this.getView().destroy();
 
@@ -133,5 +107,18 @@ Ext.define('SppAppClassic.view.login.LoginController', {
         Ext.create({
             xtype: 'app-main'
         });
+    },
+
+    onHelpClick: function() {
+        console.log("help click!");
+        var me = this;
+
+        var button = me.lookupReference("helpButton");
+
+        var tip = Ext.create("Ext.tip.ToolTip", {
+            html: "Login using your project's username/password or login " +
+                  "as guest with limited data access and functionality"
+        });
+        tip.showBy(button);
     }
 });

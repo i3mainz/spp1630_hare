@@ -8,13 +8,14 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
     //controller: "main-centuryslider", // slider is a component. only containers can have controllers!
 
     //hideLabel: true,  // not sure what that does
-    width: 200,
+    width: 250,
     //increment: 10,
     minValue: 0,
     maxValue: 13,
     //constrainThumbs: true,
     values: [0, 13],
     useTips: true,  // show toolptips, default: true
+    fieldLabel: "Century",
 
     tipText: function(thumb) {
         var choices = [

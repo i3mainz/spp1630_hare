@@ -1,3 +1,4 @@
+"use strict";
 /**
  * This class is the main view for the application. It is specified in app.js as the
  * "mainView" property. That setting automatically applies the "viewport"
@@ -5,16 +6,16 @@
  *
  * TODO - Replace this content of this view to suite the needs of your application.
  */
-Ext.define('SppAppClassic.view.main.Main', {
-    extend: 'Ext.panel.Panel',
-    xtype: 'app-main',
+Ext.define("SppAppClassic.view.main.Main", {
+    extend: "Ext.panel.Panel",
+    xtype: "app-main",
 
     requires: [
-        'Ext.plugin.Viewport',
-        'Ext.window.MessageBox',
+        "Ext.plugin.Viewport",
+        "Ext.window.MessageBox",
 
-        'SppAppClassic.view.main.MainController',
-        'SppAppClassic.view.main.MainModel'
+        "SppAppClassic.view.main.MainController",
+        "SppAppClassic.view.main.MainModel"
         // no need to require Main.js since it
         // gets extended
 
@@ -22,35 +23,41 @@ Ext.define('SppAppClassic.view.main.Main', {
         // if the are loaded anyway
     ],
 
-    controller: 'main',
-    viewModel: 'main',
-    plugins: 'viewport',  // fullscreen
+    controller: "main",
+    viewModel: "main",
+    plugins: "viewport",  // fullscreen
 
     title: "SPP Virtual Research Environment",
-    
+
     header: {
         tools: [
             {
-                xtype: 'button',
-                text: 'Logout',
+                xtype: "label",
+                cls: "logoutLabel",  // css class
+                text: "Logged in as " + Ext.util.Cookies.get("sppCookie") + ".",
+                padding: "4 5 0 0"  // 4 top is to be in line with logout button
+                //style  // used css formatting instead
+            },{
+                xtype: "button",
+                text: "Logout",
                 align: "right",
-                glyph: 'xf08b@fontawesome',
-                handler: 'onClickLogout'
+                glyph: "xf08b@fontawesome",
+                handler: "onClickLogout"
             }
         ]
     },
     layout: {
-        type: 'border',
+        type: "border",
         padding: 5
     },
     border: true,
-    items: [{   
+    items: [{
         region: "center",
-        layout: 'border',
+        layout: "border",
         items: [
             {
-                xtype: 'mappanel',  // defined in Map.js
-                region: "center",
+                xtype: "mappanel",  // defined in Map.js
+                region: "center"
                 /* mappanel includes two panels: the treepanel and the
                 panel containing the GeoExt3 map component. since they both need a reference
                 to the OL3 map, I dont know how to separate the logic into
@@ -61,6 +68,7 @@ Ext.define('SppAppClassic.view.main.Main', {
                 id: "popupWindow"  // used to reference and fill it in Map.js
             }
         ]
-        
     }]
 });
+
+console.log("Cookie:" + Ext.util.Cookies.get("sppCookie"));
