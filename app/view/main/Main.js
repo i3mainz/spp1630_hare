@@ -9,7 +9,7 @@
 Ext.define("SppAppClassic.view.main.Main", {
     extend: "Ext.panel.Panel",
     xtype: "app-main",
-
+    reference: "mainpanel",  // used in MainController
     requires: [
         "Ext.plugin.Viewport",
         "Ext.window.MessageBox",
@@ -29,23 +29,6 @@ Ext.define("SppAppClassic.view.main.Main", {
 
     title: "SPP Virtual Research Environment",
 
-    header: {
-        tools: [
-            {
-                xtype: "label",
-                cls: "logoutLabel",  // css class
-                text: "Logged in as " + Ext.util.Cookies.get("sppCookie") + ".",
-                padding: "4 5 0 0"  // 4 top is to be in line with logout button
-                //style  // used css formatting instead
-            },{
-                xtype: "button",
-                text: "Logout",
-                align: "right",
-                glyph: "xf08b@fontawesome",
-                handler: "onClickLogout"
-            }
-        ]
-    },
     layout: {
         type: "border",
         padding: 5
@@ -68,7 +51,8 @@ Ext.define("SppAppClassic.view.main.Main", {
                 id: "popupWindow"  // used to reference and fill it in Map.js
             }
         ]
-    }]
+    }],
+    listeners: {
+        afterrender: "updateLogoutInfo"
+    }
 });
-
-console.log("Cookie:" + Ext.util.Cookies.get("sppCookie"));

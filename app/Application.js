@@ -1,3 +1,4 @@
+"use strict";
 /**
  * The main application class. An instance of this class is created by app.js when it
  * calls Ext.application(). This is the ideal place to handle application launch and
@@ -17,20 +18,76 @@ Ext.define('SppAppClassic.Application', {
         'SppAppClassic.view.main.Main'  // used in launch
     ],
     
+    hasGeoServerLogin: function(username) {
+        var isLoggedIn = false;
+        var text;
+        var engSuccessText = '<span class="username">Logged in as <span>' + username + '</span></span>';
+        var deSuccessText = '<span class="username">Angemeldet als <span>' + username + '</span></span>';
+
+        Ext.Ajax.request({
+            url: "http://localhost:8080/geoserver/web/",
+            //url: "/geoserver/web/",
+            async: false,
+
+            success: function(response) {
+                //console.log("success!");
+                
+                text = response.responseText;
+                if (text.indexOf(engSuccessText) > -1 || text.indexOf(deSuccessText) > -1 ) {
+                    isLoggedIn = true;
+                } else {  // no welcome screen
+                    isLoggedIn = false;
+                }
+            },
+
+            failure: function() {
+                console.log("AJAX Request Fail", "Contacting GeoServer failed! Server Down?");
+                isLoggedIn = false;
+            }
+        });
+        //console.log(username + " is logged in: " + isLoggedIn);
+        return isLoggedIn;  // TODO: remove async, bad practice
+    },
+
     launch: function () {
         // It's important to note that this type of application could use
         // any type of storage, i.e., Cookies, LocalStorage, etc.
-        var loggedIn;
+        var username;
+        var isValidUser;
 
-        // Check to see the current value of the localStorage key
-        loggedIn = localStorage.getItem("TutorialLoggedIn");
+        /*
+        * validate user. first check for cookie. if cookie exists and it is 
+        * "Guest", he is a valid user. if the username is something other than Guest
+        * then check if this username is still logged in geoserver. otherwise
+        * the layers won't load and the user has to re-authorize!  
+        */
 
+        // loggedIn = localStorage.getItem("TutorialLoggedIn");
+        username = Ext.util.Cookies.get("sppCookie");
+        console.log("cookie: " + username);
+        if (username) {
+            if (username === "guest") {
+                isValidUser = true;
+            } else {  // not a guest
+                if (this.hasGeoServerLogin(username)) {
+                    isValidUser = true;
+                } else {  // still has cookie but geoserver session expired
+                    console.log("GeoServer Session expired. Clearing cookie!");
+                    Ext.util.Cookies.clear("sppCookie");
+                }
+            }
+        } else {  // no cookie found
+            isValidUser = false;
+        }
+
+        //console.log(Ext.util.Cookies.get("sppCookie"));
         // This ternary operator determines the value of the TutorialLoggedIn key.
         // If TutorialLoggedIn isn't true, we display the login window,
         // otherwise, we display the main view
+        
         Ext.create({
             // if loggedIn exists, launch app-main, else launch login
-            xtype: loggedIn ? 'app-main' : 'login'
+            xtype: isValidUser ? 'app-main' : 'login'
         });
     },
 

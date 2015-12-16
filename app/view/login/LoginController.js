@@ -1,7 +1,7 @@
 "use strict";
-Ext.define('SppAppClassic.view.login.LoginController', {
-    extend: 'Ext.app.ViewController',
-    alias: 'controller.login',
+Ext.define("SppAppClassic.view.login.LoginController", {
+    extend: "Ext.app.ViewController",
+    alias: "controller.login",
 
     //gerText: "Ungültige Kombination von Benutzername und Kennwort.",
     //engText: "Invalid username/password combination.",
@@ -14,12 +14,16 @@ Ext.define('SppAppClassic.view.login.LoginController', {
 
         // disable all form items (fields + buttons) to prevent multiple requests 
         // and to provide user feedback
-        loginForm.disable();
+        //loginForm.disable();   // locks entire form
+        var loginButton = me.lookupReference("loginSubmitButton");
+        var guestButton = me.lookupReference("guestSubmitButton");
+        loginButton.disable();
+        guestButton.disable();
 
         // try to login
         Ext.Ajax.request({
-            //url: "http://localhost:8080/geoserver/j_spring_security_check",
-            url: "/geoserver/j_spring_security_check",
+            url: "http://localhost:8080/geoserver/j_spring_security_check",
+            //url: "/geoserver/j_spring_security_check",
             method: "POST",
             withCredentials : true,
             useDefaultXhrHeader : false,
@@ -29,13 +33,20 @@ Ext.define('SppAppClassic.view.login.LoginController', {
                 password: formData.password
             },
             success: function(response) {
+                me.showLoginFormMessage("Validating...", "info");
+
+                // validate
                 me.checkGeoServerResponse(response, formData.username);
             },
 
             failure: function(response, request) {
-                console.log("AJAX request to GeoServer failed! Server Down?");
-                Ext.Msg.alert("AJAX request to GeoServer failed! Server Down?");
-                loginForm.enable();
+                //console.log("AJAX request to GeoServer failed! Server Down?");
+                Ext.Msg.alert("AJAX Request Fail", "Contacting GeoServer failed! Server Down?");
+
+                // unlock buttons
+                //loginForm.enable();  // unlocks entire form
+                loginButton.enable();
+                guestButton.enable();
             }
         });
     },
@@ -47,55 +58,79 @@ Ext.define('SppAppClassic.view.login.LoginController', {
     checkGeoServerResponse: function(response, username) {
         var me = this;
         var text = response.responseText;
-        var gerFailText = "Ungültige Kombination von Benutzername und Kennwort.";
+        //var gerFailText = "Ungültige Kombination von Benutzername und Kennwort.";
         var engFailText = "Invalid username/password combination.";
 
         var engSuccessText = "<span class='username'>Logged in as <span>" + username + "</span></span>.";
 
-        console.log(text.indexOf(engFailText));
         if (text.indexOf(engFailText) > -1) {  // login failed
             me.onLoginFail();
         } else {
+            //console.log(text.indexOf(engSuccessText));
             me.onLoginSuccess(username);
         }
     },
 
-    onLoginFail: function() {
-        console.log("login failed!!!");
+    /*
+    * creates a displayfield in the loginForm if needed 
+    * and displays an info or error message depending on the provided type.
+    * type can be "info" (green) or "error" (red)
+    */
+    showLoginFormMessage: function(message, type) {
+        var me;
+        var style;
+        var loginMessageField;
 
-        // unblock form 
-        var me = this;
-        var loginForm = me.lookupReference("loginform");
-        loginForm.enable();
-
-        // display error message
-        
-        // create displayField for error message if it doesnt already exist
-        var loginMessageField = me.lookupReference("loginMessageField");
-        if (loginMessageField) {
-            loginMessageField.setValue("Login failed!");
+        me = this;
+        if (type === "info") {
+            style = {
+                color: "#00b200",
+                fontWeight: "bold"
+                //text-align: "right"
+            };
+        } else if (type === "error") {
+            style = {
+                color: "#cc0000",
+                fontWeight: "bold"
+            };
         } else {
-            loginForm.add({
+            console.log("unknown message type: " + type);
+        }
+
+        // create displayField if neccessary
+        if (!me.lookupReference("loginMessageField")) {  // loginForm doesnt exist and needs to be created first
+            me.lookupReference("loginform").add({
                 xtype: "displayfield",
                 reference: "loginMessageField",
-                hideEmptyLabel: true,
-                //cls: "errorField",
-                value: "Login failed!"
+                //value: "placeholder",
+                hideEmptyLabel: false
+                //padding: "0 0 0 30"
             });
-            loginMessageField = me.lookupReference("loginMessageField");
-            loginMessageField.setValue("Login failed!");
         }
+        loginMessageField = me.lookupReference("loginMessageField");
+        loginMessageField.setStyle(style);  // currently not working
+        loginMessageField.setValue(message);
+        //loginMessageField.update();
+    },
+
+    onLoginFail: function() {
+
+        this.showLoginFormMessage("Login failed!", "error");
+
+        // unlock buttons
+        this.lookupReference("loginSubmitButton").enable();
+        this.lookupReference("guestSubmitButton").enable();
     },
 
     onGuestClick: function() {
-        this.onLoginSuccess("Guest");
+        this.onLoginSuccess("guest");
     },
 
     onLoginSuccess: function(username) {
         console.log(username + " logged in successfully!!!");
 
         // Set the localStorage value to true
-        localStorage.setItem("TutorialLoggedIn", true);
+        //localStorage.setItem("TutorialLoggedIn", true);
 
         // set local cookie -> used to display name in logout
         Ext.util.Cookies.set("sppCookie", username, new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 10))); // expires after 10 days

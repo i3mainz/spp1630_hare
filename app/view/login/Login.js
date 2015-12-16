@@ -71,11 +71,13 @@ Ext.define("SppAppClassic.view.login.Login", {
             buttons: [
                 {
                     text: "Guest",
+                    reference: "guestSubmitButton",  // used to lock during validation
                     formBind: false,  // enable right away
                     tooltip: "Login as a guest (limited functionality)",
                     handler: "onGuestClick"
                 },{
                     text: "Login",
+                    reference: "loginSubmitButton",  // used to lock during validation
                     formBind: true,  // disable until form filled
                     tooltip: "Login using your username/password combination",
                     handler: "onLoginClick"
