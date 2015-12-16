@@ -20,6 +20,11 @@ Ext.define("SppAppClassic.view.login.LoginController", {
         loginButton.disable();
         guestButton.disable();
 
+        // easter egg
+        if (formData.username === "neo" && formData.password === "matrix") {
+            this.onLoginSuccess("neo");
+        }
+
         // try to login
         Ext.Ajax.request({
             url: "http://localhost:8080/geoserver/j_spring_security_check",
@@ -139,8 +144,15 @@ Ext.define("SppAppClassic.view.login.LoginController", {
         this.getView().destroy();
 
         // Add the main view to the viewport
+        var isNeo;
+        if (username === "neo") {
+            isNeo = true;
+        } else {
+            isNeo = false;
+        }
         Ext.create({
-            xtype: 'app-main'
+            //xtype: isValidUser ? 'app-main' : app-mainEaster
+            xtype: isNeo ? "app-mainEaster" : 'app-main'
         });
     },
 

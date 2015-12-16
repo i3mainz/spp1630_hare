@@ -15,7 +15,15 @@ Ext.define("SppAppClassic.view.main.Main", {
         "Ext.window.MessageBox",
 
         "SppAppClassic.view.main.MainController",
-        "SppAppClassic.view.main.MainModel"
+        "SppAppClassic.view.main.MainModel",
+        "SppAppClassic.view.main.Map"
+        /*
+        "Layers",
+        "OL3Map",
+        "LayerGroups",
+        "LayerStyles"
+        */
+
         // no need to require Main.js since it
         // gets extended
 

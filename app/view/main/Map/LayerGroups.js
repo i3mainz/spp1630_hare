@@ -42,6 +42,7 @@ Ext.define("LayerGroups", {
         layers: [
             Layers.lakes,  // legends dont work
             Layers.streams
+            //layers.ecrinsRivers
         ],
         name: "Hydrology",
         visible: false
@@ -90,3 +91,7 @@ Ext.define("LayerGroups", {
 
 });
 
+console.log("asd");
+console.log(Layers.streams);
+console.log("asd2");
+console.log(Layers.ecrinsLakes);

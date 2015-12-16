@@ -58,7 +58,8 @@
     
     
     //"theme": "theme-triton",
-    "theme": "theme-crisp",
+    //"theme": "theme-crisp",
+    "theme": "theme-aria",
     
     /**
      * The list of required packages (with optional versions; default is "latest").

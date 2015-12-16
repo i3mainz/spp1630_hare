@@ -56,7 +56,7 @@ Ext.define("Layers", {
     // hydrology layers
     lakes: new ol.layer.Tile({
         source: new ol.source.TileWMS({
-            url: "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?",
+            url: GEOSERVER_URL,
             params: {"LAYERS": "SPP:lakes", "TILED": true},
             serverType: "geoserver",
             wrapX: false   // dont repeat on X axis
@@ -68,7 +68,10 @@ Ext.define("Layers", {
     streams: new ol.layer.Tile({
         source: new ol.source.TileWMS({
             url: GEOSERVER_URL,
-            params: {"LAYERS": "SPP:streams", "TILED": true},
+            params: {
+                "LAYERS": "SPP:streams",
+                "TILED": true
+            },
             serverType: "geoserver",
             wrapX: false   // dont repeat on X axis
         }),
@@ -76,11 +79,25 @@ Ext.define("Layers", {
         visible: false
     }),
 
+    ecrinsLakes: new ol.layer.Tile({
+        source: new ol.source.TileWMS({
+            url: GEOSERVER_URL,
+            params: {
+                "LAYERS": "SPP:ecrins_lakes",
+                "TILED": true
+            },
+            serverType: "geoserver",
+            wrapX: false   // dont repeat on X axis
+        }),
+        name: "Lakes (ecrins)",
+        visible: false
+    }),
+
     // barrington atlas layers
     barrAqueducts: new ol.layer.Vector({
         source: new ol.source.Vector({
             format: new ol.format.GeoJSON(),
-            url: function(extent, resolution, projection) {
+            url: function(extent) {
                 return PROXY_URL +
                         "bereich=" + "SPP" +
                         "&layer=" + "aqueduct" +
@@ -242,10 +259,13 @@ Ext.define("Layers", {
 
     roads: new ol.layer.Tile({
         source: new ol.source.TileWMS({
-          url: GEOSERVER_URL,
-          params: {"LAYERS": "SPP:darmc_roads", "TILED": true},
-          serverType: "geoserver",
-          wrapX: false   // dont repeat on X axis
+            url: GEOSERVER_URL,
+            params:{
+                "LAYERS": "SPP:darmc_roads",
+                "TILED": true
+            },
+            serverType: "geoserver",
+            wrapX: false   // dont repeat on X axis
         }),
         name: "Roads",
         visible: false
@@ -353,4 +373,4 @@ Ext.define("Layers", {
         name: "OSM gray",
         visible: true
     })
-}); 
+});
