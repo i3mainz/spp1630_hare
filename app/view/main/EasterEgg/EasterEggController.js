@@ -5,24 +5,10 @@
  *
  * TODO - Replace this content of this view to suite the needs of your application.
  */
-Ext.define("SppAppClassic.view.main.MainEasterController", {
+Ext.define("SppAppClassic.view.main.EasterEggController", {
     extend: "Ext.app.ViewController",
 
-    alias: "controller.mainEaster",
-
-    /*
-    onItemSelected: function (sender, record) {
-        "use strict";
-        Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
-    },
-
-    onConfirm: function (choice) {
-        "use strict";
-        if (choice === 'yes') {
-            //
-        }
-    },
-    */
+    alias: "controller.easterEggController",
 
     // needs to be done dynamically
     updateLogoutInfo: function() {
@@ -47,7 +33,7 @@ Ext.define("SppAppClassic.view.main.MainEasterController", {
 
         // update theme
         //Ext.util.CSS.swapStyleSheet("theme","ext/resources/css/xtheme-gray.css")
-        Ext.getBody().addCls(Ext.baseCSSPrefix + 'theme-access');
+        //Ext.getBody().addCls(Ext.baseCSSPrefix + 'theme-access');
     },
 
     // reverts code from LoginCOntroller.js

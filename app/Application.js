@@ -16,7 +16,7 @@ Ext.define('SppAppClassic.Application', {
     views: [
         'SppAppClassic.view.login.Login',  // used in launch
         'SppAppClassic.view.main.Main',  // used in launch
-        'SppAppClassic.view.main.MainEaster'
+        'SppAppClassic.view.main.EasterEgg'
     ],
     
     hasGeoServerLogin: function(username) {

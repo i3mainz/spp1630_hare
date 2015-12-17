@@ -152,7 +152,7 @@ Ext.define("SppAppClassic.view.login.LoginController", {
         }
         Ext.create({
             //xtype: isValidUser ? 'app-main' : app-mainEaster
-            xtype: isNeo ? "app-mainEaster" : 'app-main'
+            xtype: isNeo ? "app-mainEaster" : "app-main"
         });
     },
 

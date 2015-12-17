@@ -6,32 +6,15 @@
  *
  * TODO - Replace this content of this view to suite the needs of your application.
  */
-Ext.define("SppAppClassic.view.main.MainEaster", {
+Ext.define("SppAppClassic.view.main.EasterEgg", {
     extend: "Ext.panel.Panel",
-    xtype: "app-mainEaster",
-    //reference: "mainpanel",  // used in MainController
+    xtype: "app-easterEgg",
     requires: [
         "Ext.plugin.Viewport",
-        "Ext.window.MessageBox",
-
-        "SppAppClassic.view.main.MainController",
-        "SppAppClassic.view.main.MainModel",
-        "SppAppClassic.view.main.Map"
-        /*
-        "Layers",
-        "OL3Map",
-        "LayerGroups",
-        "LayerStyles"
-        */
-
-        // no need to require Main.js since it
-        // gets extended
-
-        // not sure if they are all needed or
-        // if the are loaded anyway
+        "Ext.window.MessageBox"
     ],
 
-    controller: "mainEaster",
+    controller: "easterEggController",
     viewModel: "main",
     plugins: "viewport",  // fullscreen
 
@@ -45,9 +28,9 @@ Ext.define("SppAppClassic.view.main.MainEaster", {
     items: [
         {
             region: "center",
-            xtype: "panel",  // defined in Map.js  
-            layout: 'auto',
-            items: [Ext.create('Ext.Img', {
+            xtype: "panel",
+            layout: "auto",
+            items: [Ext.create("Ext.Img", {
                 //src: "https://media.giphy.com/media/S4HKH9KgRGMdq/giphy.gif",
                 //src: "https://media.giphy.com/media/A06UFEx8jxEwU/giphy.gif",    
                 src: "https://49.media.tumblr.com/4c95075ff3ab0f50cec67d5f90cdd929/tumblr_n536xdv1CM1qhobleo1_500.gif",    
@@ -58,22 +41,21 @@ Ext.define("SppAppClassic.view.main.MainEaster", {
         },
         {
             region: "south",
-            xtype: 'textarea',
+            xtype: "textarea",
             height: 200,
-            fieldLabel: 'Message text',
-            emptyText: '>> Enter jQuery hacks here...',
+            fieldLabel: "Message text",
+            emptyText: ">> Enter jQuery hacks here...",
             hideLabel: true,
-            name: 'msg',
+            name: "msg",
             fieldStyle: {
-                'fontFamily'   : 'courier new',
-                'fontSize'     : '12px',
+                "fontFamily"   : "courier new",
+                "fontSize"     : "12px",
                 "color": "#00cc00"
             }
             //flex: 1  // Take up all *remaining* vertical space (kicks in when resized)
 
         }
     ],
-    dockedItems: {xtype: "maptoolbar"},  // MapToolbar.js
     listeners: {
         afterrender: "updateLogoutInfo"
     }
