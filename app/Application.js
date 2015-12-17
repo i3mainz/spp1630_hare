@@ -15,8 +15,7 @@ Ext.define('SppAppClassic.Application', {
 
     views: [
         'SppAppClassic.view.login.Login',  // used in launch
-        'SppAppClassic.view.main.Main',  // used in launch
-        'SppAppClassic.view.main.EasterEgg'
+        'SppAppClassic.view.main.Main'  // used in launch
     ],
     
     hasGeoServerLogin: function(username) {
@@ -55,7 +54,6 @@ Ext.define('SppAppClassic.Application', {
         // any type of storage, i.e., Cookies, LocalStorage, etc.
         var username;
         var isValidUser;
-        var isNeo;
 
         /*
         * validate user. first check for cookie. if cookie exists and it is 
@@ -70,8 +68,6 @@ Ext.define('SppAppClassic.Application', {
         if (username) {
             if (username === "guest") {
                 isValidUser = true;
-            } else if (username == "neo") {
-                isNeo = true;
             } else {  // not a guest
                 if (this.hasGeoServerLogin(username)) {
                     isValidUser = true;
@@ -88,18 +84,11 @@ Ext.define('SppAppClassic.Application', {
         // This ternary operator determines the value of the TutorialLoggedIn key.
         // If TutorialLoggedIn isn't true, we display the login window,
         // otherwise, we display the main view
-        if (isNeo) {  // easter egg mode
-            Ext.create({
-            // if loggedIn exists, launch app-main, else launch login
-            xtype: 'app-mainEaster'
-        });   
-        } else { // normal mode
-            Ext.create({
+
+        Ext.create({
             // if loggedIn exists, launch app-main, else launch login
             xtype: isValidUser ? 'app-main' : 'login'
         });    
-        }
-        
     },
 
     onAppUpdate: function () {
