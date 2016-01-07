@@ -4,9 +4,10 @@
  * calls Ext.application(). This is the ideal place to handle application launch and
  * initialization details.
  */
+
 Ext.define('SppAppClassic.Application', {
     extend: 'Ext.app.Application',
-    
+    reference: "application",  // used to get the geoserverPath variable
     name: 'SppAppClassic',
 
     stores: [
@@ -18,6 +19,11 @@ Ext.define('SppAppClassic.Application', {
         'SppAppClassic.view.main.Main'  // used in launch
     ],
     
+    // used in Application.js and LoginController.js 
+    // geoserverPath: "/geoserver";  // production path
+    // geoserverPath: "/geoserver";  // // local geoserver for debugging
+    geoserverPath: "http://haefen.i3mainz.hs-mainz.de/geoserver",  // for login debugging
+
     hasGeoServerLogin: function(username) {
         var isLoggedIn = false;
         var text;
@@ -25,8 +31,7 @@ Ext.define('SppAppClassic.Application', {
         var deSuccessText = '<span class="username">Angemeldet als <span>' + username + '</span></span>';
 
         Ext.Ajax.request({
-            url: "http://localhost:8080/geoserver/web/",
-            //url: "/geoserver/web/",
+            url: this.geoserverPath + "/web/",
             async: false,
 
             success: function(response) {
@@ -54,7 +59,7 @@ Ext.define('SppAppClassic.Application', {
         // any type of storage, i.e., Cookies, LocalStorage, etc.
         var username;
         var isValidUser;
-
+        //console.log(this.geoserverPath);
         /*
         * validate user. first check for cookie. if cookie exists and it is 
         * "Guest", he is a valid user. if the username is something other than Guest

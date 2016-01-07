@@ -27,16 +27,20 @@ Ext.define("SppAppClassic.view.main.Map", {
     },
     layout: "border",
     items: [
-        {
+        {   
+            // layer panel
             xtype: "layertree",  // LayerTree.js
             region: "west",
             store: treeStore
-        },{
+        },{ 
+            // map panel
             xtype: "panel",
             region: "center",
             title: "Map",
             layout: "border",
-            dockedItems: {xtype: "maptoolbar"},  // MapToolbar.js
+            dockedItems: {
+                xtype: "maptoolbar" // MapToolbar.js
+            },  
             items: [
                 {   
                     xtype: "gx_map",  // GeoExt.component.Map

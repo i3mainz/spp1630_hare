@@ -1,7 +1,9 @@
 "use strict";
 // collection of shared data
 // not really a class
-var GEOSERVER_URL = "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?";  // global variable -> bad practice
+//var GEOSERVER_PATH = me.lookupReference("application").geoserverPath;
+var GEOSERVER_PATH = "http://haefen.i3mainz.hs-mainz.de/geoserver";
+var GEOSERVER_URL = GEOSERVER_PATH + "/SPP/wms?";  // global variable -> bad practice
 var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
 
 Ext.define("Layers", {
@@ -38,7 +40,7 @@ Ext.define("Layers", {
 
     agOnly: new ol.layer.Tile({
         source: new ol.source.TileWMS({
-            url: "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?",
+            url: GEOSERVER_URL,
             params: {"LAYERS": "SPP:v_public_agintern", "TILED": true},
             serverType: "geoserver",
             wrapX: false   // dont repeat on X axis
@@ -52,11 +54,230 @@ Ext.define("Layers", {
     // status layers
 
     // projects layers
+    projectEffizienz: new ol.layer.Vector({
+        source: new ol.source.Vector({  // TODO create class for vector source
+            format: new ol.format.GeoJSON(),
+            url: function(extent) {
+                return PROXY_URL +
+                        "bereich=" + "SPP" +
+                        "&layer=" + "v_project_effizienz" +
+                        "&bbox=" + extent.join(",") +
+                        "&epsg=" + "4326";
+            },
+            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            })),
+            wrapX: false  // dont repeat on X axis
+        }),
+        style: LayerStyles.redPoints,
+        name: "Effizienz",
+        visible: false
+    }),
+
+    projectFaehren: new ol.layer.Vector({
+        source: new ol.source.Vector({  // TODO create class for vector source
+            format: new ol.format.GeoJSON(),
+            url: function(extent) {
+                return PROXY_URL +
+                        "bereich=" + "SPP" +
+                        "&layer=" + "v_project_faehren" +
+                        "&bbox=" + extent.join(",") +
+                        "&epsg=" + "4326";
+            },
+            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            })),
+            wrapX: false  // dont repeat on X axis
+        }),
+        style: LayerStyles.redPoints,
+        name: "Fähren",
+        visible: false
+    }),
+
+    projectBinnen: new ol.layer.Vector({
+        source: new ol.source.Vector({  // TODO create class for vector source
+            format: new ol.format.GeoJSON(),
+            url: function(extent) {
+                return PROXY_URL +
+                        "bereich=" + "SPP" +
+                        "&layer=" + "v_project_binnenhaefen" +
+                        "&bbox=" + extent.join(",") +
+                        "&epsg=" + "4326";
+            },
+            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            })),
+            wrapX: false  // dont repeat on X axis
+        }),
+        style: LayerStyles.redPoints,
+        name: "Binnenhäfen",
+        visible: false
+    }),
+
+    projectRhein: new ol.layer.Vector({
+        source: new ol.source.Vector({  // TODO create class for vector source
+            format: new ol.format.GeoJSON(),
+            url: function(extent) {
+                return PROXY_URL +
+                        "bereich=" + "SPP" +
+                        "&layer=" + "v_project_rhein" +
+                        "&bbox=" + extent.join(",") +
+                        "&epsg=" + "4326";
+            },
+            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            })),
+            wrapX: false  // dont repeat on X axis
+        }),
+        style: LayerStyles.redPoints,
+        name: "Rhein",
+        visible: false
+    }),
+
+    projectExtern: new ol.layer.Vector({
+        source: new ol.source.Vector({  // TODO create class for vector source
+            format: new ol.format.GeoJSON(),
+            url: function(extent) {
+                return PROXY_URL +
+                        "bereich=" + "SPP" +
+                        "&layer=" + "v_project_extern_binnenhaefen" +
+                        "&bbox=" + extent.join(",") +
+                        "&epsg=" + "4326";
+            },
+            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            })),
+            wrapX: false  // dont repeat on X axis
+        }),
+        style: LayerStyles.redPoints,
+        name: "Extern/Binnenhäfen",
+        visible: false
+    }),
+
+    projectFossa: new ol.layer.Vector({
+        source: new ol.source.Vector({  // TODO create class for vector source
+            format: new ol.format.GeoJSON(),
+            url: function(extent) {
+                return PROXY_URL +
+                        "bereich=" + "SPP" +
+                        "&layer=" + "v_project_extern_fossacarolina" +
+                        "&bbox=" + extent.join(",") +
+                        "&epsg=" + "4326";
+            },
+            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            })),
+            wrapX: false  // dont repeat on X axis
+        }),
+        style: LayerStyles.redPoints,
+        name: "Fossa Carolina",
+        visible: false
+    }),
+
+    projectOstsee: new ol.layer.Vector({
+        source: new ol.source.Vector({  // TODO create class for vector source
+            format: new ol.format.GeoJSON(),
+            url: function(extent) {
+                return PROXY_URL +
+                        "bereich=" + "SPP" +
+                        "&layer=" + "v_project_extern_ostseehaefen" +
+                        "&bbox=" + extent.join(",") +
+                        "&epsg=" + "4326";
+            },
+            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            })),
+            wrapX: false  // dont repeat on X axis
+        }),
+        style: LayerStyles.redPoints,
+        name: "Ostseehäfen",
+        visible: false
+    }),
+
+    projectRheinhafen: new ol.layer.Vector({
+        source: new ol.source.Vector({  // TODO create class for vector source
+            format: new ol.format.GeoJSON(),
+            url: function(extent) {
+                return PROXY_URL +
+                        "bereich=" + "SPP" +
+                        "&layer=" + "v_project_extern_rheinhafenprojekt" +
+                        "&bbox=" + extent.join(",") +
+                        "&epsg=" + "4326";
+            },
+            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            })),
+            wrapX: false  // dont repeat on X axis
+        }),
+        style: LayerStyles.redPoints,
+        name: "Rheinhäfen",
+        visible: false
+    }),
+
+    projectHanoa: new ol.layer.Vector({
+        source: new ol.source.Vector({  // TODO create class for vector source
+            format: new ol.format.GeoJSON(),
+            url: function(extent) {
+                return PROXY_URL +
+                        "bereich=" + "SPP" +
+                        "&layer=" + "v_project_extern_hanoa" +
+                        "&bbox=" + extent.join(",") +
+                        "&epsg=" + "4326";
+            },
+            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            })),
+            wrapX: false  // dont repeat on X axis
+        }),
+        style: LayerStyles.redPoints,
+        name: "HanoA",
+        visible: false
+    }),
+
+    projectBalkan: new ol.layer.Vector({
+        source: new ol.source.Vector({  // TODO create class for vector source
+            format: new ol.format.GeoJSON(),
+            url: function(extent) {
+                return PROXY_URL +
+                        "bereich=" + "SPP" +
+                        "&layer=" + "v_project_extern_balkankueste" +
+                        "&bbox=" + extent.join(",") +
+                        "&epsg=" + "4326";
+            },
+            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            })),
+            wrapX: false  // dont repeat on X axis
+        }),
+        style: LayerStyles.redPoints,
+        name: "Balkanküste",
+        visible: false
+    }),
+
+    allProjects: new ol.layer.Vector({
+        source: new ol.source.Vector({
+            format: new ol.format.GeoJSON(),
+            url: function(extent) {
+                return PROXY_URL +
+                        "bereich=" + "SPP" +
+                        "&layer=" + "v_project_effizienz" +
+                        "&bbox=" + extent.join(",") +
+                        "&epsg=" + "4326";
+            },
+            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            })),
+            wrapX: false  // dont repeat on X axis
+        }),
+        style: LayerStyles.redPoints,
+        name: "Projects",
+        visible: false
+    }),
 
     // hydrology layers
     lakes: new ol.layer.Tile({
         source: new ol.source.TileWMS({
-            url: "http://haefen.i3mainz.hs-mainz.de/geoserver/SPP/wms?",
+            url: GEOSERVER_URL,
             params: {"LAYERS": "SPP:lakes", "TILED": true},
             serverType: "geoserver",
             wrapX: false   // dont repeat on X axis
