@@ -28,7 +28,7 @@ Ext.define("SppAppClassic.view.login.Login", {
             type: "help",
             reference: "helpButton",
             qtip: "Login using your project's username/password or login " +
-                  "as guest with limited data access and functionality"
+                  "as a guest with limited data access and functionality"
             //handler: "onHelpClick"
         }
     ],

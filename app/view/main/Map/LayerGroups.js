@@ -14,7 +14,8 @@ Ext.define("LayerGroups", {
     access: new ol.layer.Group({
         layers: [
             Layers.open,
-            Layers.agOnly
+            Layers.agOnly,
+            Layers.allProjects
         ],
         name: "SPP: Access",
         visible: true
@@ -33,7 +34,19 @@ Ext.define("LayerGroups", {
     }),
 
     projects: new ol.layer.Group({
-        layers: [],
+        layers: [
+            Layers.allProjects
+            //Layers.projectEffizienz,
+            //Layers.projectFaehren,
+            //Layers.projectBinnen,
+            //Layers.projectRhein,
+            //Layers.projectExtern,
+            //Layers.projectFossa,
+            //Layers.projectOstsee,
+            //Layers.projectRheinhafen,
+            //Layers.projectHanoa,
+            //Layers.projectBalkan
+            ],
         name: "SPP: Projects",
         visible: false
     }),
@@ -57,7 +70,7 @@ Ext.define("LayerGroups", {
             Layers.barrSettlements,
             Layers.barrCanals,
             Layers.barrRoads
-        ],
+            ],
         name: "Barrington Atlas",
         visible: false
     }),

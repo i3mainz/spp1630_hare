@@ -3,7 +3,8 @@ var MAP_CENTER = ol.proj.fromLonLat([8.751278, 50.611368]);
 
 // ol.control.defaults().extend(  // keeps default controls
 var controls = [
-    new ol.control.FullScreen(),
+
+    //new ol.control.FullScreen(),
     new ol.control.ScaleLine()
     /*new ol.control.ZoomToExtent({
         extent:undefined
@@ -72,7 +73,8 @@ Ext.define("OL3Map", {
 
 // show popup when feature is clicked or hide if not
 OL3Map.map.on("click", function(evt) {
-    var coordinate = evt.coordinate;  // needed to place popup
+
+    //var coordinate = evt.coordinate;  // needed to place popup
 
     // check if click was on a feature
     // by default, all visible layers will be tested
@@ -80,9 +82,10 @@ OL3Map.map.on("click", function(evt) {
         function(feature, layer) {
             //console.log(feature.getKeys());
             return feature;
-    });
+        }
+    );
 
-    var popup = Ext.getCmp('popupWindow');
+    var popup = Ext.getCmp("popupWindow");
     if (feature) {   // clicked on feature
         popup.setHtml("<p>" + getFeatureInfoHtml(feature) + "</p>");
         popup.show();
@@ -106,6 +109,8 @@ OL3Map.map.on("pointermove", function(evt) {
     if (hasFeature) {
         OL3Map.map.getTarget().style.cursor = "pointer";
     } else {
+
         OL3Map.map.getTarget().style.cursor = "";
+
     }
 });

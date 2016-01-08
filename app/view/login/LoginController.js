@@ -12,7 +12,7 @@ Ext.define("SppAppClassic.view.login.LoginController", {
         var loginForm = me.lookupReference("loginform");
         var formData = loginForm.getValues();
 
-        // disable all form items (fields + buttons) to prevent multiple requests 
+        // disable all form items (fields + buttons) to prevent multiple requests
         // and to provide user feedback
         //loginForm.disable();   // locks entire form
         var loginButton = me.lookupReference("loginSubmitButton");
@@ -22,11 +22,10 @@ Ext.define("SppAppClassic.view.login.LoginController", {
 
         // try to login
         Ext.Ajax.request({
-            url: "http://localhost:8080/geoserver/j_spring_security_check",
-            //url: "/geoserver/j_spring_security_check",
+            url: GEOSERVER_PATH + "/j_spring_security_check",
             method: "POST",
-            withCredentials : true,
-            useDefaultXhrHeader : false,
+            withCredentials: true,
+            useDefaultXhrHeader: false,
 
             params: {
                 username: formData.username,
