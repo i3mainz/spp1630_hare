@@ -269,7 +269,7 @@ Ext.define("Layers", {
             })),
             wrapX: false  // dont repeat on X axis
         }),
-        style: LayerStyles.redPoints,
+        style: LayerStyles.styleFunction,
         name: "Projects",
         visible: false
     }),

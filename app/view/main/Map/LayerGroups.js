@@ -103,8 +103,3 @@ Ext.define("LayerGroups", {
     })
 
 });
-
-console.log("asd");
-console.log(Layers.streams);
-console.log("asd2");
-console.log(Layers.ecrinsLakes);
