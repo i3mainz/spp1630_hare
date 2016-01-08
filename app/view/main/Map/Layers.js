@@ -260,7 +260,7 @@ Ext.define("Layers", {
             url: function(extent) {
                 return PROXY_URL +
                         "bereich=" + "SPP" +
-                        "&layer=" + "v_project_effizienz" +
+                        "&layer=" + "sppgesamt_shp" +
                         "&bbox=" + extent.join(",") +
                         "&epsg=" + "4326";
             },
