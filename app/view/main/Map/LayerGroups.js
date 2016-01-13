@@ -12,13 +12,8 @@ Ext.define("LayerGroups", {
     ],
 
     access: new ol.layer.Group({
-        layers: [
-            Layers.open,
-            Layers.agOnly,
-            Layers.allProjects,
-            Layers.allStatus
-        ],
-        name: "SPP: Harbours",
+        layers: Layers.spp,
+        name: "SPP",
         visible: true
     }),
 
@@ -53,53 +48,26 @@ Ext.define("LayerGroups", {
     }),*/
 
     hydrology: new ol.layer.Group({
-        layers: [
-            Layers.lakes,  // legends dont work
-            Layers.streams
-            //layers.ecrinsRivers
-        ],
+        layers: Layers.hydrology,
         name: "Hydrology",
         visible: false
     }),
 
     barrington: new ol.layer.Group({
-        layers: [
-            Layers.barrAqueducts,
-            Layers.barrBridges,
-            //Layers.barrPorts,
-            Layers.barrBaths,
-            Layers.barrSettlements,
-            Layers.barrCanals,
-            Layers.barrRoads
-            ],
+        layers: Layers.barrington,
         name: "Barrington Atlas",
         visible: false
     }),
 
     darmc: new ol.layer.Group({
-        layers: [
-            Layers.aqueducts,
-            Layers.bridges,
-            Layers.roads,
-            Layers.cities,
-            Layers.baths,
-            Layers.ports,
-            Layers.harbours,
-            Layers.canals
-        ],
+        layers: Layers.darmc,
         name: "DARMC",
         visible: false
     }),
 
     // sort using OL3 groups
     baselayers: new ol.layer.Group({
-        layers: [
-            Layers.world,
-            Layers.watercolor,
-            Layers.mapquest,
-            Layers.osm,
-            Layers.osmGray
-        ],
+        layers: Layers.basemaps,
         name: "Basemaps"
     })
 

@@ -20,7 +20,7 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
 
     //title: 'Layers',
     viewConfig: {
-        plugins: {ptype: "treeviewdragdrop"}
+        plugins: {ptype: "treeviewdragdrop"}  // enable drag and drop of layers
     },
 
     // define parameters and set defaults -> no need, just declare together with xtype

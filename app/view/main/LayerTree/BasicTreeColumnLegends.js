@@ -36,23 +36,28 @@ Ext.define("SppAppClassic.view.main.BasicTreeColumnLegends", {
      * The context for methods available in the template
      */
     valueReplacementContext: {
+        /**
+         * hasLegend ->  returns something if node is checked and
+         * is not a layerGroup
+         */
         hasLegend: function(rec) {
-            var isChecked = rec.get( "checked" ),
-                layer = rec.data;
+            var isChecked = rec.get("checked");  // node active
+            var layer = rec.data;  // OL3 layer (can be a layergroup)
             return isChecked && !( layer instanceof ol.layer.Group );
         },
-        getLegendHtml: function( rec ) {
-            var layer = rec.data,
-                legendUrl = layer.get( "legendUrl" );
-            if ( !legendUrl ) {
+        getLegendHtml: function(rec) {
+            var layer = rec.data;
+            var legendUrl = layer.get("legendUrl");  // get legend property defined in layers.js
+            //console.log(legendUrl);
+            if (!legendUrl) {
                 legendUrl = "http://geoext.github.io/geoext2/" +
                     "website-resources/img/GeoExt-logo.png";
             }
-            return "<img class='legend' src='' + legendUrl + '' height='32' />";
+            return "<img class='legend' src='" + legendUrl + "' />";
         }
     },
 
-    init: function( column ) {
+    init: function(column) {
         var me = this;
         if ( !( column instanceof Ext.grid.column.Column ) ) {
             Ext.log.warn( "Plugin shall only be applied to instances of" +
