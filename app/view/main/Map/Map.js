@@ -9,9 +9,9 @@ var treeStore = Ext.create('GeoExt.data.store.LayersTree', {
 
 Ext.define("SppAppClassic.view.main.Map", {
     extend: "Ext.panel.Panel",
-    
-    xtype: 'mappanel',  // alias for future reference
-    
+
+    xtype: "mappanel",
+
     requires: [
         "SppAppClassic.view.main.MapController",
         "SppAppClassic.view.main.MapModel",
@@ -19,20 +19,20 @@ Ext.define("SppAppClassic.view.main.Map", {
         "SppAppClassic.view.main.MapToolbar",
         "SppAppClassic.view.main.FilterPanel"
     ],
-    
+
     controller: "main-map",
-    
+
     viewModel: {
         type: "main-map"
     },
     layout: "border",
     items: [
-        {   
+        {
             // layer panel
             xtype: "layertree",  // LayerTree.js
             region: "west",
             store: treeStore
-        },{ 
+        },{
             // map panel
             xtype: "panel",
             region: "center",
@@ -40,7 +40,7 @@ Ext.define("SppAppClassic.view.main.Map", {
             layout: "border",
             dockedItems: {
                 xtype: "maptoolbar" // MapToolbar.js
-            },  
+            },
             items: [
                 {   
                     xtype: "gx_map",  // GeoExt.component.Map

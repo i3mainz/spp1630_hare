@@ -31,6 +31,7 @@ var defaultPoints2 = new ol.style.Style({
 });
 
 var styleCache = {};
+var statusStyleCache = {};
 
 Ext.define("LayerStyles", {
     singleton: true,
@@ -43,14 +44,15 @@ Ext.define("LayerStyles", {
 
         // map the income level codes to a colour value, grouping them
         var projectColors = {
-            "Häfen an der Balkanküste des byzantinischen Reiches":  "#8B0000", // red
-            "Binnenhäfen im fränkisch-deutschen Reich":             "#4cb7db",
-            "Effizienz und Konkurrenz":                             "#a0db8e",
+            "Haefen an der Balkankueste des byzantinischen Reiches":  "#8B0000", // red
+            "Binnenhaefen im fraenkisch-deutschen Reich":             "#007f00", // green
+            "Binnenh?fen im fr?nkisch-deutschen Reich":               "#007f00", // green
+            "Effizienz und Konkurrenz":                               "#a0db8e",
             "extern/Binnenhäfen":                   "#a0db8e",
-            "Fähren (Universität Bamberg)":         "#ca8f42",
+            "Faehren (Universitaet Bamberg)":       "#ca8f42",
             "Fossa Carolina":                       "#ab9c73",
             "HaNoA":                                "#660066",
-            "Ostseehäfen":                          "#ffb6c1",
+            "Ostseehaefen":                         "#ffb6c1",
             "Rhein":                                "#6a7d8e",  // existiert?
             "Rheinhafenprojekt":                    "#00acc8",
             "Bremer Becken":                        "#ffc3a0",
@@ -71,12 +73,52 @@ Ext.define("LayerStyles", {
         // if its not been created before.
 
         if (!styleCache[project]) {
-            console.log("style for " + project);
-            console.log(projectColors[project]);
+            //console.log(project);
 
-            //console.log(projectColors[project]);
-            //styleCache[project] = defaultPoints2;
-    
+            styleCache[project] = new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 6,
+                    fill: new ol.style.Fill({
+                        color: projectColors[project]//"#CC00CC"
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: "#fff",
+                        width: 2
+                    })
+                })
+            });
+        }
+
+        // at this point, the style for the current level is in the cache
+        // so return it (as an array!)
+        return [styleCache[project]];
+    },
+
+    statusStyleFunction: function(feature, resolution) {
+
+        // map the income level codes to a colour value, grouping them
+        var projectColors = {
+            "1": "#660066", 
+            "2": "#007f00",
+            "3": "#ca8f42"
+        };
+
+        // get the projectname from the feature properties
+        var project = feature.get("status");
+
+        // if there is no level or its one we don't recognize,
+        // return the default style (in an array!)
+        if (!project || !projectColors[project]) {
+            //console.log("default for " + project);
+            return [defaultPoints];
+        }
+
+        // check the cache and create a new style for the project
+        // if its not been created before.
+
+        if (!styleCache[project]) {
+            //console.log(project);
+
             styleCache[project] = new ol.style.Style({
                 image: new ol.style.Circle({
                     radius: 6,

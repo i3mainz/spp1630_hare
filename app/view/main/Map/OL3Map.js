@@ -49,9 +49,9 @@ Ext.define("OL3Map", {
             LayerGroups.darmc,
             LayerGroups.barrington,
             LayerGroups.hydrology,
-            LayerGroups.projects,
-            LayerGroups.statusGroup,
-            LayerGroups.query,
+            //LayerGroups.projects,
+            //LayerGroups.statusGroup,
+            //LayerGroups.query,
             LayerGroups.access
         ],  // these get sorted in geoext3 layertree accordingly
         controls: controls,
