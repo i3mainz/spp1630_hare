@@ -57,7 +57,10 @@ Ext.define("SppAppClassic.view.main.Main", {
             },{
                 xtype: "popup",  // create hidden window to use as popup later
                 id: "popupWindow"  // used to reference and fill it in Map.js
-            }
+            }/*,{
+                xtype: "gridpanel",
+                region: "east"
+            }*/
         ]
     }],
     listeners: {

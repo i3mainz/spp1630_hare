@@ -97,6 +97,7 @@ Ext.define('SppAppClassic.view.main.MapController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.main-map',
     
+    //requires: ["SppAppClassic.view.main.GridWindow"],
     // using lookupReference() instead of refs, see
     // <https://docs.sencha.com/extjs/6.0/application_architecture/view_controllers.html>
     
@@ -281,9 +282,19 @@ Ext.define('SppAppClassic.view.main.MapController', {
     onToggleFilter: function() {
         var me = this;
         //var filterPanel = me.lookupReference('filterpanel1');  // not working
-        var filterPanel = Ext.getCmp('filterPanel');
+        var filterPanel = Ext.getCmp("filterPanel");
         //filterPanel.show();
         filterPanel.toggleCollapse();       
+    },
+
+    onGridClick: function() {
+        console.log("clicked grid button!");
+        var gridPanel = Ext.create("SppAppClassic.view.main.GridWindow");
+        //var me = this;
+        //var gridPanel = me.lookupReference("gridpanel");  // not working, cuz it doesnt exist???
+        //var gridPanel = Ext.getCmp("gridpanel");
+        gridPanel.show();
+        //gridPanel.toggleCollapse();       
     },
 
     onSliderChangeComplete: function() {

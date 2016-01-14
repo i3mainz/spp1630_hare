@@ -29,17 +29,5 @@ Ext.define("SppAppClassic.view.main.Popup",{
     constrain: true,  // prevents dragging out of browser window size
 
     // assign hide to close-button
-    closeAction: 'hide',
-    /*
-    close: function() {
-        //console.log("just faking close! hiding instead!");
-        this.hide();
-    },
-    */
-
-    
-    listeners: {
-        //"close": "onClose",  // defined in PopupController
-        //"hide": "onHide"
-    }
+    closeAction: "hide"
 });

@@ -6,7 +6,8 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
 
     requires: [
         "SppAppClassic.view.main.CenturySlider",
-        "SppAppClassic.view.main.FilterPanel"
+        "SppAppClassic.view.main.FilterPanel",
+        "SppAppClassic.view.main.GridWindow"
     ],
 
     controller: "main-map",  // not sure if this is needed -> works without
@@ -32,6 +33,15 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
             enableToggle: true,
             pressed: false,
             handler: "onToggleFilter"
+        },
+        {
+            xtype: "button",
+            //reference: "sliderButton",
+            text: "Grid",
+            glyph: "xf0ce@FontAwesome",
+            enableToggle: false,
+            pressed: false,
+            handler: "onGridClick"
         }
         /*
         {

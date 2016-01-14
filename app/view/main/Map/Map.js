@@ -17,7 +17,8 @@ Ext.define("SppAppClassic.view.main.Map", {
         "SppAppClassic.view.main.MapModel",
         "SppAppClassic.view.main.LayerTree",  // required tp load xtype
         "SppAppClassic.view.main.MapToolbar",
-        "SppAppClassic.view.main.FilterPanel"
+        "SppAppClassic.view.main.FilterPanel",
+        "SppAppClassic.view.main.GridWindow"
     ],
 
     controller: "main-map",

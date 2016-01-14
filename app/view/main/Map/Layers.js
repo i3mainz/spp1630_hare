@@ -8,7 +8,7 @@ var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
 
 var getLegendImg = function(layer) {
     return GEOSERVER_URL + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&TRANSPARENT=true&HEIGHT=50&LAYER=" + layer;
-}
+};
 
 Ext.define("Layers", {
     /* singleton classes get created when they are defined. no need to Ext.create them.
@@ -95,7 +95,7 @@ Ext.define("Layers", {
             style: LayerStyles.styleFunction,
             legendUrl: getLegendImg("SPP:gesamt_ascii"),
             visible: false
-        }),
+        })
     ],
 
     hydrology: [
