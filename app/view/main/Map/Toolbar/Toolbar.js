@@ -42,9 +42,7 @@ Ext.define("SppAppClassic.view.main.Map.Toolbar.Toolbar", {
             enableToggle: false,
             pressed: false,
             handler: "onGridClick"
-        }
-        /*
-        {
+        }/*,{
             xtype: 'button',
             id: 'hoverButton',  // to reference it in controller
             text : 'hover',
@@ -52,7 +50,6 @@ Ext.define("SppAppClassic.view.main.Map.Toolbar.Toolbar", {
             enableToggle: true,
             pressed: true,
             handler: "onToggleHover"
-        },
-        */
+        }*/
     ]
 });

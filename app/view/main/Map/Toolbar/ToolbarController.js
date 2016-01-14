@@ -68,11 +68,20 @@ Ext.define("SppAppClassic.view.main.Map.Toolbar.ToolbarController", {
     },
 
     onToggleFilter: function() {
-        var me = this;
-        //var filterPanel = me.lookupReference("filterpanel1");  // not working
+        //var filterPanel = this.lookupReference("filterpanel");  // not working
         var filterPanel = Ext.getCmp("filterPanel");
-        //filterPanel.show();
-        filterPanel.toggleCollapse();
+
+        if (!filterPanel) {  // lazy instantiation
+            filterPanel = Ext.create("SppAppClassic.view.main.Filter.FilterPanel");
+        }
+
+        if (filterPanel.isHidden()) {
+            filterPanel.show();
+        } else {
+            filterPanel.hide();
+        }
+
+        //filterPanel.toggleCollapse();  // not show, because it already exists
     },
 
     onGridClick: function() {

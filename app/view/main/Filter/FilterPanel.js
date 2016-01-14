@@ -1,9 +1,10 @@
 "use strict";
 
 Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
-    extend: "Ext.panel.Panel",
+    extend: "Ext.window.Window",
     xtype: "filterpanel",
     reference: "filterpanel",
+    id: "filterPanel",  // TODO: use references instead
     requires: [
         "SppAppClassic.view.main.Filter.FilterPanelController",
         "SppAppClassic.view.main.Filter.FilterPanelModel",
@@ -17,7 +18,8 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
         type: "main-filterpanel"
     },
     height: 250,
-    collapsed: true,
+    //collapsed: true,
+    hidden: true,
     //split: true,
     //collapsible: true,
     title: "Filters",
@@ -34,10 +36,10 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
         reference: "sliderlabel",
         text: "",
         margin: "0 0 0 5"
-    }/*,{
+    },{
         xtype: 'button',
         text: 'reset',
         padding: 5,
         handler: 'onButtonReset'
-    }*/]
+    }]
 });

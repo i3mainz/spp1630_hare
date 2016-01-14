@@ -48,13 +48,13 @@ Ext.define("SppAppClassic.view.main.Map", {
                     region: "center",
                     reference: "geoextmap",
                     map: OL3Map.map // defined in OL3Map.js
-                }, {
+                }/*, {
                     xtype: "filterpanel",
                     reference: "filterpanel1",
                     collapseMode: "mini",  // dont show header
                     region: "south",
                     id: "filterPanel"  // TODO: use references instead
-                }
+                }*/
             ]
         }
     ]

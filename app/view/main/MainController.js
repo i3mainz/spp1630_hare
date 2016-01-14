@@ -26,7 +26,7 @@ Ext.define("SppAppClassic.view.main.MainController", {
 
     // needs to be done dynamically
     updateLogoutInfo: function() {
-        console.log("updating logout info!");
+        //console.log("updating logout info!");
         var mainpanel = this.getView();
         mainpanel.addTool({
             xtype: "label",
