@@ -85,8 +85,17 @@ Ext.define("SppAppClassic.view.main.Map.Toolbar.ToolbarController", {
     },
 
     onGridClick: function() {
-        Ext.create("SppAppClassic.view.main.GridWindow").show();
-        //var gridPanel = me.lookupReference("gridpanel");  // not working, cuz it doesnt exist???   
+        //var gridPanel = this.lookupReference("gridpanel");
+        var gridPanel = Ext.getCmp("gridWindow");
+
+        if (!gridPanel) {
+            gridPanel = Ext.create("SppAppClassic.view.main.GridWindow");
+        }
+        if (gridPanel.isHidden()) {
+            gridPanel.show();
+        } else {
+            gridPanel.hide();
+        }
     },
 
     onSliderChangeComplete: function() {

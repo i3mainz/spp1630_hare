@@ -28,7 +28,8 @@ Ext.define("SppAppClassic.view.main.Map.Toolbar.Toolbar", {
             handler: "onCenter"
         },{
             xtype: "button",
-            //reference: "sliderButton",
+            reference: "filterButton",
+            id: "filterButton", // used in FilterPanelController.js
             text: "Filter",
             glyph: "xf0b0@FontAwesome",
             enableToggle: true,
@@ -36,10 +37,10 @@ Ext.define("SppAppClassic.view.main.Map.Toolbar.Toolbar", {
             handler: "onToggleFilter"
         },{
             xtype: "button",
-            //reference: "sliderButton",
+            id: "gridButton", // used in GridWindow.js
             text: "Grid",
             glyph: "xf0ce@FontAwesome",
-            enableToggle: false,
+            enableToggle: true,
             pressed: false,
             handler: "onGridClick"
         }/*,{
