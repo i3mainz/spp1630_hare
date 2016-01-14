@@ -16,8 +16,8 @@ Ext.define("SppAppClassic.view.main.Map", {
         "SppAppClassic.view.main.MapController",
         "SppAppClassic.view.main.MapModel",
         "SppAppClassic.view.main.LayerTree",  // required tp load xtype
-        "SppAppClassic.view.main.MapToolbar",
-        "SppAppClassic.view.main.FilterPanel",
+        "SppAppClassic.view.main.Map.Toolbar.Toolbar",
+        "SppAppClassic.view.main.Filter.FilterPanel",
         "SppAppClassic.view.main.GridWindow"
     ],
 
@@ -43,14 +43,14 @@ Ext.define("SppAppClassic.view.main.Map", {
                 xtype: "maptoolbar" // MapToolbar.js
             },
             items: [
-                {   
+                {
                     xtype: "gx_map",  // GeoExt.component.Map
                     region: "center",
                     reference: "geoextmap",
                     map: OL3Map.map // defined in OL3Map.js
                 }, {
                     xtype: "filterpanel",
-                    referemce: "filterpanel1",
+                    reference: "filterpanel1",
                     collapseMode: "mini",  // dont show header
                     region: "south",
                     id: "filterPanel"  // TODO: use references instead

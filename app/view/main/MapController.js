@@ -276,7 +276,6 @@ Ext.define('SppAppClassic.view.main.MapController', {
         return activeLayers;
     },
 
-    
     // slider function    
     // show century slider 
     onToggleFilter: function() {

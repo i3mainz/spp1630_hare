@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.CenturySlider", {
+Ext.define("SppAppClassic.view.main.Filter.CenturySlider", {
     extend: "Ext.slider.Multi",
     xtype: "centuryslider",  // map.centuryslider
     //alias: 'widget.centuryslider',
@@ -37,16 +37,6 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
         var value = Ext.String.format(choices[thumb.value]);
 
         return value;
-    },
-
-    /*
-    constructor: function() {
-        self = this;  // Here you store "this" in the closure
-        self.callParent(arguments);
-    },
-    */
-    init: function() {
-        console.log("test123");
     }
 
     /*

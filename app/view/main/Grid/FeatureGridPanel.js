@@ -1,8 +1,8 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.GridPanel", {
+Ext.define("SppAppClassic.view.main.FeatureGridPanel", {
     extend: "Ext.grid.Panel",
-    xtype: "gridpanel",
+    xtype: "featuregridpanel",
     //reference: "gridpanel",
     requires: [
         "SppAppClassic.store.Features",
