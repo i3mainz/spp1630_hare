@@ -5,7 +5,9 @@ Ext.define("SppAppClassic.view.main.Filter.CenturySlider", {
     xtype: "centuryslider",  // map.centuryslider
     //alias: 'widget.centuryslider',
     reference: "centuryslider",  // used in controllers
+
     //controller: "main-centuryslider", // slider is a component. only containers can have controllers!
+    controller: "main-filterpanel",
 
     //hideLabel: true,  // not sure what that does
     width: 250,
@@ -39,12 +41,11 @@ Ext.define("SppAppClassic.view.main.Filter.CenturySlider", {
         return value;
     }
 
-    /*
-    // defined in MapController.js
-    listeners: {
-        changecomplete: "onChangeComplete",
-    }
-    */
+    // defined in FilterPanelController.js
+    /*listeners: {
+        changecomplete: "onSliderChangeComplete"
+    }*/
+
 });
 
 

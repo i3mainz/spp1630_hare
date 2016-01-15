@@ -30,7 +30,7 @@ Ext.define("SppAppClassic.view.main.Map.Toolbar.Toolbar", {
             xtype: "button",
             reference: "filterButton",
             id: "filterButton", // used in FilterPanelController.js
-            text: "Filter",
+            text: "Filters",
             glyph: "xf0b0@FontAwesome",
             enableToggle: true,
             pressed: false,

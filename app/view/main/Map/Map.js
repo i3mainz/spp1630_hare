@@ -16,9 +16,7 @@ Ext.define("SppAppClassic.view.main.Map", {
         "SppAppClassic.view.main.MapController",
         "SppAppClassic.view.main.MapModel",
         "SppAppClassic.view.main.LayerTree",  // required tp load xtype
-        "SppAppClassic.view.main.Map.Toolbar.Toolbar",
-        "SppAppClassic.view.main.Filter.FilterPanel",
-        "SppAppClassic.view.main.GridWindow"
+        "SppAppClassic.view.main.Map.Toolbar.Toolbar"
     ],
 
     controller: "main-map",
@@ -42,21 +40,13 @@ Ext.define("SppAppClassic.view.main.Map", {
             dockedItems: {
                 xtype: "maptoolbar" // MapToolbar.js
             },
-            items: [
-                {
-                    xtype: "gx_map",  // GeoExt.component.Map
-                    region: "center",
-                    reference: "geoextmap",
-                    map: OL3Map.map // defined in OL3Map.js
-                }/*, {
-                    xtype: "filterpanel",
-                    reference: "filterpanel1",
-                    collapseMode: "mini",  // dont show header
-                    region: "south",
-                    id: "filterPanel"  // TODO: use references instead
-                }*/
-            ]
+            items: [{
+                xtype: "gx_map",  // GeoExt.component.Map
+                region: "center",
+                reference: "geoextmap",
+                map: OL3Map.map // defined in OL3Map.js
+            }]
         }
     ]
-    
+
 });
