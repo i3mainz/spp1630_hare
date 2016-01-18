@@ -116,7 +116,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
 
         // these may change depending on layer
         //var statusAttr = "status";
-        //var accessAttr = "public";
+        var accessAttr = "public";
 
         // get slider
         var slider = this.lookupReference("centuryslider");
@@ -148,20 +148,20 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
 
         var accessFilterList = [];
         if (access1) {
-            accessFilterList.push("public='offen'");
+            accessFilterList.push(accessAttr + "='offen'");
         }
         if (access2) {
-            //accessFilterList.push("public='SPP intern'");
+            accessFilterList.push(accessAttr + "='SPP intern'");
         }
         if (access3) {
-            //accessFilterList.push("public='AG intern'");
+            accessFilterList.push(accessAttr + "='AG intern'");
         }
         if (!access1 && !access2 && !access3) {
-            accessFilterList.push("public=!offen AND public!='SPP intern' AND public!='AG intern'");
+            accessFilterList.push(accessAttr + "=!offen AND " + accessAttr + "!='SPP intern' AND " + accessAttr + "!='AG intern'");
         }
 
         var filterString = "(" + statusFilterList.join(" OR ") + ") AND (" + sliderFilterString + ") AND (" + accessFilterList.join(" OR ") + ")";
-        filterString = accessFilterList.join(" OR ");
+        //filterString = accessFilterList.join(" OR ");
 
         // apply filters to layer "harbours"
         this.applyFilterToHarbourLayer(filterString);
