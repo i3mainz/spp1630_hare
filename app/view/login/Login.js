@@ -52,14 +52,22 @@ Ext.define("SppAppClassic.view.login.Login", {
                 {
                     xtype: "textfield",
                     name: "username",
+                    id: "usernameField",
                     fieldLabel: "Username",
-                    allowBlank: false
+                    allowBlank: false,
+                    listeners: {
+                        //change: "onTextFieldChange"
+                    }
                 }, {
                     xtype: "textfield",
+                    id: "passwordField",
                     name: "password",
                     inputType: "password",
                     fieldLabel: "Password",
-                    allowBlank: false
+                    allowBlank: false,
+                    listeners: {
+                        //change: "onTextFieldChange"
+                    }
                 }/*, {
                     xtype: "displayfield",
                     reference: "loginMessageField",
@@ -72,12 +80,14 @@ Ext.define("SppAppClassic.view.login.Login", {
                 {
                     text: "Guest",
                     reference: "guestSubmitButton",  // used to lock during validation
+                    id: "guestSubmitButton",
                     formBind: false,  // enable right away
                     tooltip: "Login as a guest (limited functionality)",
                     handler: "onGuestClick"
                 },{
                     text: "Login",
                     reference: "loginSubmitButton",  // used to lock during validation
+                    id: "loginSubmitButton",
                     formBind: true,  // disable until form filled
                     tooltip: "Login using your username/password combination",
                     handler: "onLoginClick"

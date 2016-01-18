@@ -4,17 +4,68 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
     extend: "Ext.app.ViewController",
     alias: "controller.main-filterpanel",
 
-    applyFilter: function() {
-        var me = this;
-        var slider = me.lookupReference("centuryslider");
+    // TODO: keep previous qcl filter intact -> right now it gets overwritten
+    // make universal, right now it only works for harbour layer
+    applyFilterToHarbourLayer: function(filterString) {
+        var layer = OL3Map.getLayerByName("Harbours");
+        var newSource = OL3Map.createVectorSource("SPP:harbours", filterString);
+        layer.setSource(newSource);  // this refreshes automatically
     },
 
     onClose: function() {
         Ext.getCmp("filterButton").setPressed(false);
     },
 
+    getQueryString: function(dates, allowNull) {
+        // all selected must be "ja" -> "null" and "nein" ignored for now
+        allowNull = allowNull || false;
+
+        /*
+        "1st Century BC",   // 0 
+        "1st Century",      // 1 
+        "2nd Century",      // 2 
+        "3rd Century",      // 3 
+        "4th Century",      // 4 
+        "5th Century",      // 5
+        "6th Century",      // 6
+        "7th Century",      // 7
+        "8th Century",      // 8
+        "9th Century",      // 9
+        "10th Century",     // 10
+        "11th Century",     // 11
+        "12th Century",     // 12
+        "13th Century"      // 13  date_13_Jh // ja, nein
+        */
+        var startCentury = dates[0];
+        var endCentury = dates[1];
+
+        var filterList = [];
+        //var queryString = "";
+
+        for (var century = 0; century < 14; century++) {
+            if (century < startCentury || century > endCentury) {  // not selected
+                /*
+                if (century === 0) {  // special for 1st BC
+                    filterList.push("date_1_Jhv="nein"");
+                } else {
+                    filterList.push("date_" + century + "_Jh="nein"");
+                }
+                */
+            } else {  // within selection
+                if (century === 0) {  // special for 1st BC
+                    filterList.push("date_1_Jhv='ja'");
+                } else {
+                    filterList.push("date_" + century + "_Jh='ja'");
+                }
+            }
+        }
+        // remove leading ";"
+        var queryString = filterList.join(" AND ");
+        return queryString;
+    },
+
     onSliderChangeComplete: function() {
-        console.log("slider change complete!");
+
         /* sources appear tp be empty, since they are loaded async */
         /* retrieving the previous source istn working because
         of the tile loading strategy. possible to grab features but not the
@@ -42,31 +93,11 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
         var labelText = "C" + slider.getValues()[0] + "th - C" + slider.getValues()[1] + "th";
         me.lookupReference("sliderlabel").setText(labelText);
 
-        //var tree = me.lookupReference("layertree");
-        //var map = me.lookupReference("geoextmap");
-        //var olMap = me.lookupReference("ol3map");  // not working: fix!
-        
-        var layers = OL3Map.getActiveLayers(true);  // replace with correct lookupreference!
-
-        layers.forEach(function(layer, i) {         // loop layers
-    
-            console.log(layer.get("name"));
-            // only works for SPP:v_public_offen right now
-            if (layer.get("name") === "Open") {  // layer is "SPP:v_public_offen"
-                var filter = me.getQueryString(slider.getValues());     
-                //console.log(filter);                   
-                var newSource = me.createVectorSource("SPP:v_public_offen", filter);
-                
-
-                layer.setSource(newSource);  // this refreshes automatically
-
-                // update layername to include ("Filtered")
-                //layer.set("name", layer.get("name") + " (F)");
-                // -> get node by name
-                //console.log(tree.nextNode.getText());
-
-            }
-        });
+        // apply filter -> gets applied on apply buton click
+        /*
+        var filterString = me.getQueryString(slider.getValues());
+        me.applyFilterToHarbourLayer(filterString);
+        */
     },
 
     /**
@@ -74,10 +105,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
      * Loads layer with empty filter string.
     */
     onResetButtonClick: function() {
-        var layer = OL3Map.getLayerByName("Open");
-        var newSource = OL3Map.createVectorSource("SPP:v_public_offen", "");
-        console.log("after source!");
-        layer.setSource(newSource);  // this refreshes automatically
+        this.applyFilterToHarbourLayer("");  // empty filter
     },
 
     /**
@@ -86,12 +114,19 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
     onApplyButtonClick: function() {
         console.log("applying filters!");
 
-        // status
+        // these may change depending on layer
+        //var statusAttr = "status";
+        //var accessAttr = "public";
+
+        // get slider
+        var slider = this.lookupReference("centuryslider");
+        var sliderFilterString = this.getQueryString(slider.getValues());
+
+        // get status
         var status1 = Ext.getCmp("checkboxStatus1").getValue();
         var status2 = Ext.getCmp("checkboxStatus2").getValue();
         var status3 = Ext.getCmp("checkboxStatus3").getValue();
         
-        // create query string
         var statusFilterList = [];
         if (status1) {
             statusFilterList.push("status=1");
@@ -106,15 +141,29 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
             statusFilterList.push("status!=1 AND status!=2 AND status!=3");
         }
 
-        //var filterString = "(" + statusFilterList.join(" OR ") + ") AND (" + typeFilterList.join(" OR ") + ")";
-        var filterString = statusFilterList.join(" OR ");
+        // get access
+        var access1 = Ext.getCmp("checkboxAccess1").getValue();
+        var access2 = Ext.getCmp("checkboxAccess2").getValue();
+        var access3 = Ext.getCmp("checkboxAccess3").getValue();
 
-        //console.log(filterString);
+        var accessFilterList = [];
+        if (access1) {
+            accessFilterList.push("public='offen'");
+        }
+        if (access2) {
+            //accessFilterList.push("public='SPP intern'");
+        }
+        if (access3) {
+            //accessFilterList.push("public='AG intern'");
+        }
+        if (!access1 && !access2 && !access3) {
+            accessFilterList.push("public=!offen AND public!='SPP intern' AND public!='AG intern'");
+        }
+
+        var filterString = "(" + statusFilterList.join(" OR ") + ") AND (" + sliderFilterString + ") AND (" + accessFilterList.join(" OR ") + ")";
+        filterString = accessFilterList.join(" OR ");
 
         // apply filters to layer "harbours"
-        var layer = OL3Map.getLayerByName("Harbours");
-        var newSource = OL3Map.createVectorSource("SPP:harbours", filterString);
-        layer.setSource(newSource);  // this refreshes automatically 
-
+        this.applyFilterToHarbourLayer(filterString);
     }
 });

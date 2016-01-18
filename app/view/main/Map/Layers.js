@@ -40,6 +40,7 @@ Ext.define("Layers", {
                 wrapX: false  // dont repeat on X axis
             }),
             legendUrl: getLegendImg("SPP:harbours"),
+            //style: LayerStyles.styleFunction,
             style: LayerStyles.redPoints,
             visible: true
         }),
@@ -63,7 +64,7 @@ Ext.define("Layers", {
                 wrapX: false  // dont repeat on X axis
             }),
             legendUrl: getLegendImg("SPP:vehicles"),
-            style: LayerStyles.redPoints,
+            style: LayerStyles.yellowPoints,
             visible: false
         }),
 
@@ -86,7 +87,7 @@ Ext.define("Layers", {
                 wrapX: false  // dont repeat on X axis
             }),
             legendUrl: getLegendImg("SPP:canals"),
-            style: LayerStyles.redPoints,
+            style: LayerStyles.greenPoints,
             visible: false
         })
 
@@ -144,6 +145,31 @@ Ext.define("Layers", {
             legendUrl: getLegendImg("SPP:gesamt_ascii"),
             visible: false
         })*/
+    ],
+
+    sppOpen: [
+        // harbours
+        new ol.layer.Vector({
+            name: "Harbours",
+            source: new ol.source.Vector({  // TODO create class for vector source
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return PROXY_URL +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "v_public_offen" +
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:harbours"),
+            //style: LayerStyles.styleFunction,
+            style: LayerStyles.redPoints,
+            visible: true
+        })
     ],
 
     hydrology: [

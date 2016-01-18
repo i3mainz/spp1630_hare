@@ -5,16 +5,39 @@
 Ext.define("SppAppClassic.view.main.MapController", {
     extend: "Ext.app.ViewController",
     alias: "controller.main-map",
-    
+
+    requires: ["LayerGroups"],
     // using lookupReference() instead of refs, see
     // <https://docs.sencha.com/extjs/6.0/application_architecture/view_controllers.html>
-    
+
     /*
     control: {
         "#": {  // matches the view itself
             changecomplete: "onChangeComplete",
         },
     */
+    
+    /**
+     * checks user's authorization and adds layer groups accordingly
+     */
+    addLayerGroups: function() {
+        console.log("adding layers!");
+        var cookie = Ext.util.Cookies.get("sppCookie");
+
+        if (cookie === "guest") {
+            OL3Map.map.addLayer(LayerGroups.baselayers);
+            OL3Map.map.addLayer(LayerGroups.hydrology);
+            OL3Map.map.addLayer(LayerGroups.sppOpen);
+
+        } else {
+            OL3Map.map.addLayer(LayerGroups.baselayers);
+            OL3Map.map.addLayer(LayerGroups.darmc);
+            OL3Map.map.addLayer(LayerGroups.barrington);
+            OL3Map.map.addLayer(LayerGroups.hydrology);
+            OL3Map.map.addLayer(LayerGroups.spp);
+
+        }
+    },
 
     getQueryString: function(dates, allowNull) {
         // all selected must be "ja" -> "null" and "nein" ignored for now
@@ -62,9 +85,9 @@ Ext.define("SppAppClassic.view.main.MapController", {
         // remove leading ";"
         var queryString = filterList.join(" AND ");
         return queryString;
-    },
+    }
 
-    createVectorSource: function(layername, filter) {
+    /*createVectorSource: function(layername, filter) {
         // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
         filter = filter || "";
 
@@ -88,13 +111,10 @@ Ext.define("SppAppClassic.view.main.MapController", {
             }))
         });
         return vectorSource;
-    },
+    },*/
 
-    getActiveLayers: function(map, onlyVectors) {
-        /* returns a list of OL3 Layer objects 
-        that includes all selected nodes. 
-        isVector: if true, only active Vectorlayers are returned, 
-        WMS layers are ommitted */
+    /*getActiveLayers: function(map, onlyVectors) {
+
         onlyVectors = onlyVectors || false;  // set default to false
 
         var activeLayers = [];
@@ -116,5 +136,7 @@ Ext.define("SppAppClassic.view.main.MapController", {
             });
         });
         return activeLayers;
-    }
+    }*/
+
+    
 });

@@ -64,11 +64,9 @@ Ext.define("SppAppClassic.view.login.LoginController", {
 
         if (text.indexOf(engFailText) > -1) {  // login failed
             me.onLoginFail();
-            console.log("logged into geoserver!");
         } else {
             //console.log(text.indexOf(engSuccessText));
             me.onLoginSuccess(username);
-            console.log("not logged in!");
         }
     },
 
@@ -172,5 +170,17 @@ Ext.define("SppAppClassic.view.login.LoginController", {
                   "as guest with limited data access and functionality"
         });
         tip.showBy(button);
+    },
+
+    onTextFieldChange: function() {
+        var guestButton = Ext.getCmp("guestSubmitButton");
+        var usernameField = Ext.getCmp("usernameField");
+        var passwordField = Ext.getCmp("passwordField");
+
+        if (usernameField.getValue().length > 0 || passwordField.getValue().length > 0) {
+            guestButton.disable();
+        } else {
+            guestButton.enable();
+        }
     }
 });

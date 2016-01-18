@@ -44,15 +44,14 @@ Ext.define("OL3Map", {
     requires: ["LayerGroups"],
 
     map: new ol.Map({
-        layers: [
+        layers: [  // get laoded dynamically in MapController
+            /*
             LayerGroups.baselayers,
             LayerGroups.darmc,
             LayerGroups.barrington,
             LayerGroups.hydrology,
-            //LayerGroups.projects,
-            //LayerGroups.statusGroup,
-            //LayerGroups.query,
             LayerGroups.access
+            */
         ],  // these get sorted in geoext3 layertree accordingly
         controls: controls,
         interactions: interactions,

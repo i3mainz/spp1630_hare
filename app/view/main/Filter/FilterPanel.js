@@ -28,7 +28,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
             xtype: "centuryslider",
             padding: 5,
             listeners: {
-                changecomplete: "onSliderChangeComplete" 
+                changecomplete: "onSliderChangeComplete"
             }
         },{
             xtype: "label",

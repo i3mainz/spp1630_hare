@@ -11,41 +11,17 @@ Ext.define("LayerGroups", {
         "Layers"
     ],
 
-    access: new ol.layer.Group({
+    spp: new ol.layer.Group({
         layers: Layers.spp,
         name: "SPP",
         visible: true
     }),
 
-    /*query: new ol.layer.Group({
-        layers: [],
-        name: "SPP: Query",
-        visible: false
-    }),*/
-
-    /*statusGroup: new ol.layer.Group({
-        layers: [],
-        name: "SPP: Status",
-        visible: false
-    }),*/
-
-    /*projects: new ol.layer.Group({
-        layers: [
-            //Layers.allProjects
-            //Layers.projectEffizienz,
-            //Layers.projectFaehren,
-            //Layers.projectBinnen,
-            //Layers.projectRhein,
-            //Layers.projectExtern,
-            //Layers.projectFossa,
-            //Layers.projectOstsee,
-            //Layers.projectRheinhafen,
-            //Layers.projectHanoa,
-            //Layers.projectBalkan
-            ],
-        name: "SPP: Projects",
+    sppOpen: new ol.layer.Group({
+        layers: Layers.sppOpen,
+        name: "SPP",
         visible: true
-    }),*/
+    }),
 
     hydrology: new ol.layer.Group({
         layers: Layers.hydrology,
