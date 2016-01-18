@@ -64,9 +64,11 @@ Ext.define("SppAppClassic.view.login.LoginController", {
 
         if (text.indexOf(engFailText) > -1) {  // login failed
             me.onLoginFail();
+            console.log("logged into geoserver!");
         } else {
             //console.log(text.indexOf(engSuccessText));
             me.onLoginSuccess(username);
+            console.log("not logged in!");
         }
     },
 
@@ -120,8 +122,24 @@ Ext.define("SppAppClassic.view.login.LoginController", {
         this.lookupReference("loginSubmitButton").enable();
         this.lookupReference("guestSubmitButton").enable();
     },
+    
+    logoutGeoServer: function() {
+        Ext.Ajax.request({
+            url: GEOSERVER_PATH + "/j_spring_security_logout/",
+            success: function(response) {
+                //Ext.Msg.alert("Success!!!!");
+            },
+            failure: function(response, request) {
+                //Ext.Msg.alert("Failed!");
+            }
+        });
+    },
 
     onGuestClick: function() {
+        // clear cookies and geoserver login, just in case
+        Ext.util.Cookies.clear("sppCookie");
+        this.logoutGeoServer();
+
         this.onLoginSuccess("guest");
     },
 

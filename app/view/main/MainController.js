@@ -44,6 +44,18 @@ Ext.define("SppAppClassic.view.main.MainController", {
         });
     },
 
+    logoutGeoServer: function() {
+        Ext.Ajax.request({
+            url: GEOSERVER_PATH + "/j_spring_security_logout/",
+            success: function(response) {
+                //Ext.Msg.alert("Success!!!!");
+            },
+            failure: function(response, request) {
+                //Ext.Msg.alert("Failed!");
+            }
+        });
+    },
+
     // reverts code from LoginCOntroller.js
     onClickLogout: function() {
         var me = this;
@@ -55,6 +67,9 @@ Ext.define("SppAppClassic.view.main.MainController", {
 
                 // clear local cookie
                 Ext.util.Cookies.clear("sppCookie");
+
+                // clear geoserver login
+                me.logoutGeoServer();
 
                 // Remove Main View
                 me.getView().destroy();

@@ -101,5 +101,18 @@ Ext.define("SppAppClassic.view.main.Map.Toolbar.ToolbarController", {
         } else {
             gridPanel.hide();
         }
+    },
+
+    /**
+     * lock grid and filter buttons is user is logged in as guest.
+     * this prevents the user from accessing ag or spp intern data via 
+     * filter queries.
+    */
+    hideButtonsForGuest: function() {
+        console.log("cookie: " + Ext.util.Cookies.get("sppCookie"));
+        if (Ext.util.Cookies.get("sppCookie") === "guest") {
+            Ext.getCmp("filterButton").disable();
+            Ext.getCmp("gridButton").disable();
+        }
     }
 });

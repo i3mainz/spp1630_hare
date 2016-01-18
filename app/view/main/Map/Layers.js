@@ -22,14 +22,15 @@ Ext.define("Layers", {
     ],
 
     spp: [
+        // harbours
         new ol.layer.Vector({
-            name: "Open",
+            name: "Harbours",
             source: new ol.source.Vector({  // TODO create class for vector source
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
                     return PROXY_URL +
                             "bereich=" + "SPP" +
-                            "&layer=" + "v_public_offen" +
+                            "&layer=" + "harbours" +
                             "&bbox=" + extent.join(",") +
                             "&epsg=" + "4326";
                 },
@@ -38,11 +39,58 @@ Ext.define("Layers", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:gesamt_ascii"),
+            legendUrl: getLegendImg("SPP:harbours"),
             style: LayerStyles.redPoints,
             visible: true
         }),
 
+        // canals
+        new ol.layer.Vector({
+            name: "Vehicles",
+            source: new ol.source.Vector({  // TODO create class for vector source
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return PROXY_URL +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "vehicles" +
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                            //"&CQL_FILTER=place_type='Hafen'";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:vehicles"),
+            style: LayerStyles.redPoints,
+            visible: false
+        }),
+
+        // vehicles
+        new ol.layer.Vector({
+            name: "Canals",
+            source: new ol.source.Vector({  // TODO create class for vector source
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return PROXY_URL +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "canals" +
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                            //"&CQL_FILTER=place_type='Hafen'";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:canals"),
+            style: LayerStyles.redPoints,
+            visible: false
+        })
+
+        /*
         new ol.layer.Tile({
             name: "AG only",
             source: new ol.source.TileWMS({
@@ -53,8 +101,8 @@ Ext.define("Layers", {
             }),
             legendUrl: getLegendImg("SPP:gesamt_ascii"),
             visible: false
-        }),
-
+        }),*/
+        /*
         new ol.layer.Vector({
             name: "Status",
             source: new ol.source.Vector({
@@ -75,8 +123,8 @@ Ext.define("Layers", {
             style: LayerStyles.statusStyleFunction,
             visible: false
         }),
-        
-        new ol.layer.Vector({
+        */
+        /*new ol.layer.Vector({
             name: "Projects",
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
@@ -95,7 +143,7 @@ Ext.define("Layers", {
             style: LayerStyles.styleFunction,
             legendUrl: getLegendImg("SPP:gesamt_ascii"),
             visible: false
-        })
+        })*/
     ],
 
     hydrology: [

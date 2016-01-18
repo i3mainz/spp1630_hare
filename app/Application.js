@@ -71,16 +71,21 @@ Ext.define('SppAppClassic.Application', {
         username = Ext.util.Cookies.get("sppCookie");
         console.log("cookie: " + username);
         if (username) {
-            if (username === "guest") {
+            if (username === "guest") {  // already logged in as guest
                 isValidUser = true;
+
             } else {  // not a guest
-                if (this.hasGeoServerLogin(username)) {
+
+                if (this.hasGeoServerLogin(username)) {  // has geoserver login
                     isValidUser = true;
-                } else {  // still has cookie but geoserver session expired
+
+                // still has cookie but geoserver session expired
+                } else {  
                     console.log("GeoServer Session expired. Clearing cookie!");
                     Ext.util.Cookies.clear("sppCookie");
                 }
             }
+
         } else {  // no cookie found
             isValidUser = false;
         }

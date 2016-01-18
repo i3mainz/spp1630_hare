@@ -106,32 +106,14 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
             statusFilterList.push("status!=1 AND status!=2 AND status!=3");
         }
 
-        // types
-        var type1 = Ext.getCmp("checkboxTypeHarbour1").getValue();
-        var type2 = Ext.getCmp("checkboxTypeCanal").getValue();
-        var type3 = Ext.getCmp("checkboxTypeVehicle").getValue();
-        
-        // create query string
-        var typeFilterList = [];
-        if (type1) {
-            typeFilterList.push("place_type='Hafen'");  //place_type_general
-            typeFilterList.push("place_type='Hafen?'");  
-            typeFilterList.push("place_type='Hefen'");
-        }
-        if (type2) {
-            typeFilterList.push("place_type='Kanel/Schleppstrecken'");
-            typeFilterList.push("place_type='Wasserstraße'");
-        }
-        if (type3) {
-            typeFilterList.push("place_type='Wasserfahrzeug'");
-        }
+        //var filterString = "(" + statusFilterList.join(" OR ") + ") AND (" + typeFilterList.join(" OR ") + ")";
+        var filterString = statusFilterList.join(" OR ");
 
-        var filterString = "(" + statusFilterList.join(" OR ") + ") AND (" + typeFilterList.join(" OR ") + ")";
+        //console.log(filterString);
 
-        console.log(filterString);
-        // apply filters to layer "Open"
-        var layer = OL3Map.getLayerByName("Open");
-        var newSource = OL3Map.createVectorSource("SPP:v_public_offen", filterString);
+        // apply filters to layer "harbours"
+        var layer = OL3Map.getLayerByName("Harbours");
+        var newSource = OL3Map.createVectorSource("SPP:harbours", filterString);
         layer.setSource(newSource);  // this refreshes automatically 
 
     }

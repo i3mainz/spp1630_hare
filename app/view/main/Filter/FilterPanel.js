@@ -79,8 +79,9 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
         },
         {
             xtype: "fieldset",
+            id: "accessFieldset",
             flex: 1,
-            title: "Type",
+            title: "Access",
             checkboxToggle: true,
             collapsed: true,
 
@@ -92,28 +93,28 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
             },
             items: [
                 {
-                    fieldLabel: "Select Type",
+                    fieldLabel: "Select Access",
 
                     checked: true,
-                    boxLabel: "Harbour",
-                    name: "type",
+                    boxLabel: "Open",
+                    name: "access",
                     inputValue: true,
-                    id: "checkboxTypeHarbour1"
+                    id: "checkboxAccess1"
                 }, {
                     checked: true,
-                    boxLabel: "Canal",
-                    name: "type",
+                    boxLabel: "SPP intern",
+                    name: "access",
                     inputValue: true,
-                    id: "checkboxTypeCanal"
+                    id: "checkboxAccess2"
                 }, {
                     checked: true,
-                    boxLabel: "Vehicle",
-                    name: "type",
+                    boxLabel: "AG intern",
+                    name: "access",
                     inputValue: true,
-                    id: "checkboxTypeVehicle"
+                    id: "checkboxAccess3"
                 }
             ]
-        },
+        }/*,
         {
             xtype: "fieldset",
             flex: 1,
@@ -157,7 +158,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
                     inputValue: true
                 }
             ]
-        },{
+        }*/,{
             xtype: "button",
             text: "apply",
             flex: 2,
@@ -171,6 +172,32 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
     ],
 
     listeners: {
+        /**
+         * check if user has rights to all access options   
+        */
+        beforerender: function() {
+            // replaced by just hiding filters for guests
+            /*
+            var cookie = Ext.util.Cookies.get("sppCookie");  // cookie undefined as guest
+            var access2 = Ext.getCmp("checkboxAccess2");
+            var access3 = Ext.getCmp("checkboxAccess3");
+
+            console.log(cookie);
+            console.log(access2);
+            console.log(access3);
+            if ((access2.getValue() || access3.getValue()) && !cookie) {  // checked
+                console.log("not allowed to access spp and ag intern data!");
+
+                // hide and set to false to prevent guests from access
+                access2.hide();
+                access3.hide();
+                access2.setValue(false);
+                access3.setValue(false);
+
+                // hide entire category
+                Ext.getCmp("accessFieldset").hide();
+            }*/
+        },
         close: "onClose"
     }
 });

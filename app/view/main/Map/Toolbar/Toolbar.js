@@ -52,5 +52,9 @@ Ext.define("SppAppClassic.view.main.Map.Toolbar.Toolbar", {
             pressed: true,
             handler: "onToggleHover"
         }*/
-    ]
+    ],
+
+    listeners: {
+        beforerender: "hideButtonsForGuest"
+    }
 });

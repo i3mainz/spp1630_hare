@@ -9,7 +9,6 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
 
     requires: [
        "SppAppClassic.view.main.LayerTreeController",
-       "SppAppClassic.view.main.LayerTreeModel",
        "SppAppClassic.view.main.BasicTreeColumnLegends"
     ],
 
@@ -57,9 +56,9 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
 
     // alternative to treePanel.on('select', function())
     listeners: {
-        checkchange: function() {
+        /*checkchange: function() {
             //console.log("checkchange");
-        }
+        }*/
         // refresh legend every time a node is selected
         //checkchange: 'onNodeCheckChange' // defined in MapController
     }
