@@ -12,12 +12,10 @@ Ext.define("SppAppClassic.view.main.Main", {
     reference: "mainpanel",  // used in MainController
     id: "mainPanel",
     requires: [
-        "Ext.plugin.Viewport",
+        "Ext.plugin.Viewport",              // plugins: "viewport"
         "Ext.window.MessageBox",
-
-        "SppAppClassic.view.main.MainController",
-        "SppAppClassic.view.main.MainModel",
-        "SppAppClassic.view.main.Map"
+        "SppAppClassic.view.main.Map",      // xtype: "mappanel"
+        "SppAppClassic.view.main.Popup"    // xtype: "popup"
         /*
         "Layers",
         "OL3Map",

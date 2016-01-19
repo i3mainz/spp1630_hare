@@ -5,8 +5,8 @@ Ext.define("SppAppClassic.view.main.FeatureGridPanel", {
     xtype: "featuregridpanel",
     //reference: "gridpanel",
     requires: [
-        "SppAppClassic.store.Features",
-        "GeoExt.grid.column.Symbolizer"
+        "SppAppClassic.store.Features",  // store: {type: "features"}
+        "GeoExt.grid.column.Symbolizer"  // xtype: "gx_symbolizercolumn"
     ],
     //title: "Feature Grid",
     border: true,
@@ -21,8 +21,7 @@ Ext.define("SppAppClassic.view.main.FeatureGridPanel", {
             text: "Project",  // label
             dataIndex: "project",  // attribute to show
             flex: 1
-        },
-        {
+        },{
             text: "Author",
             dataIndex: "author",
             //xtype: "numbercolumn",

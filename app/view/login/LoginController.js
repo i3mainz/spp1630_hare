@@ -22,7 +22,7 @@ Ext.define("SppAppClassic.view.login.LoginController", {
 
         // try to login
         Ext.Ajax.request({
-            url: GEOSERVER_PATH + "/j_spring_security_check",
+            url: SppAppClassic.app.globals.loginPath,
             method: "POST",
             withCredentials: true,
             useDefaultXhrHeader: false,
@@ -121,9 +121,10 @@ Ext.define("SppAppClassic.view.login.LoginController", {
         this.lookupReference("guestSubmitButton").enable();
     },
     
+    // same function in MainController
     logoutGeoServer: function() {
         Ext.Ajax.request({
-            url: GEOSERVER_PATH + "/j_spring_security_logout/",
+            url: SppAppClassic.app.globals.logoutPath,
             success: function(response) {
                 //Ext.Msg.alert("Success!!!!");
             },

@@ -5,10 +5,20 @@
  * initialization details.
  */
 
+ // global variables -> bad practice
+ /*
+SERVER_URL = "http://haefen.i3mainz.hs-mainz.de";  // login debugging
+//var SERVER_URL = "";  // production
+GEOSERVER_PATH = SERVER_URL + "/geoserver";
+GEOSERVER_URL = GEOSERVER_PATH + "/SPP/wms?";  
+PROXY_URL = SERVER_URL + "/GeojsonProxy/layer?";
+*/
+
 Ext.define('SppAppClassic.Application', {
     extend: 'Ext.app.Application',
     reference: "application",  // used to get the geoserverPath variable
-    name: 'SppAppClassic',
+    id: "appClass",
+    name: "SppAppClassic",
 
     stores: [
         // TODO: add global / shared stores here
@@ -18,11 +28,28 @@ Ext.define('SppAppClassic.Application', {
         'SppAppClassic.view.login.Login',  // used in launch
         'SppAppClassic.view.main.Main'  // used in launch
     ],
+
+    // not sure whats the difference between views and requires
+    requires: [
+        //"LayerStyles"
+        //"SppAppClassic.view.login.Login",
+        //"SppAppClassic.view.main.Main" 
+    ],
+
+    // for vars used throughout the application
+    // access via "SppAppClassic.app.globals.wmsPath";
+    globals: {
+        serverPath: "http://haefen.i3mainz.hs-mainz.de",  // leave blank for production
+        geoserverPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver",
+        homePath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/web/",
+        wmsPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?",  // former GEOSERVER_URL
+        proxyPath: "http://haefen.i3mainz.hs-mainz.de" + "/GeojsonProxy/layer?",
+        loginPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_check",
+        logoutPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_logout"
+    },
     
     // used in Application.js and LoginController.js 
     // geoserverPath: "/geoserver";  // production path
-    // geoserverPath: "/geoserver";  // // local geoserver for debugging
-    geoserverPath: "http://haefen.i3mainz.hs-mainz.de/geoserver",  // for login debugging
 
     hasGeoServerLogin: function(username) {
         var isLoggedIn = false;
@@ -31,12 +58,11 @@ Ext.define('SppAppClassic.Application', {
         var deSuccessText = '<span class="username">Angemeldet als <span>' + username + '</span></span>';
 
         Ext.Ajax.request({
-            url: this.geoserverPath + "/web/",
+            //url: GEOSERVER_PATH + "/web/",
+            url: SppAppClassic.app.globals.homePath,
             async: false,
 
-            success: function(response) {
-                //console.log("success!");
-                
+            success: function(response) {                
                 text = response.responseText;
                 if (text.indexOf(engSuccessText) > -1 || text.indexOf(deSuccessText) > -1 ) {
                     isLoggedIn = true;
@@ -70,6 +96,7 @@ Ext.define('SppAppClassic.Application', {
         // loggedIn = localStorage.getItem("TutorialLoggedIn");
         username = Ext.util.Cookies.get("sppCookie");
         console.log("cookie: " + username);
+
         if (username) {
             if (username === "guest") {  // already logged in as guest
                 isValidUser = true;

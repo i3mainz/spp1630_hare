@@ -1,13 +1,13 @@
 "use strict";
 // collection of shared data
-// not really a class
-//var GEOSERVER_PATH = me.lookupReference("application").geoserverPath;
-var GEOSERVER_PATH = "http://haefen.i3mainz.hs-mainz.de/geoserver";
-var GEOSERVER_URL = GEOSERVER_PATH + "/SPP/wms?";  // global variable -> bad practice
-var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
+// not really a class 
+
+
+var wms = "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?";
+var proxy = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
 
 var getLegendImg = function(layer) {
-    return GEOSERVER_URL + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&TRANSPARENT=true&HEIGHT=50&LAYER=" + layer;
+    return wms + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&TRANSPARENT=true&HEIGHT=50&LAYER=" + layer
 };
 
 Ext.define("Layers", {
@@ -28,7 +28,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({  // TODO create class for vector source
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL +
+                    return proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "harbours" +
                             "&bbox=" + extent.join(",") +
@@ -51,7 +51,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({  // TODO create class for vector source
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL +
+                    return proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "vehicles" +
                             "&bbox=" + extent.join(",") +
@@ -74,7 +74,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({  // TODO create class for vector source
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL +
+                    return proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "canals" +
                             "&bbox=" + extent.join(",") +
@@ -109,7 +109,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL +
+                    return proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "gesamt_ascii" +
                             "&bbox=" + extent.join(",") +
@@ -130,7 +130,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL +
+                    return proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "gesamt_ascii" +
                             "&bbox=" + extent.join(",") +
@@ -154,7 +154,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({  // TODO create class for vector source
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL +
+                    return proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "v_public_offen" +
                             "&bbox=" + extent.join(",") +
@@ -175,7 +175,7 @@ Ext.define("Layers", {
     hydrology: [
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
-                url: GEOSERVER_URL,
+                url: wms,
                 params: {"LAYERS": "SPP:lakes", "TILED": true},
                 serverType: "geoserver",
                 wrapX: false   // dont repeat on X axis
@@ -187,7 +187,7 @@ Ext.define("Layers", {
 
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
-                url: GEOSERVER_URL,
+                url: wms,
                 params: {
                     "LAYERS": "SPP:streams",
                     "TILED": true
@@ -202,7 +202,7 @@ Ext.define("Layers", {
 
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
-                url: GEOSERVER_URL,
+                url: wms,
                 params: {
                     "LAYERS": "SPP:ecrins_lakes",
                     "TILED": true
@@ -221,7 +221,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL +
+                    return proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "aqueduct" +
                             "&bbox=" + extent.join(",") +
@@ -242,7 +242,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL +
+                    return proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "bridge" +
                             "&bbox=" + extent.join(",") +
@@ -263,7 +263,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL + 
+                    return proxy + 
                             "bereich=" + "SPP" +
                             "&layer=" + "bath" +
                             "&bbox=" + extent.join(",") +
@@ -284,7 +284,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL + 
+                    return proxy + 
                             "bereich=" + "SPP" +
                             "&layer=" + "port" +
                             "&bbox=" + extent.join(",") +
@@ -305,7 +305,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL + 
+                    return proxy + 
                             "bereich=" + "SPP" + 
                             "&layer=" + "settlement" + 
                             "&bbox=" + extent.join(",") + 
@@ -326,7 +326,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL + 
+                    return proxy + 
                             "bereich=" + "SPP" + 
                             "&layer=" + "canal" + 
                             "&bbox=" + extent.join(",") + 
@@ -347,7 +347,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return PROXY_URL + 
+                    return proxy + 
                             "bereich=" + "SPP" + 
                             "&layer=" + "road" + 
                             "&bbox=" + extent.join(",") + 
@@ -369,7 +369,7 @@ Ext.define("Layers", {
         new ol.layer.Tile({
             name: "Aqueducts",
             source: new ol.source.TileWMS({
-              url: GEOSERVER_URL,
+              url: wms,
               params: {"LAYERS": "SPP:darmc_aqueducts", "TILED": true},
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
@@ -380,7 +380,7 @@ Ext.define("Layers", {
 
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
-              url: GEOSERVER_URL,
+              url: wms,
               params: {"LAYERS": "SPP:darmc_bridges", "TILED": true},
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
@@ -392,7 +392,7 @@ Ext.define("Layers", {
 
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
-                url: GEOSERVER_URL,
+                url: wms,
                 params:{
                     "LAYERS": "SPP:darmc_roads",
                     "TILED": true
@@ -407,7 +407,7 @@ Ext.define("Layers", {
 
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
-              url: GEOSERVER_URL,
+              url: wms,
               params: {"LAYERS": "SPP:darmc_cities", "TILED": true},
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
@@ -419,7 +419,7 @@ Ext.define("Layers", {
 
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
-              url: GEOSERVER_URL,
+              url: wms,
               params: {"LAYERS": "SPP:darmc_baths", "TILED": true},
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
@@ -431,7 +431,7 @@ Ext.define("Layers", {
 
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
-              url: GEOSERVER_URL,
+              url: wms,
               params: {"LAYERS": "SPP:darmc_ports", "TILED": true},
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
@@ -443,7 +443,7 @@ Ext.define("Layers", {
 
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
-              url: GEOSERVER_URL,
+              url: wms,
               params: {"LAYERS": "SPP:darmc_harbours", "TILED": true},
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
@@ -455,7 +455,7 @@ Ext.define("Layers", {
 
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
-              url: GEOSERVER_URL,
+              url: wms,
               params: {"LAYERS": "SPP:darmc_canals", "TILED": true},
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
@@ -469,7 +469,7 @@ Ext.define("Layers", {
     basemaps: [
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
-                url: GEOSERVER_URL,
+                url: wms,
                 params: {"LAYERS": "SPP:world_borders_simple", "TILED": true},
                 serverType: "geoserver",
                 wrapX: false   // dont repeat on X axis

@@ -8,6 +8,9 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
     requires: [
         "SppAppClassic.view.main.Filter.FilterPanelController",
         "SppAppClassic.view.main.Filter.CenturySlider",
+        "Ext.form.Label",
+        "Ext.form.FieldSet",
+        "Ext.form.field.Checkbox",
         "Ext.button.Button"
     ],
 

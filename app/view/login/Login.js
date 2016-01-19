@@ -5,23 +5,12 @@ Ext.define("SppAppClassic.view.login.Login", {
     reference: "loginWindow",
     requires: [
         "SppAppClassic.view.login.LoginController",
-        "Ext.form.Panel"  // used later as xtype "form"
+        "Ext.panel.Tool",           // tools: []
+        "Ext.form.Panel",           // xtype: "form"
+        "Ext.form.field.Text",  // xtype: "textfield"
+        "Ext.button.Button"     // buttons: []
     ],
 
-    /*header: {
-        tools: [
-            {   
-                xtype: 'button',
-                iconCls: 'icon-page-white-excel',
-                text: 'help',
-                align: "right",
-                qtip: "please help!",
-                glyph: 'xf08b@fontawesome',
-                handler: ''
-            }
-        ]
-    },
-    */
     // custom help icon to titlebar
     tools: [
         {

@@ -1,22 +1,22 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Map.Toolbar.ToolbarController", {
+Ext.define("SppAppClassic.view.main.Map.ToolbarController", {
     extend: "Ext.app.ViewController",
     alias: "controller.map-toolbar",
 
     requires: [
+        // Ext.getCmp(= dont need to be required?
+            // but they are if you create new object using Ext.create()
         "SppAppClassic.view.main.GridWindow",
         "SppAppClassic.view.main.Filter.FilterPanel"
     ],
 
     zoomIn: function() {
-        console.log("zoom in!");
         var view = OL3Map.map.getView();
         var currentZoom = view.getZoom();
         view.setZoom(currentZoom + 1);
     },
     zoomOut: function() {
-        console.log("zoom out!");
         var view = OL3Map.map.getView();
         var currentZoom = view.getZoom();
         view.setZoom(currentZoom - 1);

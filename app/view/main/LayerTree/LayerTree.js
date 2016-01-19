@@ -9,13 +9,15 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
 
     requires: [
        "SppAppClassic.view.main.LayerTreeController",
-       "SppAppClassic.view.main.BasicTreeColumnLegends"
+       "Ext.tree.plugin.TreeViewDragDrop",           // ptype: treeviewdragdrop
+       "Ext.tree.Column",                            // xtype: "treecolumn"
+       "SppAppClassic.view.main.BasicTreeColumnLegends"  // ptype: "basic_tree_column_legend"
     ],
 
     controller: "main-layertree",
-    viewModel: {
+    /*viewModel: {
         type: "main-layertree"
-    },
+    },*/
 
     //title: 'Layers',
     viewConfig: {

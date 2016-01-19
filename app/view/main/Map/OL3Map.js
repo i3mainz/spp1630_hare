@@ -41,7 +41,9 @@ Ext.define("OL3Map", {
     //xtype: "ol3map",
     reference: "ol3map",
 
-    requires: ["LayerGroups"],
+    requires: [
+        //"LayerGroups"
+    ],
 
     map: new ol.Map({
         layers: [  // get laoded dynamically in MapController
@@ -67,16 +69,16 @@ Ext.define("OL3Map", {
             minZoom: 3  // prevents zoom too far out
             //restrictedExtent: new ol.extent(-180, -90, 180, 90)  // prevents going over 'edge' of map
         })
-    }),
+    })
 
     /**
      * returns list of layers that are currently active (no layergroups)
     */
-    getActiveLayers: function(onlyVectors) {
-        /* returns a list of OL3 Layer objects 
-        that includes all selected nodes. 
-        isVector: if true, only active Vectorlayers are returned, 
-        WMS layers are ommitted */
+    /*getActiveLayers: function(onlyVectors) {
+        //returns a list of OL3 Layer objects 
+        //that includes all selected nodes. 
+        //isVector: if true, only active Vectorlayers are returned, 
+        //WMS layers are ommitted 
         onlyVectors = onlyVectors || false;  // set default to false
 
         var activeLayers = [];
@@ -98,12 +100,12 @@ Ext.define("OL3Map", {
             });
         });
         return activeLayers;
-    },
+    },*/
 
     /**
      * returns layer by its assigned name in layertree (not source name)
     */
-    getLayerByName: function(layername) {
+    /*getLayerByName: function(layername) {
         var resultlayer;
         var layers = this.getActiveLayers(true);
         layers.forEach(function(layer, i) {
@@ -112,21 +114,20 @@ Ext.define("OL3Map", {
             }
         });
         return resultlayer;
-    },
+    },*/
 
     /**
      * returns layer's source name (e.g. 'v_public_offen' for layer 'Open')
     */
-    getLayerSourceNameByLayername: function(layername) {
+    /*getLayerSourceNameByLayername: function(layername) {
+    }*/
 
-    },
-
-    createVectorSource: function(layername, filter) {
+    /*createVectorSource: function(layername, filter) {
         var vectorSource;
         // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
         filter = filter || "";
 
-        var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
+        //var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
         var workspace = layername.split(":")[0];
         var layer = layername.split(":")[1];
         //var BBOX = "-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562";
@@ -163,7 +164,7 @@ Ext.define("OL3Map", {
             });
         }
         return vectorSource;
-    }
+    }*/
 });
 
 // show popup when feature is clicked or hide if not

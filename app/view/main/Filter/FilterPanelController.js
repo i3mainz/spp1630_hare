@@ -4,11 +4,18 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
     extend: "Ext.app.ViewController",
     alias: "controller.main-filterpanel",
 
+    /*requires: [
+        "SppAppClassic.view.main.Filter.CenturySlider",
+        "SppAppClassic.view.main.Map",  // id: "geoextMap",
+        "SppAppClassic.view.main.Filter.FilterPanel"
+    ],*/
+
     // TODO: keep previous qcl filter intact -> right now it gets overwritten
     // make universal, right now it only works for harbour layer
     applyFilterToHarbourLayer: function(filterString) {
-        var layer = OL3Map.getLayerByName("Harbours");
-        var newSource = OL3Map.createVectorSource("SPP:harbours", filterString);
+        var map = Ext.getCmp("geoextMap");
+        var layer = map.getLayerByName("Harbours");
+        var newSource = map.createVectorSource("SPP:harbours", filterString);
         layer.setSource(newSource);  // this refreshes automatically
     },
 

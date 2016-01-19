@@ -1,13 +1,12 @@
 "use strict";
-Ext.define("SppAppClassic.view.main.Map.Toolbar.Toolbar", {
+Ext.define("SppAppClassic.view.main.Map.Toolbar", {
     extend: "Ext.Toolbar",
 
     xtype: "maptoolbar",
 
     requires: [
-        "SppAppClassic.view.main.Map.Toolbar.ToolbarController"
-        //"SppAppClassic.view.main.Filter.FilterPanel",
-        //"SppAppClassic.view.main.GridWindow"
+        "SppAppClassic.view.main.Map.ToolbarController",
+        "Ext.button.Button"
     ],
 
     controller: "map-toolbar",  // not sure if this is needed -> works without

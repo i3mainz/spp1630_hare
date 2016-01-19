@@ -10,23 +10,15 @@ Ext.define("SppAppClassic.view.main.MainController", {
 
     alias: "controller.main",
 
-    /*
-    onItemSelected: function (sender, record) {
-        "use strict";
-        Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
-    },
-
-    onConfirm: function (choice) {
-        "use strict";
-        if (choice === 'yes') {
-            //
-        }
-    },
-    */
+    requires: [
+        "Ext.button.Button",
+        "SppAppClassic.view.login.Login"
+    ],
 
     // needs to be done dynamically
     updateLogoutInfo: function() {
-        //console.log("updating logout info!");
+        //console.log("updating logout info!");   
+
         var mainpanel = this.getView();
         mainpanel.addTool({
             xtype: "label",
@@ -46,7 +38,7 @@ Ext.define("SppAppClassic.view.main.MainController", {
 
     logoutGeoServer: function() {
         Ext.Ajax.request({
-            url: GEOSERVER_PATH + "/j_spring_security_logout/",
+            url: SppAppClassic.app.globals.logoutPath,
             success: function(response) {
                 //Ext.Msg.alert("Success!!!!");
             },
