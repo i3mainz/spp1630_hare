@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Map.ToolbarController", {
+Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
     extend: "Ext.app.ViewController",
     alias: "controller.map-toolbar",
 

@@ -21,9 +21,7 @@ Ext.define("SppAppClassic.view.main.Main", {
     requires: [
         "Ext.plugin.Viewport",              // plugins: "viewport"
         "Ext.window.MessageBox",
-        "SppAppClassic.view.main.Map",      // xtype: "mappanel"
-        //"SppAppClassic.view.main.Popup",    // xtype: "popup"
-        
+        "SppAppClassic.view.main.map.Map",      // xtype: "mappanel"
         "GeoExt.data.store.LayersTree",
         "SppAppClassic.view.main.LayerTree"  // xtype: "layertree",
     ],

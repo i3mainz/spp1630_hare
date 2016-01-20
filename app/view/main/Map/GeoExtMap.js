@@ -1,12 +1,12 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Map.GeoExtMap", {
+Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
     extend: "GeoExt.component.Map",
 
     xtype: "geoextmap",
 
     requires: [
-        "SppAppClassic.view.main.Map.GeoExtMapController",
+        "SppAppClassic.view.main.map.GeoExtMapController",
         "LayerGroups"
         //"SppAppClassic.view.main.Popup",    // xtype: "popup"
     ],

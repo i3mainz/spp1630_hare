@@ -16,7 +16,7 @@ function getLegendUrl(layer_name) {
 // contains any view-related logic,
 // event handling of the view, and any app logic. 
 
-Ext.define("SppAppClassic.view.main.Map.GeoExtMapController", {
+Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     extend: "Ext.app.ViewController",
     alias: "controller.main-geoextmap",
 

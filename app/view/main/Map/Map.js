@@ -33,15 +33,15 @@ var olMap = new ol.Map({
     //layerGroup: OL3Map.map.getLayerGroup()
 });*/
 
-Ext.define("SppAppClassic.view.main.Map", {
+Ext.define("SppAppClassic.view.main.map.Map", {
     extend: "Ext.panel.Panel",
 
     xtype: "mappanel",
 
     requires: [
-        "SppAppClassic.view.main.MapController",
-        "SppAppClassic.view.main.Map.Toolbar",  // xtype: "maptoolbar"
-        "SppAppClassic.view.main.Map.GeoExtMap" // xtype: "geoextmap"
+        "SppAppClassic.view.main.map.MapController",
+        "SppAppClassic.view.main.map.TopToolbar",  // xtype: "maptoolbar"
+        "SppAppClassic.view.main.map.GeoExtMap" // xtype: "geoextmap"
     ],
 
     controller: "main-map",

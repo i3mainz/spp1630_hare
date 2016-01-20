@@ -1,11 +1,11 @@
 "use strict";
-Ext.define("SppAppClassic.view.main.Map.Toolbar", {
+Ext.define("SppAppClassic.view.main.map.TopToolbar", {
     extend: "Ext.Toolbar",
 
     xtype: "maptoolbar",
 
     requires: [
-        "SppAppClassic.view.main.Map.ToolbarController",
+        "SppAppClassic.view.main.map.TopToolbarController",
         "Ext.button.Button"
     ],
 
