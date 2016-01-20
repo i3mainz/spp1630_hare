@@ -30,7 +30,7 @@ Ext.define("Layers", {
                 url: function(extent) {
                     return proxy +
                             "bereich=" + "SPP" +
-                            "&layer=" + "harbours" +
+                            "&layer=" + "sppgesamt" +
                             "&bbox=" + extent.join(",") +
                             "&epsg=" + "4326";
                 },
@@ -43,9 +43,10 @@ Ext.define("Layers", {
             //style: LayerStyles.styleFunction,
             style: LayerStyles.redPoints,
             visible: true
-        }),
+        })
 
         // canals
+        /*
         new ol.layer.Vector({
             name: "Vehicles",
             source: new ol.source.Vector({  // TODO create class for vector source
@@ -67,8 +68,10 @@ Ext.define("Layers", {
             style: LayerStyles.yellowPoints,
             visible: false
         }),
+        */
 
         // vehicles
+        /*
         new ol.layer.Vector({
             name: "Canals",
             source: new ol.source.Vector({  // TODO create class for vector source
@@ -90,6 +93,7 @@ Ext.define("Layers", {
             style: LayerStyles.greenPoints,
             visible: false
         })
+        */
 
         /*
         new ol.layer.Tile({
@@ -198,9 +202,9 @@ Ext.define("Layers", {
             legendUrl: getLegendImg("SPP:streams"),
             name: "Streams",
             visible: false
-        }),
+        })
 
-        new ol.layer.Tile({
+        /*new ol.layer.Tile({
             source: new ol.source.TileWMS({
                 url: wms,
                 params: {
@@ -213,7 +217,7 @@ Ext.define("Layers", {
             legendUrl: getLegendImg("SPP:ecrins_lakes"),
             name: "Lakes (ecrins)",
             visible: false
-        })
+        })*/
     ],
 
     barrington: [

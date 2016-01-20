@@ -15,7 +15,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
     applyFilterToHarbourLayer: function(filterString) {
         var map = Ext.getCmp("geoextMap");
         var layer = map.getLayerByName("Harbours");
-        var newSource = map.createVectorSource("SPP:harbours", filterString);
+        var newSource = map.createVectorSource("SPP:sppgesamt", filterString);
         layer.setSource(newSource);  // this refreshes automatically
     },
 
