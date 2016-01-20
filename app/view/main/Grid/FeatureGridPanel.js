@@ -12,8 +12,7 @@ Ext.define("SppAppClassic.view.main.FeatureGridPanel", {
     border: true,
 
     //store: Ext.data.StoreManager.lookup("featuresStore"),
-    store: {type: "features"},  // reference store via its alias -> creates it
-    //store: valuesStore,
+    store: {type: "features"},  // same as Ext.create(featuresStore) and this.setStore(featureStore)
     columns: [{
             xtype: "gx_symbolizercolumn",
             width: 40

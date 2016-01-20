@@ -10,14 +10,14 @@ Ext.define("SppAppClassic.view.main.Filter.CenturySlider", {
     controller: "main-filterpanel",
 
     //hideLabel: true,  // not sure what that does
-    width: 250,
+    minWidth: 200,
     //increment: 10,
     minValue: 0,
     maxValue: 13,
     //constrainThumbs: true,
     values: [0, 13],
     useTips: true,  // show toolptips, default: true
-    fieldLabel: "Century",
+    //fieldLabel: "Century",
 
     tipText: function(thumb) {
         var choices = [

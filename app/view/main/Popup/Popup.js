@@ -2,17 +2,9 @@
 
 Ext.define("SppAppClassic.view.main.Popup",{
     extend: "Ext.window.Window",
-    xtype: "popup",  // alias
-    requires: [
-        "SppAppClassic.view.main.PopupController",
-        "SppAppClassic.view.main.PopupModel"
-    ],
+    xtype: "popup",
+    id: "popupWindow",
 
-    controller: "main-popup",
-    viewModel: {
-        type: "main-popup"
-    },
-    //id: "popupWindow",  // for future reference
     title: "Feature Info",
     closable: true,  // currently gets destroyed on close
     width: 200,
@@ -23,7 +15,7 @@ Ext.define("SppAppClassic.view.main.Popup",{
     minHeight: 250,
     autoScroll: true,
     hideable: true,
-    
+
     hidden: true,  // hide on creation  -> not sure if that works
     //collapsible: true,
     constrain: true,  // prevents dragging out of browser window size

@@ -6,9 +6,11 @@ Ext.define("SppAppClassic.store.Features", {
     storeId: "featuresStore",
     alias: "store.features",  
 
-    layer: Layers.spp[0],
+    requires: [],
 
-    map: OL3Map.map,
+    layer: Layers.spp[0],  //Ext.getCmp("geoextMap").getLayerByName("harbours") 
+
+    map: Ext.getCmp("geoextMap"),  // replace with geoextmap
 
     listeners: {
     	beforeload: function() {

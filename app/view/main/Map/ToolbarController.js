@@ -12,39 +12,38 @@ Ext.define("SppAppClassic.view.main.Map.ToolbarController", {
     ],
 
     zoomIn: function() {
-        var view = OL3Map.map.getView();
+        var view = Ext.getCmp("geoextMap").getView();
         var currentZoom = view.getZoom();
         view.setZoom(currentZoom + 1);
     },
     zoomOut: function() {
-        var view = OL3Map.map.getView();
+        var view = Ext.getCmp("geoextMap").getView();
         var currentZoom = view.getZoom();
         view.setZoom(currentZoom - 1);
     },
     zoomAnimated: function() {
-
-       var zoom = ol.animation.zoom({duration: 500, resolution: OL3Map.map.getView().getResolution()});
+       var zoom = ol.animation.zoom({duration: 500, resolution: Ext.getCmp("geoextMap").getView().getResolution()});
        //olMap.beforeRender(zoom);
-       OL3Map.map.getView().setZoom(zoom);
+       Ext.getCmp("geoextMap").getView().setZoom(zoom);
     },
 
     /* zoomTomax extend -> get Center of map on start of app. 
     then set farthest zoom level */
     onCenter: function() {
         console.log("center in!");
-        var view = OL3Map.map.getView();
-        view.setCenter(MAP_CENTER);
+        var view = Ext.getCmp("geoextMap").getView();
+        view.setCenter(ol.proj.fromLonLat([8.751278, 50.611368]));
         view.setZoom(4);
         view.setRotation(0);
     },
-    onRotate: function() {
+    /*onRotate: function() {
         console.log("rotate!");
-        var view = OL3Map.map.getView();
+        var view = Ext.getCmp("geoextMap").getView();
         var currentRotation = view.getRotation();
         console.log(currentRotation);
-        OL3Map.map.getView().setRotation(currentRotation + 0.5);
-    },
-    onToggleHover: function() {
+        Ext.getCmp("geoextMap").getView().setRotation(currentRotation + 0.5);
+    },*/
+    /*onToggleHover: function() {
         console.log("toggle hover!");
         var interactions = OL3Map.map.getInteractions();
         var selectInteraction; 
@@ -65,7 +64,7 @@ Ext.define("SppAppClassic.view.main.Map.ToolbarController", {
             OL3Map.map.addInteraction(newInteraction);
             //Ext.getCmp("hoverButton").setText("start hover");
         }
-    },
+    },*/
 
     onToggleFilter: function() {
         //var filterPanel = this.lookupReference("filterpanel");  // not working

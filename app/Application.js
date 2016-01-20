@@ -5,19 +5,9 @@
  * initialization details.
  */
 
- // global variables -> bad practice
- /*
-SERVER_URL = "http://haefen.i3mainz.hs-mainz.de";  // login debugging
-//var SERVER_URL = "";  // production
-GEOSERVER_PATH = SERVER_URL + "/geoserver";
-GEOSERVER_URL = GEOSERVER_PATH + "/SPP/wms?";  
-PROXY_URL = SERVER_URL + "/GeojsonProxy/layer?";
-*/
-
 Ext.define('SppAppClassic.Application', {
     extend: 'Ext.app.Application',
-    reference: "application",  // used to get the geoserverPath variable
-    id: "appClass",
+    //reference: "application",  // used to get the geoserverPath variable
     name: "SppAppClassic",
 
     stores: [
@@ -27,13 +17,6 @@ Ext.define('SppAppClassic.Application', {
     views: [
         'SppAppClassic.view.login.Login',  // used in launch
         'SppAppClassic.view.main.Main'  // used in launch
-    ],
-
-    // not sure whats the difference between views and requires
-    requires: [
-        //"LayerStyles"
-        //"SppAppClassic.view.login.Login",
-        //"SppAppClassic.view.main.Main" 
     ],
 
     // for vars used throughout the application
@@ -92,7 +75,6 @@ Ext.define('SppAppClassic.Application', {
         * then check if this username is still logged in geoserver. otherwise
         * the layers won't load and the user has to re-authorize!  
         */
-
         // loggedIn = localStorage.getItem("TutorialLoggedIn");
         username = Ext.util.Cookies.get("sppCookie");
         console.log("cookie: " + username);

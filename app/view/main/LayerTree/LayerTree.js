@@ -58,6 +58,9 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
 
     // alternative to treePanel.on('select', function())
     listeners: {
+        beforerender: function() {
+            console.log("before render layerTree. set store!")
+        }
         /*checkchange: function() {
             //console.log("checkchange");
         }*/

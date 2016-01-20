@@ -94,6 +94,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
 
         var me = this;
         var slider = me.lookupReference("centuryslider");
+        
         //var filterPanel = Ext.getCmp("filterPanel");
 
         // update text next to slider
@@ -133,7 +134,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
         var status1 = Ext.getCmp("checkboxStatus1").getValue();
         var status2 = Ext.getCmp("checkboxStatus2").getValue();
         var status3 = Ext.getCmp("checkboxStatus3").getValue();
-        
+
         var statusFilterList = [];
         if (status1) {
             statusFilterList.push("status=1");
