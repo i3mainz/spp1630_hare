@@ -12,7 +12,7 @@ Ext.define("LayerGroups", {
     ],
 
     spp: new ol.layer.Group({
-        layers: Layers.spp,
+        layers: Layers.spp,  // ol.collection
         name: "SPP",
         visible: true
     }),

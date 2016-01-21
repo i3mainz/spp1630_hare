@@ -9,6 +9,7 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
 
     requires: [
        "SppAppClassic.view.main.LayerTreeController",
+       "GeoExt.data.store.LayersTree",
        "Ext.tree.plugin.TreeViewDragDrop",           // ptype: treeviewdragdrop
        "Ext.tree.Column",                            // xtype: "treecolumn"
        "SppAppClassic.view.main.BasicTreeColumnLegends"  // ptype: "basic_tree_column_legend"
@@ -58,9 +59,6 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
 
     // alternative to treePanel.on('select', function())
     listeners: {
-        beforerender: function() {
-            console.log("before render layerTree. set store!")
-        }
         /*checkchange: function() {
             //console.log("checkchange");
         }*/

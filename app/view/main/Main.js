@@ -7,11 +7,11 @@
  * TODO - Replace this content of this view to suite the needs of your application.
  */
 
- var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
+ /*var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
     layerGroup: olMap.getLayerGroup()
     //layerGroup: Ext.getCmp("geoextMap").map.getLayerGroup()
     //layerGroup: OL3Map.map.getLayerGroup()
-});
+});*/
 
 Ext.define("SppAppClassic.view.main.Main", {
     extend: "Ext.panel.Panel",
@@ -22,7 +22,7 @@ Ext.define("SppAppClassic.view.main.Main", {
         "Ext.plugin.Viewport",              // plugins: "viewport"
         "Ext.window.MessageBox",
         "SppAppClassic.view.main.map.Map",      // xtype: "mappanel"
-        "GeoExt.data.store.LayersTree",
+        //"GeoExt.data.store.LayersTree",
         "SppAppClassic.view.main.LayerTree"  // xtype: "layertree",
     ],
 
@@ -41,14 +41,12 @@ Ext.define("SppAppClassic.view.main.Main", {
         {
             xtype: "layertree",
             region: "west",
-            store: treeStore
+            id: "layerTree" // used to set store later
+            //store: treeStore
         },{
             xtype: "mappanel",
             region: "center"
-        }/*,{
-            xtype: "popup",  // create hidden window to use as popup later
-            id: "popupWindow"  // used to reference and fill it in Map.js
-        }*/
+        }
     ],
     listeners: {
         afterrender: "updateLogoutInfo"

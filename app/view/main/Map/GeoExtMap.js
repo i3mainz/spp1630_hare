@@ -1,5 +1,33 @@
 "use strict";
 
+var olMap = new ol.Map({
+    layers: [],  // get laoded dynamically in MapController
+    controls: [
+        new ol.control.ScaleLine()
+    ],
+    // ol.control.defaults().extend(  // keeps default controls
+
+    interactions: ol.interaction.defaults().extend([
+        // highlight features on hover, click events are seperate -> this is just highlight
+        new ol.interaction.Select({
+            condition: ol.events.condition.pointerMove  // empty -> select on click
+        })
+    ]),
+
+    // renderer: CANVAS,
+    // Improve user experience by loading tiles while dragging/zooming. Will make
+    // zooming choppy on mobile or slow devices.
+    //loadTilesWhileInteracting: true,
+
+    view: new ol.View({
+        center: ol.proj.fromLonLat([8.751278, 50.611368]),  // [0, 0],
+        zoom: 5,  // 2,
+        minZoom: 3  // prevents zoom too far out
+        //restrictedExtent: new ol.extent(-180, -90, 180, 90)  // prevents going over 'edge' of map
+    })
+});
+
+
 Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
     extend: "GeoExt.component.Map",
 
@@ -7,6 +35,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
 
     requires: [
         "SppAppClassic.view.main.map.GeoExtMapController",
+        "GeoExt.data.store.LayersTree",
         "LayerGroups"
         //"SppAppClassic.view.main.Popup",    // xtype: "popup"
     ],
@@ -15,13 +44,72 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
 
     initComponent: function () {
         console.log("init GeoExtMap...");
-        //this.map = olMap;  // set Ol3 map
+        var ol3Map = new ol.Map({
+            layers: [],  // get laoded dynamically in MapController
+            controls: [
+                new ol.control.ScaleLine()
+            ],
+            // ol.control.defaults().extend(  // keeps default controls
 
-        if (Ext.util.Cookies.get("sppCookie") === "guest") {
-            this.addGuestLayersToMap();
-        } else {
-            this.addAdminLayersToMap();
-        }
+            interactions: ol.interaction.defaults().extend([
+                // highlight features on hover, click events are seperate -> this is just highlight
+                new ol.interaction.Select({
+                    condition: ol.events.condition.pointerMove  // empty -> select on click
+                })
+            ]),
+
+            // renderer: CANVAS,
+            // Improve user experience by loading tiles while dragging/zooming. Will make
+            // zooming choppy on mobile or slow devices.
+            //loadTilesWhileInteracting: true,
+
+            view: new ol.View({
+                center: ol.proj.fromLonLat([8.751278, 50.611368]),  // [0, 0],
+                zoom: 5,  // 2,
+                minZoom: 3  // prevents zoom too far out
+                //restrictedExtent: new ol.extent(-180, -90, 180, 90)  // prevents going over 'edge' of map
+            })
+        });
+        var layerGroup = ol3Map.getLayerGroup();
+        
+        // set map
+        this.map = ol3Map;  // set Ol3 map
+
+        // set layertree's store
+        var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
+            layerGroup: layerGroup
+        });
+        Ext.getCmp("layerTree").setStore(treeStore);
+
+        // shared layerGroups
+        console.log("add layers!");
+        /*var group = new ol.layer.Group({
+            layers: Layers.basemaps[0],
+            name: "Basemaps"
+        });
+        this.addLayer(group);
+        */
+        
+
+
+
+        this.addLayer(LayerGroups.spp);
+        this.addLayer(LayerGroups.hydrology);
+        //this.addLayer(LayerGroups.barrington);
+        //this.addLayer(LayerGroups.darmc);
+        /*var group = new ol.layer.Group({
+            layers: Layers.basemaps,  // ol.collection
+            name: "base",
+            visible: true
+        });
+        this.addLayer(group);*/
+
+        
+        
+
+        
+        console.log("done!");
+        //this.addLayersToMap();
 
         // keep inheritance
         //this.callParent(); // doesnt work, use workaround below
@@ -29,6 +117,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
         // in ExtJs6
         SppAppClassic.view.main.map.GeoExtMap.superclass.initComponent.call(this);
     },
+
 
     /**
      * checks user's authorization and adds layer groups accordingly.
@@ -39,21 +128,22 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
      * "beforeRender" works. I use onBeforeRender. not sure if using 
      * beforeRender does overwrite some interal functions 
     */
-    addGuestLayersToMap: function() {
+    addLayersToMap: function() {
         // this.addLayer() <-- GeoExt3 method
         // this.map.addLayer() <-- OL3 method
-        this.map.addLayer(LayerGroups.baselayers);
-        //this.map.addLayer(LayerGroups.hydrology);
-        //this.map.addLayer(LayerGroups.sppOpen);
-    },
 
-    addAdminLayersToMap: function() {
-        console.log("adding layers!");
-        this.addLayer(LayerGroups.baselayers);
-        //this.addLayer(LayerGroups.darmc);
-        //this.addLayer(LayerGroups.barrington);
-        //this.addLayer(LayerGroups.hydrology);  // fix ol error
-        //this.addLayer(LayerGroups.spp);
+        // shared layers
+        this.map.addLayer(LayerGroups.baselayers);
+        this.map.addLayer(LayerGroups.hydrology);
+
+        // restricted layers
+        if (Ext.util.Cookies.get("sppCookie") === "guest") {
+            this.map.addLayer(LayerGroups.sppOpen);
+        } else {
+            this.addLayer(LayerGroups.darmc);
+            this.addLayer(LayerGroups.barrington);
+            this.addLayer(LayerGroups.spp);
+        }
     },
 
     /**

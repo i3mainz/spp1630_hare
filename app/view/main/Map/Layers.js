@@ -1,7 +1,8 @@
 "use strict";
 // collection of shared data
 // not really a class 
-
+// layers need to be in a collection before you can group them to layergroups
+// this way, reordering works
 
 var wms = "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?";
 var proxy = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
@@ -21,7 +22,7 @@ Ext.define("Layers", {
         "LayerStyles"
     ],
 
-    spp: [
+    spp: new ol.Collection([
         // harbours
         new ol.layer.Vector({
             name: "Harbours",
@@ -149,9 +150,9 @@ Ext.define("Layers", {
             legendUrl: getLegendImg("SPP:gesamt_ascii"),
             visible: false
         })*/
-    ],
+    ]),
 
-    sppOpen: [
+    sppOpen: new ol.Collection([
         // harbours
         new ol.layer.Vector({
             name: "Harbours",
@@ -174,10 +175,9 @@ Ext.define("Layers", {
             style: LayerStyles.redPoints,
             visible: true
         })
-    ],
+    ]),
 
-    hydrology: [
-    /*
+    hydrology: new ol.Collection([
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
                 url: wms,
@@ -207,7 +207,6 @@ Ext.define("Layers", {
             name: "Streams",
             visible: false
         })
-    */
 
         /*new ol.layer.Tile({
             source: new ol.source.TileWMS({
@@ -223,9 +222,9 @@ Ext.define("Layers", {
             name: "Lakes (ecrins)",
             visible: false
         })*/
-    ],
+    ]),
 
-    barrington: [
+    barrington: new ol.Collection([
         new ol.layer.Vector({
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
@@ -372,9 +371,9 @@ Ext.define("Layers", {
             name: "Roads",
             visible: false
         })
-    ],
+    ]),
 
-    darmc: [
+    darmc: new ol.Collection([
         new ol.layer.Tile({
             name: "Aqueducts",
             source: new ol.source.TileWMS({
@@ -473,9 +472,9 @@ Ext.define("Layers", {
             legendUrl: getLegendImg("SPP:darmc_canals"),
             visible: false
         })
-    ],
+    ]),
 
-    basemaps: [
+    basemaps: new ol.Collection([
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
                 url: wms,
@@ -523,6 +522,5 @@ Ext.define("Layers", {
             name: "OSM gray",
             visible: true
         })
-    ]
-
+    ])
 });

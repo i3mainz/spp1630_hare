@@ -1,32 +1,5 @@
 "use strict";
 
-var olMap = new ol.Map({
-    layers: [],  // get laoded dynamically in MapController
-    controls: [
-        new ol.control.ScaleLine()
-    ],
-    // ol.control.defaults().extend(  // keeps default controls
-
-    interactions: ol.interaction.defaults().extend([
-        // highlight features on hover, click events are seperate -> this is just highlight
-        new ol.interaction.Select({
-            condition: ol.events.condition.pointerMove  // empty -> select on click
-        })
-    ]),
-
-    // renderer: CANVAS,
-    // Improve user experience by loading tiles while dragging/zooming. Will make
-    // zooming choppy on mobile or slow devices.
-    //loadTilesWhileInteracting: true,
-
-    view: new ol.View({
-        center: ol.proj.fromLonLat([8.751278, 50.611368]),  // [0, 0],
-        zoom: 5,  // 2,
-        minZoom: 3  // prevents zoom too far out
-        //restrictedExtent: new ol.extent(-180, -90, 180, 90)  // prevents going over 'edge' of map
-    })
-});
-
 /*var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
     layerGroup: olMap.getLayerGroup()
     //layerGroup: Ext.getCmp("geoextMap").map.getLayerGroup()
@@ -66,11 +39,12 @@ Ext.define("SppAppClassic.view.main.map.Map", {
             xtype: "geoextmap",
             region: "center",
             id: "geoextMap",
-            map: olMap
+            //map: olMap
         }];
     },
 
     listeners: {
+        /*
         render: function(panel) {
             // add custom click event
             panel.body.on("click", function(evt) {
@@ -88,6 +62,6 @@ Ext.define("SppAppClassic.view.main.map.Map", {
                 evt.pixel = [evt.browserEvent.layerX, evt.browserEvent.layerY];
                 Ext.getCmp("geoextMap").fireEvent("pointermove", evt);
             });
-        }
+        }*/
     }
 });
