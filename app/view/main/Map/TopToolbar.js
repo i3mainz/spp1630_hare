@@ -22,7 +22,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
             glyph: "xf010@FontAwesome",
             handler: "zoomOut"
         },{
-            text: "maxExtent",
+            text: "Extend",
             glyph: "xf0b2@FontAwesome",
             handler: "onCenter"
         },{

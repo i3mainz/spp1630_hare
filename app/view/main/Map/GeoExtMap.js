@@ -13,6 +13,49 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
 
     controller: "main-geoextmap",
 
+    initComponent: function () {
+        console.log("init GeoExtMap...");
+        //this.map = olMap;  // set Ol3 map
+
+        if (Ext.util.Cookies.get("sppCookie") === "guest") {
+            this.addGuestLayersToMap();
+        } else {
+            this.addAdminLayersToMap();
+        }
+
+        // keep inheritance
+        //this.callParent(); // doesnt work, use workaround below
+        // $owner error has something to do with initComponent being a protected method
+        // in ExtJs6
+        SppAppClassic.view.main.map.GeoExtMap.superclass.initComponent.call(this);
+    },
+
+    /**
+     * checks user's authorization and adds layer groups accordingly.
+     * beforerender is a default event. no need to specify it in the
+     * listeners like {beforerender: "beforeRender"}. it just works 
+     * since ExtJs recognizes the name. the function in the controller
+     * needs to be in lowerCamelCase: "beforerender" wouldn't work, while
+     * "beforeRender" works. I use onBeforeRender. not sure if using 
+     * beforeRender does overwrite some interal functions 
+    */
+    addGuestLayersToMap: function() {
+        // this.addLayer() <-- GeoExt3 method
+        // this.map.addLayer() <-- OL3 method
+        this.map.addLayer(LayerGroups.baselayers);
+        //this.map.addLayer(LayerGroups.hydrology);
+        //this.map.addLayer(LayerGroups.sppOpen);
+    },
+
+    addAdminLayersToMap: function() {
+        console.log("adding layers!");
+        this.addLayer(LayerGroups.baselayers);
+        //this.addLayer(LayerGroups.darmc);
+        //this.addLayer(LayerGroups.barrington);
+        //this.addLayer(LayerGroups.hydrology);  // fix ol error
+        //this.addLayer(LayerGroups.spp);
+    },
+
     /**
      * returns url of the geoserver legend for a layer.
      * layer string needs to be in format "<workspace>:<layername>" 

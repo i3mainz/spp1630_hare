@@ -177,10 +177,14 @@ Ext.define("Layers", {
     ],
 
     hydrology: [
+    /*
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
                 url: wms,
-                params: {"LAYERS": "SPP:lakes", "TILED": true},
+                params: {
+                    "LAYERS": "SPP:lakes", 
+                    "TILED": true
+                },
                 serverType: "geoserver",
                 wrapX: false   // dont repeat on X axis
             }),
@@ -203,6 +207,7 @@ Ext.define("Layers", {
             name: "Streams",
             visible: false
         })
+    */
 
         /*new ol.layer.Tile({
             source: new ol.source.TileWMS({

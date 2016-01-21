@@ -63,7 +63,20 @@ Ext.define("SppAppClassic.view.main.MainController", {
                 // clear geoserver login
                 me.logoutGeoServer();
 
-                // Remove Main View
+
+                // destroy viewport. not sure how. use workaround for panels
+                var filterPanel = Ext.getCmp("filterPanel");
+                if (filterPanel) {
+                    filterPanel.destroy();
+                }
+                var gridPanel = Ext.getCmp("gridPanel");
+                if (gridPanel) {
+                    gridPanel.destroy();
+                }
+                // destroy ol3map
+                //Ext.getCmp("geoextMap").destroy();
+
+                console.log("done!");
                 me.getView().destroy();
 
                 // Add the Login Window

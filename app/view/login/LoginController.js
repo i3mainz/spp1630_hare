@@ -120,7 +120,7 @@ Ext.define("SppAppClassic.view.login.LoginController", {
         this.lookupReference("loginSubmitButton").enable();
         this.lookupReference("guestSubmitButton").enable();
     },
-    
+
     // same function in MainController
     logoutGeoServer: function() {
         Ext.Ajax.request({

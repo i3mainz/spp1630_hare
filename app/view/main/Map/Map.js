@@ -39,12 +39,12 @@ Ext.define("SppAppClassic.view.main.map.Map", {
     xtype: "mappanel",
 
     requires: [
-        "SppAppClassic.view.main.map.MapController",
+        //"SppAppClassic.view.main.map.MapController",
         "SppAppClassic.view.main.map.TopToolbar",  // xtype: "maptoolbar"
         "SppAppClassic.view.main.map.GeoExtMap" // xtype: "geoextmap"
     ],
 
-    controller: "main-map",
+    //controller: "main-map",
 
     layout: "border",
     title: "Map",
@@ -52,12 +52,23 @@ Ext.define("SppAppClassic.view.main.map.Map", {
         xtype: "maptoolbar"
     },
 
-    items: [{
-        xtype: "geoextmap",
-        region: "center",
-        id: "geoextMap",
-        map: olMap
-    }],
+    initComponent: function () {
+        console.log("init mappanel...");
+        // good practice to add non-primivite variables 
+        // using initComponent
+        this.items = this.buildItems();
+
+        SppAppClassic.view.main.map.Map.superclass.initComponent.call(this);
+    },
+
+    buildItems: function () {
+        return [{
+            xtype: "geoextmap",
+            region: "center",
+            id: "geoextMap",
+            map: olMap
+        }];
+    },
 
     listeners: {
         render: function(panel) {

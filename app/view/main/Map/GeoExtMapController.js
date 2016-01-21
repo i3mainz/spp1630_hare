@@ -31,7 +31,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     // keeps view and controller logic seperated
     control: {
         "#": {  // matches the view itself
-            beforerender: "onBeforeRender",  // TODO: do this on component init
+            //beforerender: "onBeforeRender",  // TODO: do this on component init
             click: "onMapClick",
             pointermove: "onPointerMove"
         }
