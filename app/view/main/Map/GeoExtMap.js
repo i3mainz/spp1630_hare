@@ -93,7 +93,6 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
         // workaround: add all, then remove restricted
         var guestRestrictedLayers = ["Barrington Atlas", "SPP", "DARMC"];
         var adminRestrictedLayers = ["SPP (open)"];
-        var groups = [];
         var collection = me.getLayers();
         var cookie = Ext.util.Cookies.get("sppCookie");
 
@@ -116,34 +115,6 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
         // $owner error has something to do with initComponent being a protected method
         // in ExtJs6
         SppAppClassic.view.main.map.GeoExtMap.superclass.initComponent.call(this);
-    },
-
-
-    /**
-     * checks user's authorization and adds layer groups accordingly.
-     * beforerender is a default event. no need to specify it in the
-     * listeners like {beforerender: "beforeRender"}. it just works 
-     * since ExtJs recognizes the name. the function in the controller
-     * needs to be in lowerCamelCase: "beforerender" wouldn't work, while
-     * "beforeRender" works. I use onBeforeRender. not sure if using 
-     * beforeRender does overwrite some interal functions 
-    */
-    addLayersToMap: function() {
-        // this.addLayer() <-- GeoExt3 method
-        // this.map.addLayer() <-- OL3 method
-
-        // shared layers
-        this.map.addLayer(LayerGroups.baselayers);
-        this.map.addLayer(LayerGroups.hydrology);
-
-        // restricted layers
-        if (Ext.util.Cookies.get("sppCookie") === "guest") {
-            this.map.addLayer(LayerGroups.sppOpen);
-        } else {
-            this.addLayer(LayerGroups.darmc);
-            this.addLayer(LayerGroups.barrington);
-            this.addLayer(LayerGroups.spp);
-        }
     },
 
     /**
