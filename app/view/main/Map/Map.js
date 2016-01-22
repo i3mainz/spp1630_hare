@@ -1,18 +1,11 @@
 "use strict";
 
-/*var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
-    layerGroup: olMap.getLayerGroup()
-    //layerGroup: Ext.getCmp("geoextMap").map.getLayerGroup()
-    //layerGroup: OL3Map.map.getLayerGroup()
-});*/
-
 Ext.define("SppAppClassic.view.main.map.Map", {
     extend: "Ext.panel.Panel",
 
     xtype: "mappanel",
 
     requires: [
-        //"SppAppClassic.view.main.map.MapController",
         "SppAppClassic.view.main.map.TopToolbar",  // xtype: "maptoolbar"
         "SppAppClassic.view.main.map.GeoExtMap" // xtype: "geoextmap"
     ],
@@ -30,7 +23,6 @@ Ext.define("SppAppClassic.view.main.map.Map", {
         // good practice to add non-primivite variables 
         // using initComponent
         this.items = this.buildItems();
-
         SppAppClassic.view.main.map.Map.superclass.initComponent.call(this);
     },
 
@@ -38,8 +30,7 @@ Ext.define("SppAppClassic.view.main.map.Map", {
         return [{
             xtype: "geoextmap",
             region: "center",
-            id: "geoextMap",
-            //map: olMap
+            id: "geoextMap"
         }];
     },
 
