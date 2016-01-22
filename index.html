@@ -46,9 +46,13 @@
     </script>
     -->
     
-    <!-- include OpenLayers v3.12.1 -->
-    <link rel="stylesheet" href="/resources/vendor/v3.13.0/ol.css" type="text/css">
-    <script src="/resources/vendor/v3.13.0/ol-debug.js" type="text/javascript"></script>
+    <!-- include OpenLayers v3.12.1 / resources/vendor doesnt work on production 
+    not sure why -->
+    
+    <!--<link rel="stylesheet" href="/resources/vendor/v3.13.0/ol.css" type="text/css">
+    <script src="/resources/vendor/v3.13.0/ol-debug.js" type="text/javascript"></script>-->
+    <link rel="stylesheet" href="http://openlayers.org/en/v3.13.0/css/ol.css" type="text/css">
+    <script src="http://openlayers.org/en/v3.13.0/build/ol.js" type="text/javascript"></script>
 
     <!-- The line below must be kept intact for Sencha Cmd to build your application -->
     <script id="microloader" data-app="3f31b792-0907-4f5e-afd7-dde6efcdbf44" type="text/javascript" src="bootstrap.js"></script>

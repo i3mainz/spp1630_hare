@@ -8,6 +8,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
     requires: [
         "SppAppClassic.view.main.Filter.FilterPanelController",
         "SppAppClassic.view.main.Filter.CenturySlider",
+        "Ext.form.Panel",
         "Ext.form.Label",
         "Ext.form.FieldSet",
         "Ext.form.field.Checkbox",
@@ -20,85 +21,81 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
         type: "main-filterpanel"
     },*/
 
-    hidden: true,
+    //hidden: true,
     resizable: false,
     closeAction: "hide",
     title: "Filters",
-    layout: "anchor",
-    //layout: "fit",
-    width: 250,
+    layout: "accordion",  // "anchor"
+    width: 220,
+    height: 400,
+    defaults: {
+        bodyPadding: 10
+    },
 
     initComponent: function () {
         console.log("init filterpanel...");
         this.items = this.buildItems();
+        this.buttons = this.buildButtons();
         SppAppClassic.view.main.Filter.FilterPanel.superclass.initComponent.call(this);
     },
 
     buildItems: function () {
         return [
             {
-                xtype: "fieldset",
-                flex: 1,
+                xtype: "form",
                 title: "Century",
-                checkboxToggle: true,
-                collapsed: true,
-                defaultType: "checkbox", // each item will be a checkbox
-                layout: "fit",
-                defaults: {
-                    anchor: "100%",
-                    hideEmptyLabel: false
-                },
+                bodyPadding: 0,
                 items: [
                     {
-                        xtype: "centuryslider",
-                        padding: 5,
-                        width: 400,
-                        listeners: {
-                            changecomplete: "onSliderChangeComplete"
-                        }
-                    },{
-                        xtype: "label",
-                        reference: "sliderlabel",
-                        text: "",
-                        margin: "0 0 0 5"
+                        xtype: "fieldset",
+                        id: "sliderFieldset",
+                        flex: 1,
+                        title: "Century",
+                        collapsible: true,
+                        border: false,
+                        defaultType: "checkbox", // each item will be a checkbox
+                        defaults: {
+                            anchor: "100%",
+                            hideEmptyLabel: false
+                        },
+                        items: [
+                            {
+                                xtype: "centuryslider",
+                                padding: 5,
+                                width: 400,
+                                listeners: {
+                                    changecomplete: "onSliderChangeComplete"
+                                }
+                            },{
+                                xtype: "label",
+                                reference: "sliderlabel",
+                                text: "",
+                                margin: "0 0 0 5"
+                            }
+                        ]
                     }
                 ]
-            },
-            /*,{
-                xtype: 'button',
-                text: 'reset',
-                padding: 5,
-                handler: 'onButtonReset'
-            }*/
-            {
-                xtype: "fieldset",
-                flex: 1,
+            },{
+                xtype: "panel",
                 title: "Status",
-                checkboxToggle: true,
-                collapsed: true,
-
-                defaultType: "checkbox", // each item will be a checkbox
-                layout: "anchor",
-                defaults: {
-                    anchor: "100%",
-                    hideEmptyLabel: false
-                },
+                bodyPadding: 0,
                 items: [
                     {
-                        fieldLabel: "Select Status",
-
+                        xtype: "checkbox",
                         checked: true,
                         boxLabel: "1 - complete",
                         name: "status",
                         //inputValue: 1,  // returns true or false
                         id: "checkboxStatus1"
                     },{
+                        xtype: "checkbox",
                         checked: true,
                         boxLabel: "2 - in progress",
                         name: "status",
                         id: "checkboxStatus2"
                         //inputValue: 2
-                    },{
+                    },{ 
+                        xtype: "checkbox",
                         checked: true,
                         boxLabel: "3 - incomplete",
                         name: "status",
@@ -106,56 +103,47 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
                         //inputValue: 3
                     }
                 ]
-
             },{
-                xtype: "fieldset",
-                //id: "accessFieldset",
-                flex: 1,
+                xtype: "panel",
                 title: "Access",
-                checkboxToggle: true,
-                collapsed: true,
-
-                defaultType: "checkbox", // each item will be a checkbox
-                layout: "anchor",
-                defaults: {
-                    anchor: "100%",
-                    hideEmptyLabel: false
-                },
+                bodyPadding: 0,
                 items: [
                     {
-                        fieldLabel: "Select Access",
-
+                        xtype: "checkbox",
                         checked: true,
                         boxLabel: "Open",
                         name: "access",
-                        inputValue: true,
-                        id: "checkboxAccess1"
+                        //inputValue: 1,  // returns true or false
+                        id: "checkboxStatus1"
                     },{
+                        xtype: "checkbox",
                         checked: true,
-                        boxLabel: "SPP intern",
+                        boxLabel: "SPP restricted",
                         name: "access",
-                        inputValue: true,
-                        id: "checkboxAccess2"
-                    },{
+                        id: "checkboxStatus2"
+                        //inputValue: 2
+                    },{ 
+                        xtype: "checkbox",
                         checked: true,
-                        boxLabel: "AG intern",
+                        boxLabel: "Group restricted",
                         name: "access",
-                        inputValue: true,
-                        id: "checkboxAccess3"
+                        id: "checkboxStatus3"
+                        //inputValue: 3
                     }
                 ]
-            },{
-                xtype: "button",
-                text: "apply",
-                flex: 2,
-                handler: "onApplyButtonClick"
-            }/*,{
-                xtype: "button",
-                text: "reset",
-                flex: 1,
-                handler: "onResetButtonClick"
-            }*/
+            }
         ];
-    }
+    },
     //items: []; // added on initCompoenent
+
+    buildButtons: function () {
+        return [{
+            text: "Apply",
+            handler: "onApplyButtonClick"
+        }, {
+            text: "Reset",
+            handler: "onResetButtonClick"
+        }];
+    }
+    //buttons: []; // added on initCompoenent
 });

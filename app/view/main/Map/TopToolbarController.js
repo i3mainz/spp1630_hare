@@ -89,7 +89,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
             //filterPanel.alignTo(Ext.getBody(), "tr-tr");
             //filterPanel.alignTo(Ext.getBody(), "tr");
         }
-
+        console.log(filterPanel.isHidden());
         if (filterPanel.isHidden()) {
             filterPanel.show();
         } else {

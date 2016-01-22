@@ -137,11 +137,14 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
         var sliderFilterString = this.getQueryString(slider.getValues());
 
         // get status
+        var statusFieldset = Ext.getCmp("statusFieldset");
+
         var status1 = Ext.getCmp("checkboxStatus1").getValue();
         var status2 = Ext.getCmp("checkboxStatus2").getValue();
         var status3 = Ext.getCmp("checkboxStatus3").getValue();
 
         var statusFilterList = [];
+
         if (status1) {
             statusFilterList.push("status=1");
         }
