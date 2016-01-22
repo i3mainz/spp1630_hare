@@ -69,10 +69,15 @@ Ext.define("SppAppClassic.view.main.MainController", {
                 if (filterPanel) {
                     filterPanel.destroy();
                 }
-                var gridPanel = Ext.getCmp("gridPanel");
-                if (gridPanel) {
-                    gridPanel.destroy();
+                var gridWindow = Ext.getCmp("gridWindow");
+                if (gridWindow) {
+                    gridWindow.destroy();
                 }
+                var popupWindow = Ext.getCmp("popupWindow");
+                if (popupWindow) {
+                    popupWindow.destroy();
+                }
+                
                 // destroy ol3map
                 //Ext.getCmp("geoextMap").destroy();
 

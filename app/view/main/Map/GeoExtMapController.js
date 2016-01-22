@@ -56,7 +56,6 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
      * by default, all visible layers will be tested
     */
     onMapClick: function(evt) {
-        console.log("on map click");
         // this.map replaces olMap.map until GeoExt3 function exists
         var map = this.getView().map;
         //var pixel = map.getEventPixel(evt.originalEvent);

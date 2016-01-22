@@ -10,6 +10,12 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
         "SppAppClassic.view.main.Filter.FilterPanel"
     ],*/
 
+    control: {
+        "#": {
+             close: "onClose"
+        }
+    },
+
     // TODO: keep previous qcl filter intact -> right now it gets overwritten
     // make universal, right now it only works for harbour layer
     applyFilterToHarbourLayer: function(filterString) {

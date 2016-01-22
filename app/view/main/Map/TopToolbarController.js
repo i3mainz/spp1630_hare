@@ -11,20 +11,30 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         "SppAppClassic.view.main.Filter.FilterPanel"
     ],
 
+    // define listeners here instead of the view. 
+    // keeps view and controller logic seperated
+    control: {
+        "#": {
+            beforeRender: "hideButtonsForGuest"
+        }
+    },
+
     zoomIn: function() {
         var view = Ext.getCmp("geoextMap").getView();
         var currentZoom = view.getZoom();
         view.setZoom(currentZoom + 1);
     },
+
     zoomOut: function() {
         var view = Ext.getCmp("geoextMap").getView();
         var currentZoom = view.getZoom();
         view.setZoom(currentZoom - 1);
     },
+
     zoomAnimated: function() {
-       var zoom = ol.animation.zoom({duration: 500, resolution: Ext.getCmp("geoextMap").getView().getResolution()});
-       //olMap.beforeRender(zoom);
-       Ext.getCmp("geoextMap").getView().setZoom(zoom);
+        var zoom = ol.animation.zoom({duration: 500, resolution: Ext.getCmp("geoextMap").getView().getResolution()});
+        //olMap.beforeRender(zoom);
+        Ext.getCmp("geoextMap").getView().setZoom(zoom);
     },
 
     /* zoomTomax extend -> get Center of map on start of app. 
@@ -36,6 +46,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         view.setZoom(4);
         view.setRotation(0);
     },
+
     /*onRotate: function() {
         console.log("rotate!");
         var view = Ext.getCmp("geoextMap").getView();
@@ -108,8 +119,9 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
      * filter queries.
     */
     hideButtonsForGuest: function() {
-        console.log("cookie: " + Ext.util.Cookies.get("sppCookie"));
+        //console.log("cookie: " + Ext.util.Cookies.get("sppCookie"));
         if (Ext.util.Cookies.get("sppCookie") === "guest") {
+            var toolbar = this.getView();
             Ext.getCmp("filterButton").disable();
             Ext.getCmp("gridButton").disable();
         }

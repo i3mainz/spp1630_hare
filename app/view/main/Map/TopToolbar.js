@@ -9,51 +9,46 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
         "Ext.button.Button"
     ],
 
-    controller: "map-toolbar",  // not sure if this is needed -> works without
-    // toolbar is a component. only containers can have controllers
+    controller: "map-toolbar",
 
-    items: [
-        {
-            text: "Zoom In",
-            glyph: "xf00e@FontAwesome",
-            handler: "zoomIn"
-        },{
-            text: "Zoom Out",
-            glyph: "xf010@FontAwesome",
-            handler: "zoomOut"
-        },{
-            text: "Extend",
-            glyph: "xf0b2@FontAwesome",
-            handler: "onCenter"
-        },{
-            xtype: "button",
-            reference: "filterButton",
-            id: "filterButton", // used in FilterPanelController.js
-            text: "Filters",
-            glyph: "xf0b0@FontAwesome",
-            enableToggle: true,
-            pressed: false,
-            handler: "onToggleFilter"
-        },{
-            xtype: "button",
-            id: "gridButton", // used in GridWindow.js
-            text: "Grid",
-            glyph: "xf0ce@FontAwesome",
-            enableToggle: true,
-            pressed: false,
-            handler: "onGridClick"
-        }/*,{
-            xtype: 'button',
-            id: 'hoverButton',  // to reference it in controller
-            text : 'hover',
-            glyph: 'xf129@FontAwesome',
-            enableToggle: true,
-            pressed: true,
-            handler: "onToggleHover"
-        }*/
-    ],
+    initComponent: function () {
+        console.log("init toolbar...");
+        this.items = this.buildItems();
+        SppAppClassic.view.main.map.TopToolbar.superclass.initComponent.call(this);
+    },
 
-    listeners: {
-        beforerender: "hideButtonsForGuest"
+    buildItems: function () {
+        return [
+            {
+                text: "Zoom In",
+                glyph: "xf00e@FontAwesome",
+                handler: "zoomIn"
+            },{
+                text: "Zoom Out",
+                glyph: "xf010@FontAwesome",
+                handler: "zoomOut"
+            },{
+                text: "Extend",
+                glyph: "xf0b2@FontAwesome",
+                handler: "onCenter"
+            },{
+                xtype: "button",
+                reference: "filterButton",
+                id: "filterButton", // used in FilterPanelController.js
+                text: "Filters",
+                glyph: "xf0b0@FontAwesome",
+                enableToggle: true,
+                pressed: false,
+                handler: "onToggleFilter"
+            },{
+                xtype: "button",
+                id: "gridButton", // used in GridWindow.js
+                text: "Grid",
+                glyph: "xf0ce@FontAwesome",
+                enableToggle: true,
+                pressed: false,
+                handler: "onGridClick"
+            }
+        ];
     }
 });

@@ -189,6 +189,18 @@ Ext.define("LayerStyles", {
             })
         })
     }),
+    greyPoints: new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: 6,
+            fill: new ol.style.Fill({
+                color: "#444444"
+            }),
+            stroke: new ol.style.Stroke({
+                color: "#fff",
+                width: 2
+            })
+        })
+    }),
 
     // line styles
     blueLines: new ol.style.Style({

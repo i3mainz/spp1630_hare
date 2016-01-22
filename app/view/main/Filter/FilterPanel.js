@@ -28,134 +28,134 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
     //layout: "fit",
     width: 250,
 
-    items: [
-        {
-            xtype: "fieldset",
-            flex: 1,
-            title: "Century",
-            checkboxToggle: true,
-            collapsed: true,
-            defaultType: "checkbox", // each item will be a checkbox
-            layout: "fit",
-            defaults: {
-                anchor: "100%",
-                hideEmptyLabel: false
-            },
-            items: [
-                {
-                    xtype: "centuryslider",
-                    padding: 5,
-                    width: 400,
-                    listeners: {
-                        changecomplete: "onSliderChangeComplete"
+    initComponent: function () {
+        console.log("init filterpanel...");
+        this.items = this.buildItems();
+        SppAppClassic.view.main.Filter.FilterPanel.superclass.initComponent.call(this);
+    },
+
+    buildItems: function () {
+        return [
+            {
+                xtype: "fieldset",
+                flex: 1,
+                title: "Century",
+                checkboxToggle: true,
+                collapsed: true,
+                defaultType: "checkbox", // each item will be a checkbox
+                layout: "fit",
+                defaults: {
+                    anchor: "100%",
+                    hideEmptyLabel: false
+                },
+                items: [
+                    {
+                        xtype: "centuryslider",
+                        padding: 5,
+                        width: 400,
+                        listeners: {
+                            changecomplete: "onSliderChangeComplete"
+                        }
+                    },{
+                        xtype: "label",
+                        reference: "sliderlabel",
+                        text: "",
+                        margin: "0 0 0 5"
                     }
-                },{
-                    xtype: "label",
-                    reference: "sliderlabel",
-                    text: "",
-                    margin: "0 0 0 5"
-                }
-            ]
-        },
-        /*,{
-            xtype: 'button',
-            text: 'reset',
-            padding: 5,
-            handler: 'onButtonReset'
-        }*/
-        {
-            xtype: "fieldset",
-            flex: 1,
-            title: "Status",
-            checkboxToggle: true,
-            collapsed: true,
-
-            defaultType: "checkbox", // each item will be a checkbox
-            layout: "anchor",
-            defaults: {
-                anchor: "100%",
-                hideEmptyLabel: false
+                ]
             },
-            items: [
-                {
-                    fieldLabel: "Select Status",
+            /*,{
+                xtype: 'button',
+                text: 'reset',
+                padding: 5,
+                handler: 'onButtonReset'
+            }*/
+            {
+                xtype: "fieldset",
+                flex: 1,
+                title: "Status",
+                checkboxToggle: true,
+                collapsed: true,
 
-                    checked: true,
-                    boxLabel: "1 - complete",
-                    name: "status",
-                    //inputValue: 1,  // returns true or false
-                    id: "checkboxStatus1"
-                },{
-                    checked: true,
-                    boxLabel: "2 - in progress",
-                    name: "status",
-                    id: "checkboxStatus2"
-                    //inputValue: 2
-                },{
-                    checked: true,
-                    boxLabel: "3 - incomplete",
-                    name: "status",
-                    id: "checkboxStatus3"
-                    //inputValue: 3
-                }
-            ]
+                defaultType: "checkbox", // each item will be a checkbox
+                layout: "anchor",
+                defaults: {
+                    anchor: "100%",
+                    hideEmptyLabel: false
+                },
+                items: [
+                    {
+                        fieldLabel: "Select Status",
 
-        },{
-            xtype: "fieldset",
-            //id: "accessFieldset",
-            flex: 1,
-            title: "Access",
-            checkboxToggle: true,
-            collapsed: true,
+                        checked: true,
+                        boxLabel: "1 - complete",
+                        name: "status",
+                        //inputValue: 1,  // returns true or false
+                        id: "checkboxStatus1"
+                    },{
+                        checked: true,
+                        boxLabel: "2 - in progress",
+                        name: "status",
+                        id: "checkboxStatus2"
+                        //inputValue: 2
+                    },{
+                        checked: true,
+                        boxLabel: "3 - incomplete",
+                        name: "status",
+                        id: "checkboxStatus3"
+                        //inputValue: 3
+                    }
+                ]
 
-            defaultType: "checkbox", // each item will be a checkbox
-            layout: "anchor",
-            defaults: {
-                anchor: "100%",
-                hideEmptyLabel: false
-            },
-            items: [
-                {
-                    fieldLabel: "Select Access",
+            },{
+                xtype: "fieldset",
+                //id: "accessFieldset",
+                flex: 1,
+                title: "Access",
+                checkboxToggle: true,
+                collapsed: true,
 
-                    checked: true,
-                    boxLabel: "Open",
-                    name: "access",
-                    inputValue: true,
-                    id: "checkboxAccess1"
-                },{
-                    checked: true,
-                    boxLabel: "SPP intern",
-                    name: "access",
-                    inputValue: true,
-                    id: "checkboxAccess2"
-                },{
-                    checked: true,
-                    boxLabel: "AG intern",
-                    name: "access",
-                    inputValue: true,
-                    id: "checkboxAccess3"
-                }
-            ]
-        },{
-            xtype: "button",
-            text: "apply",
-            flex: 2,
-            handler: "onApplyButtonClick"
-        }/*,{
-            xtype: "button",
-            text: "reset",
-            flex: 1,
-            handler: "onResetButtonClick"
-        }*/
-    ],
+                defaultType: "checkbox", // each item will be a checkbox
+                layout: "anchor",
+                defaults: {
+                    anchor: "100%",
+                    hideEmptyLabel: false
+                },
+                items: [
+                    {
+                        fieldLabel: "Select Access",
 
-    listeners: {
-        /**
-         * check if user has rights to all access options   
-        */
-        beforerender: function() {
-        },
-        close: "onClose"
+                        checked: true,
+                        boxLabel: "Open",
+                        name: "access",
+                        inputValue: true,
+                        id: "checkboxAccess1"
+                    },{
+                        checked: true,
+                        boxLabel: "SPP intern",
+                        name: "access",
+                        inputValue: true,
+                        id: "checkboxAccess2"
+                    },{
+                        checked: true,
+                        boxLabel: "AG intern",
+                        name: "access",
+                        inputValue: true,
+                        id: "checkboxAccess3"
+                    }
+                ]
+            },{
+                xtype: "button",
+                text: "apply",
+                flex: 2,
+                handler: "onApplyButtonClick"
+            }/*,{
+                xtype: "button",
+                text: "reset",
+                flex: 1,
+                handler: "onResetButtonClick"
+            }*/
+        ];
     }
+    //items: []; // added on initCompoenent
 });

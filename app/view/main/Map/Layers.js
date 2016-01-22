@@ -246,7 +246,7 @@ Ext.define("Layers", {
             name: "Aqueducts",
             visible: false
         }),
-        
+
         new ol.layer.Vector({
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
@@ -267,7 +267,7 @@ Ext.define("Layers", {
             name: "Bridges",
             visible: false
         }),
-        
+
         new ol.layer.Vector({
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
@@ -288,7 +288,7 @@ Ext.define("Layers", {
             name: "Baths",
             visible: false
         }),
-        /*
+
         new ol.layer.Vector({
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
@@ -371,7 +371,7 @@ Ext.define("Layers", {
             legendUrl: getLegendImg("SPP:road"),
             name: "Roads",
             visible: false
-        })*/
+        })
     ]),
 
     darmc: new ol.Collection([
@@ -527,7 +527,6 @@ Ext.define("Layers", {
             source: new ol.source.OSM({wrapX: false}),
             name: "OSM",
             visible: false  // not activated on start
-        })*/
-        
+        })*/ 
     ])
 });
