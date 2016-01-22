@@ -22,6 +22,7 @@ Ext.define("Layers", {
         "LayerStyles"
     ],
 
+    // works both as collection or as list
     spp: new ol.Collection([
         // harbours
         new ol.layer.Vector({
@@ -68,12 +69,12 @@ Ext.define("Layers", {
             legendUrl: getLegendImg("SPP:vehicles"),
             style: LayerStyles.yellowPoints,
             visible: false
-        }),
+        })
         */
 
         // vehicles
-        /*
-        new ol.layer.Vector({
+        
+        /*new ol.layer.Vector({
             name: "Canals",
             source: new ol.source.Vector({  // TODO create class for vector source
                 format: new ol.format.GeoJSON(),
@@ -93,8 +94,8 @@ Ext.define("Layers", {
             legendUrl: getLegendImg("SPP:canals"),
             style: LayerStyles.greenPoints,
             visible: false
-        })
-        */
+        })*/
+        
 
         /*
         new ol.layer.Tile({
@@ -245,7 +246,7 @@ Ext.define("Layers", {
             name: "Aqueducts",
             visible: false
         }),
-
+        
         new ol.layer.Vector({
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
@@ -266,7 +267,7 @@ Ext.define("Layers", {
             name: "Bridges",
             visible: false
         }),
-
+        
         new ol.layer.Vector({
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
@@ -287,7 +288,7 @@ Ext.define("Layers", {
             name: "Baths",
             visible: false
         }),
-
+        /*
         new ol.layer.Vector({
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
@@ -370,7 +371,7 @@ Ext.define("Layers", {
             legendUrl: getLegendImg("SPP:road"),
             name: "Roads",
             visible: false
-        })
+        })*/
     ]),
 
     darmc: new ol.Collection([
@@ -475,15 +476,14 @@ Ext.define("Layers", {
     ]),
 
     basemaps: new ol.Collection([
+        
         new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: wms,
-                params: {"LAYERS": "SPP:world_borders_simple", "TILED": true},
-                serverType: "geoserver",
-                wrapX: false   // dont repeat on X axis
+            source: new ol.source.MapQuest({
+                layer: "sat",
+                wrapX: false
             }),
-            legendUrl: getLegendImg("SPP:world_borders_simple"),
-            name: "Simple World Borders",
+            name: "MapQuest Satelite",
+            legendUrl: "https://otile4-s.mqcdn.com/tiles/1.0.0/sat/4/4/7.jpg",
             visible: false
         }),
 
@@ -496,22 +496,7 @@ Ext.define("Layers", {
             name: "Stamen Watercolor",
             visible: false
         }),
-
-        new ol.layer.Tile({
-            source: new ol.source.MapQuest({
-                layer: "sat",
-                wrapX: false
-            }),
-            name: "MapQuest Satelite",
-            legendUrl: "https://otile4-s.mqcdn.com/tiles/1.0.0/sat/4/4/7.jpg",
-            visible: false
-        }),
-
-        /*osm: new ol.layer.Tile({
-            source: new ol.source.OSM({wrapX: false}),
-            name: "OSM",
-            visible: false  // not activated on start
-        }),*/
+        
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
                 url: "http://ows.terrestris.de/osm-gray/service",
@@ -521,6 +506,28 @@ Ext.define("Layers", {
             legendUrl: "https://otile4-s.mqcdn.com/tiles/1.0.0/osm/4/4/7.jpg",
             name: "OSM gray",
             visible: true
+        }),
+
+        new ol.layer.Tile({
+            source: new ol.source.TileWMS({
+                url: wms,
+                params: {
+                    "LAYERS": "SPP:world_borders_simple", 
+                    "TILED": true
+                },
+                serverType: "geoserver",
+                wrapX: false   // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:world_borders_simple"),
+            name: "Simple World Borders",
+            visible: false
         })
+
+        /*new ol.layer.Tile({
+            source: new ol.source.OSM({wrapX: false}),
+            name: "OSM",
+            visible: false  // not activated on start
+        })*/
+        
     ])
 });

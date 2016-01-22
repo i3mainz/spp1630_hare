@@ -19,7 +19,7 @@ Ext.define("LayerGroups", {
 
     sppOpen: new ol.layer.Group({
         layers: Layers.sppOpen,
-        name: "SPP",
+        name: "SPP (open)",
         visible: true
     }),
 
@@ -42,7 +42,7 @@ Ext.define("LayerGroups", {
     }),
 
     // sort using OL3 groups
-    baselayers: new ol.layer.Group({
+    basemaps: new ol.layer.Group({
         layers: Layers.basemaps,
         name: "Basemaps"
     })

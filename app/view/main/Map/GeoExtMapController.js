@@ -31,7 +31,6 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     // keeps view and controller logic seperated
     control: {
         "#": {  // matches the view itself
-            //beforerender: "onBeforeRender",  // TODO: do this on component init
             click: "onMapClick",
             pointermove: "onPointerMove"
         }
@@ -57,8 +56,9 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
      * by default, all visible layers will be tested
     */
     onMapClick: function(evt) {
+        console.log("on map click");
         // this.map replaces olMap.map until GeoExt3 function exists
-        var map = Ext.getCmp("geoextMap").map;
+        var map = this.getView().map;
         //var pixel = map.getEventPixel(evt.originalEvent);
         var feature = map.forEachFeatureAtPixel(evt.pixel,
             function(feature, layer) {
@@ -91,7 +91,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
      * to indicate that the feature is clickable
     */
     onPointerMove: function(evt) {
-        var map = Ext.getCmp("geoextMap").map;
+        var map = this.getView().map;
         //var pixel = map.getEventPixel(evt.originalEvent);
         var hasFeature = map.forEachFeatureAtPixel(evt.pixel, function() {
             return true;
@@ -101,32 +101,5 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
         } else {
             map.getTarget().style.cursor = "";
         }
-    },
-
-    /**
-     * checks user's authorization and adds layer groups accordingly.
-     * beforerender is a default event. no need to specify it in the
-     * listeners like {beforerender: "beforeRender"}. it just works 
-     * since ExtJs recognizes the name. the function in the controller
-     * needs to be in lowerCamelCase: "beforerender" wouldn't work, while
-     * "beforeRender" works. I use onBeforeRender. not sure if using 
-     * beforeRender does overwrite some interal functions 
-    */
-    onBeforeRender: function() {
-        // use geoext method to keep layer reorder working
-        // also doesnt work with reorder
-        var map = Ext.getCmp("geoextMap");
-        if (Ext.util.Cookies.get("sppCookie") === "guest") {
-            map.addLayer(LayerGroups.baselayers);
-            map.addLayer(LayerGroups.hydrology);
-            map.addLayer(LayerGroups.sppOpen);
-        } else {
-            map.addLayer(LayerGroups.baselayers);
-            map.addLayer(LayerGroups.darmc);
-            map.addLayer(LayerGroups.barrington);
-            map.addLayer(LayerGroups.hydrology);
-            map.addLayer(LayerGroups.spp);
-        }
     }
-
 });

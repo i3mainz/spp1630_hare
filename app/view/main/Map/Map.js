@@ -44,7 +44,6 @@ Ext.define("SppAppClassic.view.main.map.Map", {
     },
 
     listeners: {
-        /*
         render: function(panel) {
             // add custom click event
             panel.body.on("click", function(evt) {
@@ -62,6 +61,6 @@ Ext.define("SppAppClassic.view.main.map.Map", {
                 evt.pixel = [evt.browserEvent.layerX, evt.browserEvent.layerY];
                 Ext.getCmp("geoextMap").fireEvent("pointermove", evt);
             });
-        }*/
+        }
     }
 });

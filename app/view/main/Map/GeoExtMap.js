@@ -44,8 +44,16 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
 
     initComponent: function () {
         console.log("init GeoExtMap...");
+        var me = this;
         var ol3Map = new ol.Map({
-            layers: [],  // get laoded dynamically in MapController
+            layers: [
+                LayerGroups.basemaps,
+                LayerGroups.hydrology,
+                LayerGroups.darmc,
+                LayerGroups.barrington,
+                LayerGroups.spp,
+                LayerGroups.sppOpen
+            ],  // get laoded dynamically in MapController
             controls: [
                 new ol.control.ScaleLine()
             ],
@@ -73,7 +81,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
         var layerGroup = ol3Map.getLayerGroup();
         
         // set map
-        this.map = ol3Map;  // set Ol3 map
+        me.map = ol3Map;  // set Ol3 map
 
         // set layertree's store
         var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
@@ -81,35 +89,27 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
         });
         Ext.getCmp("layerTree").setStore(treeStore);
 
-        // shared layerGroups
-        console.log("add layers!");
-        /*var group = new ol.layer.Group({
-            layers: Layers.basemaps[0],
-            name: "Basemaps"
+        // dynamically adding layers doesnt work!
+        // workaround: add all, then remove restricted
+        var guestRestrictedLayers = ["Barrington Atlas", "SPP", "DARMC"];
+        var adminRestrictedLayers = ["SPP (open)"];
+        var groups = [];
+        var collection = me.getLayers();
+        var cookie = Ext.util.Cookies.get("sppCookie");
+
+        collection.forEach(function(layer) {
+            if (cookie === "guest" || cookie === undefined) {
+                if (guestRestrictedLayers.indexOf(layer.get("name")) > -1) {
+                    me.removeLayer(layer);
+                }
+            } else {
+                if (adminRestrictedLayers.indexOf(layer.get("name")) > -1) {
+                    me.removeLayer(layer);
+                }
+            }
         });
-        this.addLayer(group);
-        */
-        
 
-
-
-        this.addLayer(LayerGroups.spp);
-        this.addLayer(LayerGroups.hydrology);
-        //this.addLayer(LayerGroups.barrington);
-        //this.addLayer(LayerGroups.darmc);
-        /*var group = new ol.layer.Group({
-            layers: Layers.basemaps,  // ol.collection
-            name: "base",
-            visible: true
-        });
-        this.addLayer(group);*/
-
-        
-        
-
-        
-        console.log("done!");
-        //this.addLayersToMap();
+        // add custom listeners
 
         // keep inheritance
         //this.callParent(); // doesnt work, use workaround below
@@ -189,9 +189,17 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
     /**
      * returns layer by its assigned name in layertree (not source name)
     */
-    getLayerByName: function(layername) {
+    getLayerByName: function(layername, activeOnly) {
+        activeOnly = activeOnly || true;
+
         var resultlayer;
-        var layers = this.getActiveLayers(true);
+        var layers;
+        if (activeOnly) {
+            layers = this.getActiveLayers(true);
+        } else {
+            this.getLayers();
+        }
+
         layers.forEach(function(layer, i) {
             if (layer.get("name") === layername) {
                 resultlayer = layer;
