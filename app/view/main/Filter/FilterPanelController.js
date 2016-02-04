@@ -29,55 +29,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
         Ext.getCmp("filterButton").setPressed(false);
     },
 
-    getQueryString: function(dates, allowNull) {
-        // all selected must be "ja" -> "null" and "nein" ignored for now
-        allowNull = allowNull || false;
-
-        /*
-        "1st Century BC",   // 0
-        "1st Century",      // 1
-        "2nd Century",      // 2
-        "3rd Century",      // 3
-        "4th Century",      // 4
-        "5th Century",      // 5
-        "6th Century",      // 6
-        "7th Century",      // 7
-        "8th Century",      // 8
-        "9th Century",      // 9
-        "10th Century",     // 10
-        "11th Century",     // 11
-        "12th Century",     // 12
-        "13th Century"      // 13  date_13_Jh // ja, nein
-        */
-        var startCentury = dates[0];
-        var endCentury = dates[1];
-
-        var filterList = [];
-        //var queryString = "";
-
-        for (var century = 0; century < 14; century++) {
-            if (century < startCentury || century > endCentury) {  // not selected
-                /*
-                if (century === 0) {  // special for 1st BC
-                    filterList.push("date_1_Jhv="nein"");
-                } else {
-                    filterList.push("date_" + century + "_Jh="nein"");
-                }
-                */
-            } else {  // within selection
-                if (century === 0) {  // special for 1st BC
-                    filterList.push("date_1_Jhv='ja'");
-                } else {
-                    filterList.push("date_" + century + "_Jh='ja'");
-                }
-            }
-        }
-        // remove leading ";"
-        var queryString = filterList.join(" AND ");
-        return queryString;
-    },
-
-    onSliderChangeComplete: function() {
+    onSliderChange: function() {
 
         /* sources appear tp be empty, since they are loaded async */
         /* retrieving the previous source istn working because
@@ -102,9 +54,23 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
         var slider = me.lookupReference("centuryslider");
 
         //var filterPanel = Ext.getCmp("filterPanel");
-
+        var labelText;
         // update text next to slider
-        var labelText = "C" + slider.getValues()[0] + "th - C" + slider.getValues()[1] + "th";
+        var value1 = slider.getValues()[0];
+        var value2 = slider.getValues()[1];
+
+        if (value1 === value2) {  // same century
+            if (value1 === 0) {
+                labelText = value1 + "BC";
+            } else {
+                labelText = value1 + "AD";
+            }
+        } else if (value1 === 0) {  // different values, one is bc
+            labelText = "1BC" + " - " + value2 + "AD";
+        } else {
+            labelText = value1 + "AD" + " - " + value2 + "AD";
+        }
+
         me.lookupReference("sliderlabel").setText(labelText);
 
         // apply filter -> gets applied on apply buton click
@@ -118,27 +84,36 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
      * Resets all filters applied to layer 'Open'.
      * Loads layer with empty filter string.
     */
-    onResetButtonClick: function() {
+    /*onResetButtonClick: function() {
         this.applyFilterToHarbourLayer("");  // empty filter
+    },*/
+
+    getCenturiesSQLQuery: function() {
+        var slider = this.lookupReference("centuryslider");
+
+        var allowPropable = Ext.getCmp("allowPropableCheckbox").getValue();
+        var onlyContinuous = Ext.getCmp("onlyContinuousCheckbox").getValue();
+
+        var sliderFilterString;
+        if (allowPropable) {  // vermutet erlaubt
+            if (onlyContinuous) {
+                sliderFilterString = slider.getSQLQuery(true, true);
+            } else {
+                sliderFilterString = slider.getSQLQuery(true, false);
+            }
+
+        } else {
+            if (onlyContinuous) {
+                sliderFilterString = slider.getSQLQuery(false, true);
+            } else {
+                sliderFilterString = slider.getSQLQuery(false, false);
+            }
+        }
+
+        return sliderFilterString;
     },
 
-    /**
-     * Gets values of filter panel and apply these to the layer 'Open'
-    */
-    onApplyButtonClick: function() {
-        console.log("applying filters!");
-        Ext.getCmp("applyFilterButton").disable();
-        // these may change depending on layer
-        //var statusAttr = "status";
-        var accessAttr = "public";
-
-        // get slider
-        var slider = this.lookupReference("centuryslider");
-        var sliderFilterString = this.getQueryString(slider.getValues());
-
-        // get status
-        var statusFieldset = Ext.getCmp("statusFieldset");
-
+    getStatusSQLQuery: function() {
         var status1 = Ext.getCmp("checkboxStatus1").getValue();
         var status2 = Ext.getCmp("checkboxStatus2").getValue();
         var status3 = Ext.getCmp("checkboxStatus3").getValue();
@@ -158,32 +133,38 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
             statusFilterList.push("status!=1 AND status!=2 AND status!=3");
         }
 
-        // get access
-        var access1 = Ext.getCmp("checkboxAccess1").getValue();
-        var access2 = Ext.getCmp("checkboxAccess2").getValue();
-        var access3 = Ext.getCmp("checkboxAccess3").getValue();
+        return statusFilterList.join(" OR ");
+    },
 
-        var accessFilterList = [];
-        if (access1) {
-            accessFilterList.push(accessAttr + "='offen'");
+    getProjectSQLQuery: function() {
+        var projectList = [];
+        for (var i = 1; i < 13; i++) {
+            var componentID = "project" + i + "Checkbox";
+            var projectIsSelected = Ext.getCmp(componentID).getValue();
+            if (projectIsSelected) {
+                projectList.push("projectID=" + i);
+            }
         }
-        if (access2) {
-            accessFilterList.push(accessAttr + "='SPP intern'");
-        }
-        if (access3) {
-            accessFilterList.push(accessAttr + "='AG intern'");
-        }
-        if (!access1 && !access2 && !access3) {
-            accessFilterList.push(accessAttr + "=!offen AND " + accessAttr + "!='SPP intern' AND " + accessAttr + "!='AG intern'");
-        }
+        return projectList.join(" OR ");
+    },
 
-        var filterString = "(" + statusFilterList.join(" OR ") + ") AND (" + sliderFilterString + ") AND (" + accessFilterList.join(" OR ") + ")";
-        //filterString = accessFilterList.join(" OR ");
+    /**
+     * Gets values of filter panel and apply these to the layer 'Open'
+    */
+    onApplyButtonClick: function() {
+
+        Ext.getCmp("applyFilterButton").disable();
+
+        var projectSQLQuery = this.getProjectSQLQuery();
+        console.log(projectSQLQuery);
+        var statusSQLQuery = this.getStatusSQLQuery();
+        var sliderSQLQuery = this.getCenturiesSQLQuery();
+
+        var filterString = "(" + statusSQLQuery + ") AND (" + sliderSQLQuery + ")";
 
         // apply filters to layer "harbours"
         this.applyFilterToHarbourLayer(filterString);
 
         Ext.getCmp("applyFilterButton").enable();
-        Ext.getCmp("resetFilterButton").enable();
     }
 });

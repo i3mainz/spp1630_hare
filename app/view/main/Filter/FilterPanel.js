@@ -1,5 +1,13 @@
 "use strict";
-
+/**
+ * @class SppAppClassic.view.main.Filter.FilterPanel
+ * @extends Ext.window.Window
+ *
+ * Panel that holds all Filter options in an accordion layout.
+ *
+ * @author Axel Kunz (c) 2015-2016
+ * @license ???
+ */
 Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
     extend: "Ext.window.Window",
     xtype: "filterpanel",
@@ -21,13 +29,12 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
         type: "main-filterpanel"
     },*/
 
-    //hidden: true,
-    resizable: true,
+    resizable: false,
     closeAction: "hide",
     title: "Filters",
     layout: "accordion",  // "anchor"
     width: 220,
-    minHeight: 400,
+    minHeight: 300,
     maxHeight: 500,
 
     defaults: {  // defaults for all items
@@ -36,7 +43,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
         titleCollapse: false  // true allows expanding on title click, done with custom listeners
     },
 
-    applyCounter: 0, // used to hide reset button when nothing has been applied yet
+    //applyCounter: 0, // used to hide reset button when nothing has been applied yet
 
     initComponent: function () {
         console.log("init filterpanel...");
@@ -52,25 +59,25 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
                 checked: true,
                 boxLabel: projectString,
                 name: "project",
-                id: "project" + index
+                id: "project" + index + "Checkbox"
             };
         };
         var projects = ["Haefen an der Balkankueste des byzantinischen Reiches",
                         "Binnenhaefen im fränkisch-deutschen Reich",
                         "Effizienz und Konkurrenz",
                         "extern/Binnenhäfen",
-                        //"Faehren (Universität Bamberg)",
-                        //"Fossa Carolina",
-                        //"HaNoA",
-                        //"Ostseehaefen",
-                        //"Rhein",
+                        "F#hren (Universität Bamberg)",
+                        "Fossa Carolina",
+                        "HaNoA",
+                        "Ostseehäfen",
+                        "Rhein",
                         "Rheinhafenprojekt",
                         "Bremer Becken",
                         "Adria"];
 
         var itemList = [];
         projects.forEach(function(project, i) {
-            itemList.push(createProject(project, i));
+            itemList.push(createProject(project, i+1));
         });
 
         return itemList;
@@ -88,20 +95,37 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
                 items: this.buildProjectCheckboxes()
             },{
                 xtype: "panel",
-                title: "Century",
-                layout: "fit",
+                title: "Centuries",
+                layout: {
+                    type: "vbox",
+                    align: "center"
+                },
                 items: [
                     {
                         xtype: "label",
                         reference: "sliderlabel",
-                        text: "",
-                        margin: "0 0 0 0"
+                        text: "1BC - 13AD",
+                        padding: "5 0 0 0"
                     },{
                         xtype: "centuryslider",
-                        margin: "0 20 0 20",
+                        width: 160,
+                        padding: "0 0 10 0",
                         listeners: {
-                            changecomplete: "onSliderChangeComplete"
+                            //changecomplete: "onSliderChangeComplete",
+                            change: "onSliderChange"
                         }
+                    },{
+                        xtype: "checkbox",
+                        checked: true,
+                        boxLabel: "allow 'propable'",
+                        name: "allowPropable",
+                        id: "allowPropableCheckbox"
+                    },{
+                        xtype: "checkbox",
+                        checked: false,
+                        boxLabel: "only continuous",
+                        name: "onlyContinuous",
+                        id: "onlyContinuousCheckbox"
                     }
                 ]
             },{
@@ -131,34 +155,6 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
                         //inputValue: 3
                     }
                 ]
-            },{
-                xtype: "panel",
-                title: "Access",
-                disabled: true,
-                items: [
-                    {
-                        xtype: "checkbox",
-                        checked: true,
-                        boxLabel: "Open",
-                        name: "access",
-                        //inputValue: 1,  // returns true or false
-                        id: "access1"
-                    },{
-                        xtype: "checkbox",
-                        checked: true,
-                        boxLabel: "SPP restricted",
-                        name: "access",
-                        id: "access2"
-                        //inputValue: 2
-                    },{
-                        xtype: "checkbox",
-                        checked: true,
-                        boxLabel: "Group restricted",
-                        name: "access",
-                        id: "access3"
-                        //inputValue: 3
-                    }
-                ]
             }
         ];
     },
@@ -169,12 +165,12 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
             text: "Apply",
             id: "applyFilterButton",
             handler: "onApplyButtonClick"
-        }, {
+        }/*, {
             text: "Reset",
             id: "resetFilterButton",
             disabled: true,
             handler: "onResetButtonClick"
-        }];
+        }*/];
     },
     //buttons: []; // added on initCompoenent
 
@@ -194,12 +190,6 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
 
     listeners: {
 
-        beforerender: function() {
-            this.items.each(function(item) {
-                item.expand();
-            });
-        },
-
         // new listener for click on title
         render: function() {
             var me = this;
@@ -208,11 +198,10 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
                 // check if an item was clicked
                 item.header.on("click", function() {
 
-                    console.log("click on something!");
                     if (item.getCollapsed() === "top") {
-                        console.log("expand!");
+                        //console.log("expand!");
                         item.expand();
-                        console.log("change to bold!");
+                        //console.log("change to bold!");
                         me.resetTitles();
                         var title = item.getTitle();
                         item.setTitle("<b>" + title + "</b>");
