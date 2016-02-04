@@ -1,6 +1,6 @@
 "use strict";
 // collection of shared data
-// not really a class 
+// not really a class
 // layers need to be in a collection before you can group them to layergroups
 // this way, reordering works
 
@@ -32,7 +32,7 @@ Ext.define("Layers", {
                 url: function(extent) {
                     return proxy +
                             "bereich=" + "SPP" +
-                            "&layer=" + "sppgesamt" +
+                            "&layer=" + "spp_harbours_intern" +  // includes open + intern, not ag intern
                             "&bbox=" + extent.join(",") +
                             "&epsg=" + "4326";
                 },
@@ -45,10 +45,30 @@ Ext.define("Layers", {
             //style: LayerStyles.styleFunction,
             style: LayerStyles.redPoints,
             visible: true
-        })
+        }),
 
-        // canals
-        /*
+        /*new ol.layer.Vector({
+            name: "Harbours all",
+            source: new ol.source.Vector({  // TODO create class for vector source
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return proxy +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "spp_harbours" +  // includes open + intern, not ag intern
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:harbours"),
+            //style: LayerStyles.styleFunction,
+            style: LayerStyles.redPoints,
+            visible: true
+        }),*/
+
         new ol.layer.Vector({
             name: "Vehicles",
             source: new ol.source.Vector({  // TODO create class for vector source
@@ -56,7 +76,7 @@ Ext.define("Layers", {
                 url: function(extent) {
                     return proxy +
                             "bereich=" + "SPP" +
-                            "&layer=" + "vehicles" +
+                            "&layer=" + "spp_vehicles" +  // open and spp intern, not ag intern
                             "&bbox=" + extent.join(",") +
                             "&epsg=" + "4326";
                             //"&CQL_FILTER=place_type='Hafen'";
@@ -70,10 +90,9 @@ Ext.define("Layers", {
             style: LayerStyles.yellowPoints,
             visible: false
         })
-        */
 
         // vehicles
-        
+
         /*new ol.layer.Vector({
             name: "Canals",
             source: new ol.source.Vector({  // TODO create class for vector source
@@ -95,7 +114,7 @@ Ext.define("Layers", {
             style: LayerStyles.greenPoints,
             visible: false
         })*/
-        
+
 
         /*
         new ol.layer.Tile({
@@ -162,7 +181,7 @@ Ext.define("Layers", {
                 url: function(extent) {
                     return proxy +
                             "bereich=" + "SPP" +
-                            "&layer=" + "v_public_offen" +
+                            "&layer=" + "spp_harbours_open" +
                             "&bbox=" + extent.join(",") +
                             "&epsg=" + "4326";
                 },
@@ -183,7 +202,7 @@ Ext.define("Layers", {
             source: new ol.source.TileWMS({
                 url: wms,
                 params: {
-                    "LAYERS": "SPP:lakes", 
+                    "LAYERS": "SPP:lakes",
                     "TILED": true
                 },
                 serverType: "geoserver",
@@ -272,7 +291,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return proxy + 
+                    return proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "bath" +
                             "&bbox=" + extent.join(",") +
@@ -293,7 +312,7 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return proxy + 
+                    return proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "port" +
                             "&bbox=" + extent.join(",") +
@@ -314,10 +333,10 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return proxy + 
-                            "bereich=" + "SPP" + 
-                            "&layer=" + "settlement" + 
-                            "&bbox=" + extent.join(",") + 
+                    return proxy +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "settlement" +
+                            "&bbox=" + extent.join(",") +
                             "&epsg=" + "4326";
                 },
                 strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
@@ -335,10 +354,10 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return proxy + 
-                            "bereich=" + "SPP" + 
-                            "&layer=" + "canal" + 
-                            "&bbox=" + extent.join(",") + 
+                    return proxy +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "canal" +
+                            "&bbox=" + extent.join(",") +
                             "&epsg=" + "4326";
                 },
                 strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
@@ -356,10 +375,10 @@ Ext.define("Layers", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return proxy + 
-                            "bereich=" + "SPP" + 
-                            "&layer=" + "road" + 
-                            "&bbox=" + extent.join(",") + 
+                    return proxy +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "road" +
+                            "&bbox=" + extent.join(",") +
                             "&epsg=" + "4326";
                 },
                 strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
@@ -476,7 +495,7 @@ Ext.define("Layers", {
     ]),
 
     basemaps: new ol.Collection([
-        
+
         new ol.layer.Tile({
             source: new ol.source.MapQuest({
                 layer: "sat",
@@ -496,7 +515,7 @@ Ext.define("Layers", {
             name: "Stamen Watercolor",
             visible: false
         }),
-        
+
         new ol.layer.Tile({
             source: new ol.source.TileWMS({
                 url: "http://ows.terrestris.de/osm-gray/service",
@@ -512,7 +531,7 @@ Ext.define("Layers", {
             source: new ol.source.TileWMS({
                 url: wms,
                 params: {
-                    "LAYERS": "SPP:world_borders_simple", 
+                    "LAYERS": "SPP:world_borders_simple",
                     "TILED": true
                 },
                 serverType: "geoserver",
@@ -527,6 +546,6 @@ Ext.define("Layers", {
             source: new ol.source.OSM({wrapX: false}),
             name: "OSM",
             visible: false  // not activated on start
-        })*/ 
+        })*/
     ])
 });

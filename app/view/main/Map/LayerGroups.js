@@ -23,6 +23,12 @@ Ext.define("LayerGroups", {
         visible: true
     }),
 
+    agIntern: new ol.layer.Group({
+        layers: [],
+        name: "AG Intern",
+        visible: false
+    }),
+
     hydrology: new ol.layer.Group({
         layers: Layers.hydrology,
         name: "Hydrology",

@@ -98,7 +98,7 @@ Ext.define("LayerStyles", {
 
         // map the income level codes to a colour value, grouping them
         var projectColors = {
-            "1": "#660066", 
+            "1": "#660066",
             "2": "#007f00",
             "3": "#ca8f42"
         };
@@ -169,7 +169,7 @@ Ext.define("LayerStyles", {
         image: new ol.style.Circle({
             radius: 6,
             fill: new ol.style.Fill({
-                color: "#00b200"
+                color: "#006600"
             }),
             stroke: new ol.style.Stroke({
                 color: "#fff",

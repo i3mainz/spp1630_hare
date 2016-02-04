@@ -8,7 +8,9 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
     requires: [
         "SppAppClassic.view.main.map.GeoExtMapController",
         "GeoExt.data.store.LayersTree",
-        "LayerGroups"
+        "LayerGroups",
+        //"layerStyles",
+        "Projects"
         //"SppAppClassic.view.main.Popup",    // xtype: "popup"
     ],
 
@@ -24,6 +26,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
                 LayerGroups.hydrology,
                 LayerGroups.darmc,
                 LayerGroups.barrington,
+                LayerGroups.agIntern,
                 LayerGroups.spp,
                 LayerGroups.sppOpen
             ],  // get laoded dynamically in MapController
@@ -52,7 +55,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
             })
         });
         var layerGroup = ol3Map.getLayerGroup();
-        
+
         // set map
         me.map = ol3Map;  // set Ol3 map
 
@@ -64,7 +67,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
 
         // dynamically adding layers doesnt work!
         // workaround: add all, then remove restricted
-        var guestRestrictedLayers = ["Barrington Atlas", "SPP", "DARMC"];
+        var guestRestrictedLayers = ["Barrington Atlas", "SPP", "DARMC", "AG Intern"];
         var adminRestrictedLayers = ["SPP (open)"];
         var collection = me.getLayers();
         var cookie = Ext.util.Cookies.get("sppCookie");
@@ -81,6 +84,20 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
             }
         });
 
+        // remove AG intern if it already exists
+        //var internLayer = me.getLayerByName("Harbours (AG Intern)");
+        //me.removeLayer(internLayer);
+
+        // add ag intern layer to layer Group "AG intern"
+        var projectID = me.getProjectIdFromCookie(cookie);
+
+        if (projectID) {  // known cookie login
+            // create ag intern layer
+            var layer = me.createAGInternLayer(projectID);
+            //me.addLayer(layer);
+            me.addLayerToLayerGroup(layer, "AG Intern");
+        }
+
         // add custom listeners
 
         // keep inheritance
@@ -91,8 +108,23 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
     },
 
     /**
+     * Checks cookie and returns the corresponding project ID
+     */
+    getProjectIdFromCookie: function(cookie) {
+        var id;
+        var projects = Projects.projectList;
+        for (var key in projects) {
+            var project = projects[key];
+            if (cookie === key) {
+                id = project.id;
+            }
+        }
+        return id;
+    },
+
+    /**
      * returns url of the geoserver legend for a layer.
-     * layer string needs to be in format "<workspace>:<layername>" 
+     * layer string needs to be in format "<workspace>:<layername>"
      * e.g. "SPP:harbours"
     */
     getLegendImg: function(layer) {
@@ -103,16 +135,16 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
      * returns list of layers that are currently active (no layergroups)
     */
     getActiveLayers: function(onlyVectors) {
-        /* returns a list of OL3 Layer objects 
-        that includes all selected nodes. 
-        isVector: if true, only active Vectorlayers are returned, 
+        /* returns a list of OL3 Layer objects
+        that includes all selected nodes.
+        isVector: if true, only active Vectorlayers are returned,
         WMS layers are ommitted */
         onlyVectors = onlyVectors || false;  // set default to false
 
         var activeLayers = [];
 
         var layerGroups = this.map.getLayers();
-        layerGroups.forEach(function(layerGroup) {      // loop layergroups  
+        layerGroups.forEach(function(layerGroup) {      // loop layergroups
             var layers = layerGroup.getLayers();
             layers.forEach(function(layer, i) {         // loop layers
                 if (layer.getVisible()) {               // skip inactive layers
@@ -201,6 +233,47 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
             });
         }
         return vectorSource;
+    },
+
+    createAGInternLayer: function(projectID) {
+        console.log("spp_harbours_project" + projectID + "_intern");
+        var layer = new ol.layer.Vector({
+            name: "Harbours (AG Intern)",
+            source: new ol.source.Vector({  // TODO create class for vector source
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return proxy +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "spp_harbours_project" + projectID + "_intern" +
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:harbours"),
+            //style: LayerStyles.styleFunction,
+            style: LayerStyles.greenPoints,
+            visible: false
+        });
+        return layer;
+    },
+
+    addLayerToLayerGroup: function(layer, layerGroupName) {
+
+        var layerGroups = this.map.getLayers();
+
+        layerGroups.forEach(function(layerGroup) {      // loop layergroups
+
+            if (layerGroup.get("name") === layerGroupName) {
+                // get current layers
+                var layers = layerGroup.getLayers();  // returns collection
+                layers.push(layer);
+                layerGroup.setLayers(layers);
+            }
+        });
     }
 
 });

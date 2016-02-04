@@ -28,10 +28,138 @@ Ext.define('SppAppClassic.Application', {
         wmsPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?",  // former GEOSERVER_URL
         proxyPath: "http://haefen.i3mainz.hs-mainz.de" + "/GeojsonProxy/layer?",
         loginPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_check",
-        logoutPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_logout"
+        logoutPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_logout",
+        projects: {
+            adria: {
+                "id": 1,
+                "spp_name": "Kommunikationsraum Adria",
+                "db_name": "Adria",
+                "hasData": true,
+                "hasLogin": true
+            },
+            binnen: {
+                "id": 2,
+                "spp_name": "Binnenhäfen im fränkisch-deutschen Reich",
+                "db_name": "Binnenhäfen im fränkisch-deutschen Reich",  // auch extern/Binnenhäfen
+                "hasData": true,
+                "hasLogin": true
+            },
+            bremen: {
+                "id": 3,
+                "spp_name": "Häfen im Bremer Becken",
+                "db_name": "Bremer Becken",
+                "hasData": true,
+                "hasLogin": false  // abgelaufenes Projekt
+            },
+            effizienz: {
+                "id": 4,
+                "spp_name": "Effizienz und Konkurrenz italienischer Hafenstädte",
+                "db_name": "Effizienz und Konkurrenz",
+                "hasData": true,
+                "hasLogin": false  // abgelaufenes Projekt
+            },
+            faehren: {
+                "id": 5,
+                "spp_name": "???",
+                "db_name": "Fähren (Universität Bamberg)",
+                "hasData": true,
+                "hasLogin": false  // nicht sicher
+            },
+            ainos: {
+                "id": 6,
+                "spp_name": "Die thrakische Hafenstadt Ainos",
+                "db_name": false,
+                "hasData": false,
+                "hasLogin": true
+            },
+            fossa: {
+                "id": 7,
+                "spp_name": "Fossa Carolina",
+                "db_name": "Fossa Carolina",
+                "hasData": true,
+                "hasLogin": true
+            },
+            balkan: {
+                "id": 8,
+                "spp_name": "Häfen an der Balkanküste des byzantinischen Reiches",
+                "db_name": "Häfen an der Balkanküste des byzantinischen Reiches",
+                "hasData": true,
+                "hasLogin": true
+            },
+            hanoa: {
+                "id": 9,
+                "spp_name": "HaNoA - Häfen im Nordatlantik",
+                "db_name": "HaNoA",
+                "hasData": true,
+                "hasLogin": true
+            },
+            ostsee: {
+                "id": 10,
+                "spp_name": "Ostseeküste",
+                "db_name": "Ostseehäfen",
+                "hasData": true,
+                "hasLogin": true
+            },
+            rhein: {
+                "id": 11,
+                "spp_name": "Der Rhein als europäische Verkehrsachse",
+                "db_name": "Rhein",
+                "hasData": true,
+                "hasLogin": true
+            },
+            byzanz: {
+                "id": 12,
+                "spp_name": "Hafenverwaltung im Byzantinischen Reich",
+                "db_name": false,
+                "hasData": false,
+                "hasLogin": true
+            },
+            koordination: {
+                "id": 13,
+                "spp_name": "Koordination",
+                "db_name": false,
+                "hasData": false,
+                "hasLogin": true
+            },
+            rheinhafen: {
+                "id": 14,
+                "spp_name": "???",
+                "db_name": "Rheinhafenprojekt",
+                "hasData": true,
+                "hasLogin": false
+            },
+            nordsee: {
+                "id": 15,
+                "spp_name": "Nordseeküste",
+                "db_name": false,
+                "hasData": false,
+                "hasLogin": true
+            },
+            runholt: {
+                "id": 16,
+                "spp_name": "Der Handelsplatz Rungholt",
+                "db_name": false,
+                "hasData": false,
+                "hasLogin": true
+            },
+            netzwerk: {
+                "id": 17,
+                "spp_name": "Im Netzwerk fluvialer Häfen",
+                "db_name": false,
+                "hasData": false,
+                "hasLogin": true
+            },
+            geophysik: {
+                "id": 18,
+                "spp_name": "Geophysikalisches Zentralprojekt",
+                "db_name": false,
+                "hasData": false,
+                "hasLogin": true
+            },
+        }
     },
-    
-    // used in Application.js and LoginController.js 
+
+    // used in Application.js and LoginController.js
     // geoserverPath: "/geoserver";  // production path
 
     hasGeoServerLogin: function(username) {
@@ -45,7 +173,7 @@ Ext.define('SppAppClassic.Application', {
             url: SppAppClassic.app.globals.homePath,
             async: false,
 
-            success: function(response) {                
+            success: function(response) {
                 text = response.responseText;
                 if (text.indexOf(engSuccessText) > -1 || text.indexOf(deSuccessText) > -1 ) {
                     isLoggedIn = true;
@@ -70,10 +198,10 @@ Ext.define('SppAppClassic.Application', {
         var isValidUser;
         //console.log(this.geoserverPath);
         /*
-        * validate user. first check for cookie. if cookie exists and it is 
+        * validate user. first check for cookie. if cookie exists and it is
         * "Guest", he is a valid user. if the username is something other than Guest
         * then check if this username is still logged in geoserver. otherwise
-        * the layers won't load and the user has to re-authorize!  
+        * the layers won't load and the user has to re-authorize!
         */
         // loggedIn = localStorage.getItem("TutorialLoggedIn");
         username = Ext.util.Cookies.get("sppCookie");
@@ -89,7 +217,7 @@ Ext.define('SppAppClassic.Application', {
                     isValidUser = true;
 
                 // still has cookie but geoserver session expired
-                } else {  
+                } else {
                     console.log("GeoServer Session expired. Clearing cookie!");
                     Ext.util.Cookies.clear("sppCookie");
                 }
@@ -107,7 +235,7 @@ Ext.define('SppAppClassic.Application', {
         Ext.create({
             // if loggedIn exists, launch app-main, else launch login
             xtype: isValidUser ? 'app-main' : 'login'
-        });    
+        });
     },
 
     onAppUpdate: function () {
