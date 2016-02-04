@@ -40,7 +40,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
                 enableToggle: true,
                 pressed: false,
                 handler: "onToggleFilter"
-            },{
+            }/*,{
                 xtype: "button",
                 id: "gridButton", // used in GridWindow.js
                 text: "Grid",
@@ -48,7 +48,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
                 enableToggle: true,
                 pressed: false,
                 handler: "onGridClick"
-            }
+            }*/
         ];
     }
 });

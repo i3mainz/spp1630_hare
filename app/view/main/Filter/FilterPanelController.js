@@ -34,11 +34,11 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
         allowNull = allowNull || false;
 
         /*
-        "1st Century BC",   // 0 
-        "1st Century",      // 1 
-        "2nd Century",      // 2 
-        "3rd Century",      // 3 
-        "4th Century",      // 4 
+        "1st Century BC",   // 0
+        "1st Century",      // 1
+        "2nd Century",      // 2
+        "3rd Century",      // 3
+        "4th Century",      // 4
         "5th Century",      // 5
         "6th Century",      // 6
         "7th Century",      // 7
@@ -100,7 +100,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
 
         var me = this;
         var slider = me.lookupReference("centuryslider");
-        
+
         //var filterPanel = Ext.getCmp("filterPanel");
 
         // update text next to slider
@@ -115,7 +115,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
     },
 
     /**
-     * Resets all filters applied to layer 'Open'. 
+     * Resets all filters applied to layer 'Open'.
      * Loads layer with empty filter string.
     */
     onResetButtonClick: function() {
@@ -127,7 +127,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
     */
     onApplyButtonClick: function() {
         console.log("applying filters!");
-
+        Ext.getCmp("applyFilterButton").disable();
         // these may change depending on layer
         //var statusAttr = "status";
         var accessAttr = "public";
@@ -182,5 +182,8 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
 
         // apply filters to layer "harbours"
         this.applyFilterToHarbourLayer(filterString);
+
+        Ext.getCmp("applyFilterButton").enable();
+        Ext.getCmp("resetFilterButton").enable();
     }
 });

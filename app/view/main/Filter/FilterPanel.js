@@ -22,15 +22,21 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
     },*/
 
     //hidden: true,
-    resizable: false,
+    resizable: true,
     closeAction: "hide",
     title: "Filters",
     layout: "accordion",  // "anchor"
     width: 220,
-    height: 400,
-    defaults: {
-        bodyPadding: 10
+    minHeight: 400,
+    maxHeight: 500,
+
+    defaults: {  // defaults for all items
+        bodyPadding: 10,
+        hideCollapseTool: true,
+        titleCollapse: false  // true allows expanding on title click, done with custom listeners
     },
+
+    applyCounter: 0, // used to hide reset button when nothing has been applied yet
 
     initComponent: function () {
         console.log("init filterpanel...");
@@ -39,46 +45,68 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
         SppAppClassic.view.main.Filter.FilterPanel.superclass.initComponent.call(this);
     },
 
+    buildProjectCheckboxes: function() {
+        var createProject = function(projectString, index) {
+            return {
+                xtype: "checkbox",
+                checked: true,
+                boxLabel: projectString,
+                name: "project",
+                id: "project" + index
+            };
+        };
+        var projects = ["Haefen an der Balkankueste des byzantinischen Reiches",
+                        "Binnenhaefen im fränkisch-deutschen Reich",
+                        "Effizienz und Konkurrenz",
+                        "extern/Binnenhäfen",
+                        //"Faehren (Universität Bamberg)",
+                        //"Fossa Carolina",
+                        //"HaNoA",
+                        //"Ostseehaefen",
+                        //"Rhein",
+                        "Rheinhafenprojekt",
+                        "Bremer Becken",
+                        "Adria"];
+
+        var itemList = [];
+        projects.forEach(function(project, i) {
+            itemList.push(createProject(project, i));
+        });
+
+        return itemList;
+    },
+
     buildItems: function () {
-        return [
-            {
-                xtype: "form",
+        return [{
+                xtype: "panel", // hidden dummy panel to have the remaining closed
+                hidden: true,
+                collapsed: false
+            },{
+                xtype: "panel",
+                title: "Projects",
+                scrollable: true,
+                items: this.buildProjectCheckboxes()
+            },{
+                xtype: "panel",
                 title: "Century",
-                bodyPadding: 0,
+                layout: "fit",
                 items: [
                     {
-                        xtype: "fieldset",
-                        id: "sliderFieldset",
-                        flex: 1,
-                        title: "Century",
-                        collapsible: true,
-                        border: false,
-                        defaultType: "checkbox", // each item will be a checkbox
-                        defaults: {
-                            anchor: "100%",
-                            hideEmptyLabel: false
-                        },
-                        items: [
-                            {
-                                xtype: "centuryslider",
-                                padding: 5,
-                                width: 400,
-                                listeners: {
-                                    changecomplete: "onSliderChangeComplete"
-                                }
-                            },{
-                                xtype: "label",
-                                reference: "sliderlabel",
-                                text: "",
-                                margin: "0 0 0 5"
-                            }
-                        ]
+                        xtype: "label",
+                        reference: "sliderlabel",
+                        text: "",
+                        margin: "0 0 0 0"
+                    },{
+                        xtype: "centuryslider",
+                        margin: "0 20 0 20",
+                        listeners: {
+                            changecomplete: "onSliderChangeComplete"
+                        }
                     }
                 ]
             },{
                 xtype: "panel",
                 title: "Status",
-                bodyPadding: 0,
                 items: [
                     {
                         xtype: "checkbox",
@@ -94,7 +122,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
                         name: "status",
                         id: "checkboxStatus2"
                         //inputValue: 2
-                    },{ 
+                    },{
                         xtype: "checkbox",
                         checked: true,
                         boxLabel: "3 - incomplete",
@@ -106,7 +134,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
             },{
                 xtype: "panel",
                 title: "Access",
-                bodyPadding: 0,
+                disabled: true,
                 items: [
                     {
                         xtype: "checkbox",
@@ -114,20 +142,20 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
                         boxLabel: "Open",
                         name: "access",
                         //inputValue: 1,  // returns true or false
-                        id: "checkboxStatus1"
+                        id: "access1"
                     },{
                         xtype: "checkbox",
                         checked: true,
                         boxLabel: "SPP restricted",
                         name: "access",
-                        id: "checkboxStatus2"
+                        id: "access2"
                         //inputValue: 2
-                    },{ 
+                    },{
                         xtype: "checkbox",
                         checked: true,
                         boxLabel: "Group restricted",
                         name: "access",
-                        id: "checkboxStatus3"
+                        id: "access3"
                         //inputValue: 3
                     }
                 ]
@@ -136,14 +164,70 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
     },
     //items: []; // added on initCompoenent
 
-    buildButtons: function () {
+    buildButtons: function() {
         return [{
             text: "Apply",
+            id: "applyFilterButton",
             handler: "onApplyButtonClick"
         }, {
             text: "Reset",
+            id: "resetFilterButton",
+            disabled: true,
             handler: "onResetButtonClick"
         }];
-    }
+    },
     //buttons: []; // added on initCompoenent
+
+    /**
+     * removes bold titles
+     */
+    resetTitles: function() {
+        this.items.each(function(item) {
+            var title = item.getTitle();
+            if (title.indexOf("<b>") > -1) {
+                title = title.replace("<b>", "");
+                title = title.replace("</b>", "");
+                item.setTitle(title);
+            }
+        });
+    },
+
+    listeners: {
+
+        beforerender: function() {
+            this.items.each(function(item) {
+                item.expand();
+            });
+        },
+
+        // new listener for click on title
+        render: function() {
+            var me = this;
+            this.items.each(function(item) {
+
+                // check if an item was clicked
+                item.header.on("click", function() {
+
+                    console.log("click on something!");
+                    if (item.getCollapsed() === "top") {
+                        console.log("expand!");
+                        item.expand();
+                        console.log("change to bold!");
+                        me.resetTitles();
+                        var title = item.getTitle();
+                        item.setTitle("<b>" + title + "</b>");
+                        item.header.addCls(".selectedTitle");
+                        //item.header.setHeight(100);
+                        //item.header.addCls("activeFilterPanelTitle");
+
+                    } else {  // collapsed
+                        console.log("do nothing!!");
+                        //item.disable();
+                    }
+
+                    //item.addCls("activeFilterPanelTitle");
+                });
+            });
+        }
+    }
 });
