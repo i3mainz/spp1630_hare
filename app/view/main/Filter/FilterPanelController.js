@@ -21,7 +21,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
     applyFilterToHarbourLayer: function(filterString) {
         var map = Ext.getCmp("geoextMap");
         var layer = map.getLayerByName("Harbours");
-        var newSource = map.createVectorSource("SPP:sppgesamt", filterString);
+        var newSource = map.createVectorSource("SPP:spp_harbours_intern", filterString);
         layer.setSource(newSource);  // this refreshes automatically
     },
 
@@ -138,12 +138,19 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
 
     getProjectSQLQuery: function() {
         var projectList = [];
-        for (var i = 1; i < 13; i++) {
-            var componentID = "project" + i + "Checkbox";
-            var projectIsSelected = Ext.getCmp(componentID).getValue();
-            if (projectIsSelected) {
-                projectList.push("projectID=" + i);
+
+        var counter = 1;
+        var projects = Projects.projectList;
+        for (var key in projects) {
+            var project = projects[key];
+            if (project.db_name) {
+                var componentID = "project" + project.id + "Checkbox";
+                var projectIsSelected = Ext.getCmp(componentID).getValue();
+                if (projectIsSelected) {
+                    projectList.push("project_id=" + project.id);
+                }
             }
+
         }
         return projectList.join(" OR ");
     },
@@ -156,11 +163,10 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
         Ext.getCmp("applyFilterButton").disable();
 
         var projectSQLQuery = this.getProjectSQLQuery();
-        console.log(projectSQLQuery);
         var statusSQLQuery = this.getStatusSQLQuery();
         var sliderSQLQuery = this.getCenturiesSQLQuery();
 
-        var filterString = "(" + statusSQLQuery + ") AND (" + sliderSQLQuery + ")";
+        var filterString = "(" + projectSQLQuery + ") AND (" + statusSQLQuery + ") AND (" + sliderSQLQuery + ")";
 
         // apply filters to layer "harbours"
         this.applyFilterToHarbourLayer(filterString);

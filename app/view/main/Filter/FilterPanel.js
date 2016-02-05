@@ -62,23 +62,16 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
                 id: "project" + index + "Checkbox"
             };
         };
-        var projects = ["Haefen an der Balkankueste des byzantinischen Reiches",  // prüfen o
-                        "Binnenhaefen im fränkisch-deutschen Reich",
-                        "Effizienz und Konkurrenz",
-                        "extern/Binnenhäfen",
-                        "F#hren (Universität Bamberg)",
-                        "Fossa Carolina",
-                        "HaNoA",
-                        "Ostseehäfen",
-                        "Rhein",
-                        "Rheinhafenprojekt",
-                        "Bremer Becken",  // project2
-                        "Adria"];  // project1
 
         var itemList = [];
-        projects.forEach(function(project, i) {
-            itemList.push(createProject(project, i + 1));
-        });
+
+        var projects = Projects.projectList;
+        for (var key in projects) {
+            var project = projects[key];
+            if (project.db_name) {
+                itemList.push(createProject(project.db_name, project.id));
+            }
+        }
 
         return itemList;
     },
