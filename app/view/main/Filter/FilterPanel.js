@@ -8,19 +8,20 @@
  * @author Axel Kunz (c) 2015-2016
  * @license ???
  */
-Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
+Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
     extend: "Ext.window.Window",
     xtype: "filterpanel",
-    reference: "filterpanel",
+    //reference: "filterpanel",
     id: "filterPanel",  // TODO: use references instead
     requires: [
-        "SppAppClassic.view.main.Filter.FilterPanelController",
-        "SppAppClassic.view.main.Filter.CenturySlider",
-        "Ext.form.Panel",
+        "Ext.panel.Panel",
+        //"Ext.form.Panel",
         "Ext.form.Label",
-        "Ext.form.FieldSet",
+        //"Ext.form.FieldSet",
         "Ext.form.field.Checkbox",
-        "Ext.button.Button"
+        "Ext.button.Button",
+        "SppAppClassic.view.main.filter.FilterPanelController",
+        "SppAppClassic.view.main.filter.CenturySlider"
     ],
 
     controller: "main-filterpanel",
@@ -32,24 +33,32 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
     resizable: false,
     closeAction: "hide",
     title: "Filters",
-    layout: "accordion",  // "anchor"
+    //layout: "fit",  // "anchor" //accordion
+    layout: {
+        type: "vbox",
+        align: "stretch"
+    },
     width: 220,
-    minHeight: 300,
-    maxHeight: 500,
+    //minHeight: 300,
+    //maxHeight: 500,
+    scrollable: true,
 
     defaults: {  // defaults for all items
         bodyPadding: 10,
-        hideCollapseTool: true,
-        titleCollapse: false  // true allows expanding on title click, done with custom listeners
+        hideCollapseTool: false,
+        collapsible: true,
+        collapsed: true,
+        titleCollapse: true  // true allows expanding on title click, done with custom listeners
     },
 
     //applyCounter: 0, // used to hide reset button when nothing has been applied yet
 
     initComponent: function () {
-        console.log("init filterpanel...");
-        this.items = this.buildItems();
-        this.buttons = this.buildButtons();
-        SppAppClassic.view.main.Filter.FilterPanel.superclass.initComponent.call(this);
+        Ext.apply(this, {
+            items: this.buildItems(),
+            buttons: this.buildButtons()
+        });
+        SppAppClassic.view.main.filter.FilterPanel.superclass.initComponent.call(this);
     },
 
     buildProjectCheckboxes: function() {
@@ -77,11 +86,11 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
     },
 
     buildItems: function () {
-        return [{
+        return [/*{
                 xtype: "panel", // hidden dummy panel to have the remaining closed
                 hidden: true,
                 collapsed: false
-            },{
+            },*/{
                 xtype: "panel",
                 title: "Projects",
                 scrollable: true,
@@ -151,26 +160,21 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
             }
         ];
     },
-    //items: []; // added on initCompoenent
+
+    //items: [], // added on initCompoenent
 
     buildButtons: function() {
         return [{
             text: "Apply",
             id: "applyFilterButton",
             handler: "onApplyButtonClick"
-        }/*, {
-            text: "Reset",
-            id: "resetFilterButton",
-            disabled: true,
-            handler: "onResetButtonClick"
-        }*/];
-    },
-    //buttons: []; // added on initCompoenent
+        }];
+    }
 
     /**
      * removes bold titles
      */
-    resetTitles: function() {
+    /*resetTitles: function() {
         this.items.each(function(item) {
             var title = item.getTitle();
             if (title.indexOf("<b>") > -1) {
@@ -179,9 +183,9 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
                 item.setTitle(title);
             }
         });
-    },
+    },*/
 
-    listeners: {
+   /* listeners: {
 
         // new listener for click on title
         render: function() {
@@ -190,15 +194,18 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
 
                 // check if an item was clicked
                 item.header.on("click", function() {
-
+                    console.log(item.getTitle());
+                    console.log(item.getCollapsed());
                     if (item.getCollapsed() === "top") {
                         //console.log("expand!");
                         item.expand();
                         //console.log("change to bold!");
+
                         me.resetTitles();
                         var title = item.getTitle();
                         item.setTitle("<b>" + title + "</b>");
                         item.header.addCls(".selectedTitle");
+
                         //item.header.setHeight(100);
                         //item.header.addCls("activeFilterPanelTitle");
 
@@ -211,5 +218,5 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanel",{
                 });
             });
         }
-    }
+    }*/
 });

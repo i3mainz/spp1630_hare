@@ -78,6 +78,7 @@ Ext.define('SppAppClassic.Application', {
         // loggedIn = localStorage.getItem("TutorialLoggedIn");
         username = Ext.util.Cookies.get("sppCookie");
         console.log("cookie: " + username);
+        console.log("version 0.29.7");
 
         if (username) {
             if (username === "guest") {  // already logged in as guest

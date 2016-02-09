@@ -8,10 +8,10 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         // Ext.getCmp(= dont need to be required?
             // but they are if you create new object using Ext.create()
         "SppAppClassic.view.main.GridWindow",
-        "SppAppClassic.view.main.Filter.FilterPanel"
+        "SppAppClassic.view.main.filter.FilterPanel"
     ],
 
-    // define listeners here instead of the view. 
+    // define listeners here instead of the view.
     // keeps view and controller logic seperated
     control: {
         "#": {
@@ -37,7 +37,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         Ext.getCmp("geoextMap").getView().setZoom(zoom);
     },
 
-    /* zoomTomax extend -> get Center of map on start of app. 
+    /* zoomTomax extend -> get Center of map on start of app.
     then set farthest zoom level */
     onCenter: function() {
         console.log("center in!");
@@ -57,7 +57,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
     /*onToggleHover: function() {
         console.log("toggle hover!");
         var interactions = OL3Map.map.getInteractions();
-        var selectInteraction; 
+        var selectInteraction;
         interactions.forEach(function(interaction) {
             if (interaction instanceof ol.interaction.Select) {
                 selectInteraction = interaction;
@@ -84,12 +84,13 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         //console.log(main);
 
         if (!filterPanel) {  // lazy instantiation
-            filterPanel = Ext.create("SppAppClassic.view.main.Filter.FilterPanel");
+            filterPanel = Ext.create("SppAppClassic.view.main.filter.FilterPanel");
+            console.log("done create!");
             //filterPanel.anchorTo(Ext.getBody(),'t-t',[-100,0]);
             //filterPanel.alignTo(Ext.getBody(), "tr-tr");
             //filterPanel.alignTo(Ext.getBody(), "tr");
         }
-        console.log(filterPanel.isHidden());
+        //console.log(filterPanel.isHidden());
         if (filterPanel.isHidden()) {
             filterPanel.show();
         } else {
@@ -115,7 +116,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
 
     /**
      * lock grid and filter buttons is user is logged in as guest.
-     * this prevents the user from accessing ag or spp intern data via 
+     * this prevents the user from accessing ag or spp intern data via
      * filter queries.
     */
     hideButtonsForGuest: function() {

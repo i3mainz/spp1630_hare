@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Filter.CenturySlider", {
+Ext.define("SppAppClassic.view.main.filter.CenturySlider", {
     extend: "Ext.slider.Multi",
     xtype: "centuryslider",  // map.centuryslider
     //alias: 'widget.centuryslider',

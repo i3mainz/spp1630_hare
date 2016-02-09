@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
+Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
     extend: "Ext.app.ViewController",
     alias: "controller.main-filterpanel",
 
@@ -173,6 +173,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
         var sliderSQLQuery = this.getCenturiesSQLQuery();
 
         var filterString = "(" + projectSQLQuery + ") AND (" + statusSQLQuery + ") AND (" + sliderSQLQuery + ")";
+        //var filterString = "(" + statusSQLQuery + ") AND (" + sliderSQLQuery + ")";
 
         // apply filters to layer "harbours"
         this.applyFilterToLayer("Harbours", filterString);
