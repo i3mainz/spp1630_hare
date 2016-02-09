@@ -244,6 +244,97 @@ Ext.define("Layers", {
         })*/
     ]),
 
+    fetch: new ol.Collection([
+        new ol.layer.Tile({
+            name: "Adria 360°(N)",
+            source: new ol.source.TileWMS({
+              url: wms,
+              params: {"LAYERS": "SPP:fetch_360", "TILED": true},
+              serverType: "geoserver",
+              wrapX: false   // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:fetch_045"),
+            visible: false
+        }),
+        new ol.layer.Tile({
+            name: "Adria 45°(NE)",
+            source: new ol.source.TileWMS({
+              url: wms,
+              params: {"LAYERS": "SPP:fetch_045", "TILED": true},
+              serverType: "geoserver",
+              wrapX: false   // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:fetch_045"),
+            visible: false
+        }),
+        new ol.layer.Tile({
+            name: "Adria 90°(E)",
+            source: new ol.source.TileWMS({
+              url: wms,
+              params: {"LAYERS": "SPP:fetch_090", "TILED": true},
+              serverType: "geoserver",
+              wrapX: false   // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:fetch_045"),
+            visible: false
+        }),
+        new ol.layer.Tile({
+            name: "Adria 135°(SE)",
+            source: new ol.source.TileWMS({
+              url: wms,
+              params: {"LAYERS": "SPP:fetch_135", "TILED": true},
+              serverType: "geoserver",
+              wrapX: false   // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:fetch_045"),
+            visible: false
+        }),
+        new ol.layer.Tile({
+            name: "Adria 180°(S)",
+            source: new ol.source.TileWMS({
+              url: wms,
+              params: {"LAYERS": "SPP:fetch_180", "TILED": true},
+              serverType: "geoserver",
+              wrapX: false   // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:fetch_045"),
+            visible: false
+        }),
+        new ol.layer.Tile({
+            name: "Adria 225°(SW)",
+            source: new ol.source.TileWMS({
+              url: wms,
+              params: {"LAYERS": "SPP:fetch_225", "TILED": true},
+              serverType: "geoserver",
+              wrapX: false   // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:fetch_045"),
+            visible: false
+        }),
+        new ol.layer.Tile({
+            name: "Adria 270°(W)",
+            source: new ol.source.TileWMS({
+              url: wms,
+              params: {"LAYERS": "SPP:fetch_270", "TILED": true},
+              serverType: "geoserver",
+              wrapX: false   // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:fetch_045"),
+            visible: false
+        }),
+        new ol.layer.Tile({
+            name: "Adria 315°(NW)",
+            source: new ol.source.TileWMS({
+              url: wms,
+              params: {"LAYERS": "SPP:fetch_315", "TILED": true},
+              serverType: "geoserver",
+              wrapX: false   // dont repeat on X axis
+            }),
+            legendUrl: getLegendImg("SPP:fetch_045"),
+            visible: false
+        })
+    ]),
+
     barrington: new ol.Collection([
         new ol.layer.Vector({
             source: new ol.source.Vector({

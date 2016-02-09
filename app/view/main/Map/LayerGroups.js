@@ -25,7 +25,7 @@ Ext.define("LayerGroups", {
 
     agIntern: new ol.layer.Group({
         layers: [],
-        name: "AG Intern",
+        name: "Project Internal",
         visible: false
     }),
 
@@ -44,6 +44,12 @@ Ext.define("LayerGroups", {
     darmc: new ol.layer.Group({
         layers: Layers.darmc,
         name: "DARMC",
+        visible: false
+    }),
+
+    fetch: new ol.layer.Group({
+        layers: Layers.fetch,
+        name: "Fetch",
         visible: false
     }),
 

@@ -24,6 +24,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
             layers: [
                 LayerGroups.basemaps,
                 LayerGroups.hydrology,
+                LayerGroups.fetch,
                 LayerGroups.darmc,
                 LayerGroups.barrington,
                 LayerGroups.agIntern,
@@ -67,7 +68,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
 
         // dynamically adding layers doesnt work!
         // workaround: add all, then remove restricted
-        var guestRestrictedLayers = ["Barrington Atlas", "SPP", "DARMC", "AG Intern"];
+        var guestRestrictedLayers = ["Barrington Atlas", "SPP", "DARMC", "Project Internal", "Fetch"];
         var adminRestrictedLayers = ["SPP (open)"];
         var collection = me.getLayers();
         var cookie = Ext.util.Cookies.get("sppCookie");
