@@ -29,6 +29,7 @@ Ext.define("SppAppClassic.view.main.BasicTreeColumnLegends", {
         "<img src='{blankUrl}' class='{childCls} x-tree-elbow-img'>",
         "<img src='{blankUrl}' class='{childCls} x-tree-elbow-img'>",
         "{[this.getLegendHtml(values.record)]}",
+        //"{[this.getLegendHeight(values.record)]}",
         "</tpl>"
     ],
 
@@ -53,8 +54,32 @@ Ext.define("SppAppClassic.view.main.BasicTreeColumnLegends", {
                 legendUrl = "http://geoext.github.io/geoext2/" +
                     "website-resources/img/GeoExt-logo.png";
             }
-            return "<img class='legend' src='" + legendUrl + "' />";
+
+            // apply height
+            var legendClass;
+            var legendHeight = layer.get("legendHeight");
+            if (legendHeight === "fetch") {
+                legendClass = "fetchLegend";
+            } else {
+                legendClass = "legend";
+            }
+
+            return "<img class='" + legendClass + "' src='" + legendUrl + "' />";
         }
+
+        /**
+         * adjust legend height when attribute is set is given
+         */
+         /*
+        getLegendHeight: function(rec) {
+            var layer = rec.data;
+            var legendHeight = layer.get("legendHeight");  // get legend property defined in layers.js
+            if (legendHeight) {  // legendHeight is set
+                var legend = Ext.select("legend");
+                legend.removeCls("legend");
+                legend.addCls("fetchLegend");
+            }
+        }*/
     },
 
     init: function(column) {

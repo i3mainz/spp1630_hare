@@ -7,8 +7,11 @@
 var wms = "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?";
 var proxy = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
 
-var getLegendImg = function(layer) {
-    return wms + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&TRANSPARENT=true&HEIGHT=50&LAYER=" + layer
+var getLegendImg = function(layer, height, width) {
+    height = height || 25;
+    width = width || 25;
+    var final_wms = wms + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=" + width + "&TRANSPARENT=true&HEIGHT=" + height + "&LAYER=" + layer;
+    return final_wms;
 };
 
 Ext.define("Layers", {
@@ -253,7 +256,9 @@ Ext.define("Layers", {
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:fetch_045"),
+            legendUrl: getLegendImg("SPP:fetch_045", 10, 25),
+            legendHeight: "fetch",  // number not accounted for, only if attribute exists or not
+            // needs legendsize 100 und 60
             visible: false
         }),
         new ol.layer.Tile({
@@ -264,7 +269,8 @@ Ext.define("Layers", {
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:fetch_045"),
+            legendUrl: getLegendImg("SPP:fetch_045", 10, 25),
+            legendHeight: "fetch",
             visible: false
         }),
         new ol.layer.Tile({
@@ -275,7 +281,8 @@ Ext.define("Layers", {
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:fetch_045"),
+            legendUrl: getLegendImg("SPP:fetch_045", 10, 25),
+            legendHeight: "fetch",
             visible: false
         }),
         new ol.layer.Tile({
@@ -286,7 +293,8 @@ Ext.define("Layers", {
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:fetch_045"),
+            legendUrl: getLegendImg("SPP:fetch_045", 10, 25),
+            legendHeight: "fetch",
             visible: false
         }),
         new ol.layer.Tile({
@@ -297,7 +305,8 @@ Ext.define("Layers", {
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:fetch_045"),
+            legendUrl: getLegendImg("SPP:fetch_045", 10, 25),
+            legendHeight: "fetch",
             visible: false
         }),
         new ol.layer.Tile({
@@ -308,7 +317,8 @@ Ext.define("Layers", {
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:fetch_045"),
+            legendUrl: getLegendImg("SPP:fetch_045", 10, 25),
+            legendHeight: "fetch",
             visible: false
         }),
         new ol.layer.Tile({
@@ -319,7 +329,8 @@ Ext.define("Layers", {
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:fetch_045"),
+            legendUrl: getLegendImg("SPP:fetch_045", 10, 25),
+            legendHeight: "fetch",
             visible: false
         }),
         new ol.layer.Tile({
@@ -330,7 +341,8 @@ Ext.define("Layers", {
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:fetch_045"),
+            legendUrl: getLegendImg("SPP:fetch_045", 10, 25),
+            legendHeight: "fetch",
             visible: false
         })
     ]),
