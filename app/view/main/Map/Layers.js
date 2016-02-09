@@ -50,28 +50,6 @@ Ext.define("Layers", {
             visible: true
         }),
 
-        /*new ol.layer.Vector({
-            name: "Harbours all",
-            source: new ol.source.Vector({  // TODO create class for vector source
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "spp_harbours" +  // includes open + intern, not ag intern
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:harbours"),
-            //style: LayerStyles.styleFunction,
-            style: LayerStyles.redPoints,
-            visible: true
-        }),*/
-
         new ol.layer.Vector({
             name: "Vehicles",
             source: new ol.source.Vector({  // TODO create class for vector source
@@ -89,21 +67,19 @@ Ext.define("Layers", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:vehicles"),
+            legendUrl: getLegendImg("SPP:spp_vehicles"),
             style: LayerStyles.yellowPoints,
             visible: false
-        })
+        }),
 
-        // vehicles
-
-        /*new ol.layer.Vector({
+        new ol.layer.Vector({
             name: "Canals",
             source: new ol.source.Vector({  // TODO create class for vector source
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
                     return proxy +
                             "bereich=" + "SPP" +
-                            "&layer=" + "canals" +
+                            "&layer=" + "spp_canals" +
                             "&bbox=" + extent.join(",") +
                             "&epsg=" + "4326";
                             //"&CQL_FILTER=place_type='Hafen'";
@@ -113,10 +89,10 @@ Ext.define("Layers", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:canals"),
+            legendUrl: getLegendImg("SPP:spp_canals"),
             style: LayerStyles.greenPoints,
             visible: false
-        })*/
+        })
 
 
         /*
@@ -363,7 +339,7 @@ Ext.define("Layers", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:aqueduct"),
+            legendUrl: getLegendImg("SPP:harbours"),
             style: LayerStyles.redPoints,
             name: "Aqueducts",
             visible: false
@@ -384,7 +360,7 @@ Ext.define("Layers", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:bridge"),
+            legendUrl: getLegendImg("SPP:harbours"),
             style: LayerStyles.redPoints,
             name: "Bridges",
             visible: false
@@ -405,7 +381,7 @@ Ext.define("Layers", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:bath"),
+            legendUrl: getLegendImg("SPP:harbours"),
             style: LayerStyles.redPoints,
             name: "Baths",
             visible: false
@@ -426,7 +402,7 @@ Ext.define("Layers", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:port"),
+            legendUrl: getLegendImg("SPP:harbours"),
             style: LayerStyles.redPoints,
             name: "Ports",
             visible: false
@@ -447,7 +423,7 @@ Ext.define("Layers", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:settlement"),
+            legendUrl: getLegendImg("SPP:harbours"),
             style: LayerStyles.redPoints,
             name: "Settlements",
             visible: false
@@ -469,7 +445,7 @@ Ext.define("Layers", {
                 wrapX: false  // dont repeat on X axis
             }),
             style: LayerStyles.redPoints,
-            legendUrl: getLegendImg("SPP:canal"),
+            legendUrl: getLegendImg("SPP:harbours"),
             name: "Canals",
             visible: false
         }),
@@ -490,7 +466,7 @@ Ext.define("Layers", {
                 wrapX: false  // dont repeat on X axis
             }),
             style: LayerStyles.redLines,
-            legendUrl: getLegendImg("SPP:road"),
+            legendUrl: getLegendImg("SPP:harbours"),
             name: "Roads",
             visible: false
         })
@@ -505,7 +481,7 @@ Ext.define("Layers", {
               serverType: "geoserver",
               wrapX: false   // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:darmc_aqueducts"),
+            //legendUrl: getLegendImg("SPP:harbours"),
             visible: false
         }),
 
@@ -517,7 +493,7 @@ Ext.define("Layers", {
               wrapX: false   // dont repeat on X axis
             }),
             name: "Bridges",
-            legendUrl: getLegendImg("SPP:darmc_bridges"),
+            //legendUrl: getLegendImg("SPP:harbours"),
             visible: false
         }),
 
@@ -532,7 +508,7 @@ Ext.define("Layers", {
                 wrapX: false   // dont repeat on X axis
             }),
             name: "Roads",
-            legendUrl: getLegendImg("SPP:darmc_roads"),
+            //legendUrl: getLegendImg("SPP:harbours"),
             visible: false
         }),
 
@@ -544,7 +520,7 @@ Ext.define("Layers", {
               wrapX: false   // dont repeat on X axis
             }),
             name: "Cities",
-            legendUrl: getLegendImg("SPP:darmc_cities"),
+            //legendUrl: getLegendImg("SPP:harbours"),
             visible: false
         }),
 
@@ -556,7 +532,7 @@ Ext.define("Layers", {
               wrapX: false   // dont repeat on X axis
             }),
             name: "Baths",
-            legendUrl: getLegendImg("SPP:darmc_baths"),
+            //legendUrl: getLegendImg("SPP:harbours"),
             visible: false
         }),
 
@@ -568,7 +544,7 @@ Ext.define("Layers", {
               wrapX: false   // dont repeat on X axis
             }),
             name: "Ports",
-            legendUrl: getLegendImg("SPP:darmc_ports"),
+            //legendUrl: getLegendImg("SPP:harbours"),
             visible: false
         }),
 
@@ -580,7 +556,7 @@ Ext.define("Layers", {
               wrapX: false   // dont repeat on X axis
             }),
             name: "Harbours",
-            legendUrl: getLegendImg("SPP:darmc_harbours"),
+            //legendUrl: getLegendImg("SPP:harbours"),
             visible: false
         }),
 
@@ -592,7 +568,7 @@ Ext.define("Layers", {
               wrapX: false   // dont repeat on X axis
             }),
             name: "Canals",
-            legendUrl: getLegendImg("SPP:darmc_canals"),
+            //legendUrl: getLegendImg("SPP:harbours"),
             visible: false
         })
     ]),

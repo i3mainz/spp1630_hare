@@ -96,7 +96,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
             // create ag intern layer
             var layer = me.createAGInternLayer(projectID);
             //me.addLayer(layer);
-            me.addLayerToLayerGroup(layer, "AG Intern");
+            me.addLayerToLayerGroup(layer, "Project Internal");
         }
 
         // add custom listeners
@@ -239,7 +239,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
     createAGInternLayer: function(projectID) {
         console.log("spp_harbours_project" + projectID + "_intern");
         var layer = new ol.layer.Vector({
-            name: "Harbours (AG Intern)",
+            name: "Harbours",
             source: new ol.source.Vector({  // TODO create class for vector source
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
@@ -254,9 +254,9 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            legendUrl: getLegendImg("SPP:harbours"),
+            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
             //style: LayerStyles.styleFunction,
-            style: LayerStyles.greenPoints,
+            style: LayerStyles.orangePoints,
             visible: false
         });
         return layer;

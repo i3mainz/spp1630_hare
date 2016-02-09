@@ -181,7 +181,19 @@ Ext.define("LayerStyles", {
         image: new ol.style.Circle({
             radius: 6,
             fill: new ol.style.Fill({
-                color: "#fcf014"
+                color: "#b3b300"
+            }),
+            stroke: new ol.style.Stroke({
+                color: "#fff",
+                width: 2
+            })
+        })
+    }),
+    orangePoints: new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: 6,
+            fill: new ol.style.Fill({
+                color: "#B27300"
             }),
             stroke: new ol.style.Stroke({
                 color: "#fff",
