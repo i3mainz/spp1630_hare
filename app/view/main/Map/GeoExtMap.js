@@ -50,7 +50,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
 
             view: new ol.View({
                 center: ol.proj.fromLonLat([8.751278, 50.611368]),  // [0, 0],
-                zoom: 5,  // 2,
+                zoom: 4,  // 2,
                 minZoom: 3  // prevents zoom too far out
                 //restrictedExtent: new ol.extent(-180, -90, 180, 90)  // prevents going over 'edge' of map
             })
@@ -239,7 +239,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
     createAGInternLayer: function(projectID) {
         console.log("spp_harbours_project" + projectID + "_intern");
         var layer = new ol.layer.Vector({
-            name: "Harbours",
+            name: "Harbours (internal)",
             source: new ol.source.Vector({  // TODO create class for vector source
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {

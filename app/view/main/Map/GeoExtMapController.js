@@ -2,19 +2,19 @@
 
 /*
 function getLegendUrl(layer_name) {
-    return GEOSERVER_URL + "REQUEST=GetLegendGraphic&" + 
-        "VERSION=1.0.0&" + 
-        "FORMAT=image/png&" + 
-        "WIDTH=50&HEIGHT=50&" + 
+    return GEOSERVER_URL + "REQUEST=GetLegendGraphic&" +
+        "VERSION=1.0.0&" +
+        "FORMAT=image/png&" +
+        "WIDTH=50&HEIGHT=50&" +
         "TRANSPARENT=true&" +
-        "LAYER=" + layer_name + "&" + 
-        "LEGEND_OPTIONS=" + 
-            "fontName:arial;" + 
+        "LAYER=" + layer_name + "&" +
+        "LEGEND_OPTIONS=" +
+            "fontName:arial;" +
             "dpi:180";
 }
 */
 // contains any view-related logic,
-// event handling of the view, and any app logic. 
+// event handling of the view, and any app logic.
 
 Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     extend: "Ext.app.ViewController",
@@ -27,7 +27,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     // using lookupReference() instead of refs, see
     // <https://docs.sencha.com/extjs/6.0/application_architecture/view_controllers.html>
 
-    // define listeners here instead of the view. 
+    // define listeners here instead of the view.
     // keeps view and controller logic seperated
     control: {
         "#": {  // matches the view itself
@@ -43,14 +43,19 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     getInfoHtmlForOlFeature: function(olFeature) {
         var html = "";
         var attributes = olFeature.getKeys();
-        attributes.forEach(function(attribute) {
-            html += "<strong>" + attribute + ": </strong>" + olFeature.get(attribute) + "<br>";
-        });
+        for (var i = 0; i < attributes.length; i++) {
+            var attr = attributes[i];
+            if (attr !== "geometry" && attr !== "gid" && attr !== "project_id" && attr !== "uid" && attr !== "created" && attr !== "modified") {
+                html += "<strong>" + attr + ": </strong>" + olFeature.get(attr) + "<br>";
+            }
+
+        }
+
         return html;
     },
 
     /**
-     * show popup with feature infos when a feature is clicked. 
+     * show popup with feature infos when a feature is clicked.
      * checks if the clicked pixel contains a feature. if so
      * a popup window with all attributes opens.
      * by default, all visible layers will be tested

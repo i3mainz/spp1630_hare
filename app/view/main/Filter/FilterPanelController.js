@@ -18,10 +18,16 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
 
     // TODO: keep previous qcl filter intact -> right now it gets overwritten
     // make universal, right now it only works for harbour layer
-    applyFilterToHarbourLayer: function(filterString) {
+    applyFilterToLayer: function(layerName, filterString) {
         var map = Ext.getCmp("geoextMap");
-        var layer = map.getLayerByName("Harbours");
-        var newSource = map.createVectorSource("SPP:spp_harbours_intern", filterString);
+        var layer = map.getLayerByName(layerName);
+        var newSource;
+        if (layerName === "Harbours") {
+            newSource = map.createVectorSource("SPP:spp_harbours_intern", filterString);
+        } else {
+            console.log("unknown layer name");
+        }
+
         layer.setSource(newSource);  // this refreshes automatically
     },
 
@@ -169,7 +175,7 @@ Ext.define("SppAppClassic.view.main.Filter.FilterPanelController", {
         var filterString = "(" + projectSQLQuery + ") AND (" + statusSQLQuery + ") AND (" + sliderSQLQuery + ")";
 
         // apply filters to layer "harbours"
-        this.applyFilterToHarbourLayer(filterString);
+        this.applyFilterToLayer("Harbours", filterString);
 
         Ext.getCmp("applyFilterButton").enable();
     }
