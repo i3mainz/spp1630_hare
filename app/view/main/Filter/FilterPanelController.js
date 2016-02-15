@@ -22,8 +22,8 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
         var map = Ext.getCmp("geoextMap");
         var layer = map.getLayerByName(layerName);
         var newSource;
-        if (layerName === "Harbours") {
-            newSource = map.createVectorSource("SPP:spp_harbours_intern", filterString);
+        if (layerName === SppAppClassic.app.globals.sppLayerTitle) {
+            newSource = map.createVectorSource(SppAppClassic.app.globals.sppLayerName, filterString);
         } else {
             console.log("unknown layer name");
         }

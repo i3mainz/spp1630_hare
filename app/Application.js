@@ -28,7 +28,9 @@ Ext.define('SppAppClassic.Application', {
         wmsPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?",  // former GEOSERVER_URL
         proxyPath: "http://haefen.i3mainz.hs-mainz.de" + "/GeojsonProxy/layer?",
         loginPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_check",
-        logoutPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_logout"
+        logoutPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_logout",
+        sppLayerTitle: "Data",
+        sppLayerName: "SPP:spp_harbours_intern"
     },
 
     // used in Application.js and LoginController.js

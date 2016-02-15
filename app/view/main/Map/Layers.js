@@ -11,8 +11,22 @@ var mapboxAccessToken = "pk.eyJ1Ijoic2hhbnl1YW4iLCJhIjoiY2lmcWd1cnFlMDI0dXRqbHli
 var getLegendImg = function(layer, height, width) {
     height = height || 25;
     width = width || 25;
-    var final_wms = wms + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=" + width + "&TRANSPARENT=true&HEIGHT=" + height + "&LAYER=" + layer;
-    return final_wms;
+    var finalWms = wms + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=" + width + "&TRANSPARENT=true&HEIGHT=" + height + "&LAYER=" + layer +
+                    "&legend_options=fontName:Arial;fontAntiAliasing:true;fontSize:6;dpi:180";
+    return finalWms;
+};
+
+var createBarringtonWMS = function(name, sourceName) {
+    return new ol.layer.Tile({
+        name: name,
+        source: new ol.source.TileWMS({
+            url: wms,
+            params: {"LAYERS": sourceName, "TILED": true},
+            serverType: "geoserver",
+            wrapX: false   // dont repeat on X axis
+        }),
+        visible: false
+    });
 };
 
 Ext.define("Layers", {
@@ -30,7 +44,7 @@ Ext.define("Layers", {
     spp: new ol.Collection([
         // harbours
         new ol.layer.Vector({
-            name: "Harbours",
+            name: "Data",
             source: new ol.source.Vector({  // TODO create class for vector source
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
@@ -46,110 +60,12 @@ Ext.define("Layers", {
                 wrapX: false  // dont repeat on X axis
             }),
             legendUrl: getLegendImg("SPP:harbours"),
-            //style: LayerStyles.styleFunction,
-            style: LayerStyles.redPoints,
+            //legendHeight: "harbours",
+            //style: LayerStyles.statusStyleFunction,
+            //style: LayerStyles.pointTypeStyleFunction,
+            style: LayerStyles.redPointLabelStyleFunction,
             visible: true
-        }),
-
-        new ol.layer.Vector({
-            name: "Vehicles",
-            source: new ol.source.Vector({  // TODO create class for vector source
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "spp_vehicles" +  // open and spp intern, not ag intern
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                            //"&CQL_FILTER=place_type='Hafen'";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:spp_vehicles"),
-            style: LayerStyles.yellowPoints,
-            visible: false
-        }),
-
-        new ol.layer.Vector({
-            name: "Canals",
-            source: new ol.source.Vector({  // TODO create class for vector source
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "spp_canals" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                            //"&CQL_FILTER=place_type='Hafen'";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:spp_canals"),
-            style: LayerStyles.greenPoints,
-            visible: false
         })
-
-
-        /*
-        new ol.layer.Tile({
-            name: "AG only",
-            source: new ol.source.TileWMS({
-                url: GEOSERVER_URL,
-                params: {"LAYERS": "SPP:v_public_agintern", "TILED": true},
-                serverType: "geoserver",
-                wrapX: false   // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:gesamt_ascii"),
-            visible: false
-        }),*/
-        /*
-        new ol.layer.Vector({
-            name: "Status",
-            source: new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "gesamt_ascii" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:gesamt_arcmap"),
-            style: LayerStyles.statusStyleFunction,
-            visible: false
-        }),
-        */
-        /*new ol.layer.Vector({
-            name: "Projects",
-            source: new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "gesamt_ascii" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            style: LayerStyles.styleFunction,
-            legendUrl: getLegendImg("SPP:gesamt_ascii"),
-            visible: false
-        })*/
     ]),
 
     sppOpen: new ol.Collection([
@@ -172,7 +88,7 @@ Ext.define("Layers", {
             }),
             legendUrl: getLegendImg("SPP:harbours"),
             //style: LayerStyles.styleFunction,
-            style: LayerStyles.redPoints,
+            style: LayerStyles.redPointLabelStyleFunction,
             visible: true
         })
     ]),
@@ -337,152 +253,13 @@ Ext.define("Layers", {
     ]),
 
     barrington: new ol.Collection([
-        new ol.layer.Vector({
-            source: new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "aqueduct" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:harbours"),
-            style: LayerStyles.redPoints,
-            name: "Aqueducts",
-            visible: false
-        }),
-
-        new ol.layer.Vector({
-            source: new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "bridge" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:harbours"),
-            style: LayerStyles.redPoints,
-            name: "Bridges",
-            visible: false
-        }),
-
-        new ol.layer.Vector({
-            source: new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "bath" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:harbours"),
-            style: LayerStyles.redPoints,
-            name: "Baths",
-            visible: false
-        }),
-
-        new ol.layer.Vector({
-            source: new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "port" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:harbours"),
-            style: LayerStyles.redPoints,
-            name: "Ports",
-            visible: false
-        }),
-
-        new ol.layer.Vector({
-            source: new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "settlement" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:harbours"),
-            style: LayerStyles.redPoints,
-            name: "Settlements",
-            visible: false
-        }),
-
-        new ol.layer.Vector({
-            source: new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "canal" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            style: LayerStyles.redPoints,
-            legendUrl: getLegendImg("SPP:harbours"),
-            name: "Canals",
-            visible: false
-        }),
-
-        new ol.layer.Vector({
-            source: new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "road" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            style: LayerStyles.redLines,
-            legendUrl: getLegendImg("SPP:harbours"),
-            name: "Roads",
-            visible: false
-        })
+        createBarringtonWMS("Aqueducts", "SPP:aqueduct"),
+        createBarringtonWMS("Bridges", "SPP:bridge"),
+        createBarringtonWMS("Baths", "SPP:bath"),
+        createBarringtonWMS("Ports", "SPP:port"),
+        createBarringtonWMS("Settlements", "SPP:settlement"),
+        createBarringtonWMS("Canals", "SPP:canal"),
+        createBarringtonWMS("Roads", "SPP:road")
     ]),
 
     darmc: new ol.Collection([

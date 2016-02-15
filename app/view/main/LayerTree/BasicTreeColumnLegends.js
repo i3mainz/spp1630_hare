@@ -60,6 +60,8 @@ Ext.define("SppAppClassic.view.main.BasicTreeColumnLegends", {
             var legendHeight = layer.get("legendHeight");
             if (legendHeight === "fetch") {
                 legendClass = "fetchLegend";
+            } else if (legendHeight === "harbours") {
+                legendClass = "harboursLegend";
             } else {
                 legendClass = "legend";
             }

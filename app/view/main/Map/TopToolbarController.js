@@ -8,7 +8,8 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         // Ext.getCmp(= dont need to be required?
             // but they are if you create new object using Ext.create()
         //"SppAppClassic.view.main.GridWindow",
-        "SppAppClassic.view.main.filter.FilterPanel"
+        "SppAppClassic.view.main.filter.FilterPanel",
+        "SppAppClassic.view.main.Settings.SettingsPanel"
     ],
 
     // define listeners here instead of the view.
@@ -114,6 +115,22 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         }
     },
 
+    onToggleSettings: function() {
+        //var filterPanel = this.lookupReference("filterpanel");  // not working
+        var panel = Ext.getCmp("settingsPanel");
+        //var main = Ext.getCmp("mainPanel");
+        //console.log(main);
+
+        if (!panel) {  // lazy instantiation
+            panel = Ext.create("SppAppClassic.view.main.Settings.SettingsPanel");
+        }
+        if (panel.isHidden()) {
+            panel.show();
+        } else {
+            panel.hide();
+        }
+    },
+
     /**
      * lock grid and filter buttons is user is logged in as guest.
      * this prevents the user from accessing ag or spp intern data via
@@ -122,14 +139,13 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
     hideButtonsForGuest: function() {
         //console.log("cookie: " + Ext.util.Cookies.get("sppCookie"));
         if (Ext.util.Cookies.get("sppCookie") === "guest") {
-            //var toolbar = this.getView();
-            var filterButton = Ext.getCmp("filterButton");
-            if (filterButton) {
-                filterButton.disable();
-            }
-            var gridButton = Ext.getCmp("gridButton");
-            if (gridButton) {
-                gridButton.disable();
+            var buttonList = ["filterButton", "gridButton", "settingsButton"];
+
+            for (var i = 0; i < buttonList.length; i++) {
+                var button = Ext.getCmp(buttonList[i]);
+                if (button) {
+                    button.disable();
+                }
             }
         }
     }
