@@ -2,7 +2,7 @@
 Ext.define("SppAppClassic.view.main.map.TopToolbar", {
     extend: "Ext.Toolbar",
 
-    xtype: "maptoolbar",
+    xtype: "toptoolbar",
 
     requires: [
         "SppAppClassic.view.main.map.TopToolbarController",
@@ -11,15 +11,15 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
 
     controller: "map-toolbar",
 
-    initComponent: function () {
-        console.log("init toolbar...");
-        this.items = this.buildItems();
-        SppAppClassic.view.main.map.TopToolbar.superclass.initComponent.call(this);
+    defaults: {
+        xtype: "button"
     },
 
-    buildItems: function () {
-        return [
-            {
+    initComponent: function () {
+        console.log("init toolbar...");
+
+        Ext.apply(this, {
+            items: [{
                 text: "Zoom In",
                 glyph: "xf00e@FontAwesome",
                 handler: "zoomIn"
@@ -32,7 +32,6 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
                 glyph: "xf0b2@FontAwesome",
                 handler: "onCenter"
             },{
-                xtype: "button",
                 reference: "filterButton",
                 id: "filterButton", // used in FilterPanelController.js
                 text: "Filters",
@@ -41,14 +40,15 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
                 pressed: false,
                 handler: "onToggleFilter"
             }/*,{
-                xtype: "button",
                 id: "gridButton", // used in GridWindow.js
                 text: "Grid",
                 glyph: "xf0ce@FontAwesome",
                 enableToggle: true,
                 pressed: false,
                 handler: "onGridClick"
-            }*/
-        ];
+            }*/]
+        });
+
+        SppAppClassic.view.main.map.TopToolbar.superclass.initComponent.call(this);
     }
 });

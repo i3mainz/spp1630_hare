@@ -179,6 +179,18 @@ Ext.define("Layers", {
 
     hydrology: new ol.Collection([
         new ol.layer.Tile({
+            name: "OpenSeaMap",
+            source: new ol.source.XYZ({
+                url: "http://t1.openseamap.org/seamark/{z}/{x}/{y}.png",
+                attributions: [new ol.Attribution({
+                    html: "© <a href='http://www.openseamap.org/'>OpenSeaMap</a>"
+                })]
+            }),
+            legendUrl: "http://wiki.openseamap.org/images/thumb/e/ec/MapFullscreen.png/400px-MapFullscreen.png",
+            visible: false
+        }),
+
+        new ol.layer.Tile({
             source: new ol.source.TileWMS({
                 url: wms,
                 params: {

@@ -37,18 +37,37 @@ Ext.define("SppAppClassic.view.main.Main", {
         padding: 5
     },
     border: true,
-    items: [
-        {
-            xtype: "layertree",
-            region: "west",
-            id: "layerTree" // used to set store later
-            //store: treeStore
-        },{
-            xtype: "mappanel",
-            region: "center"
-        }
-    ],
-    listeners: {
-        afterrender: "updateLogoutInfo"
+
+    initComponent: function () {
+        console.log("init main panel");
+        Ext.apply(this, {
+
+            items: [{
+                xtype: "layertree",
+                region: "west",
+                id: "layerTree" // used to set store later
+            },{
+                xtype: "mappanel",
+                region: "center"
+            }],
+
+            tools: [{
+                xtype: "label",
+                id: "logoutButtonlabel",
+                cls: "logoutLabel",  // css class
+                //text: // gets added before render
+                padding: "4 5 0 0"  // 4 top is to be in line with logout button
+                //style  // used css formatting instead
+            },{
+                xtype: "button",
+                text: "Logout",
+                align: "right",
+                glyph: "xf08b@fontawesome",
+                handler: "onClickLogout"
+            }]
+        });
+
+        SppAppClassic.view.main.Main.superclass.initComponent.call(this);
     }
+
 });

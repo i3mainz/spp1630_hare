@@ -33,55 +33,60 @@ Ext.define("SppAppClassic.view.login.Login", {
     animate: true,  // not sure if this does anything
     constrain: true,  // keeps window inside browser area
 
-    items: [
-        {
-            xtype: "form",
-            reference: "loginform",
-            items: [
-                {
-                    xtype: "textfield",
-                    name: "username",
-                    id: "usernameField",
-                    fieldLabel: "Username",
-                    allowBlank: false,
-                    listeners: {
-                        //change: "onTextFieldChange"
-                    }
-                }, {
-                    xtype: "textfield",
-                    id: "passwordField",
-                    name: "password",
-                    inputType: "password",
-                    fieldLabel: "Password",
-                    allowBlank: false,
-                    listeners: {
-                        //change: "onTextFieldChange"
-                    }
-                }/*, {
-                    xtype: "displayfield",
-                    reference: "loginMessageField",
-                    hideEmptyLabel: true,
-                    value: "Enter username/password or login as guest"
-                }*/
-            ],
+    initComponent: function () {
+        console.log("init login window");
 
-            buttons: [
-                {
-                    text: "Guest",
-                    reference: "guestSubmitButton",  // used to lock during validation
-                    id: "guestSubmitButton",
-                    formBind: false,  // enable right away
-                    tooltip: "Login as a guest (limited functionality)",
-                    handler: "onGuestClick"
-                },{
-                    text: "Login",
-                    reference: "loginSubmitButton",  // used to lock during validation
-                    id: "loginSubmitButton",
-                    formBind: true,  // disable until form filled
-                    tooltip: "Login using your username/password combination",
-                    handler: "onLoginClick"
-                }
-            ]
-        }
-    ]
+        Ext.apply(this, {
+            items: [{
+                xtype: "form",
+                reference: "loginform",
+                items: [
+                    {
+                        xtype: "textfield",
+                        name: "username",
+                        id: "usernameField",
+                        fieldLabel: "Username",
+                        allowBlank: false,
+                        listeners: {
+                            change: "onTextFieldChange"
+                        }
+                    }, {
+                        xtype: "textfield",
+                        id: "passwordField",
+                        name: "password",
+                        inputType: "password",
+                        fieldLabel: "Password",
+                        allowBlank: false,
+                        listeners: {
+                            change: "onTextFieldChange"
+                        }
+                    }/*, {
+                        xtype: "displayfield",
+                        reference: "loginMessageField",
+                        hideEmptyLabel: true,
+                        value: "Enter username/password or login as guest"
+                    }*/
+                ],
+
+                buttons: [
+                    {
+                        text: "Guest",
+                        reference: "guestSubmitButton",  // used to lock during validation
+                        id: "guestSubmitButton",
+                        formBind: false,  // enable right away
+                        tooltip: "Login as a guest (limited functionality)",
+                        handler: "onGuestClick"
+                    },{
+                        text: "Login",
+                        reference: "loginSubmitButton",  // used to lock during validation
+                        id: "loginSubmitButton",
+                        formBind: true,  // disable until form filled
+                        tooltip: "Login using your username/password combination",
+                        handler: "onLoginClick"
+                    }
+                ]
+            }]
+        }),
+        SppAppClassic.view.login.Login.superclass.initComponent.call(this);
+    }
 });

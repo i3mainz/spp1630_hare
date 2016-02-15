@@ -71,7 +71,7 @@ Ext.define("SppAppClassic.view.login.LoginController", {
     },
 
     /*
-    * creates a displayfield in the loginForm if needed 
+    * creates a displayfield in the loginForm if needed
     * and displays an info or error message depending on the provided type.
     * type can be "info" (green) or "error" (red)
     */
@@ -174,14 +174,13 @@ Ext.define("SppAppClassic.view.login.LoginController", {
     },
 
     onTextFieldChange: function() {
+        var loginButton = Ext.getCmp("loginSubmitButton");
         var guestButton = Ext.getCmp("guestSubmitButton");
-        var usernameField = Ext.getCmp("usernameField");
-        var passwordField = Ext.getCmp("passwordField");
 
-        if (usernameField.getValue().length > 0 || passwordField.getValue().length > 0) {
-            guestButton.disable();
-        } else {
+        if (loginButton.isDisabled()) {
             guestButton.enable();
+        } else {
+            guestButton.disable();
         }
     }
 });

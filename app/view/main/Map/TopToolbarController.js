@@ -7,7 +7,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
     requires: [
         // Ext.getCmp(= dont need to be required?
             // but they are if you create new object using Ext.create()
-        "SppAppClassic.view.main.GridWindow",
+        //"SppAppClassic.view.main.GridWindow",
         "SppAppClassic.view.main.filter.FilterPanel"
     ],
 
@@ -122,9 +122,15 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
     hideButtonsForGuest: function() {
         //console.log("cookie: " + Ext.util.Cookies.get("sppCookie"));
         if (Ext.util.Cookies.get("sppCookie") === "guest") {
-            var toolbar = this.getView();
-            Ext.getCmp("filterButton").disable();
-            Ext.getCmp("gridButton").disable();
+            //var toolbar = this.getView();
+            var filterButton = Ext.getCmp("filterButton");
+            if (filterButton) {
+                filterButton.disable();
+            }
+            var gridButton = Ext.getCmp("gridButton");
+            if (gridButton) {
+                gridButton.disable();
+            }
         }
     }
 });

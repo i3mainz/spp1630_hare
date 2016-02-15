@@ -14,24 +14,23 @@ Ext.define("SppAppClassic.view.main.map.Map", {
 
     layout: "border",
     title: "Map",
-    dockedItems: {
-        xtype: "maptoolbar"
-    },
 
     initComponent: function () {
         console.log("init mappanel");
-        // good practice to add non-primivite variables 
+        // good practice to add non-primivite variables
         // using initComponent
-        this.items = this.buildItems();
-        SppAppClassic.view.main.map.Map.superclass.initComponent.call(this);
-    },
+        Ext.apply(this, {
+            items: {
+                xtype: "geoextmap",
+                region: "center",
+                id: "geoextMap"
+            },
+            dockedItems: {
+                xtype: "toptoolbar"
+            }
+        });
 
-    buildItems: function () {
-        return [{
-            xtype: "geoextmap",
-            region: "center",
-            id: "geoextMap"
-        }];
+        SppAppClassic.view.main.map.Map.superclass.initComponent.call(this);
     },
 
     listeners: {

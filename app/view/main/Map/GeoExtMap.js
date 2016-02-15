@@ -101,7 +101,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
         }
 
         // add custom listeners
-
+        console.log("done loading geoextmap");
         // keep inheritance
         //this.callParent(); // doesnt work, use workaround below
         // $owner error has something to do with initComponent being a protected method

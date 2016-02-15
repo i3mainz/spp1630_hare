@@ -15,25 +15,15 @@ Ext.define("SppAppClassic.view.main.MainController", {
         "SppAppClassic.view.login.Login"
     ],
 
-    // needs to be done dynamically
-    updateLogoutInfo: function() {
-        //console.log("updating logout info!");   
+    control: {
+        "#": {
+            afterrender: "updateLogoutInfo"
+        }
+    },
 
-        var mainpanel = this.getView();
-        mainpanel.addTool({
-            xtype: "label",
-            cls: "logoutLabel",  // css class
-            text: "Logged in as " + Ext.util.Cookies.get("sppCookie") + ".",
-            padding: "4 5 0 0"  // 4 top is to be in line with logout button
-            //style  // used css formatting instead
-        });
-        mainpanel.addTool({
-            xtype: "button",
-            text: "Logout",
-            align: "right",
-            glyph: "xf08b@fontawesome",
-            handler: "onClickLogout"
-        });
+    updateLogoutInfo: function() {
+        var text = "Logged in as " + Ext.util.Cookies.get("sppCookie") + ".";
+        Ext.getCmp("logoutButtonlabel").setText(text);
     },
 
     logoutGeoServer: function() {
@@ -63,7 +53,6 @@ Ext.define("SppAppClassic.view.main.MainController", {
                 // clear geoserver login
                 me.logoutGeoServer();
 
-
                 // destroy viewport. not sure how. use workaround for panels
                 var filterPanel = Ext.getCmp("filterPanel");
                 if (filterPanel) {
@@ -77,7 +66,7 @@ Ext.define("SppAppClassic.view.main.MainController", {
                 if (popupWindow) {
                     popupWindow.destroy();
                 }
-                
+
                 // destroy ol3map
                 //Ext.getCmp("geoextMap").destroy();
 
