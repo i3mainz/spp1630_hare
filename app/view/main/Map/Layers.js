@@ -16,8 +16,10 @@ var getLegendImg = function(layer, height, width) {
     return finalWms;
 };
 
-var createBarringtonWMS = function(name, sourceName) {
-    return new ol.layer.Tile({
+// TODO: move this function to GeoExtMap.js
+var createWMSLayer = function(name, sourceName, legendUrl) {
+    legendUrl = legendUrl || "";
+    var layer = new ol.layer.Tile({
         name: name,
         source: new ol.source.TileWMS({
             url: wms,
@@ -27,6 +29,13 @@ var createBarringtonWMS = function(name, sourceName) {
         }),
         visible: false
     });
+    if (legendUrl) {
+        console.log("set legendurl!");
+        layer.set("legendUrl", legendUrl);
+    } else {
+        console.log("no legendurl provided!");
+    }
+    return layer;
 };
 
 Ext.define("Layers", {
@@ -105,51 +114,10 @@ Ext.define("Layers", {
             legendUrl: "http://wiki.openseamap.org/images/thumb/e/ec/MapFullscreen.png/400px-MapFullscreen.png",
             visible: false
         }),
+        createWMSLayer("Lakes", "SPP:lakes", getLegendImg("SPP:lakes")),
+        createWMSLayer("Streams", "SPP:streams", getLegendImg("SPP:streams"))
+        //createWMSLayer("Lakes (ecrins)", "SPP:ecrins_lakes", getLegendImg("SPP:ecrins_lakes"))
 
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: wms,
-                params: {
-                    "LAYERS": "SPP:lakes",
-                    "TILED": true
-                },
-                serverType: "geoserver",
-                wrapX: false   // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:lakes"),
-            name: "Lakes",
-            visible: false
-        }),
-
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: wms,
-                params: {
-                    "LAYERS": "SPP:streams",
-                    "TILED": true
-                },
-                serverType: "geoserver",
-                wrapX: false   // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:streams"),
-            name: "Streams",
-            visible: false
-        })
-
-        /*new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: wms,
-                params: {
-                    "LAYERS": "SPP:ecrins_lakes",
-                    "TILED": true
-                },
-                serverType: "geoserver",
-                wrapX: false   // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:ecrins_lakes"),
-            name: "Lakes (ecrins)",
-            visible: false
-        })*/
     ]),
 
     fetch: new ol.Collection([
@@ -253,114 +221,24 @@ Ext.define("Layers", {
     ]),
 
     barrington: new ol.Collection([
-        createBarringtonWMS("Aqueducts", "SPP:aqueduct"),
-        createBarringtonWMS("Bridges", "SPP:bridge"),
-        createBarringtonWMS("Baths", "SPP:bath"),
-        createBarringtonWMS("Ports", "SPP:port"),
-        createBarringtonWMS("Settlements", "SPP:settlement"),
-        createBarringtonWMS("Canals", "SPP:canal"),
-        createBarringtonWMS("Roads", "SPP:road")
+        createWMSLayer("Aqueducts", "SPP:aqueduct"),
+        createWMSLayer("Bridges", "SPP:bridge"),
+        createWMSLayer("Baths", "SPP:bath"),
+        createWMSLayer("Ports", "SPP:port"),
+        createWMSLayer("Settlements", "SPP:settlement"),
+        createWMSLayer("Canals", "SPP:canal"),
+        createWMSLayer("Roads", "SPP:road", getLegendImg("SPP:road"))
     ]),
 
     darmc: new ol.Collection([
-        new ol.layer.Tile({
-            name: "Aqueducts",
-            source: new ol.source.TileWMS({
-              url: wms,
-              params: {"LAYERS": "SPP:darmc_aqueducts", "TILED": true},
-              serverType: "geoserver",
-              wrapX: false   // dont repeat on X axis
-            }),
-            //legendUrl: getLegendImg("SPP:harbours"),
-            visible: false
-        }),
-
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-              url: wms,
-              params: {"LAYERS": "SPP:darmc_bridges", "TILED": true},
-              serverType: "geoserver",
-              wrapX: false   // dont repeat on X axis
-            }),
-            name: "Bridges",
-            //legendUrl: getLegendImg("SPP:harbours"),
-            visible: false
-        }),
-
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: wms,
-                params:{
-                    "LAYERS": "SPP:darmc_roads",
-                    "TILED": true
-                },
-                serverType: "geoserver",
-                wrapX: false   // dont repeat on X axis
-            }),
-            name: "Roads",
-            //legendUrl: getLegendImg("SPP:harbours"),
-            visible: false
-        }),
-
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-              url: wms,
-              params: {"LAYERS": "SPP:darmc_cities", "TILED": true},
-              serverType: "geoserver",
-              wrapX: false   // dont repeat on X axis
-            }),
-            name: "Cities",
-            //legendUrl: getLegendImg("SPP:harbours"),
-            visible: false
-        }),
-
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-              url: wms,
-              params: {"LAYERS": "SPP:darmc_baths", "TILED": true},
-              serverType: "geoserver",
-              wrapX: false   // dont repeat on X axis
-            }),
-            name: "Baths",
-            //legendUrl: getLegendImg("SPP:harbours"),
-            visible: false
-        }),
-
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-              url: wms,
-              params: {"LAYERS": "SPP:darmc_ports", "TILED": true},
-              serverType: "geoserver",
-              wrapX: false   // dont repeat on X axis
-            }),
-            name: "Ports",
-            //legendUrl: getLegendImg("SPP:harbours"),
-            visible: false
-        }),
-
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-              url: wms,
-              params: {"LAYERS": "SPP:darmc_harbours", "TILED": true},
-              serverType: "geoserver",
-              wrapX: false   // dont repeat on X axis
-            }),
-            name: "Harbours",
-            //legendUrl: getLegendImg("SPP:harbours"),
-            visible: false
-        }),
-
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-              url: wms,
-              params: {"LAYERS": "SPP:darmc_canals", "TILED": true},
-              serverType: "geoserver",
-              wrapX: false   // dont repeat on X axis
-            }),
-            name: "Canals",
-            //legendUrl: getLegendImg("SPP:harbours"),
-            visible: false
-        })
+        createWMSLayer("Aqueducts", "SPP:darmc_aqueducts"),
+        createWMSLayer("Bridges", "SPP:darmc_bridges"),
+        createWMSLayer("Roads", "SPP:darmc_roads"),
+        createWMSLayer("Cities", "SPP:darmc_cities"),
+        createWMSLayer("Baths", "SPP:darmc_baths"),
+        createWMSLayer("Ports", "SPP:darmc_ports"),
+        createWMSLayer("Harbours", "SPP:darmc_harbours"),
+        createWMSLayer("Canals", "SPP:darmc_canals", getLegendImg("SPP:darmc_canals"))
     ]),
 
     basemaps: new ol.Collection([
@@ -409,21 +287,7 @@ Ext.define("Layers", {
             name: "Mapbox OSM",
             visible: true
         }),
-
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: wms,
-                params: {
-                    "LAYERS": "SPP:world_borders_simple",
-                    "TILED": true
-                },
-                serverType: "geoserver",
-                wrapX: false   // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:world_borders_simple"),
-            name: "Simple World Borders",
-            visible: false
-        })
+        createWMSLayer("Simple World Borders", "SPP:world_borders_simple", getLegendImg("SPP:world_borders_simple"))
 
         /*new ol.layer.Tile({
             source: new ol.source.OSM({wrapX: false}),
