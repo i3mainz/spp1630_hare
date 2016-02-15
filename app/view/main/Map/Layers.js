@@ -6,6 +6,7 @@
 
 var wms = "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?";
 var proxy = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
+var mapboxAccessToken = "pk.eyJ1Ijoic2hhbnl1YW4iLCJhIjoiY2lmcWd1cnFlMDI0dXRqbHliN2FzdW9kNyJ9.wPkC7amwS2ma4qKWmmWuqQ";
 
 var getLegendImg = function(layer, height, width) {
     height = height || 25;
@@ -595,14 +596,28 @@ Ext.define("Layers", {
             visible: false
         }),
 
-        new ol.layer.Tile({
+        /*new ol.layer.Tile({
             source: new ol.source.TileWMS({
-                url: "http://ows.terrestris.de/osm-gray/service",
-                params: {"LAYERS": "OSM-WMS", "TILED": true},
+                url: "https://a.tiles.mapbox.com/v4/shanyuan.cifqgurif027ut0lxxf08w6gz/attribution,zoompan,zoomwheel,geocoder,share.html?access_token=pk.eyJ1Ijoic2hhbnl1YW4iLCJhIjoiY2lmcWd1cnFlMDI0dXRqbHliN2FzdW9kNyJ9.wPkC7amwS2ma4qKWmmWuqQ",
+                //params: {"LAYERS": "OSM-WMS", "TILED": true},
                 wrapX: false
             }),
             legendUrl: "https://otile4-s.mqcdn.com/tiles/1.0.0/osm/4/4/7.jpg",
             name: "OSM gray",
+            visible: true
+        }),*/
+
+        new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                url: "http://api.tiles.mapbox.com/v4/shanyuan.cifqgurif027ut0lxxf08w6gz/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
+                attributions: [new ol.Attribution({
+                html: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> ' +
+                    '© <a href="http://www.openstreetmap.org/copyright">' +
+                    'OpenStreetMap contributors</a>'
+                })],
+            }),
+            legendUrl: "https://otile4-s.mqcdn.com/tiles/1.0.0/osm/4/4/7.jpg",
+            name: "Mapbox OSM",
             visible: true
         }),
 

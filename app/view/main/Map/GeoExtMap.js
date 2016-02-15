@@ -32,7 +32,8 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
                 LayerGroups.sppOpen
             ],  // get laoded dynamically in MapController
             controls: [
-                new ol.control.ScaleLine()
+                new ol.control.ScaleLine(),
+                new ol.control.Attribution()
             ],
             // ol.control.defaults().extend(  // keeps default controls
 
