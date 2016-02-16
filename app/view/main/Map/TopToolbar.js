@@ -43,7 +43,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
                     //anchor: 'top'
                 },
                 handler: "onToggleFilter"
-            },/*,{
+            }/*,{
                 id: "gridButton", // used in GridWindow.js
                 text: "Grid",
                 glyph: "xf0ce@FontAwesome",

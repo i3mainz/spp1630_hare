@@ -43,9 +43,17 @@ Ext.define("SppAppClassic.view.main.Popup",{
                 } else {
                     html += "<strong>" + attr + ": </strong>" + olFeature.get(attr) + "<br>";
                 }
-
             }
         }
+        // add link to project website
+        var projectName = olFeature.get("project");
+        var project = Projects.getProjectByName(projectName);
+        if (project && "contact" in project) {
+            html += "<strong>Contact</strong>: <a href='" + project.contact + "' target='_blank'>Website</a><br>";
+        } else {
+            html += "<strong>Contact</strong>: not available<br>";
+        }
+
         this.setHtml("<p>" + html + "</p>");
     }
 });
