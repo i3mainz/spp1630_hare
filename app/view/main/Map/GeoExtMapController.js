@@ -37,24 +37,6 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     },
 
     /**
-     * gets all attributes of a feature and returns them as a
-     * html string.
-    */
-    getInfoHtmlForOlFeature: function(olFeature) {
-        var html = "";
-        var attributes = olFeature.getKeys();
-        for (var i = 0; i < attributes.length; i++) {
-            var attr = attributes[i];
-            if (attr !== "geometry" && attr !== "gid" && attr !== "project_id" && attr !== "uid" && attr !== "created" && attr !== "modified") {
-                html += "<strong>" + attr + ": </strong>" + olFeature.get(attr) + "<br>";
-            }
-
-        }
-
-        return html;
-    },
-
-    /**
      * show popup with feature infos when a feature is clicked.
      * checks if the clicked pixel contains a feature. if so
      * a popup window with all attributes opens.
@@ -63,6 +45,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     onMapClick: function(evt) {
         // this.map replaces olMap.map until GeoExt3 function exists
         var map = this.getView().map;
+        var cookie = Ext.util.Cookies.get("sppCookie");
         //var pixel = map.getEventPixel(evt.originalEvent);
         var feature = map.forEachFeatureAtPixel(evt.pixel,
             function(feature, layer) {
@@ -78,7 +61,13 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
         }
 
         if (feature) {   // clicked on feature
-            popupWindow.setHtml("<p>" + this.getInfoHtmlForOlFeature(feature) + "</p>");
+
+            if (cookie === "guest") {
+                popupWindow.updateHTML(feature, true);
+            } else {
+                popupWindow.updateHTML(feature);
+            }
+
             popupWindow.show();
             // TODO: show popup window next to feature
             //popupPanel.showAt(evt.getXY());

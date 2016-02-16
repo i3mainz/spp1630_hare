@@ -22,8 +22,8 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
         var map = Ext.getCmp("geoextMap");
         var layer = map.getLayerByName(layerName);
         var newSource;
-        if (layerName === SppAppClassic.app.globals.sppLayerTitle) {
-            newSource = map.createVectorSource(SppAppClassic.app.globals.sppLayerName, filterString);
+        if (layerName === "Data") {
+            newSource = map.createVectorSource("Data", filterString);
         } else {
             console.log("unknown layer name");
         }
@@ -176,7 +176,7 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
         //var filterString = "(" + statusSQLQuery + ") AND (" + sliderSQLQuery + ")";
 
         // apply filters to layer "harbours"
-        this.applyFilterToLayer("Harbours", filterString);
+        this.applyFilterToLayer("Data", filterString);
 
         Ext.getCmp("applyFilterButton").enable();
     }

@@ -86,7 +86,6 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
 
         if (!filterPanel) {  // lazy instantiation
             filterPanel = Ext.create("SppAppClassic.view.main.filter.FilterPanel");
-            console.log("done create!");
             //filterPanel.anchorTo(Ext.getBody(),'t-t',[-100,0]);
             //filterPanel.alignTo(Ext.getBody(), "tr-tr");
             //filterPanel.alignTo(Ext.getBody(), "tr");
