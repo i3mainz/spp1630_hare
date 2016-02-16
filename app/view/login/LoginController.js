@@ -3,11 +3,45 @@ Ext.define("SppAppClassic.view.login.LoginController", {
     extend: "Ext.app.ViewController",
     alias: "controller.login",
 
+    sendLoginRequest: function() {
+        Ext.Ajax.request({
+            url: SppAppClassic.app.globals.loginPath,
+            method: "POST",
+            withCredentials: true,
+            useDefaultXhrHeader: false,
+
+            params: {
+                username: formData.username,
+                password: formData.password
+            },
+            success: function(response) {
+                //Ext.getCmp("loginLabel").setValue("Validating...");
+
+                // validate
+                me.checkGeoServerResponse(response, formData.username);
+            },
+
+            failure: function(response, request) {
+                //console.log("AJAX request to GeoServer failed! Server Down?");
+                Ext.Msg.alert("AJAX Request Fail", "Contacting GeoServer failed! Server Down?");
+
+                // unlock buttons
+                //loginForm.enable();  // unlocks entire form
+                loginButton.enable();
+                guestButton.enable();
+            }
+        });
+    },
+
     //gerText: "Ungültige Kombination von Benutzername und Kennwort.",
     //engText: "Invalid username/password combination.",
-
+    /**
+     * type can be "user" or "guest". for guest, predefined credentials will be used
+     */
     onLoginClick: function() {
         console.log("starting auth");
+        Ext.getCmp("loginLabel").setValue("Validating...");
+
         var me = this;
         var loginForm = me.lookupReference("loginform");
         var formData = loginForm.getValues();
@@ -32,7 +66,7 @@ Ext.define("SppAppClassic.view.login.LoginController", {
                 password: formData.password
             },
             success: function(response) {
-                me.showLoginFormMessage("Validating...", "info");
+                //Ext.getCmp("loginLabel").setValue("Validating...");
 
                 // validate
                 me.checkGeoServerResponse(response, formData.username);
@@ -70,51 +104,9 @@ Ext.define("SppAppClassic.view.login.LoginController", {
         }
     },
 
-    /*
-    * creates a displayfield in the loginForm if needed
-    * and displays an info or error message depending on the provided type.
-    * type can be "info" (green) or "error" (red)
-    */
-    showLoginFormMessage: function(message, type) {
-        var me;
-        var style;
-        var loginMessageField;
-
-        me = this;
-        if (type === "info") {
-            style = {
-                color: "#00b200",
-                fontWeight: "bold"
-                //text-align: "right"
-            };
-        } else if (type === "error") {
-            style = {
-                color: "#cc0000",
-                fontWeight: "bold"
-            };
-        } else {
-            console.log("unknown message type: " + type);
-        }
-
-        // create displayField if neccessary
-        if (!me.lookupReference("loginMessageField")) {  // loginForm doesnt exist and needs to be created first
-            me.lookupReference("loginform").add({
-                xtype: "displayfield",
-                reference: "loginMessageField",
-                //value: "placeholder",
-                hideEmptyLabel: false
-                //padding: "0 0 0 30"
-            });
-        }
-        loginMessageField = me.lookupReference("loginMessageField");
-        loginMessageField.setStyle(style);  // currently not working
-        loginMessageField.setValue(message);
-        //loginMessageField.update();
-    },
-
     onLoginFail: function() {
 
-        this.showLoginFormMessage("Login failed!", "error");
+        Ext.getCmp("loginLabel").setValue("Login failed!");
 
         // unlock buttons
         this.lookupReference("loginSubmitButton").enable();

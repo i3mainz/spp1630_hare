@@ -30,10 +30,7 @@ var createWMSLayer = function(name, sourceName, legendUrl) {
         visible: false
     });
     if (legendUrl) {
-        console.log("set legendurl!");
         layer.set("legendUrl", legendUrl);
-    } else {
-        console.log("no legendurl provided!");
     }
     return layer;
 };
@@ -80,7 +77,7 @@ Ext.define("Layers", {
     sppOpen: new ol.Collection([
         // harbours
         new ol.layer.Vector({
-            name: "Harbours",
+            name: "Data",
             source: new ol.source.Vector({  // TODO create class for vector source
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {

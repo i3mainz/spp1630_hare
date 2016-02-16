@@ -24,12 +24,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
             layers: [
                 LayerGroups.basemaps,
                 LayerGroups.hydrology,
-                LayerGroups.fetch,
-                LayerGroups.darmc,
-                LayerGroups.barrington,
-                LayerGroups.agIntern,
-                LayerGroups.spp,
-                LayerGroups.sppOpen
+                LayerGroups.darmc
             ],  // get laoded dynamically in MapController
             controls: [
                 new ol.control.ScaleLine(),
@@ -69,39 +64,34 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
 
         // dynamically adding layers doesnt work!
         // workaround: add all, then remove restricted
-        var guestRestrictedLayers = ["Barrington Atlas", "SPP", "DARMC", "Project Internal", "Fetch"];
-        var adminRestrictedLayers = ["SPP (open)"];
-        var collection = me.getLayers();
         var cookie = Ext.util.Cookies.get("sppCookie");
-
-        collection.forEach(function(layer) {
-            if (cookie === "guest" || cookie === undefined) {
-                if (guestRestrictedLayers.indexOf(layer.get("name")) > -1) {
-                    me.removeLayer(layer);
-                }
-            } else {
-                if (adminRestrictedLayers.indexOf(layer.get("name")) > -1) {
-                    me.removeLayer(layer);
-                }
-            }
-        });
 
         // remove AG intern if it already exists
         //var internLayer = me.getLayerByName("Harbours (AG Intern)");
         //me.removeLayer(internLayer);
+        if (cookie !== "guest" || cookie === "admin") {
+            me.addLayer(LayerGroups.fetch);
+            me.addLayer(LayerGroups.barrington);
+            me.addLayer(LayerGroups.agIntern);
+            me.addLayer(LayerGroups.spp);
 
-        // add ag intern layer to layer Group "AG intern"
-        var projectID = me.getProjectIdFromCookie(cookie);
+            // add layer to project internal
+            var projectID = me.getProjectIdFromCookie(cookie);
 
-        if (projectID) {  // known cookie login
-            // create ag intern layer
-            var layer = me.createAGInternLayer(projectID);
-            //me.addLayer(layer);
-            me.addLayerToLayerGroup(layer, "Project Internal");
+            if (projectID) {  // known cookie login
+                // create ag intern layer
+                var layer = me.createAGInternLayer(projectID);
+                //me.addLayer(layer);
+                me.addLayerToLayerGroup(layer, "Project Internal");
+            }
+
+        } else {
+            me.addLayer(LayerGroups.sppOpen);
         }
 
+        //removeRestrictedLayerGroups
+
         // add custom listeners
-        console.log("done loading geoextmap");
         // keep inheritance
         //this.callParent(); // doesnt work, use workaround below
         // $owner error has something to do with initComponent being a protected method
@@ -128,14 +118,15 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
      * returns url of the geoserver legend for a layer.
      * layer string needs to be in format "<workspace>:<layername>"
      * e.g. "SPP:harbours"
-    */
+     */
     getLegendImg: function(layer) {
         return SppAppClassic.app.globals.wmsPath + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&TRANSPARENT=true&HEIGHT=50&LAYER=" + layer
     },
 
     /**
      * returns list of layers that are currently active (no layergroups)
-    */
+     * OUTDATED: use getLayers(true) instead
+     */
     getActiveLayers: function(onlyVectors) {
         /* returns a list of OL3 Layer objects
         that includes all selected nodes.
@@ -162,6 +153,46 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
             });
         });
         return activeLayers;
+    },
+
+    /**
+     * returns list of layer. option to only return currently active layers.
+     * this overwrites the geoext3 method, which just returns the layergroups
+     */
+    getLayers: function(activeOnly) {
+        activeOnly = activeOnly || false;  // set default to false
+
+        var activeLayers = [];
+
+        var layerGroups = this.map.getLayers();
+        layerGroups.forEach(function(layerGroup) {      // loop layergroups
+            var layers = layerGroup.getLayers();
+            layers.forEach(function(layer) {         // loop layers
+                if (activeOnly) {
+                    if (layer.getVisible()) {               // skip inactive layers
+                        activeLayers.push(layer);
+                    }
+                } else {
+                    activeLayers.push(layer);
+                }
+            });
+        });
+        return activeLayers;
+    },
+
+    /**
+     * returns list of layer groups
+     */
+    getLayerGroups: function() {
+        var groupList = [];
+        var layerGroups = this.map.getLayers();
+        layerGroups.forEach(function(layerGroup) {
+            if (layerGroup instanceof ol.layer.Group) {
+                groupList.push(layerGroup);
+            }
+        });
+
+        return groupList;
     },
 
     /**
@@ -276,6 +307,23 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
                 layerGroup.setLayers(layers);
             }
         });
-    }
+    },
 
+    /**
+     * takes a list of restricted layer group names and removes
+     * all layergroups that are in this list if they exist in the
+     * GeoExt3 map
+    */
+    removeRestrictedLayerGroups: function(restrictedGroupsList) {
+        var me = this;
+        var layerGroups = me.getLayerGroups();
+        layerGroups.forEach(function(layerGroup) {
+
+            console.log(layerGroup.get("name"));
+            if (restrictedGroupsList.indexOf(layerGroup.get("name")) > -1) {  // groupName is restricted
+                console.log("is restricted!");
+                me.removeLayer(layerGroup);
+            }
+        });
+    }
 });

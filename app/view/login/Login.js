@@ -68,8 +68,19 @@ Ext.define("SppAppClassic.view.login.Login", {
                     }*/
                 ],
 
-                buttons: [
-                    {
+                buttons: [{
+                        xtype: "displayfield",
+                        id: "loginLabel",
+                        cls: "loginLabel",  // css class for custom styling
+                        /*style: {
+                            color: "#00b200",
+                            //background: "#000235",
+                            fontWeight: "bold"
+                        },*/
+                        //value: "placeholder",
+                        //hideEmptyLabel: false
+                        padding: "0 10 0 0"
+                    },{
                         text: "Guest",
                         reference: "guestSubmitButton",  // used to lock during validation
                         id: "guestSubmitButton",
