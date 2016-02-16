@@ -20,5 +20,6 @@ Ext.define('SppAppClassic.store.Personnel', {
             type: 'json',
             rootProperty: 'items'
         }
-    }
+    },
+    autoLoad: true
 });

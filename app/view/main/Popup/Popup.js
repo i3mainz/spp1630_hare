@@ -1,15 +1,19 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Popup",{
+Ext.define("SppAppClassic.view.main.Popup.Popup",{
     extend: "Ext.window.Window",
     xtype: "popup",
     id: "popupWindow",
+
+    requires: ["SppAppClassic.view.main.Popup.PopupController"],
+
+    controller: "main-popup",
 
     title: "Feature Info",
     closable: true,  // currently gets destroyed on close
     width: 200,
     height: 350,
-    padding: "0 0 0 5",
+    //padding: "0 0 0 5",
     resizable: true,
     minWidth: 150,
     minHeight: 250,
@@ -22,6 +26,28 @@ Ext.define("SppAppClassic.view.main.Popup",{
 
     // assign hide to close-button
     closeAction: "hide",
+    bodyStyle: "padding: 10px",
+
+    initComponent: function () {
+        console.log("init Feature info popup...");
+
+        // add report button if not guest
+        /*if (SppAppClassic.app.isAuthorized()) {
+            Ext.apply(this, {
+                buttons: [{
+                    text: "Report",
+                    glyph: "xf12a@FontAwesome",
+                    //buttonAlign: "center",
+                    tooltip: {
+                        text: "Report incorrect or missing data"
+                        //anchor: 'top'
+                    },
+                    handler: "onReportClick"
+                }]
+            });
+        }*/
+        SppAppClassic.view.main.Popup.Popup.superclass.initComponent.call(this);
+    },
 
     /**
      * gets all attributes of a feature and returns them as a
@@ -54,6 +80,7 @@ Ext.define("SppAppClassic.view.main.Popup",{
             html += "<strong>Contact</strong>: not available<br>";
         }
 
-        this.setHtml("<p>" + html + "</p>");
+        //this.setHtml("<p>" + html + "</p>");
+        this.setHtml(html);
     }
 });

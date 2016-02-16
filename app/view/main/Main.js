@@ -22,7 +22,7 @@ Ext.define("SppAppClassic.view.main.Main", {
         "Ext.plugin.Viewport",              // plugins: "viewport"
         "Ext.window.MessageBox",
         "SppAppClassic.view.main.map.Map",      // xtype: "mappanel"
-        //"GeoExt.data.store.LayersTree",
+        "SppAppClassic.view.main.News",
         "SppAppClassic.view.main.LayerTree"  // xtype: "layertree",
     ],
 
@@ -67,7 +67,9 @@ Ext.define("SppAppClassic.view.main.Main", {
             }]
         });
 
+        // show news
+        Ext.create("SppAppClassic.view.main.News").show();
+
         SppAppClassic.view.main.Main.superclass.initComponent.call(this);
     }
-
 });

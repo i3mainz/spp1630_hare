@@ -121,5 +121,14 @@ Ext.define('SppAppClassic.Application', {
                 }
             }
         );
+    },
+
+    isAuthorized: function() {
+        var username = Ext.util.Cookies.get("sppCookie");
+        if (username && username !== "guest") {
+            return true;
+        } else {
+            return false;
+        }
     }
 });

@@ -16,7 +16,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
     // keeps view and controller logic seperated
     control: {
         "#": {
-            beforeRender: "hideButtonsForGuest"
+            beforeRender: "unlockButtons"
         }
     },
 
@@ -81,8 +81,6 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
     onToggleFilter: function() {
         //var filterPanel = this.lookupReference("filterpanel");  // not working
         var filterPanel = Ext.getCmp("filterPanel");
-        //var main = Ext.getCmp("mainPanel");
-        //console.log(main);
 
         if (!filterPanel) {  // lazy instantiation
             filterPanel = Ext.create("SppAppClassic.view.main.filter.FilterPanel");
@@ -90,14 +88,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
             //filterPanel.alignTo(Ext.getBody(), "tr-tr");
             //filterPanel.alignTo(Ext.getBody(), "tr");
         }
-        //console.log(filterPanel.isHidden());
-        if (filterPanel.isHidden()) {
-            filterPanel.show();
-        } else {
-            filterPanel.hide();
-        }
-
-        //filterPanel.toggleCollapse();  // not show, because it already exists
+        filterPanel.toggle();
     },
 
     onGridClick: function() {
@@ -107,6 +98,8 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         if (!gridPanel) {
             gridPanel = Ext.create("SppAppClassic.view.main.GridWindow");
         }
+        //filterPanel.toggle();
+
         if (gridPanel.isHidden()) {
             gridPanel.show();
         } else {
@@ -131,19 +124,15 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
     },
 
     /**
-     * lock grid and filter buttons is user is logged in as guest.
-     * this prevents the user from accessing ag or spp intern data via
-     * filter queries.
+     * unlocks buttons for registred authorized users
     */
-    hideButtonsForGuest: function() {
-        //console.log("cookie: " + Ext.util.Cookies.get("sppCookie"));
-        if (Ext.util.Cookies.get("sppCookie") === "guest") {
+    unlockButtons: function() {
+        if (SppAppClassic.app.isAuthorized()) {
             var buttonList = ["filterButton", "gridButton", "settingsButton"];
-
             for (var i = 0; i < buttonList.length; i++) {
                 var button = Ext.getCmp(buttonList[i]);
                 if (button) {
-                    button.disable();
+                    button.enable();
                 }
             }
         }

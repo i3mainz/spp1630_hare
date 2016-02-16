@@ -36,6 +36,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
                 id: "filterButton", // used in FilterPanelController.js
                 text: "Filters",
                 glyph: "xf0b0@FontAwesome",
+                disabled: true,  // unlocked dynamically
                 enableToggle: true,
                 pressed: false,
                 tooltip: {
@@ -54,6 +55,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
             /*{
                 glyph: "xf013@FontAwesome",
                 id: "settingsButton",
+                disabled: true,  // unlocked dynamically
                 enableToggle: true,
                 tooltip: {
                     text: "Settings"

@@ -21,7 +21,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     alias: "controller.main-geoextmap",
 
     requires: [  // view not needed in requirements
-        "SppAppClassic.view.main.Popup"
+        "SppAppClassic.view.main.Popup.Popup"
     ],
 
     // using lookupReference() instead of refs, see
@@ -57,7 +57,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
         var popupWindow = Ext.getCmp("popupWindow");
         // lazy instanciation
         if (!popupWindow) {
-            popupWindow = Ext.create("SppAppClassic.view.main.Popup");
+            popupWindow = Ext.create("SppAppClassic.view.main.Popup.Popup");
         }
 
         if (feature) {   // clicked on feature

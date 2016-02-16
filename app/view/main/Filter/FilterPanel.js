@@ -169,6 +169,17 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
             id: "applyFilterButton",
             handler: "onApplyButtonClick"
         }];
+    },
+
+    /**
+     * function for easier toggling. removes code in toolbarcontroller
+     */
+    toggle: function() {
+        if (this.isHidden()) {
+            this.show();
+        } else {
+            this.hide();
+        }
     }
 
     /**
