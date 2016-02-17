@@ -94,7 +94,7 @@ Ext.define("Layers", {
             }),
             legendUrl: getLegendImg("SPP:harbours"),
             //style: LayerStyles.styleFunction,
-            style: LayerStyles.redPointLabelStyleFunction,
+            style: LayerStyles.redPoints,
             visible: true
         })
     ]),

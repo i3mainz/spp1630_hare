@@ -22,7 +22,7 @@ Ext.define("SppAppClassic.view.main.Main", {
         "Ext.plugin.Viewport",              // plugins: "viewport"
         "Ext.window.MessageBox",
         "SppAppClassic.view.main.map.Map",      // xtype: "mappanel"
-        "SppAppClassic.view.main.News",
+        "SppAppClassic.view.main.Info.InfoPanel",
         "SppAppClassic.view.main.LayerTree"  // xtype: "layertree",
     ],
 
@@ -67,8 +67,8 @@ Ext.define("SppAppClassic.view.main.Main", {
             }]
         });
 
-        // show news
-        Ext.create("SppAppClassic.view.main.News").show();
+        // show infos
+        Ext.create("SppAppClassic.view.main.Info.InfoPanel").show();
 
         SppAppClassic.view.main.Main.superclass.initComponent.call(this);
     }
