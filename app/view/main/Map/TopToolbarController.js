@@ -9,7 +9,8 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
             // but they are if you create new object using Ext.create()
         //"SppAppClassic.view.main.GridWindow",
         "SppAppClassic.view.main.filter.FilterPanel",
-        "SppAppClassic.view.main.Settings.SettingsPanel"
+        "SppAppClassic.view.main.Settings.SettingsPanel",
+        "SppAppClassic.view.main.Info.InfoPanel",
     ],
 
     // define listeners here instead of the view.
@@ -89,6 +90,10 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
             //filterPanel.alignTo(Ext.getBody(), "tr");
         }
         filterPanel.toggle();
+    },
+
+    onNewsClick: function() {
+        Ext.create("SppAppClassic.view.main.Info.InfoPanel").show();
     },
 
     onGridClick: function() {

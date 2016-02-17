@@ -23,7 +23,7 @@ Ext.define("SppAppClassic.view.main.Info.InfoPanel", {
     floating: true,
 
     // dragging
-    draggable: true,
+    //draggable: true,
     constrain: true,
 
     defaults: {

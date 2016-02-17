@@ -184,7 +184,6 @@ Ext.define("LayerStyles", {
             } else {
                 text = text; //text.trunc(12);
             }
-
             return text;
         };
         var getLabelStyle = function(feature, resolution) {

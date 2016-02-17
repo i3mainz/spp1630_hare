@@ -16,7 +16,7 @@ Ext.define("SppAppClassic.view.main.Popup.PopupController", {
 
     onReportClick: function() {
         console.log("click report!");
-        var reportPanel = Ext.create("SppAppClassic.view.main.Popup.Report");
+        //var reportPanel = Ext.create("SppAppClassic.view.main.Popup.Report");
 
         reportPanel.updateContent("12345", "test123");
         reportPanel.show();

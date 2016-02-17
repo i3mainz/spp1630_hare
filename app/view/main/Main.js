@@ -51,7 +51,12 @@ Ext.define("SppAppClassic.view.main.Main", {
                 region: "center"
             }],
 
-            tools: [{
+            tools: [/*{
+                xtype: "label",
+                html: "<span class='glyphicon glyphicon-user author-newspaper'></span>",
+                id: "infoButton",
+                padding: "0 10 0 0"
+            },*/{
                 xtype: "label",
                 id: "logoutButtonlabel",
                 cls: "logoutLabel",  // css class
