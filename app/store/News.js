@@ -38,11 +38,13 @@ Ext.define("SppAppClassic.store.News", {
                      " geospatial know how of OpenLayers with the user interface of Sencha Ext JS. " +
                      "Software versions that were modern at the time (GeoExt 1.1, OpenLayers 2.12 and " +
                      "ExtJS 3) are now outdated and mostly abandoned by their developers.<br>" +
-                     "To keep up with the demands for new functionality and improved performance the used javascript" +
-                     "were updated to their latest versions. The SPP VRE release 1.0 was built using " +
-                     "GeoExt 3, OpenLayers 3.13 and ExtJS 6. This enables us to quickly develop new GIS functionality " +
-                     "as well as an user interface that looks modern while still being highly functional and simple." +
-                     "<p>The codename for versions 1.x is \"Drake\" in reference to <a href='https://en.wikipedia.org/wiki/Francis_Drake' target='_blank'>Sir Francis Drake</p>.",
+                     "To keep up with the demands for new functionality and improved performance the used javascript " +
+                     "libraries were updated to their latest versions. The SPP VRE release 1.0 was built using " +
+                     "<a href='https://geoext.github.io/geoext3/' target='_blank'>GeoExt 3</a>, " +
+                     "<a href='http://openlayers.org/' target='_blank'>OpenLayers 3.13</a> and " +
+                     "<a href='https://www.sencha.com/products/extjs/#overview' target='_blank'>ExtJS 6</a>. This enables us to quickly develop new GIS functionality " +
+                     "and user interfaces that look modern while still being highly functional and simple." +
+                     "<p>Version 1.x is codenamed \"Drake\" in reference to <a href='https://en.wikipedia.org/wiki/Francis_Drake' target='_blank'>Sir Francis Drake</a>.</p>",
             image: ""
         }
     ]},

@@ -59,16 +59,41 @@ Ext.define("SppAppClassic.view.main.Main", {
             },*/{
                 xtype: "label",
                 id: "logoutButtonlabel",
-                cls: "logoutLabel",  // css class
+                style: {
+                    color: "#696969",
+                    "font-size": "13px",
+                    "font-weight": "normal",
+                    "margin-right": "5px"
+                }
+                //cls: "logoutLabel",  // css class
                 //text: // gets added before render
-                padding: "4 5 0 0"  // 4 top is to be in line with logout button
+                //padding: "4 5 0 0"  // 4 top is to be in line with logout button
                 //style  // used css formatting instead
             },{
-                xtype: "button",
-                text: "Logout",
+                //xtype: "button",
+                xtype: "label",
+                //text: "<a href='#'>Logout</a>",
+                html: "<a href='#'>Logout</a>",
                 align: "right",
-                glyph: "xf08b@fontawesome",
-                handler: "onClickLogout"
+                //glyph: "xf08b@fontawesome",
+                style: {
+                    color: "#696969",
+                    "font-size": "13px",
+                    "font-weight": "bold"
+                },
+                listeners: {
+                    element: "el", click: "onClickLogout"
+
+                                /*render: function(label) {
+                        // add custom click event
+                        label.body.on("click", function(evt) {
+                            console.log("click event!");
+                            //Ext.getCmp("geoextMap").fireEvent("click", evt);
+                            //this.fireEvent("clickpanel");  // adds event to mappanel not this panel
+                        });
+                    }*/
+                }
+                //handler: "onClickLogout"
             }]
         });
 

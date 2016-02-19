@@ -9,17 +9,17 @@ Ext.define("SppAppClassic.view.main.Info.InfoPanel", {
         "Ext.form.field.Checkbox"
     ],
     xtype: "infopanel",
+    id: "infopanel",
     controller: "main-info",
 
     style: "background-color: #dfe8f6;",
-    //width: 550,
-    //height: 600,
-    width: "50%",
+
+    width: 650,
     height: "70%",
     modal: true,  // masks everthing else
 
     // behave like a window
-    //closable: true,
+    closable: true,
     floating: true,
 
     // dragging
@@ -32,7 +32,7 @@ Ext.define("SppAppClassic.view.main.Info.InfoPanel", {
 
     initComponent: function () {
         console.log("init Infopanel...");
-
+        var me = this;
         Ext.apply(this, {
             items: [{
                 xtype: "newspanel",
@@ -40,16 +40,34 @@ Ext.define("SppAppClassic.view.main.Info.InfoPanel", {
             },{
                 xtype: "aboutpanel",
                 title: "About"
-            }],
+            }]
 
-            buttons: [/*{
+            /*buttons: [{
                 xtype: "checkbox",
                 label: "Don't show again!"
-            },*/{
+            },{
                 text: "Continue to VRE",
                 handler: "onContinueClick"
-            }]
+            }]*/
         });
+
+        /*var hidePanel;
+        me.mon(Ext.getBody(), "click", function(el, e) {  // clicked anywhere in body
+            //console.log("clicked body!");
+            hidePanel = true;
+
+            var infopanel = Ext.getCmp("infopanel");
+            infopanel.body.on("click", function() {
+                //console.log("clicked panel!");
+                hidePanel = false;
+                me.show();
+            });
+            console.log("close: " + hidePanel);
+        }, me);
+        console.log(hidePanel);
+        if (hidePanel) {
+            me.destroy();
+        }*/
 
         SppAppClassic.view.main.Info.InfoPanel.superclass.initComponent.call(this);
     }

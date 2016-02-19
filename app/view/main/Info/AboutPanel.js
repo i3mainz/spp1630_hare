@@ -31,6 +31,13 @@ Ext.define("SppAppClassic.view.main.Info.About",{
           "<a href='http://openlayers.org/' target='_blank'><img class='software-icon grayscale' title='OpenLayers 3' src=/resources/images/openlayers.png /></a>" +
           "</p>" +
 
+          // software license
+          "<p>" +
+            "Software License:<br>" +
+            "This software is licensed under the GNU General Public License version 3 (<a href='https://www.gnu.org/licenses/gpl.html' target='_blank'>GPL v3</a>) and " +
+            "the source code is available on <a href='https://github.com/SHANYUAN/geoext3app' target='_blank'>GitHub</a>." +
+          "</p>" +
+
           // version
           "<br><p>Current Version:<br>1.0 Drake</p>" +
           "</div>"

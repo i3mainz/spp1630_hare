@@ -74,7 +74,7 @@ Ext.define("SppAppClassic.view.main.Info.NewsArticle",{
                     "border-radius": "10px",
                     "margin-bottom": "5px"
                 },
-                height: "150px",
+                height: "120px",
                 //width: "100%",
                 src: me.contentImage
             };

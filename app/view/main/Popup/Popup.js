@@ -41,12 +41,12 @@ Ext.define("SppAppClassic.view.main.Popup.Popup",{
 
     title: "Feature Info",
     closable: true,  // currently gets destroyed on close
-    //width: 200,
-    //height: 350,
+    width: 200,
+    height: 350,
     //padding: "0 0 0 5",
-    resizable: true,
-    minWidth: 200,
-    minHeight: 250,
+    resizable: false,
+    //minWidth: 200,
+    //minHeight: 250,
     autoScroll: true,
     hideable: true,
 
