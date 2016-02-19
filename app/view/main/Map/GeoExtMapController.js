@@ -57,6 +57,12 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
         var popupWindow = Ext.getCmp("popupWindow");
         // lazy instanciation
         if (!popupWindow) {
+            Ext.create("SppAppClassic.store.FeatureInfos");
+            /*var info = Ext.create("FeatureInfo", {
+                attribute: 'original',
+                value : '123'
+            });*/
+            //store.add(info);
             popupWindow = Ext.create("SppAppClassic.view.main.Popup.Popup");
         }
 

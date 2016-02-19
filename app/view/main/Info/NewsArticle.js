@@ -35,7 +35,19 @@ Ext.define("SppAppClassic.view.main.Info.NewsArticle",{
         var me = this;
 
         Ext.apply(this, {
-            items: [{
+            items: [
+                me.buildContent(),
+                me.buildImage()
+            ]
+        });
+
+        SppAppClassic.view.main.Info.NewsArticle.superclass.initComponent.call(this);
+    },
+
+    buildContent: function() {
+        var me = this;
+        if (me.contentTitle && me.contentText && me.contentAuthor && me.contentTimestamp) {
+            return {
                 // content
                 xtype: "component",
                 /*style: {
@@ -48,9 +60,14 @@ Ext.define("SppAppClassic.view.main.Info.NewsArticle",{
                             "<span class='glyphicon glyphicon-time time-icon'></span> <span class='time'>" + me.contentTimestamp + "</span>" +
                         "</p>" +
                         "<p>" + me.contentText + "</p>"
+            };
+        }
+    },
 
-            },{
-                // image
+    buildImage: function() {
+        var me = this;
+        if (me.contentImage) {
+            return {
                 xtype: "image",
                 style: {
                     //"margin-top": "10px",
@@ -60,20 +77,7 @@ Ext.define("SppAppClassic.view.main.Info.NewsArticle",{
                 height: "150px",
                 //width: "100%",
                 src: me.contentImage
-            }]
-        });
-
-        SppAppClassic.view.main.Info.NewsArticle.superclass.initComponent.call(this);
-    },
-
-    buildImage: function() {
-        var me = this;
-        if (me.contentImage) {
-            me.add({
-                xtype: "image",
-                width: "100%",
-                src: me.contentImage
-            });
+            };
         }
     }
 });
