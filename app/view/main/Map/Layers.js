@@ -121,10 +121,10 @@ Ext.define("Layers", {
         new ol.layer.Tile({
             name: "Adria 360°(N)",
             source: new ol.source.TileWMS({
-              url: wms,
-              params: {"LAYERS": "SPP:fetch_360", "TILED": true},
-              serverType: "geoserver",
-              wrapX: false   // dont repeat on X axis
+                url: wms,
+                params: {"LAYERS": "SPP:fetch_360", "TILED": true},
+                serverType: "geoserver",
+                wrapX: false   // dont repeat on X axis
             }),
             legendUrl: getLegendImg("SPP:fetch_045", 10, 25),
             legendHeight: "fetch",  // number not accounted for, only if attribute exists or not
@@ -134,10 +134,10 @@ Ext.define("Layers", {
         new ol.layer.Tile({
             name: "Adria 45°(NE)",
             source: new ol.source.TileWMS({
-              url: wms,
-              params: {"LAYERS": "SPP:fetch_045", "TILED": true},
-              serverType: "geoserver",
-              wrapX: false   // dont repeat on X axis
+                url: wms,
+                params: {"LAYERS": "SPP:fetch_045", "TILED": true},
+                serverType: "geoserver",
+                wrapX: false   // dont repeat on X axis
             }),
             legendUrl: getLegendImg("SPP:fetch_045", 10, 25),
             legendHeight: "fetch",
@@ -146,10 +146,10 @@ Ext.define("Layers", {
         new ol.layer.Tile({
             name: "Adria 90°(E)",
             source: new ol.source.TileWMS({
-              url: wms,
-              params: {"LAYERS": "SPP:fetch_090", "TILED": true},
-              serverType: "geoserver",
-              wrapX: false   // dont repeat on X axis
+                url: wms,
+                params: {"LAYERS": "SPP:fetch_090", "TILED": true},
+                serverType: "geoserver",
+                wrapX: false   // dont repeat on X axis
             }),
             legendUrl: getLegendImg("SPP:fetch_045", 10, 25),
             legendHeight: "fetch",

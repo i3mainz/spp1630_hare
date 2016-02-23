@@ -12,7 +12,7 @@ Ext.define("SppAppClassic.view.login.Login", {
     ],
 
     // custom help icon to titlebar
-    tools: [
+    /*tools: [
         {
             type: "help",
             reference: "helpButton",
@@ -20,7 +20,7 @@ Ext.define("SppAppClassic.view.login.Login", {
                   "as a guest with limited data access and functionality"
             //handler: "onHelpClick"
         }
-    ],
+    ],*/
 
     controller: "login",  // needs to be in requires
     bodyPadding: 10,

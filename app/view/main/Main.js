@@ -116,7 +116,7 @@ Ext.define("SppAppClassic.view.main.Main", {
         });
 
         // show infos
-        Ext.create("SppAppClassic.view.main.Info.InfoPanel").show();
+        //Ext.create("SppAppClassic.view.main.Info.InfoPanel").show();
 
         SppAppClassic.view.main.Main.superclass.initComponent.call(this);
     }

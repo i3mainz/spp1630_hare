@@ -51,6 +51,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
                 //restrictedExtent: new ol.extent(-180, -90, 180, 90)  // prevents going over 'edge' of map
             })
         });
+
         var layerGroup = ol3Map.getLayerGroup();
 
         // set map
@@ -70,11 +71,12 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
         //var internLayer = me.getLayerByName("Harbours (AG Intern)");
         //me.removeLayer(internLayer);
         if (cookie !== "guest" || cookie === "admin") {
+
             me.addLayer(LayerGroups.fetch);
             me.addLayer(LayerGroups.barrington);
             me.addLayer(LayerGroups.agIntern);
             me.addLayer(LayerGroups.spp);
-
+            //console.log("done add");
             // add layer to project internal
             var projectID = me.getProjectIdFromCookie(cookie);
 
@@ -85,10 +87,14 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
                 me.addLayerToLayerGroup(layer, "Project Internal");
             }
 
-        } else {
-            me.addLayer(LayerGroups.sppOpen);
-        }
+            console.log("done set layers for users");
 
+        } else {
+            console.log("set layers for guests");
+            me.addLayer(LayerGroups.sppOpen);
+            console.log("done set layers for guest");
+        }
+        console.log("init done!");
         //removeRestrictedLayerGroups
 
         // add custom listeners

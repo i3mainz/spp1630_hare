@@ -10,7 +10,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         //"SppAppClassic.view.main.GridWindow",
         "SppAppClassic.view.main.filter.FilterPanel",
         "SppAppClassic.view.main.Settings.SettingsPanel",
-        "SppAppClassic.view.main.Info.InfoPanel",
+        "SppAppClassic.view.main.Info.InfoPanel"
     ],
 
     // define listeners here instead of the view.
