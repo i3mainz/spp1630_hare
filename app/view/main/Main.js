@@ -58,6 +58,24 @@ Ext.define("SppAppClassic.view.main.Main", {
                 padding: "0 10 0 0"
             },*/{
                 xtype: "label",
+                id: "infoLabel",
+                glyph: "xf1ea@FontAwesome",
+                html: "<a href='#'>Info</a>",
+                style: {
+                    color: "#696969",
+                    "font-size": "13px",
+                    "font-weight": "bold",
+                    "margin-right": "10px"
+                },
+                listeners: {
+                    element: "el", click: "onClickInfo"
+                }
+                //cls: "logoutLabel",  // css class
+                //text: // gets added before render
+                //padding: "4 5 0 0"  // 4 top is to be in line with logout button
+                //style  // used css formatting instead
+            },{
+                xtype: "label",
                 id: "logoutButtonlabel",
                 style: {
                     color: "#696969",

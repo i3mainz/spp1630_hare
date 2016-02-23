@@ -12,7 +12,8 @@ Ext.define("SppAppClassic.view.main.MainController", {
 
     requires: [
         "Ext.button.Button",
-        "SppAppClassic.view.login.Login"
+        "SppAppClassic.view.login.Login",
+        "SppAppClassic.view.main.Info.InfoPanel"
     ],
 
     control: {
@@ -45,7 +46,11 @@ Ext.define("SppAppClassic.view.main.MainController", {
 
     // reverts code from LoginCOntroller.js
     onClickLogout: function() {
+        //this.application.fireEvent('logincomplete');
         var me = this;
+        //this.getController("SppAppClassic.view.login.Login").newMethod();
+        //SppAppClassic.app.getController("SppAppClassic.view.login.Login").newMethod();
+
         Ext.MessageBox.confirm("Logout", "Are you sure you want to logout?", function(btn) {
             if (btn === "yes") {
                 console.log("logging out!");
@@ -59,17 +64,17 @@ Ext.define("SppAppClassic.view.main.MainController", {
                 me.logoutGeoServer();
 
                 // destroy viewport. not sure how. use workaround for panels
-                var filterPanel = Ext.getCmp("filterPanel");
-                if (filterPanel) {
-                    filterPanel.destroy();
+                var item = Ext.getCmp("filterPanel");
+                if (item) {
+                    item.destroy();
                 }
-                var gridWindow = Ext.getCmp("gridWindow");
-                if (gridWindow) {
-                    gridWindow.destroy();
+                item = Ext.getCmp("gridWindow");
+                if (item) {
+                    item.destroy();
                 }
-                var popupWindow = Ext.getCmp("popupWindow");
-                if (popupWindow) {
-                    popupWindow.destroy();
+                item = Ext.getCmp("popupWindow");
+                if (item) {
+                    item.destroy();
                 }
 
                 // destroy ol3map
@@ -84,5 +89,13 @@ Ext.define("SppAppClassic.view.main.MainController", {
                 });
             }
         });
+    },
+
+    onClickInfo: function() {
+        var infoPanel = Ext.getCmp("infopanel");
+        if (!infoPanel) {
+            infoPanel = Ext.create("SppAppClassic.view.main.Info.InfoPanel");
+        }
+        infoPanel.show();
     }
 });

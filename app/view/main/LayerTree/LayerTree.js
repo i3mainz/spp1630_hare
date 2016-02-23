@@ -16,11 +16,7 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
     ],
 
     controller: "main-layertree",
-    /*viewModel: {
-        type: "main-layertree"
-    },*/
 
-    //title: 'Layers',
     viewConfig: {
         plugins: {ptype: "treeviewdragdrop"}  // enable drag and drop of layers
     },
@@ -30,7 +26,7 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
         title: "Layers"  // overrides title
     },
     title: "Layers",
-    //store: this.treeStore,
+
     collapsible: true,
     rootVisible: false,
     fill: true,
@@ -41,7 +37,6 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
     lines: false,
     autoScroll: true,
     margin: "0 5 0 0",
-    //border: false
     split: false,
 
     // display legend
@@ -56,7 +51,12 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
             }]
         }]
     },
+    initComponent: function () {
+        console.log("init layer tree");
 
+        // store gets set later on geoextmap creation
+        SppAppClassic.view.main.LayerTree.superclass.initComponent.call(this);
+    },
     // alternative to treePanel.on('select', function())
     listeners: {
         /*checkchange: function() {

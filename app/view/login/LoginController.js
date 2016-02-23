@@ -111,6 +111,9 @@ Ext.define("SppAppClassic.view.login.LoginController", {
         // unlock buttons
         this.lookupReference("loginSubmitButton").enable();
         this.lookupReference("guestSubmitButton").enable();
+
+        //this.getView().fireEvent("loginfailed");
+
     },
 
     // same function in MainController
@@ -174,5 +177,9 @@ Ext.define("SppAppClassic.view.login.LoginController", {
         } else {
             guestButton.disable();
         }
+    },
+
+    newMethod: function() {
+        console.log("it works! :DDDD");
     }
 });

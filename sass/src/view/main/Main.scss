@@ -120,3 +120,8 @@ img.news-image {
     margin-top: 10px;
     border-radius: 10px;
 }
+
+/* remove folder icon from tree nodes */
+.x-tree-icon {
+    display: none !important;
+}

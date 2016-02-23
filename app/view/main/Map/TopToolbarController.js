@@ -92,10 +92,6 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         filterPanel.toggle();
     },
 
-    onNewsClick: function() {
-        Ext.create("SppAppClassic.view.main.Info.InfoPanel").show();
-    },
-
     onGridClick: function() {
         //var gridPanel = this.lookupReference("gridpanel");
         var gridPanel = Ext.getCmp("gridWindow");

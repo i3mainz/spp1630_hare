@@ -44,16 +44,6 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
                     //anchor: 'top'
                 },
                 handler: "onToggleFilter"
-            },{
-                id: "newsButton", // used in FilterPanelController.js
-                text: "News",
-                glyph: "xf1ea@FontAwesome",
-                //enableToggle: true,
-                //pressed: false,
-                tooltip: {
-                    text: "Show News"
-                },
-                handler: "onNewsClick"
             }/*,{
                 id: "gridButton", // used in GridWindow.js
                 text: "Grid",
