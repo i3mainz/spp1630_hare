@@ -79,6 +79,12 @@ Ext.define("SppAppClassic.view.main.MainController", {
 
                 // destroy ol3map
                 //Ext.getCmp("geoextMap").destroy();
+                //Ext.getCmp("geoextMap").setMap(false);
+                // view gets destroyed correctly, but store is still active
+                //Ext.getCmp("SppAppClassic.store.Layers").setMap(false);
+
+                //var store = Ext.data.StoreManager.lookup("treeStore");
+                //store.removeAll();
 
                 console.log("done!");
                 me.getView().destroy();

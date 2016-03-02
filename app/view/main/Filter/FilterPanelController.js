@@ -12,7 +12,9 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
 
     control: {
         "#": {
-             close: "onClose"
+            close: "onClose",
+            collapse: "onCollapse",
+            expand: "onExpand"
         }
     },
 
@@ -33,6 +35,14 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
 
     onClose: function() {
         Ext.getCmp("filterButton").setPressed(false);
+    },
+
+    onCollapse: function() {
+        Ext.getCmp("filterButton").setPressed(false);
+    },
+
+    onExpand: function() {
+        Ext.getCmp("filterButton").setPressed(true);
     },
 
     onSliderChange: function() {
@@ -115,8 +125,13 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
                 sliderFilterString = slider.getSQLQuery(false, false);
             }
         }
+        /*console.log(sliderFilterString);
+        if (sliderFilterString.length > 0) {
+            return "(" + sliderFilterString + ")";
+        } else {
+            return false;
+        }*/
 
-        return sliderFilterString;
     },
 
     getStatusSQLQuery: function() {
@@ -135,11 +150,17 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
         if (status3) {
             statusFilterList.push("status=3");
         }
-        if (!status1 && !status2 && !status3) {
-            statusFilterList.push("status!=1 AND status!=2 AND status!=3");
+        if (!status1 && !status2 && !status3) {  // all deselected
+            return "(status!=1 AND status!=2 AND status!=3)";
+        } else {  // at least one selected
+            return "(" + statusFilterList.join(" OR ") + ")";
         }
 
-        return statusFilterList.join(" OR ");
+        /*if (statusFilterList.length > 0) {
+            return "(" + statusFilterList.join(" OR ") + ")";
+        } else {
+            return false;
+        }*/
     },
 
     getProjectSQLQuery: function() {
@@ -158,7 +179,7 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
             }
 
         }
-        return projectList.join(" OR ");
+        return "(" + projectList.join(" OR ") + ")";
     },
 
     /**
@@ -168,15 +189,28 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
 
         Ext.getCmp("applyFilterButton").disable();
 
-        var projectSQLQuery = this.getProjectSQLQuery();
-        var statusSQLQuery = this.getStatusSQLQuery();
-        var sliderSQLQuery = this.getCenturiesSQLQuery();
+        var queryList = [];
+        var sql = this.getProjectSQLQuery();
+        if (sql) {
+            queryList.push(sql);
+        }
+        sql = this.getStatusSQLQuery();
+        if (sql) {
+            queryList.push(sql);
+        }
+        sql = this.getCenturiesSQLQuery();
+        if (sql) {
+            queryList.push(sql);
+        }
 
-        var filterString = "(" + projectSQLQuery + ") AND (" + statusSQLQuery + ") AND (" + sliderSQLQuery + ")";
-        //var filterString = "(" + statusSQLQuery + ") AND (" + sliderSQLQuery + ")";
+        //var filterString = queryList.join(" AND ");
+        var filterString = this.getStatusSQLQuery();
 
+        console.log(filterString);
         // apply filters to layer "harbours"
-        this.applyFilterToLayer("Data", filterString);
+        //this.applyFilterToLayer("Data", filterString);
+        var map = Ext.getCmp("geoextMap");
+        map.applyFilterToLayer("Data", filterString);
 
         Ext.getCmp("applyFilterButton").enable();
     }

@@ -32,7 +32,8 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     control: {
         "#": {  // matches the view itself
             click: "onMapClick",
-            pointermove: "onPointerMove"
+            pointermove: "onPointerMove",
+            destroy: "onDestroy"
         }
     },
 
@@ -100,5 +101,13 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
         } else {
             map.getTarget().style.cursor = "";
         }
+    },
+
+    /**
+     * ensures that ol3Map is destroyed. doesnt work
+     */
+    onDestroy: function() {
+        console.log("destroying geoextmap");
+        this.getView().setMap(false);
     }
 });

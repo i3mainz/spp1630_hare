@@ -8,6 +8,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
     requires: [
         "SppAppClassic.view.main.map.GeoExtMapController",
         "GeoExt.data.store.LayersTree",
+        "SppAppClassic.store.Layers",
         "LayerGroups",
         //"layerStyles",
         "Projects"
@@ -59,18 +60,18 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
 
         // set layertree's store
         var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
-            layerGroup: layerGroup
+            layerGroup: layerGroup,
+            storeId: "treeStore"  // register with storemanager
         });
         Ext.getCmp("layerTree").setStore(treeStore);
 
         // dynamically adding layers doesnt work!
         // workaround: add all, then remove restricted
-        var cookie = Ext.util.Cookies.get("sppCookie");
 
         // remove AG intern if it already exists
         //var internLayer = me.getLayerByName("Harbours (AG Intern)");
         //me.removeLayer(internLayer);
-        if (cookie !== "guest" || cookie === "admin") {
+        if (SppAppClassic.app.isAuthorized()) {
 
             me.addLayer(LayerGroups.fetch);
             me.addLayer(LayerGroups.barrington);
@@ -94,8 +95,11 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
             me.addLayer(LayerGroups.sppOpen);
             console.log("done set layers for guest");
         }
-        console.log("init done!");
+        console.log("creating layers!");
         //removeRestrictedLayerGroups
+
+        me.createLayersFromStore();
+        console.log("all layers created!");
 
         // add custom listeners
         // keep inheritance
@@ -103,6 +107,73 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
         // $owner error has something to do with initComponent being a protected method
         // in ExtJs6
         SppAppClassic.view.main.map.GeoExtMap.superclass.initComponent.call(this);
+    },
+
+    /**
+     * looks up layer information from layerStore and
+     * dynamically creates wms or geoJSON layers
+     */
+    createLayersFromStore: function(cookie) {
+        var me = this;
+
+        // dont add restricted layers if not authorized
+        var showRestricted = false;
+        if (SppAppClassic.app.isAuthorized()) {
+            showRestricted = true;  // workaround .. only add if group exists
+        }
+
+        var layersStore = Ext.create("SppAppClassic.store.Layers");
+
+        layersStore.each(function(layer) {
+
+            console.log("layer: " + layer.get("layerName").split(":")[1]);
+            console.log(me.getLayerByName(layer.get("layerName").split(":")[1]));
+            if (!me.getLayerByName(layer.get("layerName"))) {  // skip if layer exists already
+                var newLayer;
+                if (layer.get("type") === "WMS") {
+                    var legend = layer.get("legendName");
+                    var legendHeight = layer.get("legendHeight");
+                    if (legend) {
+                        if (typeof legend === "string" || legend instanceof String) {  // legendName specified
+                            if (legendHeight) {
+                                newLayer = me.createWMSLayer(layer.get("title"), layer.get("layerName"), layer.get("legendName"), legendHeight);
+                            } else {
+                                newLayer = me.createWMSLayer(layer.get("title"), layer.get("layerName"), layer.get("legendName"));
+                            }
+                        } else {  // legendName true, use layerName as legendName
+                            if (legendHeight) {
+                                newLayer = me.createWMSLayer(layer.get("title"), layer.get("layerName"), layer.get("layerName"), legendHeight);
+                            } else {
+                                newLayer = me.createWMSLayer(layer.get("title"), layer.get("layerName"), layer.get("layerName"));
+                            }
+                        }
+
+                    } else {
+                        newLayer = me.createWMSLayer(layer.get("title"), layer.get("layerName"));
+                    }
+
+                } else if (layer.get("type") === "GeoJSON") {
+                    //ame, sourceName, legendUrl, layerStyle, isVisible
+                    if (layer.get("layerStyle")) {
+                        newLayer = me.createGeoJSONLayer(layer.get("title"), layer.get("layerName"), false, layer.get("layerStyle"), layer.get("isVisible"));
+                    } else {
+                        newLayer = me.createGeoJSONLayer(layer.get("title"), layer.get("layerName"), false, false, layer.get("isVisible"));
+                    }
+                } else {
+                    console.log("type " + layer.get("type") + " not supported yet!");
+                }
+
+                // add layer to specified group
+                var group = me.getLayerGroupByName(layer.get("group"));
+                if (group) {  // only add if group exists
+                    group.getLayers().push(newLayer);  // push to layer collection
+                } else {
+                    console.log("group: " + layer.get("group") + " doesnt exist!");
+                }
+            }
+
+
+        });
     },
 
     /**
@@ -125,8 +196,12 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
      * layer string needs to be in format "<workspace>:<layername>"
      * e.g. "SPP:harbours"
      */
-    getLegendImg: function(layer) {
-        return SppAppClassic.app.globals.wmsPath + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=50&TRANSPARENT=true&HEIGHT=50&LAYER=" + layer
+    getLegendImg: function(layer, height, width) {
+        height = height || 25;
+        width = width || 25;
+        var finalWms = wms + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=" + width + "&TRANSPARENT=true&HEIGHT=" + height + "&LAYER=" + layer +
+                        "&legend_options=fontName:Arial;fontAntiAliasing:true;fontSize:6;dpi:180";
+        return finalWms;
     },
 
     /**
@@ -197,8 +272,23 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
                 groupList.push(layerGroup);
             }
         });
-
         return groupList;
+    },
+
+    /**
+     * returns the specified layer group
+     */
+    getLayerGroupByName: function(groupName) {
+        var layerGroups = this.map.getLayers();
+        var result;
+        layerGroups.forEach(function(layerGroup) {
+            if (layerGroup instanceof ol.layer.Group) {
+                if (layerGroup.get("name") === groupName) {
+                    result = layerGroup;
+                }
+            }
+        });
+        return result;
     },
 
     /**
@@ -229,6 +319,89 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
     getLayerSourceNameByLayername: function(layername) {
     },
 
+    /**
+     * creates a ol.layer.Tile layer with a ol.source.TileWMS
+     * as it's source
+     */
+    createWMSLayer: function(name, sourceName, legendName, legendHeight) {
+        legendName = legendName || false;
+        legendHeight = legendHeight || false;
+        var layer = new ol.layer.Tile({
+            name: name,
+            source: new ol.source.TileWMS({
+                url: wms,
+                params: {"LAYERS": sourceName, "TILED": true},
+                serverType: "geoserver",
+                wrapX: false   // dont repeat on X axis
+            }),
+            visible: false
+        });
+        if (legendName) {
+            var legendUrl;
+            if (legendHeight) {
+                if (legendHeight === "fetch") {
+                    console.log("found fetch!");
+                    legendUrl = this.getLegendImg(legendName, 10, 25);
+                    layer.set("legendHeight", legendHeight);
+                } else {
+                    legendUrl = this.getLegendImg(legendName);
+                    console.log("legendHeight: " + legendHeight + " not supported! using default height");
+                }
+            } else {  // no legendHeight specified
+                legendUrl = this.getLegendImg(legendName);
+            }
+            layer.set("legendUrl", legendUrl);
+        }
+        return layer;
+    },
+
+    /**
+     * creates a ol.layer.Vector layer with a ol.source.Vector from ol.format.GeoJSON
+     * as it's source
+     */
+    createGeoJSONLayer: function(name, sourceName, legendUrl, layerStyle, isVisible) {
+        legendUrl = legendUrl || "";
+        layerStyle = layerStyle || "";
+        isVisible = isVisible || false;
+
+        var workspace = sourceName.split(":")[0];
+        var layerName = sourceName.split(":")[1];
+
+        var layer = new ol.layer.Vector({
+            name: name,
+            source: new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return proxy +
+                            "bereich=" + workspace +
+                            "&layer=" + layerName +
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            visible: isVisible
+        });
+
+        if (layerStyle) {
+            layer.setStyle(layerStyle);
+        } else {
+            layer.setStyle("style", LayerStyles.redPoints);  // default
+        }
+
+        if (legendUrl) {
+            layer.set("legendUrl", legendUrl);
+        }
+
+        return layer;
+    },
+
+    /**
+     * layername needs to be complete with workspace (e.g. "SPP.Data")
+     */
     createVectorSource: function(layername, filter) {
         console.log("creating source!");
         var vectorSource;
@@ -331,5 +504,28 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
                 me.removeLayer(layerGroup);
             }
         });
+    },
+
+    // TODO: keep previous qcl filter intact -> right now it gets overwritten
+    /**
+     * takes an sql-string. creates a new source for the layer and
+     * updates the layer's source
+     * layername needs to be complete with workspace (e.g. "SPP.Data")
+     */
+    applyFilterToLayer: function(layerName, filterString) {
+        var layer = this.getLayerByName(layerName);  // this.getView()
+
+        //var newSource = this.createVectorSource("SPP:Data", filterString);
+        var newSource = this.createVectorSource("SPP:Data");
+
+        layer.setSource(newSource);  // this refreshes automatically*/
+    },
+
+    /**
+     * creates a legend image -> or html -> based on an Open Layers
+     * style
+     */
+    createLegendImgFromOlStyle: function(style) {
+
     }
 });

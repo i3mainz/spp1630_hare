@@ -32,6 +32,7 @@ var defaultPoints2 = new ol.style.Style({
 
 var styleCache = {};
 var statusStyleCache = {};
+var eckholdtStyleCache = {};
 
 Ext.define("LayerStyles", {
     singleton: true,
@@ -131,6 +132,45 @@ Ext.define("LayerStyles", {
         // at this point, the style for the current level is in the cache
         // so return it (as an array!)
         return [styleCache[project]];
+    },
+
+    eckholdtStyleFunction: function(feature, resolution) {
+        // TODO: multiply with zoom
+
+        // map the income level codes to a colour value, grouping them
+        var codeWidths = {
+            "1": 8,
+            "2": 4,
+            "3": 2,
+            "4": 1
+        };
+
+        // get the projectname from the feature properties
+        var code = feature.get("Code");
+
+        // if there is no level or its one we don't recognize,
+        // return the default style (in an array!)
+        /*if (!code || !codeWidths[code]) {
+            //console.log("default for " + project);
+            return [defaultPoints];
+        }*/
+
+        // check the cache and create a new style for the project
+        // if its not been created before.
+
+        if (!eckholdtStyleCache[code]) {
+
+            eckholdtStyleCache[code] = new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: "#4c4cff",  //"rgba(0, 0, 255, 1.0)",
+                    width: codeWidths[code]
+                })
+            });
+        }
+
+        // at this point, the style for the current level is in the cache
+        // so return it (as an array!)
+        return [eckholdtStyleCache[code]];
     },
 
     getLabelText: function(feature, resolution) {

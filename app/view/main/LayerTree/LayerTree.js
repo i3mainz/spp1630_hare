@@ -30,7 +30,7 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
     collapsible: true,
     rootVisible: false,
     fill: true,
-    width: 250,
+    width: 230,
     border: false,
     hideHeaders: true,
     //flex: 1,

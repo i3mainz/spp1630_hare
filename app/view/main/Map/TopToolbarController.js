@@ -84,12 +84,24 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         var filterPanel = Ext.getCmp("filterPanel");
 
         if (!filterPanel) {  // lazy instantiation
-            filterPanel = Ext.create("SppAppClassic.view.main.filter.FilterPanel");
+            var mainPanel = Ext.getCmp("mainPanel");
+
+            // create filterpanel as item of main panel
+            mainPanel.add([{
+                xtype: "filterpanel",
+                region: "east"
+            }]);
+            //filterPanel = Ext.create("SppAppClassic.view.main.filter.FilterPanel");
             //filterPanel.anchorTo(Ext.getBody(),'t-t',[-100,0]);
             //filterPanel.alignTo(Ext.getBody(), "tr-tr");
             //filterPanel.alignTo(Ext.getBody(), "tr");
+        } else if (filterPanel.getCollapsed()) {  // is collapsed
+            filterPanel.setCollapsed(false);
+        } else {
+            filterPanel.setCollapsed(true);
         }
-        filterPanel.toggle();
+        //filterPanel.toggle();
+        //filterPanel.show()
     },
 
     onGridClick: function() {

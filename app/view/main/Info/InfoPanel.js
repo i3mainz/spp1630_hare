@@ -14,7 +14,7 @@ Ext.define("SppAppClassic.view.main.Info.InfoPanel", {
 
     style: "background-color: #dfe8f6;",
 
-    width: 650,
+    width: 700,
     height: "70%",
     modal: true,  // masks everthing else
 

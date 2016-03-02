@@ -44,7 +44,7 @@ Ext.define("SppAppClassic.store.News", {
                      "<a href='http://openlayers.org/' target='_blank'>OpenLayers 3.13</a> and " +
                      "<a href='https://www.sencha.com/products/extjs/#overview' target='_blank'>ExtJS 6</a>. This enables us to quickly develop new GIS functionality " +
                      "and user interfaces that look modern while still being highly functional and simple." +
-                     "<p>Version 1.x is codenamed \"Drake\" in reference to <a href='https://en.wikipedia.org/wiki/Francis_Drake' target='_blank'>Sir Francis Drake</a>.</p>",
+                     "<br><br>Version 1.x is codenamed \"Drake\" in reference to <a href='https://en.wikipedia.org/wiki/Francis_Drake' target='_blank'>Sir Francis Drake</a>.",
             image: ""
         }
     ]},

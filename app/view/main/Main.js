@@ -23,6 +23,7 @@ Ext.define("SppAppClassic.view.main.Main", {
         "Ext.window.MessageBox",
         "SppAppClassic.view.main.map.Map",      // xtype: "mappanel"
         "SppAppClassic.view.main.Info.InfoPanel",
+        "SppAppClassic.view.main.Filter.FilterTree",
         "SppAppClassic.view.main.LayerTree"  // xtype: "layertree",
     ],
 

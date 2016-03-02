@@ -60,11 +60,6 @@
     color: red;
 }
 
-.author {
-    color: #3892D4;
-    font-size: 11px;
-}
-
 .author-icon {
     font-size: 11px;
 }
@@ -124,4 +119,60 @@ img.news-image {
 /* remove folder icon from tree nodes */
 .x-tree-icon {
     display: none !important;
+}
+
+.filterItems {
+    font-weight: normal !important;
+}
+
+
+
+h2.news-title {
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.01em;
+    font-weight: bold;
+    /*margin-top: 5px;*/
+    /*margin-bottom: 5px;*/
+}
+
+.news-author {
+    font-size: 13px;
+    line-height: 17px;
+    color: #3892D4;
+    letter-spacing: 0.01em;
+    margin-right: 5px;
+    /*margin-bottom: 5px;*/
+}
+
+.news-time {
+    font-size: 13px;
+    line-height: 17px;
+    letter-spacing: 0.01em;
+    /*margin-bottom: 5px;*/
+}
+
+.news-text {
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: 0.01em;
+    /*margin-bottom: 5px;*/
+}
+
+.news-image {
+    height: 120px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.about-text {
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: 0.01em;
+    /*margin-bottom: 5px;*/
+}
+
+a {
+    color: #3892D4;
+    text-decoration: none;
 }

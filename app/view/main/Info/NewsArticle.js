@@ -33,7 +33,6 @@ Ext.define("SppAppClassic.view.main.Info.NewsArticle",{
     initComponent: function () {
         console.log("init News Article...");
         var me = this;
-
         Ext.apply(this, {
             items: [
                 me.buildContent(),
@@ -48,18 +47,15 @@ Ext.define("SppAppClassic.view.main.Info.NewsArticle",{
         var me = this;
         if (me.contentTitle && me.contentText && me.contentAuthor && me.contentTimestamp) {
             return {
-                // content
                 xtype: "component",
-                /*style: {
-                    "font-size": "15px",
-                    "font-weight": "bold"
-                },*/
-                html:   "<h4>" + me.contentTitle + "</h4>" + // uses bootstrap
-                        "<p>" +
-                            "<span class='glyphicon glyphicon-user author-icon'></span> <span class='author'>" + me.contentAuthor + "</span>   " +
-                            "<span class='glyphicon glyphicon-time time-icon'></span> <span class='time'>" + me.contentTimestamp + "</span>" +
-                        "</p>" +
-                        "<p>" + me.contentText + "</p>"
+                html: "<h2 class='news-title'>" + me.contentTitle + "</h2>" +
+                      "<p>" +
+                        "<span class='news-author'>" + me.contentAuthor + "</span>" +
+                        "<span class='news-time'>" + me.contentTimestamp + "</span>" +
+                      "</p>" +
+                      "<p>" +
+                        "<span class='news-text'>" + me.contentText + "</span>" +
+                      "</p>"
             };
         }
     },
@@ -69,13 +65,7 @@ Ext.define("SppAppClassic.view.main.Info.NewsArticle",{
         if (me.contentImage) {
             return {
                 xtype: "image",
-                style: {
-                    //"margin-top": "10px",
-                    "border-radius": "10px",
-                    "margin-bottom": "5px"
-                },
-                height: "120px",
-                //width: "100%",
+                cls: "news-image",
                 src: me.contentImage
             };
         }
