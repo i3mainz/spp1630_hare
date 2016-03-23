@@ -125,12 +125,12 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
                 sliderFilterString = slider.getSQLQuery(false, false);
             }
         }
-        /*console.log(sliderFilterString);
+        //console.log(sliderFilterString);
         if (sliderFilterString.length > 0) {
             return "(" + sliderFilterString + ")";
         } else {
             return false;
-        }*/
+        }
 
     },
 
@@ -166,7 +166,7 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
     getProjectSQLQuery: function() {
         var projectList = [];
 
-        var counter = 1;
+        //var counter = 1;
         var projects = Projects.projectList;
         for (var key in projects) {
             var project = projects[key];
@@ -177,9 +177,21 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
                     projectList.push("project_id=" + project.id);
                 }
             }
-
         }
-        return "(" + projectList.join(" OR ") + ")";
+        if (projectList.length > 0) {
+            return "(" + projectList.join(" OR ") + ")";
+
+        // NOT project ID AND
+        } else {
+            var projectList = [];
+            for (var key in projects) {
+                var project = projects[key];
+                if (project.db_name) {
+                    projectList.push("project_id!=" + project.id);
+                }
+            }
+            return "(" + projectList.join(" AND ") + ")";
+        }
     },
 
     /**
@@ -203,14 +215,18 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
             queryList.push(sql);
         }
 
-        //var filterString = queryList.join(" AND ");
-        var filterString = this.getStatusSQLQuery();
+        var filterString = queryList.join(" AND ");
+        //var filterString = this.getStatusSQLQuery();
 
         console.log(filterString);
-        // apply filters to layer "harbours"
-        //this.applyFilterToLayer("Data", filterString);
-        var map = Ext.getCmp("geoextMap");
-        map.applyFilterToLayer("Data", filterString);
+
+        // apply filters
+        //var layer = Ext.getStore("layersStore").filter("type", "GeoJSON");
+        //var layer = Ext.getStore("layersStore").getAt(0);   // workaround because filter doesnt work. not sure why
+        var layer = Ext.getCmp("geoextMap").getLayerByName("Data");
+        //console.log(layer.getSource());
+
+        Ext.getCmp("geoextMap").updateVectorSource(layer, filterString);
 
         Ext.getCmp("applyFilterButton").enable();
     }

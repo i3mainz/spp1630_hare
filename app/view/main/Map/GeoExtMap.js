@@ -79,7 +79,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
             me.addLayer(LayerGroups.spp);
             //console.log("done add");
             // add layer to project internal
-            var projectID = me.getProjectIdFromCookie(cookie);
+            var projectID = SppAppClassic.app.getUsernameProjectID();
 
             if (projectID) {  // known cookie login
                 // create ag intern layer
@@ -93,13 +93,13 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
         } else {
             console.log("set layers for guests");
             me.addLayer(LayerGroups.sppOpen);
-            console.log("done set layers for guest");
+            //console.log("done set layers for guest");
         }
-        console.log("creating layers!");
+        //console.log("creating layers!");
         //removeRestrictedLayerGroups
 
         me.createLayersFromStore();
-        console.log("all layers created!");
+        //console.log("all layers created!");
 
         // add custom listeners
         // keep inheritance
@@ -113,7 +113,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
      * looks up layer information from layerStore and
      * dynamically creates wms or geoJSON layers
      */
-    createLayersFromStore: function(cookie) {
+    createLayersFromStore: function() {
         var me = this;
 
         // dont add restricted layers if not authorized
@@ -126,8 +126,8 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
 
         layersStore.each(function(layer) {
 
-            console.log("layer: " + layer.get("layerName").split(":")[1]);
-            console.log(me.getLayerByName(layer.get("layerName").split(":")[1]));
+            //console.log("layer: " + layer.get("layerName").split(":")[1]);
+            //console.log(me.getLayerByName(layer.get("layerName").split(":")[1]));
             if (!me.getLayerByName(layer.get("layerName"))) {  // skip if layer exists already
                 var newLayer;
                 if (layer.get("type") === "WMS") {
@@ -174,21 +174,6 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
 
 
         });
-    },
-
-    /**
-     * Checks cookie and returns the corresponding project ID
-     */
-    getProjectIdFromCookie: function(cookie) {
-        var id;
-        var projects = Projects.projectList;
-        for (var key in projects) {
-            var project = projects[key];
-            if (cookie === key) {
-                id = project.id;
-            }
-        }
-        return id;
     },
 
     /**
@@ -400,28 +385,31 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
     },
 
     /**
-     * layername needs to be complete with workspace (e.g. "SPP.Data")
+     * layername needs to be complete with workspace (e.g. "SPP.Data").
      */
-    createVectorSource: function(layername, filter) {
-        console.log("creating source!");
+    updateVectorSource: function(layer, filter) {
+        // TODO: obtain layername from provided layer object
+        var sourceName = "SPP:spp_harbours_intern";
+
+        //console.log("creating source!");
         var vectorSource;
         // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
         filter = filter || "";
 
         //var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
-        var workspace = layername.split(":")[0];
-        var layer = layername.split(":")[1];
+        var workspace = sourceName.split(":")[0];
+        var layerName = sourceName.split(":")[1];
         //var BBOX = "-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562";
         var EPSG = "4326";
 
         if (filter !== "") {
-            console.log("creating source for " + layername + " using filter: " + filter);
+            console.log("creating source for " + sourceName + " using filter: " + filter);
             vectorSource = new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent, resolution, projection) {
                     return SppAppClassic.app.globals.proxyPath +
                         "bereich=" + workspace +
-                        "&layer=" + layer +
+                        "&layer=" + layerName +
                         "&epsg=" + EPSG +
                         "&CQL_FILTER=" + filter;
                 },
@@ -429,14 +417,17 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
                     maxZoom: 19
                 }))
             });
+
+
+
         } else {  // no filter
-            console.log("creating source for " + layername + " without any filters!");
+            console.log("creating source for " + sourceName + " without any filters!");
             vectorSource = new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent, resolution, projection) {
                     return SppAppClassic.app.globals.proxyPath +
                         "bereich=" + workspace +
-                        "&layer=" + layer +
+                        "&layer=" + layerName +
                         "&epsg=" + EPSG;
                 },
                 strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
@@ -444,7 +435,8 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
                 }))
             });
         }
-        return vectorSource;
+        //return vectorSource;
+        layer.setSource(vectorSource);  // this refreshes automatically*/
     },
 
     createAGInternLayer: function(projectID) {
@@ -504,21 +496,6 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
                 me.removeLayer(layerGroup);
             }
         });
-    },
-
-    // TODO: keep previous qcl filter intact -> right now it gets overwritten
-    /**
-     * takes an sql-string. creates a new source for the layer and
-     * updates the layer's source
-     * layername needs to be complete with workspace (e.g. "SPP.Data")
-     */
-    applyFilterToLayer: function(layerName, filterString) {
-        var layer = this.getLayerByName(layerName);  // this.getView()
-
-        //var newSource = this.createVectorSource("SPP:Data", filterString);
-        var newSource = this.createVectorSource("SPP:Data");
-
-        layer.setSource(newSource);  // this refreshes automatically*/
     },
 
     /**

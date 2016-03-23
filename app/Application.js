@@ -130,5 +130,25 @@ Ext.define('SppAppClassic.Application', {
         } else {
             return false;
         }
+    },
+
+    getUsername: function() {
+       return Ext.util.Cookies.get("sppCookie");
+    },
+
+    /**
+     * Gets the corresponding project ID for the currently logged in username
+     */
+    getUsernameProjectID: function() {
+        var id;
+        var projects = Projects.projectList;
+        for (var key in projects) {
+            var project = projects[key];
+            if (Ext.util.Cookies.get("sppCookie") === key) {
+                id = project.id;
+            }
+        }
+        return id;
     }
+
 });

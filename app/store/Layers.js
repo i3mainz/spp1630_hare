@@ -19,36 +19,7 @@ Ext.define("SppAppClassic.store.Layers", {
      *
      */
     data: {
-        items: [
-
-    /*
-    sppOpen: new ol.Collection([
-        // harbours
-        new ol.layer.Vector({
-            name: "Data",
-            source: new ol.source.Vector({  // TODO create class for vector source
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "spp_harbours_open" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:harbours"),
-            //style: LayerStyles.styleFunction,
-            style: LayerStyles.redPoints,
-            visible: true
-        })
-    ]),
-    */
-
-        {
+        items: [{
             group: "SPP",
             type: "GeoJSON",
             title: "Data",
@@ -57,13 +28,13 @@ Ext.define("SppAppClassic.store.Layers", {
             layerStyle: LayerStyles.redPointLabelStyleFunction,
             isVisible: true
         },{
-            group: "SPP",
+            group: "SPP (open)",
             type: "GeoJSON",
-            title: "Data no labels",
-            layerName: "SPP:spp_harbours_intern",
+            title: "Data",
+            layerName: "SPP:spp_harbours_open",
             legendName: "SPP:harbours",
             layerStyle: LayerStyles.redPoints,
-            isVisible: false
+            isVisible: true
         },
 
         {

@@ -29,7 +29,7 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
     /*viewModel: {
         type: "main-filterpanel"
     },*/
-    region: "east",
+    region: "west",
     resizable: false,
     //closeAction: "hide",
     title: "Filters",

@@ -20,17 +20,20 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
 
         Ext.apply(this, {
             items: [{
-                text: "Zoom In",
+                //text: "Zoom In",
                 glyph: "xf00e@FontAwesome",
-                handler: "zoomIn"
+                handler: "zoomIn",
+                tooltip: "Zoom In"
             },{
-                text: "Zoom Out",
+                //text: "Zoom Out",
                 glyph: "xf010@FontAwesome",
-                handler: "zoomOut"
+                handler: "zoomOut",
+                tooltip: "Zoom Out"
             },{
-                text: "Extend",
+                //text: "Extend",
                 glyph: "xf0b2@FontAwesome",
-                handler: "onCenter"
+                handler: "onCenter",
+                tooltip: "Zoom to Extend"
             },{
                 reference: "filterButton",
                 id: "filterButton", // used in FilterPanelController.js

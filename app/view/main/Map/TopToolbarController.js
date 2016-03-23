@@ -89,7 +89,8 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
             // create filterpanel as item of main panel
             mainPanel.add([{
                 xtype: "filterpanel",
-                region: "east"
+                region: "west",
+                margin: "0 5 0 0"
             }]);
             //filterPanel = Ext.create("SppAppClassic.view.main.filter.FilterPanel");
             //filterPanel.anchorTo(Ext.getBody(),'t-t',[-100,0]);
