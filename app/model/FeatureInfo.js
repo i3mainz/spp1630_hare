@@ -1,3 +1,5 @@
+"use strict";
+
 Ext.define("FeatureInfo", {
     extend: "Ext.data.Model",
     fields: [

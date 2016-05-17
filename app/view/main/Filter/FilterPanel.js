@@ -128,15 +128,19 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
                 items: [
                     {
                         xtype: "label",
+                        id: "sliderlabel",
                         reference: "sliderlabel",
                         text: "1BC - 13AD",
                         padding: "5 0 0 0"
                     },{
                         xtype: "centuryslider",
+                        //id: "centuryslider",
                         width: 160,
                         padding: "0 0 10 0",
                         listeners: {
-                            //changecomplete: "onSliderChangeComplete",
+                            /*changecomplete: function() {
+                                console.log("completed sliderchange!");
+                            },*/
                             change: "onSliderChange"
                         }
                     },{
@@ -156,6 +160,13 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
             },{
                 xtype: "panel",
                 title: "Status",
+                defaults: {
+                    listeners: {  // currently not working!
+                        change: function(field, newVal, oldVal) {
+                            console.log('change status!');
+                        }
+                    }
+                },
                 items: [
                     {
                         xtype: "checkbox",

@@ -124,10 +124,17 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
 
         var layersStore = Ext.create("SppAppClassic.store.Layers");
 
+        //var currentLayers = me.getLayers();  // already existing layers
+
+
         layersStore.each(function(layer) {
 
             //console.log("layer: " + layer.get("layerName").split(":")[1]);
             //console.log(me.getLayerByName(layer.get("layerName").split(":")[1]));
+            console.log("layername:" + layer.get("layerName"));
+            console.log(me.layerExists(layer.get("layerName")));
+
+
             if (!me.getLayerByName(layer.get("layerName"))) {  // skip if layer exists already
                 var newLayer;
                 if (layer.get("type") === "WMS") {
@@ -247,6 +254,20 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
     },
 
     /**
+     * checks if layer already exists on map. takes the layer title given to the layer
+     * by the user (e.g. the title for "SPP:harbours" would mostl likely be just "Harbours")
+     */
+    layerExists: function(title) {
+        var currentLayers = this.getLayers();
+        currentLayers.forEach(function(layer) {
+            if (layer.get("name") === title) {
+                return true;
+            }
+        });
+        return false;
+    },
+
+    /**
      * returns list of layer groups
      */
     getLayerGroups: function() {
@@ -291,6 +312,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
         }
 
         layers.forEach(function(layer, i) {
+            //console.log("name: " + layer.get("name"));
             if (layer.get("name") === layername) {
                 resultlayer = layer;
             }

@@ -65,9 +65,10 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
         "12th Century",  // 8
         "13th Century"   // 9  date_13_Jh // ja, nein
         */
+        console.log("change!");
 
         var me = this;
-        var slider = me.lookupReference("centuryslider");
+        var slider = Ext.getCmp("centuryslider");
 
         //var filterPanel = Ext.getCmp("filterPanel");
         var labelText;
@@ -87,7 +88,12 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
             labelText = value1 + "AD" + " - " + value2 + "AD";
         }
 
-        me.lookupReference("sliderlabel").setText(labelText);
+        var label = Ext.getCmp("sliderlabel");
+        label = me.lookupReference("sliderlabel");
+        console.log(label);
+        label.setText(labelText);
+
+        //console.log(Ext.getCmp("sliderlabel"));
 
         // apply filter -> gets applied on apply buton click
         /*
