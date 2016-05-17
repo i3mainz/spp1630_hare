@@ -20,24 +20,32 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
 
         Ext.apply(this, {
             items: [{
-                text: "Zoom In",
+                //text: "Zoom In",
                 glyph: "xf00e@FontAwesome",
-                handler: "zoomIn"
+                handler: "zoomIn",
+                tooltip: "Zoom In"
             },{
-                text: "Zoom Out",
+                //text: "Zoom Out",
                 glyph: "xf010@FontAwesome",
-                handler: "zoomOut"
+                handler: "zoomOut",
+                tooltip: "Zoom Out"
             },{
-                text: "Extend",
+                //text: "Extend",
                 glyph: "xf0b2@FontAwesome",
-                handler: "onCenter"
+                handler: "onCenter",
+                tooltip: "Zoom to Extend"
             },{
                 reference: "filterButton",
                 id: "filterButton", // used in FilterPanelController.js
                 text: "Filters",
                 glyph: "xf0b0@FontAwesome",
+                disabled: true,  // unlocked dynamically
                 enableToggle: true,
                 pressed: false,
+                tooltip: {
+                    text: "Filters"
+                    //anchor: 'top'
+                },
                 handler: "onToggleFilter"
             }/*,{
                 id: "gridButton", // used in GridWindow.js
@@ -46,7 +54,19 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
                 enableToggle: true,
                 pressed: false,
                 handler: "onGridClick"
-            }*/]
+            }*/
+            /*{
+                glyph: "xf013@FontAwesome",
+                id: "settingsButton",
+                disabled: true,  // unlocked dynamically
+                enableToggle: true,
+                tooltip: {
+                    text: "Settings"
+                    //anchor: 'top'
+                },
+                handler: "onToggleSettings"
+            }*/
+            ]
         });
 
         SppAppClassic.view.main.map.TopToolbar.superclass.initComponent.call(this);

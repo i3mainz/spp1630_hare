@@ -21,7 +21,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     alias: "controller.main-geoextmap",
 
     requires: [  // view not needed in requirements
-        "SppAppClassic.view.main.Popup"
+        "SppAppClassic.view.main.Popup.Popup"
     ],
 
     // using lookupReference() instead of refs, see
@@ -32,26 +32,9 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     control: {
         "#": {  // matches the view itself
             click: "onMapClick",
-            pointermove: "onPointerMove"
+            pointermove: "onPointerMove",
+            destroy: "onDestroy"
         }
-    },
-
-    /**
-     * gets all attributes of a feature and returns them as a
-     * html string.
-    */
-    getInfoHtmlForOlFeature: function(olFeature) {
-        var html = "";
-        var attributes = olFeature.getKeys();
-        for (var i = 0; i < attributes.length; i++) {
-            var attr = attributes[i];
-            if (attr !== "geometry" && attr !== "gid" && attr !== "project_id" && attr !== "uid" && attr !== "created" && attr !== "modified") {
-                html += "<strong>" + attr + ": </strong>" + olFeature.get(attr) + "<br>";
-            }
-
-        }
-
-        return html;
     },
 
     /**
@@ -63,6 +46,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
     onMapClick: function(evt) {
         // this.map replaces olMap.map until GeoExt3 function exists
         var map = this.getView().map;
+        var cookie = Ext.util.Cookies.get("sppCookie");
         //var pixel = map.getEventPixel(evt.originalEvent);
         var feature = map.forEachFeatureAtPixel(evt.pixel,
             function(feature, layer) {
@@ -74,11 +58,23 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
         var popupWindow = Ext.getCmp("popupWindow");
         // lazy instanciation
         if (!popupWindow) {
-            popupWindow = Ext.create("SppAppClassic.view.main.Popup");
+            Ext.create("SppAppClassic.store.FeatureInfos");
+            /*var info = Ext.create("FeatureInfo", {
+                attribute: 'original',
+                value : '123'
+            });*/
+            //store.add(info);
+            popupWindow = Ext.create("SppAppClassic.view.main.Popup.Popup");
         }
 
         if (feature) {   // clicked on feature
-            popupWindow.setHtml("<p>" + this.getInfoHtmlForOlFeature(feature) + "</p>");
+
+            if (cookie === "guest") {
+                popupWindow.updateHTML(feature, true);
+            } else {
+                popupWindow.updateHTML(feature);
+            }
+
             popupWindow.show();
             // TODO: show popup window next to feature
             //popupPanel.showAt(evt.getXY());
@@ -105,5 +101,13 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
         } else {
             map.getTarget().style.cursor = "";
         }
+    },
+
+    /**
+     * ensures that ol3Map is destroyed. doesnt work
+     */
+    onDestroy: function() {
+        console.log("destroying geoextmap");
+        this.getView().setMap(false);
     }
 });

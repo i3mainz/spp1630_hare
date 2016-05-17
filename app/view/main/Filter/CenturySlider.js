@@ -5,6 +5,7 @@ Ext.define("SppAppClassic.view.main.filter.CenturySlider", {
     xtype: "centuryslider",  // map.centuryslider
     //alias: 'widget.centuryslider',
     reference: "centuryslider",  // used in controllers
+    id: "centuryslider",
 
     //controller: "main-centuryslider", // slider is a component. only containers can have controllers!
     controller: "main-filterpanel",
@@ -98,7 +99,12 @@ Ext.define("SppAppClassic.view.main.filter.CenturySlider", {
             queryString = filterList.join(" OR ");
         }
 
-        return queryString;
+        //return empty if default values!
+        if (startCentury > 0 || endCentury < 13) {
+            return queryString;
+        } else {
+            return false;
+        }
     }
 
     // defined in FilterPanelController.js

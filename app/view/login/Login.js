@@ -12,7 +12,7 @@ Ext.define("SppAppClassic.view.login.Login", {
     ],
 
     // custom help icon to titlebar
-    tools: [
+    /*tools: [
         {
             type: "help",
             reference: "helpButton",
@@ -20,7 +20,7 @@ Ext.define("SppAppClassic.view.login.Login", {
                   "as a guest with limited data access and functionality"
             //handler: "onHelpClick"
         }
-    ],
+    ],*/
 
     controller: "login",  // needs to be in requires
     bodyPadding: 10,
@@ -68,8 +68,19 @@ Ext.define("SppAppClassic.view.login.Login", {
                     }*/
                 ],
 
-                buttons: [
-                    {
+                buttons: [{
+                        xtype: "displayfield",
+                        id: "loginLabel",
+                        cls: "loginLabel",  // css class for custom styling
+                        /*style: {
+                            color: "#00b200",
+                            //background: "#000235",
+                            fontWeight: "bold"
+                        },*/
+                        //value: "placeholder",
+                        //hideEmptyLabel: false
+                        padding: "0 10 0 0"
+                    },{
                         text: "Guest",
                         reference: "guestSubmitButton",  // used to lock during validation
                         id: "guestSubmitButton",
@@ -89,4 +100,18 @@ Ext.define("SppAppClassic.view.login.Login", {
         }),
         SppAppClassic.view.login.Login.superclass.initComponent.call(this);
     }
+
+    /**
+     * @event loginfailed
+     *
+     * Fires when the user tried to authenticate with geoserver
+     * and that failed.
+     */
+
+     // loginsuccess
+
+     // loginClick
+
+     //logoutClick
+
 });

@@ -9,15 +9,15 @@
  * @license ???
  */
 Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
-    extend: "Ext.window.Window",
+    extend: "Ext.panel.Panel",
     xtype: "filterpanel",
     //reference: "filterpanel",
     id: "filterPanel",  // TODO: use references instead
     requires: [
-        "Ext.panel.Panel",
+        //"Ext.panel.Panel",
         //"Ext.form.Panel",
         "Ext.form.Label",
-        //"Ext.form.FieldSet",
+        "Ext.form.FieldSet",
         "Ext.form.field.Checkbox",
         "Ext.button.Button",
         "SppAppClassic.view.main.filter.FilterPanelController",
@@ -29,27 +29,47 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
     /*viewModel: {
         type: "main-filterpanel"
     },*/
-
+    region: "west",
     resizable: false,
-    closeAction: "hide",
+    //closeAction: "hide",
     title: "Filters",
-    //layout: "fit",  // "anchor" //accordion
     layout: {
-        type: "vbox",
+        type: "anchor",
+        //type: "vbox",
         align: "stretch"
     },
-    width: 220,
-    //minHeight: 300,
-    //maxHeight: 500,
+    //width: 220,
+    width: 230,
+    bodyPadding: 10,
+    margin: "0 0 0 5",
     scrollable: true,
+    closable: true,
+    collapsible: true,
 
-    defaults: {  // defaults for all items
+    defaults: {
+        xtype: "fieldset",
+        defaultType: "checkbox",
+        //labelWidth: 90,
+        scrollable: true,
+        checkboxToggle: false,
+        collapsible: true,
+        collapsed: true,
+        border: false,
+        defaults: {
+            checked: true
+        }
+        //anchor: "100%",
+        //layout: "hbox"
+    },
+
+    /*defaults: {  // defaults for all items
         bodyPadding: 10,
         hideCollapseTool: false,
         collapsible: true,
-        collapsed: true,
+        collapsed: false,
         titleCollapse: true  // true allows expanding on title click, done with custom listeners
-    },
+    },*/
+
 
     //applyCounter: 0, // used to hide reset button when nothing has been applied yet
 
@@ -65,9 +85,12 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
         var createProject = function(projectString, index) {
             return {
                 xtype: "checkbox",
-                checked: true,
                 boxLabel: projectString,
-                name: "project",
+                //name: "project",
+                //cls: "filterItems",
+                style: {
+                    "font-weight": "normal"
+                },
                 id: "project" + index + "Checkbox"
             };
         };
@@ -85,7 +108,7 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
         return itemList;
     },
 
-    buildItems: function () {
+    buildPanelItems: function () {
         return [/*{
                 xtype: "panel", // hidden dummy panel to have the remaining closed
                 hidden: true,
@@ -105,21 +128,25 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
                 items: [
                     {
                         xtype: "label",
+                        id: "sliderlabel",
                         reference: "sliderlabel",
                         text: "1BC - 13AD",
                         padding: "5 0 0 0"
                     },{
                         xtype: "centuryslider",
+                        //id: "centuryslider",
                         width: 160,
                         padding: "0 0 10 0",
                         listeners: {
-                            //changecomplete: "onSliderChangeComplete",
+                            /*changecomplete: function() {
+                                console.log("completed sliderchange!");
+                            },*/
                             change: "onSliderChange"
                         }
                     },{
                         xtype: "checkbox",
                         checked: true,
-                        boxLabel: "allow 'propable'",
+                        boxLabel: "allow propable",
                         name: "allowPropable",
                         id: "allowPropableCheckbox"
                     },{
@@ -133,6 +160,13 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
             },{
                 xtype: "panel",
                 title: "Status",
+                defaults: {
+                    listeners: {  // currently not working!
+                        change: function(field, newVal, oldVal) {
+                            console.log('change status!');
+                        }
+                    }
+                },
                 items: [
                     {
                         xtype: "checkbox",
@@ -161,6 +195,74 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
         ];
     },
 
+    buildItems: function () {
+        return [
+            {
+                //xtype: "fieldset",
+
+                title: "Projects",
+                items: this.buildProjectCheckboxes()
+            },{
+                title: "Centuries",
+                /*layout: {
+                    type: "vbox",
+                    align: "center"
+                },*/
+                items: this.buildCenturiesItems()
+            },{
+                title: "Status",
+                items: [
+                    {
+                        boxLabel: "1 - complete",
+                        name: "status",
+                        //inputValue: 1,  // returns true or false
+                        id: "checkboxStatus1"
+                    },{
+                        boxLabel: "2 - in progress",
+                        name: "status",
+                        id: "checkboxStatus2"
+                        //inputValue: 2
+                    },{
+                        boxLabel: "3 - incomplete",
+                        name: "status",
+                        id: "checkboxStatus3"
+                        //inputValue: 3
+                    }
+                ]
+            }
+        ];
+    },
+
+    buildCenturiesItems: function() {
+        return [
+            {
+                xtype: "label",
+                //reference: "sliderlabel",
+                text: "1BC - 13AD",  // BCE, CE
+                padding: "5 0 0 0"
+            },{
+                xtype: "centuryslider",
+                width: 160,
+                padding: "0 0 10 0",
+                listeners: {
+                    //changecomplete: "onSliderChangeComplete",
+                    change: "onSliderChange"
+                }
+            },{
+                xtype: "checkbox",
+                //checked: true,
+                boxLabel: "allow propable",
+                name: "allowPropable",
+                id: "allowPropableCheckbox"
+            },{
+                xtype: "checkbox",
+                checked: false,
+                boxLabel: "only continuous",
+                name: "onlyContinuous",
+                id: "onlyContinuousCheckbox"
+            }
+        ];
+    },
     //items: [], // added on initCompoenent
 
     buildButtons: function() {
@@ -169,6 +271,17 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
             id: "applyFilterButton",
             handler: "onApplyButtonClick"
         }];
+    },
+
+    /**
+     * function for easier toggling. removes code in toolbarcontroller
+     */
+    toggle: function() {
+        if (this.isHidden()) {
+            this.show();
+        } else {
+            this.hide();
+        }
     }
 
     /**

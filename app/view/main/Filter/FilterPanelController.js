@@ -12,7 +12,9 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
 
     control: {
         "#": {
-             close: "onClose"
+            close: "onClose",
+            collapse: "onCollapse",
+            expand: "onExpand"
         }
     },
 
@@ -22,8 +24,8 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
         var map = Ext.getCmp("geoextMap");
         var layer = map.getLayerByName(layerName);
         var newSource;
-        if (layerName === "Harbours") {
-            newSource = map.createVectorSource("SPP:spp_harbours_intern", filterString);
+        if (layerName === "Data") {
+            newSource = map.createVectorSource("Data", filterString);
         } else {
             console.log("unknown layer name");
         }
@@ -33,6 +35,14 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
 
     onClose: function() {
         Ext.getCmp("filterButton").setPressed(false);
+    },
+
+    onCollapse: function() {
+        Ext.getCmp("filterButton").setPressed(false);
+    },
+
+    onExpand: function() {
+        Ext.getCmp("filterButton").setPressed(true);
     },
 
     onSliderChange: function() {
@@ -55,9 +65,10 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
         "12th Century",  // 8
         "13th Century"   // 9  date_13_Jh // ja, nein
         */
+        console.log("change!");
 
         var me = this;
-        var slider = me.lookupReference("centuryslider");
+        var slider = Ext.getCmp("centuryslider");
 
         //var filterPanel = Ext.getCmp("filterPanel");
         var labelText;
@@ -77,7 +88,12 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
             labelText = value1 + "AD" + " - " + value2 + "AD";
         }
 
-        me.lookupReference("sliderlabel").setText(labelText);
+        var label = Ext.getCmp("sliderlabel");
+        label = me.lookupReference("sliderlabel");
+        console.log(label);
+        label.setText(labelText);
+
+        //console.log(Ext.getCmp("sliderlabel"));
 
         // apply filter -> gets applied on apply buton click
         /*
@@ -115,8 +131,13 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
                 sliderFilterString = slider.getSQLQuery(false, false);
             }
         }
+        //console.log(sliderFilterString);
+        if (sliderFilterString.length > 0) {
+            return "(" + sliderFilterString + ")";
+        } else {
+            return false;
+        }
 
-        return sliderFilterString;
     },
 
     getStatusSQLQuery: function() {
@@ -135,17 +156,23 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
         if (status3) {
             statusFilterList.push("status=3");
         }
-        if (!status1 && !status2 && !status3) {
-            statusFilterList.push("status!=1 AND status!=2 AND status!=3");
+        if (!status1 && !status2 && !status3) {  // all deselected
+            return "(status!=1 AND status!=2 AND status!=3)";
+        } else {  // at least one selected
+            return "(" + statusFilterList.join(" OR ") + ")";
         }
 
-        return statusFilterList.join(" OR ");
+        /*if (statusFilterList.length > 0) {
+            return "(" + statusFilterList.join(" OR ") + ")";
+        } else {
+            return false;
+        }*/
     },
 
     getProjectSQLQuery: function() {
         var projectList = [];
 
-        var counter = 1;
+        //var counter = 1;
         var projects = Projects.projectList;
         for (var key in projects) {
             var project = projects[key];
@@ -156,9 +183,21 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
                     projectList.push("project_id=" + project.id);
                 }
             }
-
         }
-        return projectList.join(" OR ");
+        if (projectList.length > 0) {
+            return "(" + projectList.join(" OR ") + ")";
+
+        // NOT project ID AND
+        } else {
+            var projectList = [];
+            for (var key in projects) {
+                var project = projects[key];
+                if (project.db_name) {
+                    projectList.push("project_id!=" + project.id);
+                }
+            }
+            return "(" + projectList.join(" AND ") + ")";
+        }
     },
 
     /**
@@ -168,15 +207,32 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanelController", {
 
         Ext.getCmp("applyFilterButton").disable();
 
-        var projectSQLQuery = this.getProjectSQLQuery();
-        var statusSQLQuery = this.getStatusSQLQuery();
-        var sliderSQLQuery = this.getCenturiesSQLQuery();
+        var queryList = [];
+        var sql = this.getProjectSQLQuery();
+        if (sql) {
+            queryList.push(sql);
+        }
+        sql = this.getStatusSQLQuery();
+        if (sql) {
+            queryList.push(sql);
+        }
+        sql = this.getCenturiesSQLQuery();
+        if (sql) {
+            queryList.push(sql);
+        }
 
-        var filterString = "(" + projectSQLQuery + ") AND (" + statusSQLQuery + ") AND (" + sliderSQLQuery + ")";
-        //var filterString = "(" + statusSQLQuery + ") AND (" + sliderSQLQuery + ")";
+        var filterString = queryList.join(" AND ");
+        //var filterString = this.getStatusSQLQuery();
 
-        // apply filters to layer "harbours"
-        this.applyFilterToLayer("Harbours", filterString);
+        console.log(filterString);
+
+        // apply filters
+        //var layer = Ext.getStore("layersStore").filter("type", "GeoJSON");
+        //var layer = Ext.getStore("layersStore").getAt(0);   // workaround because filter doesnt work. not sure why
+        var layer = Ext.getCmp("geoextMap").getLayerByName("Data");
+        //console.log(layer.getSource());
+
+        Ext.getCmp("geoextMap").updateVectorSource(layer, filterString);
 
         Ext.getCmp("applyFilterButton").enable();
     }

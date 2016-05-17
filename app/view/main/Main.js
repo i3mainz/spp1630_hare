@@ -22,7 +22,8 @@ Ext.define("SppAppClassic.view.main.Main", {
         "Ext.plugin.Viewport",              // plugins: "viewport"
         "Ext.window.MessageBox",
         "SppAppClassic.view.main.map.Map",      // xtype: "mappanel"
-        //"GeoExt.data.store.LayersTree",
+        "SppAppClassic.view.main.Info.InfoPanel",
+        "SppAppClassic.view.main.Filter.FilterTree",
         "SppAppClassic.view.main.LayerTree"  // xtype: "layertree",
     ],
 
@@ -51,23 +52,73 @@ Ext.define("SppAppClassic.view.main.Main", {
                 region: "center"
             }],
 
-            tools: [{
+            tools: [/*{
                 xtype: "label",
-                id: "logoutButtonlabel",
-                cls: "logoutLabel",  // css class
+                html: "<span class='glyphicon glyphicon-user author-newspaper'></span>",
+                id: "infoButton",
+                padding: "0 10 0 0"
+            },*/{
+                xtype: "label",
+                id: "infoLabel",
+                glyph: "xf1ea@FontAwesome",
+                html: "<a href='#'>Info</a>",
+                style: {
+                    color: "#696969",
+                    "font-size": "13px",
+                    "font-weight": "bold",
+                    "margin-right": "10px"
+                },
+                listeners: {
+                    element: "el", click: "onClickInfo"
+                }
+                //cls: "logoutLabel",  // css class
                 //text: // gets added before render
-                padding: "4 5 0 0"  // 4 top is to be in line with logout button
+                //padding: "4 5 0 0"  // 4 top is to be in line with logout button
                 //style  // used css formatting instead
             },{
-                xtype: "button",
-                text: "Logout",
+                xtype: "label",
+                id: "logoutButtonlabel",
+                style: {
+                    color: "#696969",
+                    "font-size": "13px",
+                    "font-weight": "normal",
+                    "margin-right": "5px"
+                }
+                //cls: "logoutLabel",  // css class
+                //text: // gets added before render
+                //padding: "4 5 0 0"  // 4 top is to be in line with logout button
+                //style  // used css formatting instead
+            },{
+                //xtype: "button",
+                xtype: "label",
+                //text: "<a href='#'>Logout</a>",
+                html: "<a href='#'>Logout</a>",
                 align: "right",
-                glyph: "xf08b@fontawesome",
-                handler: "onClickLogout"
+                //glyph: "xf08b@fontawesome",
+                style: {
+                    color: "#696969",
+                    "font-size": "13px",
+                    "font-weight": "bold"
+                },
+                listeners: {
+                    element: "el", click: "onClickLogout"
+
+                                /*render: function(label) {
+                        // add custom click event
+                        label.body.on("click", function(evt) {
+                            console.log("click event!");
+                            //Ext.getCmp("geoextMap").fireEvent("click", evt);
+                            //this.fireEvent("clickpanel");  // adds event to mappanel not this panel
+                        });
+                    }*/
+                }
+                //handler: "onClickLogout"
             }]
         });
 
+        // show infos
+        //Ext.create("SppAppClassic.view.main.Info.InfoPanel").show();
+
         SppAppClassic.view.main.Main.superclass.initComponent.call(this);
     }
-
 });

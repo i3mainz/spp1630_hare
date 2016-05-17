@@ -16,13 +16,16 @@ Ext.define("Projects", {
             "spp_name": "Kommunikationsraum Adria",
             "db_name": "Adria",
             "hasData": true,
+            "contact": "http://www.spp-haefen.de/de/die-projekte/kommunikationsraum-adria",
             "hasLogin": true
+
         },
         binnen: {
             "id": 2,
             "spp_name": "Binnenhäfen im fränkisch-deutschen Reich",
             "db_name": "Binnenhäfen im fränkisch-deutschen Reich",  // auch extern/Binnenhäfen
             "hasData": true,
+            "contact": "http://www.spp-haefen.de/de/die-projekte/binnenhaefen-in-zentraleuropa/",
             "hasLogin": true
         },
         bremen: {
@@ -30,6 +33,7 @@ Ext.define("Projects", {
             "spp_name": "Häfen im Bremer Becken",
             "db_name": "Bremer Becken",
             "hasData": true,
+            "contact": "http://www.spp-haefen.de/de/die-projekte/abgeschlossene-projekte-der-ersten-laufzeit-2012-2015/haefen-im-bremer-becken/",
             "hasLogin": false  // abgelaufenes Projekt
         },
         effizienz: {
@@ -37,6 +41,7 @@ Ext.define("Projects", {
             "spp_name": "Effizienz und Konkurrenz italienischer Hafenstädte",
             "db_name": "Effizienz und Konkurrenz",
             "hasData": true,
+            "contact": "http://www.spp-haefen.de/de/die-projekte/abgeschlossene-projekte-der-ersten-laufzeit-2012-2015/effizienz-und-konkurrenz-italischer-hafenstaedte/",
             "hasLogin": false  // abgelaufenes Projekt
         },
         faehren: {
@@ -44,6 +49,7 @@ Ext.define("Projects", {
             "spp_name": "???",
             "db_name": "Fähren (Universität Bamberg)",
             "hasData": true,
+            "contact": "",
             "hasLogin": false  // nicht sicher
         },
         ainos: {
@@ -58,6 +64,7 @@ Ext.define("Projects", {
             "spp_name": "Fossa Carolina",
             "db_name": "Fossa Carolina",
             "hasData": true,
+            "contact": "http://www.spp-haefen.de/de/die-projekte/fossa-carolina/",
             "hasLogin": true
         },
         balkan: {
@@ -65,6 +72,7 @@ Ext.define("Projects", {
             "spp_name": "Häfen an der Balkanküste des byzantinischen Reiches",
             "db_name": "Häfen an der Balkanküste des byzantinischen Reiches",
             "hasData": true,
+            "contact": "http://www.spp-haefen.de/de/die-projekte/haefen-an-der-balkankueste-des-byzantinischen-reiches/",
             "hasLogin": true
         },
         hanoa: {
@@ -72,6 +80,7 @@ Ext.define("Projects", {
             "spp_name": "HaNoA - Häfen im Nordatlantik",
             "db_name": "HaNoA",
             "hasData": true,
+            "contact": "http://www.spp-haefen.de/de/die-projekte/hanoa-haefen-im-nordatlantik/",
             "hasLogin": true
         },
         ostsee: {
@@ -79,6 +88,7 @@ Ext.define("Projects", {
             "spp_name": "Ostseeküste",
             "db_name": "Ostseehäfen",
             "hasData": true,
+            "contact": "http://www.spp-haefen.de/de/die-projekte/ostseekueste/",
             "hasLogin": true
         },
         rhein: {
@@ -86,6 +96,7 @@ Ext.define("Projects", {
             "spp_name": "Der Rhein als europäische Verkehrsachse",
             "db_name": "Rhein",
             "hasData": true,
+            "contact": "http://www.spp-haefen.de/de/die-projekte/der-rhein-als-europaeische-verkehrsachse/",
             "hasLogin": true
         },
         byzanz: {
@@ -107,6 +118,7 @@ Ext.define("Projects", {
             "spp_name": "???",
             "db_name": "Rheinhafenprojekt",
             "hasData": true,
+            "contact": "",
             "hasLogin": false
         },
         nordsee: {
@@ -137,6 +149,22 @@ Ext.define("Projects", {
             "hasData": false,
             "hasLogin": true
         }
-    }
+    },
 
+    /**
+     * returns the project object that has the given name
+     * as db_name
+     */
+    getProjectByName: function(projectName) {
+        var me = this;
+        for (var key in me.projectList) {
+            if (!me.projectList.hasOwnProperty(key)) continue;
+
+            var project = me.projectList[key];
+
+            if (project.db_name === projectName) {
+                return project;
+            }
+        }
+    }
 });

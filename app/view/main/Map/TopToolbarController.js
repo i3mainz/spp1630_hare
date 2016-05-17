@@ -8,14 +8,16 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         // Ext.getCmp(= dont need to be required?
             // but they are if you create new object using Ext.create()
         //"SppAppClassic.view.main.GridWindow",
-        "SppAppClassic.view.main.filter.FilterPanel"
+        "SppAppClassic.view.main.filter.FilterPanel",
+        "SppAppClassic.view.main.Settings.SettingsPanel",
+        "SppAppClassic.view.main.Info.InfoPanel"
     ],
 
     // define listeners here instead of the view.
     // keeps view and controller logic seperated
     control: {
         "#": {
-            beforeRender: "hideButtonsForGuest"
+            beforeRender: "unlockButtons"
         }
     },
 
@@ -80,24 +82,27 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
     onToggleFilter: function() {
         //var filterPanel = this.lookupReference("filterpanel");  // not working
         var filterPanel = Ext.getCmp("filterPanel");
-        //var main = Ext.getCmp("mainPanel");
-        //console.log(main);
 
         if (!filterPanel) {  // lazy instantiation
-            filterPanel = Ext.create("SppAppClassic.view.main.filter.FilterPanel");
-            console.log("done create!");
+            var mainPanel = Ext.getCmp("mainPanel");
+
+            // create filterpanel as item of main panel
+            mainPanel.add([{
+                xtype: "filterpanel",
+                region: "west",
+                margin: "0 5 0 0"
+            }]);
+            //filterPanel = Ext.create("SppAppClassic.view.main.filter.FilterPanel");
             //filterPanel.anchorTo(Ext.getBody(),'t-t',[-100,0]);
             //filterPanel.alignTo(Ext.getBody(), "tr-tr");
             //filterPanel.alignTo(Ext.getBody(), "tr");
-        }
-        //console.log(filterPanel.isHidden());
-        if (filterPanel.isHidden()) {
-            filterPanel.show();
+        } else if (filterPanel.getCollapsed()) {  // is collapsed
+            filterPanel.setCollapsed(false);
         } else {
-            filterPanel.hide();
+            filterPanel.setCollapsed(true);
         }
-
-        //filterPanel.toggleCollapse();  // not show, because it already exists
+        //filterPanel.toggle();
+        //filterPanel.show()
     },
 
     onGridClick: function() {
@@ -107,6 +112,8 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         if (!gridPanel) {
             gridPanel = Ext.create("SppAppClassic.view.main.GridWindow");
         }
+        //filterPanel.toggle();
+
         if (gridPanel.isHidden()) {
             gridPanel.show();
         } else {
@@ -114,22 +121,33 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         }
     },
 
+    onToggleSettings: function() {
+        //var filterPanel = this.lookupReference("filterpanel");  // not working
+        var panel = Ext.getCmp("settingsPanel");
+        //var main = Ext.getCmp("mainPanel");
+        //console.log(main);
+
+        if (!panel) {  // lazy instantiation
+            panel = Ext.create("SppAppClassic.view.main.Settings.SettingsPanel");
+        }
+        if (panel.isHidden()) {
+            panel.show();
+        } else {
+            panel.hide();
+        }
+    },
+
     /**
-     * lock grid and filter buttons is user is logged in as guest.
-     * this prevents the user from accessing ag or spp intern data via
-     * filter queries.
+     * unlocks buttons for registred authorized users
     */
-    hideButtonsForGuest: function() {
-        //console.log("cookie: " + Ext.util.Cookies.get("sppCookie"));
-        if (Ext.util.Cookies.get("sppCookie") === "guest") {
-            //var toolbar = this.getView();
-            var filterButton = Ext.getCmp("filterButton");
-            if (filterButton) {
-                filterButton.disable();
-            }
-            var gridButton = Ext.getCmp("gridButton");
-            if (gridButton) {
-                gridButton.disable();
+    unlockButtons: function() {
+        if (SppAppClassic.app.isAuthorized()) {
+            var buttonList = ["filterButton", "gridButton", "settingsButton"];
+            for (var i = 0; i < buttonList.length; i++) {
+                var button = Ext.getCmp(buttonList[i]);
+                if (button) {
+                    button.enable();
+                }
             }
         }
     }

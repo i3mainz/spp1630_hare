@@ -4,6 +4,7 @@ Ext.define("SppAppClassic.view.main.map.Map", {
     extend: "Ext.panel.Panel",
 
     xtype: "mappanel",
+    id: "mappanel",
 
     requires: [
         "SppAppClassic.view.main.map.TopToolbar",  // xtype: "maptoolbar"

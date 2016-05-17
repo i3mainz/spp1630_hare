@@ -32,6 +32,7 @@ var defaultPoints2 = new ol.style.Style({
 
 var styleCache = {};
 var statusStyleCache = {};
+var eckholdtStyleCache = {};
 
 Ext.define("LayerStyles", {
     singleton: true,
@@ -40,31 +41,26 @@ Ext.define("LayerStyles", {
     // for the given feature and resolution.
     // Return null to hide the feature.
     // store these -> otherwise this will be done for each feature!!!
-    styleFunction: function(feature, resolution) {
+    pointTypeStyleFunction: function(feature, resolution) {
 
         // map the income level codes to a colour value, grouping them
-        var projectColors = {
-            "Haefen an der Balkankueste des byzantinischen Reiches":  "#8B0000", // red
-            "Binnenhaefen im fraenkisch-deutschen Reich":             "#007f00", // green
-            "Binnenh?fen im fr?nkisch-deutschen Reich":               "#007f00", // green
-            "Effizienz und Konkurrenz":                               "#a0db8e",
-            "extern/Binnenhäfen":                   "#a0db8e",
-            "Faehren (Universitaet Bamberg)":       "#ca8f42",
-            "Fossa Carolina":                       "#ab9c73",
-            "HaNoA":                                "#660066",
-            "Ostseehaefen":                         "#ffb6c1",
-            "Rhein":                                "#6a7d8e",  // existiert?
-            "Rheinhafenprojekt":                    "#00acc8",
-            "Bremer Becken":                        "#ffc3a0",
-            "Adria":                                "#794044"
+        var colors = {
+            "Hafen":                "#8B0000",
+            "Hafen?":               "#8B0000",
+            "Hefen":                "#8B0000",
+
+            "Wasserfahrzeug":       "#a0db8e",
+
+            "Kanal/Schleppstrecke": "#660066",
+            "Wasserstraße":         "#660066"
         };
 
         // get the projectname from the feature properties
-        var project = feature.get("project");
+        var type = feature.get("place_type");
 
         // if there is no level or its one we don't recognize,
         // return the default style (in an array!)
-        if (!project || !projectColors[project]) {
+        if (!type || !colors[type]) {
             //console.log("default for " + project);
             return [defaultPoints];
         }
@@ -72,14 +68,14 @@ Ext.define("LayerStyles", {
         // check the cache and create a new style for the project
         // if its not been created before.
 
-        if (!styleCache[project]) {
+        if (!styleCache[type]) {
             //console.log(project);
 
-            styleCache[project] = new ol.style.Style({
+            styleCache[type] = new ol.style.Style({
                 image: new ol.style.Circle({
                     radius: 6,
                     fill: new ol.style.Fill({
-                        color: projectColors[project]//"#CC00CC"
+                        color: colors[type]//"#CC00CC"
                     }),
                     stroke: new ol.style.Stroke({
                         color: "#fff",
@@ -91,7 +87,7 @@ Ext.define("LayerStyles", {
 
         // at this point, the style for the current level is in the cache
         // so return it (as an array!)
-        return [styleCache[project]];
+        return [styleCache[type]];
     },
 
     statusStyleFunction: function(feature, resolution) {
@@ -138,6 +134,129 @@ Ext.define("LayerStyles", {
         return [styleCache[project]];
     },
 
+    eckholdtStyleFunction: function(feature, resolution) {
+        // TODO: multiply with zoom
+
+        // map the income level codes to a colour value, grouping them
+        var codeWidths = {
+            "1": 8,
+            "2": 4,
+            "3": 2,
+            "4": 1
+        };
+
+        // get the projectname from the feature properties
+        var code = feature.get("Code");
+
+        // if there is no level or its one we don't recognize,
+        // return the default style (in an array!)
+        /*if (!code || !codeWidths[code]) {
+            //console.log("default for " + project);
+            return [defaultPoints];
+        }*/
+
+        // check the cache and create a new style for the project
+        // if its not been created before.
+
+        if (!eckholdtStyleCache[code]) {
+
+            eckholdtStyleCache[code] = new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: "#4c4cff",  //"rgba(0, 0, 255, 1.0)",
+                    width: codeWidths[code]
+                })
+            });
+        }
+
+        // at this point, the style for the current level is in the cache
+        // so return it (as an array!)
+        return [eckholdtStyleCache[code]];
+    },
+
+    getLabelText: function(feature, resolution) {
+        //var type = dom.text.value;
+        //var maxResolution = dom.maxreso.value;
+        var text = feature.get("name_mod");
+
+        // on lower resolutions, dont show text
+        if (resolution > 700) {
+            text = "";
+        } else {
+            text = text; //text.trunc(12);
+        }
+
+        return text;
+    },
+
+    getLabelStyle: function(feature, resolution) {
+        var me = this;
+        var style = new ol.style.Text({
+            //textAlign: "Center",
+            baseline: "Top",
+            stroke: new ol.style.Stroke({color: "#fff", width: 2}),
+            fill: new ol.style.Fill({color: "#8B0000"}),
+            size: "12px",
+            offsetY: "15",
+            font: "Arial",
+            //text: me.getLabelText(feature, resolution)
+            text: "test123"
+        });
+        return style;
+    },
+
+    /*createRedPointLabelStyleFunction: function(feature, resolution) {
+        var me = this;
+        var style = me.pointTypeStyleFunction(feature, resolution);
+            // apply text
+            //style.setText(me.getLabelStyle(feature, resolution))
+        return [style];
+    },*/
+
+    redPointLabelStyleFunction: function(feature, resolution) {
+        var getLabelText = function(feature, resolution) {
+            //var type = dom.text.value;
+            //var maxResolution = dom.maxreso.value;
+            var text = feature.get("name_mod");
+
+            // on lower resolutions, dont show text
+            if (resolution > 700) {
+                text = "";
+            } else {
+                text = text; //text.trunc(12);
+            }
+            return text;
+        };
+        var getLabelStyle = function(feature, resolution) {
+            var style = new ol.style.Text({
+                //textAlign: "Center",
+                baseline: "Top",
+                stroke: new ol.style.Stroke({color: "#fff", width: 2}),
+                fill: new ol.style.Fill({color: "#8B0000"}),
+                size: "12px",
+                offsetY: "15",
+                font: "Arial",
+                text: getLabelText(feature, resolution)
+            });
+            return style;
+        };
+
+        var style = new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 6,
+                fill: new ol.style.Fill({
+                    color: "#8B0000"
+                }),
+                stroke: new ol.style.Stroke({
+                    color: "#fff",
+                    width: 2
+                })
+            }),
+            text: getLabelStyle(feature, resolution)
+        });
+
+        return [style];
+    },
+
     // point styles
     //defaultPoints: this.bluePoints,
 
@@ -153,6 +272,7 @@ Ext.define("LayerStyles", {
             })
         })
     }),
+
     bluePoints: new ol.style.Style({
         image: new ol.style.Circle({
             radius: 6,
@@ -243,11 +363,13 @@ Ext.define("LayerStyles", {
     // icon styles
     iconStyle: new ol.style.Style({
         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: "fraction",
+            anchor: [0, 0],
+            anchorXUnits: "pixels",
             anchorYUnits: "pixels",
-            opacity: 0.75,
-            src: "data/icon.png"
+            opacity: 0.9,
+            scale: 1,
+            //size: [15, 15],
+            src: "/resources/icons/harbours_icon_15px.png"
         }))
     })
 

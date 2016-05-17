@@ -28,7 +28,9 @@ Ext.define('SppAppClassic.Application', {
         wmsPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?",  // former GEOSERVER_URL
         proxyPath: "http://haefen.i3mainz.hs-mainz.de" + "/GeojsonProxy/layer?",
         loginPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_check",
-        logoutPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_logout"
+        logoutPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_logout",
+        sppLayerTitle: "Data",
+        sppLayerName: "SPP:spp_harbours_intern"
     },
 
     // used in Application.js and LoginController.js
@@ -119,5 +121,34 @@ Ext.define('SppAppClassic.Application', {
                 }
             }
         );
+    },
+
+    isAuthorized: function() {
+        var username = Ext.util.Cookies.get("sppCookie");
+        if (username && username !== "guest") {
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    getUsername: function() {
+       return Ext.util.Cookies.get("sppCookie");
+    },
+
+    /**
+     * Gets the corresponding project ID for the currently logged in username
+     */
+    getUsernameProjectID: function() {
+        var id;
+        var projects = Projects.projectList;
+        for (var key in projects) {
+            var project = projects[key];
+            if (Ext.util.Cookies.get("sppCookie") === key) {
+                id = project.id;
+            }
+        }
+        return id;
     }
+
 });
