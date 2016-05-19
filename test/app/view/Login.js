@@ -1,21 +1,6 @@
 "use strict";
 
 describe('SppAppClassic.view.login.Login', function() {
-    //var login = null;  // class container
-    
-
-    //setup/teardown
-    /*beforeEach(function() {
-        //create a fresh grid for every test to avoid test pollution
-        eventGrid = Ext.create('SppAppClassic.view.login.Login', {
-            renderTo : 'test' //see spec-runner.html to see where this is defined
-        });
-    });*/
-
-    /*afterEach(function() {
-        //destroy the grid after every test so we don't pollute the environment
-        //eventGrid.destroy();
-    });*/
 
     describe('Basic Assumptions', function() {
         it("has loaded ExtJS 6", function() {
@@ -40,6 +25,7 @@ describe('SppAppClassic.view.login.Login', function() {
             
             expect(component).toBeDefined();
             expect(component.isVisible()).toBeTruthy();
+            component.destroy();
         });
 
         it('should have class alias', function() {
@@ -51,24 +37,40 @@ describe('SppAppClassic.view.login.Login', function() {
 
         var login;
 
-        beforeEach(function() {
+        /*beforeEach(function() {
             login = Ext.create('SppAppClassic.view.login.Login', {
-                width: 200,
-                height: 200
-            });
+                width: 0,
+                height: 0
+            }).show();
         });
 
         afterEach(function() {
             login.destroy();
-        });
+        });*/
 
         it("should be defined and visible", function() {
-
+            login = Ext.create('SppAppClassic.view.login.Login', {
+                width: 0,
+                height: 0
+            }).show();
             expect(login).toBeDefined();
+            login.destroy();
+            
+            //expect(login.getHeader()).toEqual("test");
+            
+        });
 
-            login.show();
-            console.log(login);
-            expect(login.isVisible()).toBeTruthy();
+        it("should have a title", function() {
+            login = Ext.create('SppAppClassic.view.login.Login', {
+                width: 0,
+                height: 0
+            }).show();
+            //expect(login).toBeDefined();
+            
+            
+            expect(login.getHeader()).toEqual("test");
+
+            login.destroy();
             
         });
     });
