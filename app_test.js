@@ -9,7 +9,8 @@ Ext.application({
     extend: 'SppAppClassic.Application',
 
     requires: [
-        'SppAppClassic.view.main.Main'
+        //'SppAppClassic.view.main.Main',
+        'SppAppClassic.view.login.Login'
     ],
 
     // The name of the initial view to create. With the classic toolkit this class

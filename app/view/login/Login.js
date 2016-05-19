@@ -4,7 +4,7 @@ Ext.define("SppAppClassic.view.login.Login", {
     xtype: "login",  // alias
     reference: "loginWindow",
     requires: [
-        "SppAppClassic.view.login.LoginController",
+        //"SppAppClassic.view.login.LoginController",
         "Ext.panel.Tool",           // tools: []
         "Ext.form.Panel",           // xtype: "form"
         "Ext.form.field.Text",  // xtype: "textfield"
@@ -34,7 +34,7 @@ Ext.define("SppAppClassic.view.login.Login", {
     constrain: true,  // keeps window inside browser area
 
     initComponent: function () {
-        console.log("init login window");
+        //console.log("init login window");
 
         Ext.apply(this, {
             items: [{
@@ -60,25 +60,13 @@ Ext.define("SppAppClassic.view.login.Login", {
                         listeners: {
                             change: "onTextFieldChange"
                         }
-                    }/*, {
-                        xtype: "displayfield",
-                        reference: "loginMessageField",
-                        hideEmptyLabel: true,
-                        value: "Enter username/password or login as guest"
-                    }*/
+                    }
                 ],
 
                 buttons: [{
                         xtype: "displayfield",
                         id: "loginLabel",
                         cls: "loginLabel",  // css class for custom styling
-                        /*style: {
-                            color: "#00b200",
-                            //background: "#000235",
-                            fontWeight: "bold"
-                        },*/
-                        //value: "placeholder",
-                        //hideEmptyLabel: false
                         padding: "0 10 0 0"
                     },{
                         text: "Guest",

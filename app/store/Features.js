@@ -8,7 +8,7 @@ Ext.define("SppAppClassic.store.Features", {
 
     requires: [],
 
-    layer: Layers.spp[0],  //Ext.getCmp("geoextMap").getLayerByName("harbours") 
+    //layer: Layers.spp[0],  //Ext.getCmp("geoextMap").getLayerByName("harbours") 
 
     map: Ext.getCmp("geoextMap"),  // replace with geoextmap
 

@@ -18,7 +18,7 @@ Ext.define("SppAppClassic.store.Layers", {
      * is specified, use that instead. (e.g. layerName: "SPP:roads", legendName: "SPP:ports")
      *
      */
-    data: {
+    /*data: {
         items: [{
             group: "SPP",
             type: "GeoJSON",
@@ -206,7 +206,7 @@ Ext.define("SppAppClassic.store.Layers", {
             layerName: "SPP:road",
             legendName: true  // if true, take layerName
         }
-    ]},
+    ]},*/
 
     sorters: [{
         property: "title",

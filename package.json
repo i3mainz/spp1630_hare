@@ -1,0 +1,30 @@
+{
+  "name": "geoext3app",
+  "version": "1.0.0",
+  "description": "This folder is primarily a container for the top-level pieces of the application. While you can remove some files and folders that this application does not use, be sure to read below before deciding what can be deleted and what needs to be kept in source control.",
+  "main": "app.js",
+  "scripts": {
+    "test": "karma start test/karma.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SHANYUAN/geoext3app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SHANYUAN/geoext3app/issues"
+  },
+  "homepage": "https://github.com/SHANYUAN/geoext3app#readme",
+  
+  "devDependencies": {
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^0.2.3",
+    "karma-jasmine": "^0.3.8",
+    "karma-mocha-reporter": "^2.0.3",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "openlayers": "^3.15.1",
+    "phantomjs-prebuilt": "^2.1.7"
+  }
+}
