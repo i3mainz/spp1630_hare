@@ -16,12 +16,12 @@ function getLegendUrl(layer_name) {
 // contains any view-related logic,
 // event handling of the view, and any app logic.
 
-Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
+Ext.define("SppAppClassic.view.main.GeoExtMapController", {
     extend: "Ext.app.ViewController",
     alias: "controller.main-geoextmap",
 
     requires: [  // view not needed in requirements
-        "SppAppClassic.view.main.Popup.Popup"
+        //"SppAppClassic.view.main.Popup"
     ],
 
     // using lookupReference() instead of refs, see
@@ -64,7 +64,7 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMapController", {
                 value : '123'
             });*/
             //store.add(info);
-            popupWindow = Ext.create("SppAppClassic.view.main.Popup.Popup");
+            popupWindow = Ext.create("SppAppClassic.view.main.Popup");
         }
 
         if (feature) {   // clicked on feature

@@ -36,7 +36,7 @@ Ext.define("SppAppClassic.view.main.News",{
     //layout: { type: 'vbox', pack: 'start', align: 'stretch' },
 
     initComponent: function () {
-        console.log("init News...");
+        //console.log("init News...");
         SppAppClassic.view.main.News.superclass.initComponent.call(this);
     },
 

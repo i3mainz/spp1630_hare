@@ -21,15 +21,15 @@ Ext.define("SppAppClassic.view.main.Main", {
     requires: [
         "Ext.plugin.Viewport",              // plugins: "viewport"
         "Ext.window.MessageBox",
-        "SppAppClassic.view.main.map.Map",      // xtype: "mappanel"
-        "SppAppClassic.view.main.Info.InfoPanel",
-        "SppAppClassic.view.main.Filter.FilterTree",
+        "SppAppClassic.view.main.Map",      // xtype: "mappanel"
+        "SppAppClassic.view.main.InfoPanel",
+        //"SppAppClassic.view.main.Filter.FilterTree",
         "SppAppClassic.view.main.LayerTree"  // xtype: "layertree",
     ],
 
     controller: "main",
-    viewModel: "main",
-    plugins: "viewport",  // fullscreen
+    //viewModel: "main",
+    //plugins: "viewport",  // fullscreen
 
     title: "SPP 1630 Virtual Research Environment",
 
@@ -39,8 +39,9 @@ Ext.define("SppAppClassic.view.main.Main", {
     },
     border: true,
 
+
     initComponent: function () {
-        console.log("init main panel");
+        //console.log("init main panel");
         Ext.apply(this, {
 
             items: [{
@@ -52,12 +53,7 @@ Ext.define("SppAppClassic.view.main.Main", {
                 region: "center"
             }],
 
-            tools: [/*{
-                xtype: "label",
-                html: "<span class='glyphicon glyphicon-user author-newspaper'></span>",
-                id: "infoButton",
-                padding: "0 10 0 0"
-            },*/{
+            tools: [{
                 xtype: "label",
                 id: "infoLabel",
                 glyph: "xf1ea@FontAwesome",
@@ -102,15 +98,6 @@ Ext.define("SppAppClassic.view.main.Main", {
                 },
                 listeners: {
                     element: "el", click: "onClickLogout"
-
-                                /*render: function(label) {
-                        // add custom click event
-                        label.body.on("click", function(evt) {
-                            console.log("click event!");
-                            //Ext.getCmp("geoextMap").fireEvent("click", evt);
-                            //this.fireEvent("clickpanel");  // adds event to mappanel not this panel
-                        });
-                    }*/
                 }
                 //handler: "onClickLogout"
             }]
@@ -121,4 +108,5 @@ Ext.define("SppAppClassic.view.main.Main", {
 
         SppAppClassic.view.main.Main.superclass.initComponent.call(this);
     }
+
 });

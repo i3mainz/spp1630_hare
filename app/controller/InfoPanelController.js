@@ -1,13 +1,9 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.InfoPanelController", {
+Ext.define("SppAppClassic.InfoPanelController", {
     extend: "Ext.app.ViewController",
 
     alias: "controller.main-info",
-
-    requires: [
-        //"SppAppClassic.view.main.Info.InfoPanel"
-    ],
 
     control: {
         "#": {

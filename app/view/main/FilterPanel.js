@@ -20,7 +20,6 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
         "Ext.form.FieldSet",
         "Ext.form.field.Checkbox",
         "Ext.button.Button",
-        "SppAppClassic.view.main.FilterPanelController",
         "SppAppClassic.view.main.CenturySlider"
     ],
 

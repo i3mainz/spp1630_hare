@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Settings.SettingsController", {
+Ext.define("SppAppClassic.SettingsController", {
     extend: "Ext.app.ViewController",
     alias: "controller.main-settings",
 

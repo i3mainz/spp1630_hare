@@ -5,6 +5,9 @@ Ext.define("SppAppClassic.view.main.PopupWindow",{
     //extend: "Ext.grid.Panel",
     xtype: "popup",
     id: "popupWindow",
+
+    controller: "main-popup",
+
     /*xtype: 'gridpanel',
     renderTo: document.body,
     store: {
@@ -19,11 +22,10 @@ Ext.define("SppAppClassic.view.main.PopupWindow",{
     }]
     */
     requires: [
-        "SppAppClassic.view.main.PopupWindowController",
         "SppAppClassic.store.FeatureInfos"
     ],
 
-    controller: "main-popup",
+
 
     //store: {type: "features"},
     //store: Ext.data.StoreManager.lookup("featureInfosStore"),
@@ -59,7 +61,7 @@ Ext.define("SppAppClassic.view.main.PopupWindow",{
     bodyStyle: "padding: 10px",
 
     initComponent: function () {
-        console.log("init Feature info popup...");
+        //console.log("init Feature info popup...");
 
         /*var store = Ext.StoreMgr.lookup("featureInfosStore");
         var record = Ext.create("FeatureInfo", {

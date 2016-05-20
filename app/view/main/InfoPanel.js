@@ -3,14 +3,15 @@
 Ext.define("SppAppClassic.view.main.InfoPanel", {
     extend: "Ext.tab.Panel",
     requires: [
-        "SppAppClassic.view.main.InfoPanelController",
         "SppAppClassic.view.main.News",
         "SppAppClassic.view.main.About",
         "Ext.form.field.Checkbox"
     ],
+    controller: "main-info",
+
     xtype: "infopanel",
     id: "infopanel",
-    controller: "main-info",
+
 
     style: "background-color: #dfe8f6;",
 

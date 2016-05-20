@@ -1,23 +1,23 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
+Ext.define("SppAppClassic.view.main.GeoExtMap", {
     extend: "GeoExt.component.Map",
 
     xtype: "geoextmap",
 
     requires: [
-        "SppAppClassic.view.main.map.GeoExtMapController",
+        "SppAppClassic.view.main.GeoExtMapController",
         "GeoExt.data.store.LayersTree",
-        "SppAppClassic.store.Layers",
-        "LayerGroups",
-        //"layerStyles",
-        "Projects"
-        //"SppAppClassic.view.main.Popup",    // xtype: "popup"
+        //"SppAppClassic.store.Layers",
+        //"LayerGroups",
+        ////"layerStyles",
+        //"Projects"
+        ////"SppAppClassic.view.main.Popup",    // xtype: "popup"
     ],
 
     controller: "main-geoextmap",
 
-    initComponent: function () {
+    /*initComponent: function () {
         console.log("init GeoExtMap...");
         var me = this;
 
@@ -106,8 +106,8 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
         //this.callParent(); // doesnt work, use workaround below
         // $owner error has something to do with initComponent being a protected method
         // in ExtJs6
-        SppAppClassic.view.main.map.GeoExtMap.superclass.initComponent.call(this);
-    },
+        SppAppClassic.view.main.GeoExtMap.superclass.initComponent.call(this);
+    },*/
 
     /**
      * looks up layer information from layerStore and
@@ -188,13 +188,13 @@ Ext.define("SppAppClassic.view.main.map.GeoExtMap", {
      * layer string needs to be in format "<workspace>:<layername>"
      * e.g. "SPP:harbours"
      */
-    getLegendImg: function(layer, height, width) {
+    /*getLegendImg: function(layer, height, width) {
         height = height || 25;
         width = width || 25;
         var finalWms = wms + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=" + width + "&TRANSPARENT=true&HEIGHT=" + height + "&LAYER=" + layer +
                         "&legend_options=fontName:Arial;fontAntiAliasing:true;fontSize:6;dpi:180";
         return finalWms;
-    },
+    },*/
 
     /**
      * returns list of layers that are currently active (no layergroups)

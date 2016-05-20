@@ -1,9 +1,10 @@
 "use strict";
-Ext.define("SppAppClassic.view.login.LoginController", {
+Ext.define("SppAppClassic.LoginController", {
     extend: "Ext.app.ViewController",
-    alias: "controller.login",
 
-    sendLoginRequest: function() {
+    alias: "controller.login",  // use this to reference
+
+    /*sendLoginRequest: function() {
         Ext.Ajax.request({
             url: SppAppClassic.app.globals.loginPath,
             method: "POST",
@@ -31,7 +32,7 @@ Ext.define("SppAppClassic.view.login.LoginController", {
                 guestButton.enable();
             }
         });
-    },
+    },*/
 
     //gerText: "Ungültige Kombination von Benutzername und Kennwort.",
     //engText: "Invalid username/password combination.",
@@ -39,49 +40,70 @@ Ext.define("SppAppClassic.view.login.LoginController", {
      * type can be "user" or "guest". for guest, predefined credentials will be used
      */
     onLoginClick: function() {
-        console.log("starting auth");
-        Ext.getCmp("loginLabel").setValue("Validating...");
+        //console.log("starting auth");
 
         var me = this;
         var loginForm = me.lookupReference("loginform");
         var formData = loginForm.getValues();
 
-        // disable all form items (fields + buttons) to prevent multiple requests
-        // and to provide user feedback
-        //loginForm.disable();   // locks entire form
-        var loginButton = me.lookupReference("loginSubmitButton");
-        var guestButton = me.lookupReference("guestSubmitButton");
+        me.login(formData.username, formData.password, function(response) {
+            // success
+            me.checkGeoServerResponse(response, formData.username);
+        }, function() {
+            // failure
+
+        });
+    },
+
+    /*
+     * requires callbacks
+     */
+    login: function(username, password, success, failure) {
+        var me = this;
+
+        // update label
+        Ext.getCmp("loginLabel").setValue("Validating...");
+
+        // lock buttons
+        //var loginButton = me.lookupReference("loginSubmitButton");
+        //var guestButton = me.lookupReference("guestSubmitButton");
+        var loginButton = Ext.getCmp('loginSubmitButton');
+        var guestButton = Ext.getCmp('guestSubmitButton');
+
         loginButton.disable();
         guestButton.disable();
 
         // try to login
-        /*Ext.Ajax.request({
-            url: SppAppClassic.app.globals.loginPath,
+        Ext.Ajax.request({
+            //url: SppAppClassic.app.globals.loginPath,
+            url: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_check",
             method: "POST",
             withCredentials: true,
             useDefaultXhrHeader: false,
 
             params: {
-                username: formData.username,
-                password: formData.password
+                username: username,
+                password: password
             },
             success: function(response) {
                 //Ext.getCmp("loginLabel").setValue("Validating...");
-
                 // validate
-                me.checkGeoServerResponse(response, formData.username);
+                Ext.getCmp("loginLabel").setValue("Success!");
+                success(response);
             },
 
             failure: function(response, request) {
                 //console.log("AJAX request to GeoServer failed! Server Down?");
-                Ext.Msg.alert("AJAX Request Fail", "Contacting GeoServer failed! Server Down?");
+                //Ext.Msg.alert("AJAX Request Fail", "Contacting GeoServer failed! Server Down?");
+                Ext.getCmp("loginLabel").setValue("Failed!");
 
                 // unlock buttons
-                //loginForm.enable();  // unlocks entire form
                 loginButton.enable();
                 guestButton.enable();
+
+                failure(response);
             }
-        });*/
+        });
     },
 
     /*

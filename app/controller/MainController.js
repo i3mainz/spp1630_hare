@@ -5,7 +5,7 @@
  *
  * TODO - Replace this content of this view to suite the needs of your application.
  */
-Ext.define("SppAppClassic.view.main.MainController", {
+Ext.define("SppAppClassic.MainController", {
     extend: "Ext.app.ViewController",
 
     alias: "controller.main",
@@ -13,7 +13,7 @@ Ext.define("SppAppClassic.view.main.MainController", {
     requires: [
         "Ext.button.Button",
         "SppAppClassic.view.login.Login",
-        "SppAppClassic.view.main.Info.InfoPanel"
+        "SppAppClassic.view.main.InfoPanel"
     ],
 
     control: {
@@ -100,7 +100,7 @@ Ext.define("SppAppClassic.view.main.MainController", {
     onClickInfo: function() {
         var infoPanel = Ext.getCmp("infopanel");
         if (!infoPanel) {
-            infoPanel = Ext.create("SppAppClassic.view.main.Info.InfoPanel");
+            infoPanel = Ext.create("SppAppClassic.view.main.InfoPanel");
         }
         infoPanel.show();
     }

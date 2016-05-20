@@ -8,12 +8,11 @@
  * @author Axel Kunz (c) 2015-2016
  * @license ???
  */
-Ext.define("SppAppClassic.view.main.Settings.SettingsPanel",{
+Ext.define("SppAppClassic.view.main.SettingsPanel",{
     extend: "Ext.window.Window",
     xtype: "settingspanel",
     //id: "settingsPanel",
     requires: [
-        "SppAppClassic.view.main.Settings.SettingsController",
         "Ext.panel.Panel"
     ],
 

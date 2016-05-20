@@ -22,7 +22,7 @@ Ext.define("SppAppClassic.view.main.GridWindow",{
     constrain: true,  // prevents dragging out of browser window size
 
     initComponent: function () {
-        console.log("init gridpanel...");
+        //console.log("init gridpanel...");
         this.items = this.buildItems();
         SppAppClassic.view.main.GridWindow.superclass.initComponent.call(this);
     },

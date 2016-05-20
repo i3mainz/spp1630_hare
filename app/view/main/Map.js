@@ -1,17 +1,15 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.map.Map", {
+Ext.define("SppAppClassic.view.main.Map", {
     extend: "Ext.panel.Panel",
 
     xtype: "mappanel",
     id: "mappanel",
 
     requires: [
-        "SppAppClassic.view.main.map.TopToolbar",  // xtype: "maptoolbar"
-        "SppAppClassic.view.main.map.GeoExtMap" // xtype: "geoextmap"
+        "SppAppClassic.view.main.TopToolbar",  // xtype: "maptoolbar"
+        "SppAppClassic.view.main.GeoExtMap" // xtype: "geoextmap"
     ],
-
-    //controller: "main-map",
 
     layout: "border",
     title: "Map",
@@ -31,7 +29,7 @@ Ext.define("SppAppClassic.view.main.map.Map", {
             }
         });
 
-        SppAppClassic.view.main.map.Map.superclass.initComponent.call(this);
+        SppAppClassic.view.main.Map.superclass.initComponent.call(this);
     },
 
     listeners: {

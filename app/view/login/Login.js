@@ -1,28 +1,19 @@
 "use strict";
 Ext.define("SppAppClassic.view.login.Login", {
     extend: "Ext.window.Window",
+
     xtype: "login",  // alias
     reference: "loginWindow",
+
     requires: [
-        //"SppAppClassic.view.login.LoginController",
         "Ext.panel.Tool",           // tools: []
         "Ext.form.Panel",           // xtype: "form"
         "Ext.form.field.Text",  // xtype: "textfield"
         "Ext.button.Button"     // buttons: []
     ],
 
-    // custom help icon to titlebar
-    /*tools: [
-        {
-            type: "help",
-            reference: "helpButton",
-            qtip: "Login using your project's username/password or login " +
-                  "as a guest with limited data access and functionality"
-            //handler: "onHelpClick"
-        }
-    ],*/
-
     controller: "login",  // needs to be in requires
+
     bodyPadding: 10,
     title: "Login",
     closable: false,  // show close-button

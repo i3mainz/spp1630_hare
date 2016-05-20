@@ -1,12 +1,10 @@
 "use strict";
 
-describe('FilterPanel', function() {
-
-
+describe('MainPanel', function() {
     var panel;
 
     beforeEach(function() {
-        panel = Ext.create('SppAppClassic.view.main.FilterPanel', {
+        panel = Ext.create('SppAppClassic.view.main.Main', {
         });
     });
 
@@ -16,23 +14,19 @@ describe('FilterPanel', function() {
 
     it("should be defined and have a title", function() {
         expect(panel).toBeDefined();
-        expect(panel.title).toEqual("Filters");
+        expect(panel.title).toBe("SPP 1630 Virtual Research Environment");
     });
 
     it("should be a panel", function() {
-        expect(Ext.getClass(panel).superclass.self.getName()).toEqual('Ext.panel.Panel');
+        expect(Ext.getClass(panel).superclass.self.getName()).toEqual("Ext.panel.Panel");
     });
 
     it("should have a controller with methods", function() {
         var controller = panel.getController();
         expect(controller).not.toBe(null);
-        expect(typeof controller.applyFilterToLayer).toBe("function");
+        expect(typeof controller.updateLogoutInfo).toBe("function");
         //this.lookupReference('delete').setDisabled(selections.length === 0);
     });
-
-
-
-
 
 
 

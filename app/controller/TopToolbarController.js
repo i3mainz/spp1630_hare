@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
+Ext.define("SppAppClassic.TopToolbarController", {
     extend: "Ext.app.ViewController",
     alias: "controller.map-toolbar",
 
@@ -8,9 +8,9 @@ Ext.define("SppAppClassic.view.main.map.TopToolbarController", {
         // Ext.getCmp(= dont need to be required?
             // but they are if you create new object using Ext.create()
         //"SppAppClassic.view.main.GridWindow",
-        "SppAppClassic.view.main.filter.FilterPanel",
-        "SppAppClassic.view.main.Settings.SettingsPanel",
-        "SppAppClassic.view.main.Info.InfoPanel"
+        "SppAppClassic.view.main.FilterPanel",
+        //"SppAppClassic.view.main.SettingsPanel",
+        "SppAppClassic.view.main.InfoPanel"
     ],
 
     // define listeners here instead of the view.

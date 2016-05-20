@@ -26,6 +26,13 @@ describe('InfoPanel', function() {
         expect(Ext.getCmp('newspanel')).toBeDefined();
     });*/
 
+    it("should have a controller with methods", function() {
+        var controller = panel.getController();
+        expect(controller).not.toBe(null);
+        expect(typeof controller.onContinueClick).toBe("function");
+        //this.lookupReference('delete').setDisabled(selections.length === 0);
+    });
+
 
 
 

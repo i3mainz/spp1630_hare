@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.FilterPanelController", {
+Ext.define("SppAppClassic.FilterPanelController", {
     extend: "Ext.app.ViewController",
     alias: "controller.main-filterpanel",
 

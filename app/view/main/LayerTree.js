@@ -14,7 +14,7 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
        "SppAppClassic.view.main.BasicTreeColumnLegends"  // ptype: "basic_tree_column_legend"
     ],
 
-    controller: "main-layertree",
+    //controller: "main-layertree",
 
     viewConfig: {
         plugins: {ptype: "treeviewdragdrop"}  // enable drag and drop of layers

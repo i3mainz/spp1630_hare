@@ -8,77 +8,6 @@ var wms = "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?";
 var proxy = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
 var mapboxAccessToken = "pk.eyJ1Ijoic2hhbnl1YW4iLCJhIjoiY2lmcWd1cnFlMDI0dXRqbHliN2FzdW9kNyJ9.wPkC7amwS2ma4qKWmmWuqQ";
 
-/*var getLegendImg = function(layer, height, width) {
-    height = height || 25;
-    width = width || 25;
-    var finalWms = wms + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=" + width + "&TRANSPARENT=true&HEIGHT=" + height + "&LAYER=" + layer +
-                    "&legend_options=fontName:Arial;fontAntiAliasing:true;fontSize:6;dpi:180";
-    return finalWms;
-};*/
-
-// TODO: move this function to GeoExtMap.js
-/*function createWMSLayer(name, sourceName, legendUrl, legendHeight) {
-    legendUrl = legendUrl || "";
-    legendHeight = legendHeight || "";
-    var layer = new ol.layer.Tile({
-        name: name,
-        source: new ol.source.TileWMS({
-            url: wms,
-            params: {"LAYERS": sourceName, "TILED": true},
-            serverType: "geoserver",
-            wrapX: false   // dont repeat on X axis
-        }),
-        visible: false
-    });
-    if (legendUrl) {
-        layer.set("legendUrl", legendUrl);
-    }
-    if (legendHeight) {
-        layer.set("legendHeight", legendHeight);
-    }
-    return layer;
-}*/
-
-/*var createGeoJSONLayer = function(name, sourceName, legendUrl, layerStyle, isVisible) {
-    legendUrl = legendUrl || "";
-    layerStyle = layerStyle || "";
-    isVisible = isVisible || false;
-
-    var workspace = sourceName.split(":")[0];
-    var layerName = sourceName.split(":")[1];
-
-    var layer = new ol.layer.Vector({
-        name: name,
-        source: new ol.source.Vector({
-            format: new ol.format.GeoJSON(),
-            url: function(extent) {
-                return proxy +
-                        "bereich=" + workspace +
-                        "&layer=" + layerName +
-                        "&bbox=" + extent.join(",") +
-                        "&epsg=" + "4326";
-            },
-            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                maxZoom: 19
-            })),
-            wrapX: false  // dont repeat on X axis
-        }),
-        visible: isVisible
-    });
-
-    if (layerStyle) {
-        layer.setStyle(layerStyle);
-    } else {
-        layer.setStyle("style", redPoints);  // default
-    }
-
-    if (legendUrl) {
-        layer.set("legendUrl", legendUrl);
-    }
-
-    return layer;
-};*/
-
 Ext.define("Layers", {
     /* singleton classes get created when they are defined. no need to Ext.create them.
     access them via the class-name directly. e.g. LayerStyles.bluePoints
@@ -87,7 +16,7 @@ Ext.define("Layers", {
     singleton: true,
 
     requires: [
-        "LayerStyles"
+        //"LayerStyles"
     ],
 
     // works both as collection or as list

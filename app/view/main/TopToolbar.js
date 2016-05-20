@@ -1,11 +1,10 @@
 "use strict";
-Ext.define("SppAppClassic.view.main.map.TopToolbar", {
+Ext.define("SppAppClassic.view.main.TopToolbar", {
     extend: "Ext.Toolbar",
 
     xtype: "toptoolbar",
 
     requires: [
-        "SppAppClassic.view.main.map.TopToolbarController",
         "Ext.button.Button"
     ],
 
@@ -16,7 +15,7 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
     },
 
     initComponent: function () {
-        console.log("init toolbar...");
+        //console.log("init toolbar...");
 
         Ext.apply(this, {
             items: [{
@@ -69,6 +68,6 @@ Ext.define("SppAppClassic.view.main.map.TopToolbar", {
             ]
         });
 
-        SppAppClassic.view.main.map.TopToolbar.superclass.initComponent.call(this);
+        SppAppClassic.view.main.TopToolbar.superclass.initComponent.call(this);
     }
 });

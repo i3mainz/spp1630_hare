@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.PopupWindowController", {
+Ext.define("SppAppClassic.PopupWindowController", {
     extend: "Ext.app.ViewController",
     alias: "controller.main-popup",
 
