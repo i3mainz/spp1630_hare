@@ -55,7 +55,7 @@ Ext.define("SppAppClassic.view.login.LoginController", {
         guestButton.disable();
 
         // try to login
-        Ext.Ajax.request({
+        /*Ext.Ajax.request({
             url: SppAppClassic.app.globals.loginPath,
             method: "POST",
             withCredentials: true,
@@ -81,7 +81,7 @@ Ext.define("SppAppClassic.view.login.LoginController", {
                 loginButton.enable();
                 guestButton.enable();
             }
-        });
+        });*/
     },
 
     /*

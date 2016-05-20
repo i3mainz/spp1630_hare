@@ -22,7 +22,7 @@ describe('SppAppClassic.view.login.Login', function() {
                 width: 0,
                 height: 0
             }).show();
-            
+
             expect(component).toBeDefined();
             expect(component.isVisible()).toBeTruthy();
             component.destroy();
@@ -37,7 +37,7 @@ describe('SppAppClassic.view.login.Login', function() {
 
         var login;
 
-        /*beforeEach(function() {
+        beforeEach(function() {
             login = Ext.create('SppAppClassic.view.login.Login', {
                 width: 0,
                 height: 0
@@ -46,36 +46,18 @@ describe('SppAppClassic.view.login.Login', function() {
 
         afterEach(function() {
             login.destroy();
-        });*/
+        });
 
-        it("should be defined and visible", function() {
-            login = Ext.create('SppAppClassic.view.login.Login', {
-                width: 0,
-                height: 0
-            }).show();
+        it("should be defined and have a title", function() {
             expect(login).toBeDefined();
-            login.destroy();
-            
-            //expect(login.getHeader()).toEqual("test");
-            
+            expect(login.title).toEqual("Login");
         });
 
-        it("should have a title", function() {
-            login = Ext.create('SppAppClassic.view.login.Login', {
-                width: 0,
-                height: 0
-            }).show();
-            //expect(login).toBeDefined();
-            
-            
-            expect(login.getHeader()).toEqual("test");
 
-            login.destroy();
-            
-        });
+
     });
 
-    
+
 
     /*it("should make controller functions available", function() {
         Ext.onReady(function() {
@@ -99,6 +81,3 @@ describe('SppAppClassic.view.login.Login', function() {
 
 
 });
-
-
-
