@@ -1,12 +1,8 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Popup.PopupController", {
+Ext.define("SppAppClassic.view.main.PopupWindowController", {
     extend: "Ext.app.ViewController",
     alias: "controller.main-popup",
-
-    requires: [
-        "SppAppClassic.view.main.Popup.Report"
-    ],
 
     // define listeners here instead of the view.
     /*control: {
@@ -14,13 +10,6 @@ Ext.define("SppAppClassic.view.main.Popup.PopupController", {
         }
     },*/
 
-    onReportClick: function() {
-        console.log("click report!");
-        //var reportPanel = Ext.create("SppAppClassic.view.main.Popup.Report");
-
-        reportPanel.updateContent("12345", "test123");
-        reportPanel.show();
-    },
 
     /**
      * unlocks buttons for registred authorized users

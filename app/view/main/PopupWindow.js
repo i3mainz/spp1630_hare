@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Popup.Popup",{
+Ext.define("SppAppClassic.view.main.PopupWindow",{
     extend: "Ext.window.Window",
     //extend: "Ext.grid.Panel",
     xtype: "popup",
@@ -19,7 +19,7 @@ Ext.define("SppAppClassic.view.main.Popup.Popup",{
     }]
     */
     requires: [
-        "SppAppClassic.view.main.Popup.PopupController",
+        "SppAppClassic.view.main.PopupWindowController",
         "SppAppClassic.store.FeatureInfos"
     ],
 
@@ -92,7 +92,7 @@ Ext.define("SppAppClassic.view.main.Popup.Popup",{
                 }]
             });
         }*/
-        SppAppClassic.view.main.Popup.Popup.superclass.initComponent.call(this);
+        SppAppClassic.view.main.PopupWindow.superclass.initComponent.call(this);
     },
 
     /**

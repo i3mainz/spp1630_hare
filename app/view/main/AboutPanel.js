@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Info.About",{
+Ext.define("SppAppClassic.view.main.About",{
     extend: "Ext.panel.Panel",
     xtype: "aboutpanel",
     id: "aboutpanel",

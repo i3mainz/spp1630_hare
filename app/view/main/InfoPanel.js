@@ -1,11 +1,11 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Info.InfoPanel", {
+Ext.define("SppAppClassic.view.main.InfoPanel", {
     extend: "Ext.tab.Panel",
     requires: [
-        "SppAppClassic.view.main.Info.InfoPanelController",
-        "SppAppClassic.view.main.Info.News",
-        "SppAppClassic.view.main.Info.About",
+        "SppAppClassic.view.main.InfoPanelController",
+        "SppAppClassic.view.main.News",
+        "SppAppClassic.view.main.About",
         "Ext.form.field.Checkbox"
     ],
     xtype: "infopanel",
@@ -31,7 +31,7 @@ Ext.define("SppAppClassic.view.main.Info.InfoPanel", {
     },
 
     initComponent: function () {
-        console.log("init Infopanel...");
+        //console.log("init Infopanel...");
         var me = this;
         Ext.apply(this, {
             items: [{
@@ -69,7 +69,7 @@ Ext.define("SppAppClassic.view.main.Info.InfoPanel", {
             me.destroy();
         }*/
 
-        SppAppClassic.view.main.Info.InfoPanel.superclass.initComponent.call(this);
+        SppAppClassic.view.main.InfoPanel.superclass.initComponent.call(this);
     }
 
 });

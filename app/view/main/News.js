@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Info.News",{
+Ext.define("SppAppClassic.view.main.News",{
     extend: "Ext.container.Container",
     xtype: "newspanel",
     id: "newspanel",
@@ -8,7 +8,7 @@ Ext.define("SppAppClassic.view.main.Info.News",{
         "Ext.Component", // xtype: component or box
         "Ext.Img",
         "SppAppClassic.store.News",
-        "SppAppClassic.view.main.Info.NewsArticle"
+        "SppAppClassic.view.main.NewsArticle"
     ],
 
     //store: {type: "news"},  // reference store via its alias -> gets created again
@@ -37,7 +37,7 @@ Ext.define("SppAppClassic.view.main.Info.News",{
 
     initComponent: function () {
         console.log("init News...");
-        SppAppClassic.view.main.Info.News.superclass.initComponent.call(this);
+        SppAppClassic.view.main.News.superclass.initComponent.call(this);
     },
 
     updateContent: function() {

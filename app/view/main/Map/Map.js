@@ -17,7 +17,7 @@ Ext.define("SppAppClassic.view.main.map.Map", {
     title: "Map",
 
     initComponent: function () {
-        console.log("init mappanel");
+        //console.log("init mappanel");
         // good practice to add non-primivite variables
         // using initComponent
         Ext.apply(this, {

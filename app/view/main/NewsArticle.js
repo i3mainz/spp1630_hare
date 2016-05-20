@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.Info.NewsArticle",{
+Ext.define("SppAppClassic.view.main.NewsArticle",{
     extend: "Ext.container.Container",
     xtype: "newsarticle",
     requires: [
@@ -31,7 +31,7 @@ Ext.define("SppAppClassic.view.main.Info.NewsArticle",{
     margin: "10 10 0 10",
 
     initComponent: function () {
-        console.log("init News Article...");
+        //console.log("init News Article...");
         var me = this;
         Ext.apply(this, {
             items: [
@@ -40,7 +40,7 @@ Ext.define("SppAppClassic.view.main.Info.NewsArticle",{
             ]
         });
 
-        SppAppClassic.view.main.Info.NewsArticle.superclass.initComponent.call(this);
+        SppAppClassic.view.main.NewsArticle.superclass.initComponent.call(this);
     },
 
     buildContent: function() {

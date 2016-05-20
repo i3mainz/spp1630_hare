@@ -8,7 +8,6 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
     reference: "layertree",
 
     requires: [
-       "SppAppClassic.view.main.LayerTreeController",
        "GeoExt.data.store.LayersTree",
        "Ext.tree.plugin.TreeViewDragDrop",           // ptype: treeviewdragdrop
        "Ext.tree.Column",                            // xtype: "treecolumn"
@@ -21,10 +20,6 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
         plugins: {ptype: "treeviewdragdrop"}  // enable drag and drop of layers
     },
 
-    // define parameters and set defaults -> no need, just declare together with xtype
-    config: {
-        title: "Layers"  // overrides title
-    },
     title: "Layers",
 
     collapsible: true,
@@ -52,7 +47,7 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
         }]
     },
     initComponent: function () {
-        console.log("init layer tree");
+        //console.log("init layer tree");
 
         // store gets set later on geoextmap creation
         SppAppClassic.view.main.LayerTree.superclass.initComponent.call(this);

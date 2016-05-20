@@ -35,22 +35,26 @@ describe('SppAppClassic.view.login.Login', function() {
 
     describe('Component', function() {
 
-        var login;
+        var extWindow;
 
         beforeEach(function() {
-            login = Ext.create('SppAppClassic.view.login.Login', {
+            extWindow = Ext.create('SppAppClassic.view.login.Login', {
                 width: 0,
                 height: 0
             }).show();
         });
 
         afterEach(function() {
-            login.destroy();
+            extWindow.destroy();
         });
 
         it("should be defined and have a title", function() {
-            expect(login).toBeDefined();
-            expect(login.title).toEqual("Login");
+            expect(extWindow).toBeDefined();
+            expect(extWindow.title).toEqual("Login");
+        });
+
+        it("should be a window", function() {
+            expect(Ext.getClass(extWindow).superclass.self.getName()).toEqual("Ext.window.Window");
         });
 
 

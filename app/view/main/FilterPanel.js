@@ -8,7 +8,7 @@
  * @author Axel Kunz (c) 2015-2016
  * @license ???
  */
-Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
+Ext.define("SppAppClassic.view.main.FilterPanel",{
     extend: "Ext.panel.Panel",
     xtype: "filterpanel",
     //reference: "filterpanel",
@@ -20,8 +20,8 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
         "Ext.form.FieldSet",
         "Ext.form.field.Checkbox",
         "Ext.button.Button",
-        "SppAppClassic.view.main.filter.FilterPanelController",
-        "SppAppClassic.view.main.filter.CenturySlider"
+        "SppAppClassic.view.main.FilterPanelController",
+        "SppAppClassic.view.main.CenturySlider"
     ],
 
     controller: "main-filterpanel",
@@ -78,7 +78,7 @@ Ext.define("SppAppClassic.view.main.filter.FilterPanel",{
             items: this.buildItems(),
             buttons: this.buildButtons()
         });
-        SppAppClassic.view.main.filter.FilterPanel.superclass.initComponent.call(this);
+        SppAppClassic.view.main.FilterPanel.superclass.initComponent.call(this);
     },
 
     buildProjectCheckboxes: function() {
