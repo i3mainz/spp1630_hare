@@ -66,6 +66,12 @@ Ext.define('SppAppClassic.Application', {
     },
 
     launch: function () {
+        /*var jasmineEnv = jasmine.getEnv();
+        jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+        jasmineEnv.updateInterval = 1000;
+        jasmineEnv.execute();
+        */
+
         // It's important to note that this type of application could use
         // any type of storage, i.e., Cookies, LocalStorage, etc.
         var username;
