@@ -14,7 +14,7 @@ describe('PopupWindow', function() {
         mywindow.destroy();
     });
 
-    it("should be defined and have a title", function() {
+    /*it("should be defined and have a title", function() {
         expect(mywindow).toBeDefined();
         expect(mywindow.title).toEqual("Feature Info");
     });
@@ -28,7 +28,7 @@ describe('PopupWindow', function() {
         expect(controller).not.toBe(null);
         expect(typeof controller.unlockButtons).toBe("function");
         //this.lookupReference('delete').setDisabled(selections.length === 0);
-    });
+    });*/
 
 
 

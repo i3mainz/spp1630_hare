@@ -60,6 +60,8 @@ Ext.define("SppAppClassic.LoginController", {
      */
     login: function(username, password, success, failure) {
         var me = this;
+        var label;
+        console.log("runns!!!");
 
         // update label
         Ext.getCmp("loginLabel").setValue("Validating...");
@@ -88,11 +90,14 @@ Ext.define("SppAppClassic.LoginController", {
             success: function(response) {
                 //Ext.getCmp("loginLabel").setValue("Validating...");
                 // validate
+                //console.log("inside!");
                 Ext.getCmp("loginLabel").setValue("Success!");
                 success(response);
             },
 
             failure: function(response, request) {
+                //console.log(response);
+                //console.log("inside error!");
                 //console.log("AJAX request to GeoServer failed! Server Down?");
                 //Ext.Msg.alert("AJAX Request Fail", "Contacting GeoServer failed! Server Down?");
                 Ext.getCmp("loginLabel").setValue("Failed!");

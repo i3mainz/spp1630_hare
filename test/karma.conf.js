@@ -1,3 +1,4 @@
+"use strict";
 // Karma configuration
 // Generated on Sat May 21 2016 12:25:39 GMT+0200 (CEST)
 
@@ -29,9 +30,14 @@ module.exports = function(config) {
 
         //"../app/Application.js",  // loads all other view, controllers etc automatically
         //"..app.js",
+        //"../*.*",
+
+        //"../app.js",
+        //"../bootstrap.js",
+        // load all classes standalone
         "../app/**/*.js",
-        //"spec/**/*.js"
-        "spec/view/Login.js"
+        "spec/**/*.js"
+        //"spec/view/Login.js"
     ],
 
 
@@ -89,5 +95,6 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
-}
+
+    });
+};

@@ -87,12 +87,23 @@
     <div id="test"></div>
 
     <script type="text/javascript">
+
       Ext.application({
         name: 'SppAppClassic',
         //extend: 'SppAppClassic.Application',
         requires: [
             //'SppAppClassic.view.main.Main',
             //'SppAppClassic.view.login.Login'
+            'Ext.container.Viewport',
+            'Ext.grid.column.Date',
+            'Ext.ux.ajax.SimManager',
+            'Ext.ux.ajax.Simlet',
+            'Ext.data.proxy.Proxy',
+            'Ext.data.proxy.Ajax',
+            'Ext.layout.container.Fit',
+            'Ext.grid.Panel',
+            'Ext.data.Store',
+            'Ext.data.reader.Json'
         ],
         appFolder: "../app",
         // The name of the initial view to create. With the classic toolkit this class
@@ -101,8 +112,25 @@
         //
         //mainView: 'SppAppClassic.view.main.Main'
         launch: function() {
+
+            Ext.ux.ajax.SimManager.init({
+                delay: 300
+            }).register({
+                "http://haefen.i3mainz.hs-mainz.de/geoserver/j_spring_security_check": {
+                    type: "json",
+                    success: false,
+                    hello: "world :)"
+                    /*data: [
+                        { foo: 42, bar: "abc"}
+                    ]*/
+                }
+            });
+
+            
             console.log("launching!");
             var jasmineEnv = jasmine.getEnv();
+
+
             //jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
             //jasmineEnv.updateInterval = 1000;
             //jasmineEnv.execute();
