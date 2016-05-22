@@ -100,42 +100,112 @@ describe('LoginWindow', function() {
 
     });*/
 
-    it("should update label on failed login", function(done) {
-        //loginButton.on("click");
-        //label.setRawValue("123");
-        var controller = extWindow.getController();
+    describe("login functionality", function() {
+        var server;
+        var controller;
 
+        beforeEach(function() {
+            // create fake server for mocking requests
+            server = sinon.fakeServer.create();
+            server.autoRespond = true;
+            server.autoRespondAfter = 100;
 
-        // mock ajax request
-        /*Ext.ux.ajax.SimManager.init({
-            delay: 300
-        }).register({
-            "http://haefen.i3mainz.hs-mainz.de/geoserver/j_spring_security_check": {
-                type: "json",
-                success: false
-                //data: [
-                //    { foo: 42, bar: "abc"}
-                //]
-            }
+            controller = extWindow.getController();
+
+        });
+
+        afterEach(function(){
+            server.restore();
+        });
+
+        it("should update label on failed login", function(done) {
+
+            // mock login request to fail
+            server.respondWith("POST", "http://haefen.i3mainz.hs-mainz.de/geoserver/j_spring_security_check",
+                [200,
+                 { "Content-Type": "application/json" },
+                 '{ "success": false, "error": { "code": 123, "message": "some error message"} }']
+            );
+
+            // label should be empty before click
+            expect(label.getValue()).toBeUndefined();
+
+            var success;
+            controller.login("John Doe", "wrongPassword", function() {
+                // success
+                done();
+                success = true;
+
+            }, function() {
+                done();
+                success = false;
+                // label should show "failed" when login failed
+                expect(label.getValue()).toBe("Failed!");
+            });
+
+            // async not ready, should still be validating
+            expect(label.getValue()).toBe("Validating...");
+        });
+
+        it("should update label on successfull login", function(done) {
+
+            // mock login request to be successfull
+            server.respondWith("POST", "http://haefen.i3mainz.hs-mainz.de/geoserver/j_spring_security_check",
+                [200,
+                 { "Content-Type": "application/json" },
+                 '[{ "success": true]']
+            );
+
+            // label should be empty before click
+            expect(label.getValue()).toBeUndefined();
+
+            var success;
+            controller.login("John Doe", "correctPassword", function() {
+                done();
+                success = true;
+                // label should show "success" when login was successfull
+                expect(success).toBeTruthy();
+                expect(label.getValue()).toBe("Success!");
+            });
+
+            // async not ready yet, should still be validating
+            expect(label.getValue()).toBe("Validating...");
+
+        });
+
+        /*it("should update label during validation", function(done) {
+
+            // mock login request to be successfull
+            server.respondWith("POST", "http://haefen.i3mainz.hs-mainz.de/geoserver/j_spring_security_check",
+                [200,
+                 { "Content-Type": "application/json" },
+                 '[{ "success": true]']
+            );
+
+            // label should be empty before click
+            expect(label.getValue()).toBeUndefined();
+
+            controller.login("John Doe", "correctPassword", function() {
+                //expect(label.getValue()).toBe("Validating...");  // check before request done
+                //done();
+                done();
+            }, function() {
+                //done();
+                done();
+            });
+
+            expect(label.getValue()).toBe("Validating...");
+
+            // async not ready yet, should be still validating
+
         });*/
 
+    });
 
-        expect(label.getValue()).toBeUndefined();
 
-        //console.log(label.getRawValue());
-        controller.login("John Doe", "wrongPassword", function() {
-            // success
-            console.log("success!");
-            done();
-            expect(label.getRawValue()).toBe("Success!!");
 
-        }, function(response) {
-            // failure
-            console.log(response);
-            done();
-            expect(label.getValue()).toBe("Failed!");
 
-        })
+
 
         // nothing set
 
@@ -144,10 +214,6 @@ describe('LoginWindow', function() {
 
 
 
-
-
-
-    });
 
 /*
     it("should unlock login button when username and password are entered", function() {

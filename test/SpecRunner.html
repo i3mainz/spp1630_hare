@@ -13,10 +13,17 @@
   <script src="../bower_components/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
   <script src="../bower_components/jasmine-core/lib/jasmine-core/boot.js"></script>
 
+  <!-- sinon fakeserver -->
+  <script src="../bower_components/sinon/index.js"></script>
+
   <!-- ExtJS (built) -->
-  <link rel="stylesheet" type="text/css" href="../bower_components/extjs/build/classic/theme-crisp/resources/theme-crisp-all.css">
-  <script type="text/javascript" src="../bower_components/extjs/build/ext-all.js"></script>
-  <script type="text/javascript" src="../bower_components/extjs/build/classic/theme-crisp/theme-crisp.js"></script>
+  <!--<link rel="stylesheet" type="text/css" href="../bower_components/extjs/build/classic/theme-crisp/resources/theme-crisp-all.css">-->
+  <!--<script type="text/javascript" src="../bower_components/extjs/build/ext-all.js"></script>-->
+  <!--<script type="text/javascript" src="../bower_components/extjs/build/classic/theme-crisp/theme-crisp.js"></script>-->
+
+  <!-- ExtJS built dynamically by sencha cmd -->
+  <script type="text/javascript" src="../ext/ext-bootstrap.js"></script>
+  <script type="text/javascript" src="../bootstrap.js"></script>
 
   <!-- OpenLayers 3 -->
   <link rel="stylesheet" href="http://openlayers.org/en/v3.13.0/css/ol.css" type="text/css">
@@ -25,6 +32,11 @@
   <!-- GeoExt (built) -->
   <link rel="stylesheet" type="text/css" href="../packages/remote/GeoExt/build/resources/GeoExt-all.css">
   <script type="text/javascript" src="../packages/remote/GeoExt/build/GeoExt.js"></script>
+
+
+  <!-- my app -->
+  <!--<script src="../app_test.js"></script>-->
+
 
   <!-- views -->
   <script src="../app/Application.js"></script>
@@ -94,16 +106,6 @@
         requires: [
             //'SppAppClassic.view.main.Main',
             //'SppAppClassic.view.login.Login'
-            'Ext.container.Viewport',
-            'Ext.grid.column.Date',
-            'Ext.ux.ajax.SimManager',
-            'Ext.ux.ajax.Simlet',
-            'Ext.data.proxy.Proxy',
-            'Ext.data.proxy.Ajax',
-            'Ext.layout.container.Fit',
-            'Ext.grid.Panel',
-            'Ext.data.Store',
-            'Ext.data.reader.Json'
         ],
         appFolder: "../app",
         // The name of the initial view to create. With the classic toolkit this class
@@ -113,20 +115,7 @@
         //mainView: 'SppAppClassic.view.main.Main'
         launch: function() {
 
-            Ext.ux.ajax.SimManager.init({
-                delay: 300
-            }).register({
-                "http://haefen.i3mainz.hs-mainz.de/geoserver/j_spring_security_check": {
-                    type: "json",
-                    success: false,
-                    hello: "world :)"
-                    /*data: [
-                        { foo: 42, bar: "abc"}
-                    ]*/
-                }
-            });
 
-            
             console.log("launching!");
             var jasmineEnv = jasmine.getEnv();
 

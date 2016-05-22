@@ -103,6 +103,9 @@ Ext.define("SppAppClassic.view.main.Main", {
             }]
         });
 
+        //console.log("logout!");
+        //this.getController().onClickLogout();
+
         // show infos
         //Ext.create("SppAppClassic.view.main.Info.InfoPanel").show();
 

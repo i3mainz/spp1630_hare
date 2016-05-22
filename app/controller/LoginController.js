@@ -47,11 +47,30 @@ Ext.define("SppAppClassic.LoginController", {
         var formData = loginForm.getValues();
 
         me.login(formData.username, formData.password, function(response) {
-            // success
-            me.checkGeoServerResponse(response, formData.username);
+            // is logged into spp
+            if (me.isLoggedIntoGeoServer(response, formData.username)) {
+                // also logged into geoserver with same username
+                console.log("logged in spp and geoserver!");
+                console.log(username + " logged in successfully!!!");
+
+                // Set the localStorage value to true
+                //localStorage.setItem("TutorialLoggedIn", true);
+
+                // set local cookie -> used to display name in logout
+                Ext.util.Cookies.set("sppCookie", username, new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 10))); // expires after 10 days
+
+                // Remove Login Window
+                this.getView().destroy();
+
+                // Add the main view to the viewport
+                Ext.create({
+                    xtype: "app-main"
+                });
+            };
+
         }, function() {
             // failure
-
+            console.log("login failed!");
         });
     },
 
@@ -61,7 +80,7 @@ Ext.define("SppAppClassic.LoginController", {
     login: function(username, password, success, failure) {
         var me = this;
         var label;
-        console.log("runns!!!");
+        console.log("trying to log in!!!");
 
         // update label
         Ext.getCmp("loginLabel").setValue("Validating...");
@@ -87,19 +106,13 @@ Ext.define("SppAppClassic.LoginController", {
                 username: username,
                 password: password
             },
+
             success: function(response) {
-                //Ext.getCmp("loginLabel").setValue("Validating...");
-                // validate
-                //console.log("inside!");
                 Ext.getCmp("loginLabel").setValue("Success!");
                 success(response);
             },
 
-            failure: function(response, request) {
-                //console.log(response);
-                //console.log("inside error!");
-                //console.log("AJAX request to GeoServer failed! Server Down?");
-                //Ext.Msg.alert("AJAX Request Fail", "Contacting GeoServer failed! Server Down?");
+            failure: function(response) {
                 Ext.getCmp("loginLabel").setValue("Failed!");
 
                 // unlock buttons
@@ -115,32 +128,19 @@ Ext.define("SppAppClassic.LoginController", {
     * checks geoservers' response text, determines if login was successfull
     * or not and calls functions accordingly.
     */
-    checkGeoServerResponse: function(response, username) {
+    isLoggedIntoGeoServer: function(response, username) {
         var me = this;
+        var isLoggedIn = false;
         var text = response.responseText;
         //var gerFailText = "Ungültige Kombination von Benutzername und Kennwort.";
         var engFailText = "Invalid username/password combination.";
 
         var engSuccessText = "<span class='username'>Logged in as <span>" + username + "</span></span>.";
 
-        if (text.indexOf(engFailText) > -1) {  // login failed
-            me.onLoginFail();
-        } else {
-            //console.log(text.indexOf(engSuccessText));
-            me.onLoginSuccess(username);
+        if (text.indexOf(engFailText) === -1) {  // show logged in page
+            isLoggedIn = true;
         }
-    },
-
-    onLoginFail: function() {
-
-        Ext.getCmp("loginLabel").setValue("Login failed!");
-
-        // unlock buttons
-        this.lookupReference("loginSubmitButton").enable();
-        this.lookupReference("guestSubmitButton").enable();
-
-        //this.getView().fireEvent("loginfailed");
-
+        return isLoggedIn;
     },
 
     // same function in MainController
@@ -182,6 +182,8 @@ Ext.define("SppAppClassic.LoginController", {
         });
     },
 
+
+
     onHelpClick: function() {
         console.log("help click!");
         var me = this;
@@ -204,9 +206,5 @@ Ext.define("SppAppClassic.LoginController", {
         } else {
             guestButton.disable();
         }
-    },
-
-    newMethod: function() {
-        console.log("it works! :DDDD");
     }
 });

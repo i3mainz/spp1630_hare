@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "extjs": "^6.0.0-640",
-    "jasmine-core": "jasmine#^2.4.1"
+    "jasmine-core": "jasmine#^2.4.1",
+    "sinon": "http://sinonjs.org/releases/sinon-1.9.0.js"
   }
 }
