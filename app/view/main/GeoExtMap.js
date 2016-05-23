@@ -9,6 +9,8 @@ Ext.define("SppAppClassic.view.main.GeoExtMap", {
         "SppAppClassic.view.main.GeoExtMapController",
         "GeoExt.data.store.LayersTree",
         //"SppAppClassic.store.Layers",
+        "OL3MapService",
+        "AuthService",
         //"LayerGroups",
         ////"layerStyles",
         //"Projects"
@@ -17,53 +19,16 @@ Ext.define("SppAppClassic.view.main.GeoExtMap", {
 
     controller: "main-geoextmap",
 
-    /*initComponent: function () {
+    initComponent: function () {
         console.log("init GeoExtMap...");
         var me = this;
 
-        var ol3Map = new ol.Map({
-            layers: [
-                LayerGroups.basemaps,
-                LayerGroups.hydrology,
-                LayerGroups.darmc
-            ],  // get laoded dynamically in MapController
-            controls: [
-                new ol.control.ScaleLine(),
-                new ol.control.Attribution()
-            ],
-            // ol.control.defaults().extend(  // keeps default controls
-
-            interactions: ol.interaction.defaults().extend([
-                // highlight features on hover, click events are seperate -> this is just highlight
-                new ol.interaction.Select({
-                    condition: ol.events.condition.pointerMove  // empty -> select on click
-                })
-            ]),
-
-            // renderer: CANVAS,
-            // Improve user experience by loading tiles while dragging/zooming. Will make
-            // zooming choppy on mobile or slow devices.
-            //loadTilesWhileInteracting: true,
-
-            view: new ol.View({
-                center: ol.proj.fromLonLat([8.751278, 50.611368]),  // [0, 0],
-                zoom: 4,  // 2,
-                minZoom: 3  // prevents zoom too far out
-                //restrictedExtent: new ol.extent(-180, -90, 180, 90)  // prevents going over 'edge' of map
-            })
-        });
-
-        var layerGroup = ol3Map.getLayerGroup();
-
         // set map
-        me.map = ol3Map;  // set Ol3 map
+        this.map = OL3MapService.getMap();  // set Ol3 map
 
-        // set layertree's store
-        var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
-            layerGroup: layerGroup,
-            storeId: "treeStore"  // register with storemanager
-        });
-        Ext.getCmp("layerTree").setStore(treeStore);
+        var layerGroup = this.map.getLayerGroup();
+
+        this.setLayerTreeStore();
 
         // dynamically adding layers doesnt work!
         // workaround: add all, then remove restricted
@@ -71,7 +36,7 @@ Ext.define("SppAppClassic.view.main.GeoExtMap", {
         // remove AG intern if it already exists
         //var internLayer = me.getLayerByName("Harbours (AG Intern)");
         //me.removeLayer(internLayer);
-        if (SppAppClassic.app.isAuthorized()) {
+        if (AuthService.isAuthorized()) {
 
             me.addLayer(LayerGroups.fetch);
             me.addLayer(LayerGroups.barrington);
@@ -95,11 +60,11 @@ Ext.define("SppAppClassic.view.main.GeoExtMap", {
             me.addLayer(LayerGroups.sppOpen);
             //console.log("done set layers for guest");
         }
-        //console.log("creating layers!");
-        //removeRestrictedLayerGroups
 
-        me.createLayersFromStore();
-        //console.log("all layers created!");
+
+
+        //me.createLayersFromStore();
+
 
         // add custom listeners
         // keep inheritance
@@ -107,7 +72,22 @@ Ext.define("SppAppClassic.view.main.GeoExtMap", {
         // $owner error has something to do with initComponent being a protected method
         // in ExtJs6
         SppAppClassic.view.main.GeoExtMap.superclass.initComponent.call(this);
-    },*/
+    },
+
+    /*
+     * creates tree store containing all ol3map layers and applies it to
+     * layer tree panel
+     */
+    setLayerTreeStore: function() {
+        // create treestore
+        var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
+            layerGroup: this.map.getLayerGroup(),
+            storeId: "treeStore"  // register with storemanager
+        });
+
+        // apply to layertree
+        Ext.getCmp("layerTree").setStore(treeStore);
+    },
 
     /**
      * looks up layer information from layerStore and

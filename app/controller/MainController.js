@@ -18,7 +18,7 @@ Ext.define("SppAppClassic.MainController", {
 
     control: {
         "#": {
-            afterrender: "updateLogoutInfo"
+            //afterrender: "updateLogoutInfo"
             /*render:  function(panel) {
                 panel.body.on("click", function() {
                     console.log("click on mainpanel!");

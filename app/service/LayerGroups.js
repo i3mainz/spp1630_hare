@@ -11,7 +11,7 @@ Ext.define("LayerGroups", {
         "Layers"
     ],
 
-    /*spp: new ol.layer.Group({
+    spp: new ol.layer.Group({
         layers: Layers.spp,  // ol.collection
         name: "SPP",
         visible: true
@@ -57,6 +57,6 @@ Ext.define("LayerGroups", {
     basemaps: new ol.layer.Group({
         layers: Layers.basemaps,
         name: "Basemaps"
-    })*/
+    })
 
 });

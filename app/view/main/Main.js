@@ -39,7 +39,6 @@ Ext.define("SppAppClassic.view.main.Main", {
     },
     border: true,
 
-
     initComponent: function () {
         //console.log("init main panel");
         Ext.apply(this, {
@@ -103,13 +102,13 @@ Ext.define("SppAppClassic.view.main.Main", {
             }]
         });
 
-        //console.log("logout!");
         //this.getController().onClickLogout();
 
         // show infos
-        //Ext.create("SppAppClassic.view.main.Info.InfoPanel").show();
+        //Ext.create("SppAppClassic.view.main.InfoPanel").show();
 
         SppAppClassic.view.main.Main.superclass.initComponent.call(this);
+        //this.callParent();
     }
 
 });

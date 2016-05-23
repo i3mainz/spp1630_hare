@@ -4,57 +4,23 @@ Ext.define("SppAppClassic.LoginController", {
 
     alias: "controller.login",  // use this to reference
 
-    /*sendLoginRequest: function() {
-        Ext.Ajax.request({
-            url: SppAppClassic.app.globals.loginPath,
-            method: "POST",
-            withCredentials: true,
-            useDefaultXhrHeader: false,
-
-            params: {
-                username: formData.username,
-                password: formData.password
-            },
-            success: function(response) {
-                //Ext.getCmp("loginLabel").setValue("Validating...");
-
-                // validate
-                me.checkGeoServerResponse(response, formData.username);
-            },
-
-            failure: function(response, request) {
-                //console.log("AJAX request to GeoServer failed! Server Down?");
-                Ext.Msg.alert("AJAX Request Fail", "Contacting GeoServer failed! Server Down?");
-
-                // unlock buttons
-                //loginForm.enable();  // unlocks entire form
-                loginButton.enable();
-                guestButton.enable();
-            }
-        });
-    },*/
-
-    //gerText: "Ungültige Kombination von Benutzername und Kennwort.",
-    //engText: "Invalid username/password combination.",
     /**
-     * type can be "user" or "guest". for guest, predefined credentials will be used
+     * username and password from the login form will be used to login
+     * to the local geoserver isntance.
+     * if login is successfull, main view will be created
      */
     onLoginClick: function() {
         //console.log("starting auth");
 
-        var me = this;
-        var loginForm = me.lookupReference("loginform");
-        var formData = loginForm.getValues();
+        //var me = this;
+        var formData = me.lookupReference("loginform").getValues();
 
-        me.login(formData.username, formData.password, function(response) {
+        this.login(formData.username, formData.password, function(response) {
             // is logged into spp
-            if (me.isLoggedIntoGeoServer(response, formData.username)) {
+            if (this.isLoggedIntoGeoServer(response, formData.username)) {
                 // also logged into geoserver with same username
-                console.log("logged in spp and geoserver!");
-                console.log(username + " logged in successfully!!!");
-
-                // Set the localStorage value to true
-                //localStorage.setItem("TutorialLoggedIn", true);
+                //console.log("logged in spp and geoserver!");
+                //console.log(username + " logged in successfully!!!");
 
                 // set local cookie -> used to display name in logout
                 Ext.util.Cookies.set("sppCookie", username, new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 10))); // expires after 10 days
@@ -66,7 +32,7 @@ Ext.define("SppAppClassic.LoginController", {
                 Ext.create({
                     xtype: "app-main"
                 });
-            };
+            }
 
         }, function() {
             // failure
@@ -75,12 +41,13 @@ Ext.define("SppAppClassic.LoginController", {
     },
 
     /*
-     * requires callbacks
+     * send ajax post request to geoserver and locks/unlocks submit buttons.
+     * requires callbacks to handle what will be executed on success and failure
      */
     login: function(username, password, success, failure) {
-        var me = this;
+        //var me = this;
         var label;
-        console.log("trying to log in!!!");
+        //console.log("trying to log in!!!");
 
         // update label
         Ext.getCmp("loginLabel").setValue("Validating...");
@@ -158,7 +125,7 @@ Ext.define("SppAppClassic.LoginController", {
 
     onGuestClick: function() {
         // clear cookies and geoserver login, just in case
-        Ext.util.Cookies.clear("sppCookie");
+        Ext.util.Cookies.clear("sppCookie");  // TODO: replace his with logout function
         this.logoutGeoServer();
 
         this.onLoginSuccess("guest");

@@ -79,18 +79,4 @@ Ext.define("SppAppClassic.view.login.Login", {
         }),
         SppAppClassic.view.login.Login.superclass.initComponent.call(this);
     }
-
-    /**
-     * @event loginfailed
-     *
-     * Fires when the user tried to authenticate with geoserver
-     * and that failed.
-     */
-
-     // loginsuccess
-
-     // loginClick
-
-     //logoutClick
-
 });

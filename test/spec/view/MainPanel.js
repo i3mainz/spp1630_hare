@@ -28,6 +28,14 @@ describe('MainPanel', function() {
         //this.lookupReference('delete').setDisabled(selections.length === 0);
     });
 
+    /*it("should be visible", function() {
+        expect(panel.isVisible()).toBeTruthy();
+    })*/
+
+    it("should have items", function() {
+        expect(panel.getDockedItems().length).toBe(4);
+    })
+
 
 
 });
