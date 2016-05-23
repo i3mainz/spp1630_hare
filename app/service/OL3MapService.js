@@ -9,16 +9,16 @@ Ext.define("OL3MapService", {
 
     requires: [
         //"LayerStyles"
-        "LayerGroups",
+        //"LayerGroups",
         ////"layerStyles",
         //"Projects"
     ],
 
     map: new ol.Map({
         layers: [
-            LayerGroups.basemaps,
-            LayerGroups.hydrology,
-            LayerGroups.darmc
+            //LayerGroups.basemaps,
+            //LayerGroups.hydrology,
+            //LayerGroups.darmc
         ],  // get laoded dynamically in MapController
         controls: [
             new ol.control.ScaleLine(),

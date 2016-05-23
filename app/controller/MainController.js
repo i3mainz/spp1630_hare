@@ -1,10 +1,5 @@
 "use strict";
-/**
- * This class is the controller for the main view for the application. It is specified as
- * the "controller" of the Main view class.
- *
- * TODO - Replace this content of this view to suite the needs of your application.
- */
+
 Ext.define("SppAppClassic.MainController", {
     extend: "Ext.app.ViewController",
 
@@ -13,7 +8,7 @@ Ext.define("SppAppClassic.MainController", {
     requires: [
         "Ext.button.Button",
         "SppAppClassic.view.login.Login",
-        "SppAppClassic.view.main.InfoPanel",
+        "SppAppClassic.view.main.InfoTabPanel",
         "AuthService"
     ],
 
@@ -81,9 +76,9 @@ Ext.define("SppAppClassic.MainController", {
     },
 
     onClickInfo: function() {
-        var infoPanel = Ext.getCmp("infopanel");
+        var infoPanel = Ext.getCmp("infotabpanel");
         if (!infoPanel) {
-            infoPanel = Ext.create("SppAppClassic.view.main.InfoPanel");
+            infoPanel = Ext.create({ xtype: "infotabpanel" });
         }
         infoPanel.show();
     }

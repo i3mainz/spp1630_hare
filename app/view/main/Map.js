@@ -65,34 +65,39 @@ Ext.define("SppAppClassic.view.main.Map", {
 
     appendLayerGroups: function() {
 
-        if (AuthService.isAuthorized()) {
-
-            // SPP internal layer groups
+        if (AuthService.isAuthenticated()) {
+            // public
+            OL3MapService.getMap().addLayer(LayerGroups.basemaps),
+            OL3MapService.getMap().addLayer(LayerGroups.hydrology),
+            OL3MapService.getMap().addLayer(LayerGroups.darmc),
             OL3MapService.getMap().addLayer(LayerGroups.fetch);
-            OL3MapService.getMap().addLayer(LayerGroups.barrington);
-            OL3MapService.getMap().addLayer(LayerGroups.agIntern);  // empty
-            OL3MapService.getMap().addLayer(LayerGroups.spp);
+            OL3MapService.getMap().addLayer(LayerGroups.sppOpen);
 
-            // add project-specific layers to ag intern layer group
+            if (AuthService.isAuthorized()) {
 
-            /*var projectID = SppAppClassic.app.getUsernameProjectID();
+                // SPP internal layer groups
+                OL3MapService.getMap().addLayer(LayerGroups.barrington);
+                OL3MapService.getMap().addLayer(LayerGroups.spp);
 
-            if (projectID) {  // known cookie login
-                // create ag intern layer
-                var layer = me.createAGInternLayer(projectID);
-                //me.addLayer(layer);
-                me.addLayerToLayerGroup(layer, "Project Internal");
-            }*/
+                // agInternal
+                OL3MapService.getMap().addLayer(LayerGroups.agIntern);  // empty
 
-            // load layers into layergroup
-            //me.createLayersFromStore();
-            console.log("done loading layers for users");
+                // add project-specific layers to ag intern layer group
 
-        } else {
-            // logged in as guest
-            OL3MapService.getMap().addLayer(LayerGroups.fetch);
-            OL3MapService.getMap().addLayer(LayerGroups.fetch);
-            console.log("done loading layers for guest");
+                /*var projectID = SppAppClassic.app.getUsernameProjectID();
+
+                if (projectID) {  // known cookie login
+                    // create ag intern layer
+                    var layer = me.createAGInternLayer(projectID);
+                    //me.addLayer(layer);
+                    me.addLayerToLayerGroup(layer, "Project Internal");
+                }*/
+
+                // load layers into layergroup
+                //me.createLayersFromStore();
+                //console.log("done loading layers for users");
+            }
+
         }
     },
 

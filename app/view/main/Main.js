@@ -22,8 +22,6 @@ Ext.define("SppAppClassic.view.main.Main", {
         "Ext.plugin.Viewport",              // plugins: "viewport"
         "Ext.window.MessageBox",
         "SppAppClassic.view.main.Map",      // xtype: "mappanel"
-        "SppAppClassic.view.main.InfoPanel",
-        //"SppAppClassic.view.main.Filter.FilterTree",
         "SppAppClassic.view.main.LayerTree"  // xtype: "layertree",
     ],
 

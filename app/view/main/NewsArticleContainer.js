@@ -1,8 +1,8 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.NewsArticle",{
+Ext.define("SppAppClassic.view.main.NewsArticleContainer",{
     extend: "Ext.container.Container",
-    xtype: "newsarticle",
+    xtype: "newsarticlecontainer",
     requires: [
         "Ext.Component", // xtype: component or box
         "Ext.Img"
@@ -40,7 +40,7 @@ Ext.define("SppAppClassic.view.main.NewsArticle",{
             ]
         });
 
-        SppAppClassic.view.main.NewsArticle.superclass.initComponent.call(this);
+        SppAppClassic.view.main.NewsArticleContainer.superclass.initComponent.call(this);
     },
 
     buildContent: function() {
@@ -66,7 +66,8 @@ Ext.define("SppAppClassic.view.main.NewsArticle",{
             return {
                 xtype: "image",
                 cls: "news-image",
-                src: me.contentImage
+                src: me.contentImage,
+                alt: "some-image"
             };
         }
     }

@@ -1,17 +1,13 @@
-Ext.define("SppAppClassic.store.News", {
-    extend: "Ext.data.Store",
+"use strict";
 
-    alias: "store.news",
-    storeId: "newsStore",
+Ext.define("NewsService", {
+    /* singleton classes get created when they are defined. no need to Ext.create them.
+    access them via the class-name directly. e.g. LayerStyles.bluePoints
+    variable is globally available */
 
-    //requires: 'MyApp.model.User',
-    //model: 'MyApp.model.User',
+    singleton: true,
 
-    fields: [
-        "author", "timestamp", "title", "content", "image"
-    ],
-
-    data: { items: [
+    _news: [
         /*{
             title: "Plenartreffen 2016",
             author: "i3mainz",
@@ -28,7 +24,7 @@ Ext.define("SppAppClassic.store.News", {
                      "These are selectable in the Layer Tree at \"Layers -> Fetch\".<br>",
             image: "/resources/images/fetch.png"
         },{
-            title: "Release Version 1.0 Drake",
+            title: "Release Version 1.0",
             author: "i3mainz",
             timestamp: "03.01.2016 15:10 PM",
             content: "A lot has changed since the first tech demo of this WebGIS in 2013?. The first version " +
@@ -43,17 +39,12 @@ Ext.define("SppAppClassic.store.News", {
                      "<a href='https://geoext.github.io/geoext3/' target='_blank'>GeoExt 3</a>, " +
                      "<a href='http://openlayers.org/' target='_blank'>OpenLayers 3.13</a> and " +
                      "<a href='https://www.sencha.com/products/extjs/#overview' target='_blank'>ExtJS 6</a>. This enables us to quickly develop new GIS functionality " +
-                     "and user interfaces that look modern while still being highly functional and simple." +
-                     "<br><br>Version 1.x is codenamed \"Drake\" in reference to <a href='https://en.wikipedia.org/wiki/Francis_Drake' target='_blank'>Sir Francis Drake</a>.",
+                     "and user interfaces that look modern while still being highly functional and simple.",
             image: ""
         }
-    ]},
+    ],
 
-    proxy: {
-        type: "memory",
-        reader: {
-            type: "json",
-            rootProperty: "items"
-        }
+    getNews: function() {
+        return this._news;
     }
 });

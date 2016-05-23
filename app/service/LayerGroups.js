@@ -1,4 +1,7 @@
 "use strict";
+var wmsPath = "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?";
+var proxyPath = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
+
 /**
  * singleton classes get created when they are defined. no need to Ext.create them.
  * access them via the class-name directly. e.g. LayerStyles.bluePoints
@@ -8,8 +11,11 @@ Ext.define("LayerGroups", {
     singleton: true,
 
     requires: [
-        "Layers"
+        "Layers",
+        "LayerStyles"
     ],
+
+    wmsPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?",
 
     spp: new ol.layer.Group({
         layers: Layers.spp,  // ol.collection
@@ -18,8 +24,30 @@ Ext.define("LayerGroups", {
     }),
 
     sppOpen: new ol.layer.Group({
-        layers: Layers.sppOpen,
         name: "SPP (open)",
+        layers: new ol.Collection([
+
+            new ol.layer.Vector({
+                name: "Harbour data",
+                source: new ol.source.Vector({
+                    format: new ol.format.GeoJSON(),
+                    url: function(extent) {
+                        return proxyPath +
+                                "bereich=" + "SPP" +
+                                "&layer=" + "spp_harbours_open" +
+                                "&bbox=" + extent.join(",") +
+                                "&epsg=" + "4326";
+                    },
+                    strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                        maxZoom: 19
+                    })),
+                    wrapX: false  // dont repeat on X axis
+                }),
+                style: LayerStyles.redPoints,
+                visible: true
+            })
+
+        ]),
         visible: true
     }),
 
@@ -30,8 +58,65 @@ Ext.define("LayerGroups", {
     }),
 
     hydrology: new ol.layer.Group({
-        layers: Layers.hydrology,
         name: "Hydrology",
+        layers: new ol.Collection([
+
+            new ol.layer.Tile({
+                name: "Lakes",  // title
+                source: new ol.source.TileWMS({
+                    url: wmsPath,
+                    params: {"LAYERS": "SPP:lakes", "TILED": true},
+                    serverType: "geoserver",
+                    wrapX: false   // dont repeat on X axis
+                }),
+                //legendUrl = this.getLegendImg(legendName);
+                visible: false
+            }),
+
+            new ol.layer.Tile({
+                name: "Streams",  // title
+                source: new ol.source.TileWMS({
+                    url: wmsPath,
+                    params: {"LAYERS": "SPP:streams", "TILED": true},
+                    serverType: "geoserver",
+                    wrapX: false   // dont repeat on X axis
+                }),
+                //legendUrl = this.getLegendImg(legendName);
+                visible: false
+            }),
+
+            new ol.layer.Vector({
+                name: "Eckholdt 1980",
+                source: new ol.source.Vector({
+                    format: new ol.format.GeoJSON(),
+                    url: function(extent) {
+                        return proxyPath +
+                                "bereich=" + "SPP" +
+                                "&layer=" + "Fluesse_Eckholdt" +
+                                "&bbox=" + extent.join(",") +
+                                "&epsg=" + "4326";
+                    },
+                    strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                        maxZoom: 19
+                    })),
+                    wrapX: false  // dont repeat on X axis
+                }),
+                style: LayerStyles.eckholdtStyleFunction,
+                visible: false
+            }),
+
+            new ol.layer.Tile({
+                name: "OpenSeaMap",
+                source: new ol.source.XYZ({
+                    url: "http://t1.openseamap.org/seamark/{z}/{x}/{y}.png",
+                    attributions: [new ol.Attribution({
+                        html: "© <a href='http://www.openseamap.org/'>OpenSeaMap</a>"
+                    })]
+                }),
+                legendUrl: "http://wiki.openseamap.org/images/thumb/e/ec/MapFullscreen.png/400px-MapFullscreen.png",
+                visible: false
+            })
+        ]),
         visible: false
     }),
 
@@ -50,7 +135,94 @@ Ext.define("LayerGroups", {
     fetch: new ol.layer.Group({
         name: "Fetch",
         layers: new ol.Collection([
-
+            new ol.layer.Tile({
+                name: "Adria 45°(NE)",  // title
+                source: new ol.source.TileWMS({
+                    url: wmsPath,
+                    params: {"LAYERS": "SPP:fetch_045", "TILED": true},
+                    serverType: "geoserver",
+                    wrapX: false   // dont repeat on X axis
+                }),
+                //legendUrl = this.getLegendImg(legendName);
+                visible: false
+            }),
+            new ol.layer.Tile({
+                name: "Adria 90°(E)",  // title
+                source: new ol.source.TileWMS({
+                    url: this.wmsPath,
+                    params: {"LAYERS": "SPP:fetch_090", "TILED": true},
+                    serverType: "geoserver",
+                    wrapX: false   // dont repeat on X axis
+                }),
+                //legendUrl = this.getLegendImg(legendName);
+                visible: false
+            }),
+            new ol.layer.Tile({
+                name: "Adria 135°(SE)",  // title
+                source: new ol.source.TileWMS({
+                    url: this.wmsPath,
+                    params: {"LAYERS": "SPP:fetch_135", "TILED": true},
+                    serverType: "geoserver",
+                    wrapX: false   // dont repeat on X axis
+                }),
+                //legendUrl = this.getLegendImg(legendName);
+                visible: false
+            }),
+            new ol.layer.Tile({
+                name: "Adria 180°(S)",  // title
+                source: new ol.source.TileWMS({
+                    url: this.wmsPath,
+                    params: {"LAYERS": "SPP:fetch_180", "TILED": true},
+                    serverType: "geoserver",
+                    wrapX: false   // dont repeat on X axis
+                }),
+                //legendUrl = this.getLegendImg(legendName);
+                visible: false
+            }),
+            new ol.layer.Tile({
+                name: "Adria 225°(SW)",  // title
+                source: new ol.source.TileWMS({
+                    url: this.wmsPath,
+                    params: {"LAYERS": "SPP:fetch_225", "TILED": true},
+                    serverType: "geoserver",
+                    wrapX: false   // dont repeat on X axis
+                }),
+                //legendUrl = this.getLegendImg(legendName);
+                visible: false
+            }),
+            new ol.layer.Tile({
+                name: "Adria 270°(W)",  // title
+                source: new ol.source.TileWMS({
+                    url: this.wmsPath,
+                    params: {"LAYERS": "SPP:fetch_270", "TILED": true},
+                    serverType: "geoserver",
+                    wrapX: false   // dont repeat on X axis
+                }),
+                //legendUrl = this.getLegendImg(legendName);
+                visible: false
+            }),
+            new ol.layer.Tile({
+                name: "Adria 315°(NW)",  // title
+                source: new ol.source.TileWMS({
+                    url: this.wmsPath,
+                    params: {"LAYERS": "SPP:fetch_315", "TILED": true},
+                    serverType: "geoserver",
+                    wrapX: false   // dont repeat on X axis
+                }),
+                //legendUrl = this.getLegendImg(legendName);
+                visible: false
+            }),
+            new ol.layer.Tile({
+                name: "Adria 360°(N)",  // title
+                source: new ol.source.TileWMS({
+                    url: this.wmsPath,
+                    params: {"LAYERS": "SPP:fetch_360", "TILED": true},
+                    serverType: "geoserver",
+                    wrapX: false   // dont repeat on X axis
+                }),
+                //legendUrl = this.getLegendImg(legendName);
+                visible: false
+            })
         ]),
         visible: false
     }),

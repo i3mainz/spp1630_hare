@@ -10,7 +10,7 @@ Ext.define("SppAppClassic.MapToolbarController", {
         //"SppAppClassic.view.main.GridWindow",
         "SppAppClassic.view.main.FilterPanel",
         //"SppAppClassic.view.main.SettingsPanel",
-        "SppAppClassic.view.main.InfoPanel",
+        //"SppAppClassic.view.main.InfoTabPanel",
         "AuthService"
     ],
 

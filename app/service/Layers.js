@@ -4,7 +4,6 @@
 // layers need to be in a collection before you can group them to layergroups
 // this way, reordering works
 
-var wms = "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?";
 var proxy = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
 var mapboxAccessToken = "pk.eyJ1Ijoic2hhbnl1YW4iLCJhIjoiY2lmcWd1cnFlMDI0dXRqbHliN2FzdW9kNyJ9.wPkC7amwS2ma4qKWmmWuqQ";
 
@@ -18,6 +17,8 @@ Ext.define("Layers", {
     requires: [
         //"LayerStyles"
     ],
+
+    wmsPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?",
 
     // works both as collection or as list
     spp: new ol.Collection([
@@ -47,23 +48,6 @@ Ext.define("Layers", {
             style: LayerStyles.redPoints,
             visible: true
         })*/
-    ]),
-
-    hydrology: new ol.Collection([
-        new ol.layer.Tile({
-            name: "OpenSeaMap",
-            source: new ol.source.XYZ({
-                url: "http://t1.openseamap.org/seamark/{z}/{x}/{y}.png",
-                attributions: [new ol.Attribution({
-                    html: "© <a href='http://www.openseamap.org/'>OpenSeaMap</a>"
-                })]
-            }),
-            legendUrl: "http://wiki.openseamap.org/images/thumb/e/ec/MapFullscreen.png/400px-MapFullscreen.png",
-            visible: false
-        })
-    ]),
-
-    fetch: new ol.Collection([
     ]),
 
     barrington: new ol.Collection([
