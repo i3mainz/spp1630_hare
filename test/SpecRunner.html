@@ -12,6 +12,7 @@
   <script src="../bower_components/jasmine-core/lib/jasmine-core/jasmine.js"></script>
   <script src="../bower_components/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
   <script src="../bower_components/jasmine-core/lib/jasmine-core/boot.js"></script>
+  <!-- remove execute() from boot.js to prevent jasmine from starting on window open  and wait until ExtJS is ready-->
 
   <!-- sinon fakeserver -->
   <script src="../bower_components/sinon/index.js"></script>
@@ -24,6 +25,7 @@
   <!-- ExtJS built dynamically by sencha cmd -->
   <script type="text/javascript" src="../ext/ext-bootstrap.js"></script>
   <script type="text/javascript" src="../bootstrap.js"></script>
+  <link rel="stylesheet" href="../bootstrap.css">
 
   <!-- OpenLayers 3 -->
   <link rel="stylesheet" href="http://openlayers.org/en/v3.13.0/css/ol.css" type="text/css">
@@ -35,11 +37,10 @@
 
 
   <!-- my app -->
-  <!--<script src="../app_test.js"></script>-->
-
+  <script src="../app_test.js"></script>
 
   <!-- views -->
-  <script src="../app/Application.js"></script>
+  <!--<script src="../app/Application.js"></script>-->
   <script src="../app/view/login/Login.js"></script>
   <script src="../app/view/main/LayerTree.js"></script>
   <script src="../app/view/main/BasicTreeColumnLegends.js"></script>
@@ -96,11 +97,11 @@
 
 <body>
 
-    <div id="test"></div>
+    <!--<div id="test"></div>
 
     <script type="text/javascript">
 
-      Ext.application({
+      /*Ext.application({
         name: 'SppAppClassic',
         //extend: 'SppAppClassic.Application',
         requires: [
@@ -117,12 +118,14 @@
 
 
             console.log("launching!");
+
+
             var jasmineEnv = jasmine.getEnv();
 
 
             //jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
             //jasmineEnv.updateInterval = 1000;
-            //jasmineEnv.execute();
+            jasmineEnv.execute();
         }
 
         //-------------------------------------------------------------------------
@@ -130,8 +133,8 @@
         // customize this file, doing so below this section reduces the likelihood
         // of merge conflicts when upgrading to new versions of Sencha Cmd.
         //-------------------------------------------------------------------------
-    });
-    </script>
+    });*/
+</script>-->
 
 </body>
 

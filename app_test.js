@@ -1,13 +1,26 @@
 "use strict";
 
+Ext.Loader.setConfig({ enabled : true });
+Ext.ns('SppAppClassic');
+
 Ext.application({
     name: 'SppAppClassic',
 
-    extend: 'SppAppClassic.Application',
+    //extend: 'SppAppClassic.Application',
 
-    requires: [
+    /*requires: [
         'SppAppClassic.view.main.Main'
-    ],
+    ],*/
+
+    appFolder: 'app',
+
+    /*controllers: ['main'],
+
+    views: [
+        'SppAppClassic.view.login.Login',  // used in launch
+        'SppAppClassic.view.main.Main'  // used in launch
+
+    ],*/
 
     //appFolder: "app",
 
@@ -21,12 +34,13 @@ Ext.application({
 
     launch: function() {
 
+        //Ext.
         console.log("launching!");
 
-        var jasmineEnv = jasmine.getEnv();
+        //var jasmineEnv = jasmine.getEnv();
         //jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
         //jasmineEnv.updateInterval = 1000;
-        jasmineEnv.execute();
+        jasmine.getEnv().execute();
     }
 
     //-------------------------------------------------------------------------
