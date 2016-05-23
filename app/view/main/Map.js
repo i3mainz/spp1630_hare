@@ -22,6 +22,7 @@ Ext.define("SppAppClassic.view.main.Map", {
         //console.log("init mappanel");
         // good practice to add non-primivite variables
         // using initComponent
+        //console.log("add map!");
         Ext.apply(this, {
             items: {
                 xtype: "gx_component_map",

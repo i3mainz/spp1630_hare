@@ -10,6 +10,10 @@ Ext.define('SppAppClassic.Application', {
     //reference: "application",  // used to get the geoserverPath variable
     name: "SppAppClassic",
 
+    requires: [
+        "AuthService"
+    ],
+
     stores: [
         // TODO: add global / shared stores here
     ],
@@ -19,103 +23,27 @@ Ext.define('SppAppClassic.Application', {
         'SppAppClassic.view.main.Main'  // used in launch
     ],
 
+    version: "0.3.1",  // shown in title
+
     // for vars used throughout the application
     // access via "SppAppClassic.app.globals.wmsPath";
     globals: {
         serverPath: "http://haefen.i3mainz.hs-mainz.de",  // leave blank for production
         geoserverPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver",
         homePath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/web/",
-        wmsPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?",  // former GEOSERVER_URL
-        proxyPath: "http://haefen.i3mainz.hs-mainz.de" + "/GeojsonProxy/layer?",
+        //wmsPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?",  // former GEOSERVER_URL
+        //proxyPath: "http://haefen.i3mainz.hs-mainz.de" + "/GeojsonProxy/layer?",
         loginPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_check",
         logoutPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_logout",
         sppLayerTitle: "Data",
         sppLayerName: "SPP:spp_harbours_intern"
     },
 
-    // used in Application.js and LoginController.js
-    // geoserverPath: "/geoserver";  // production path
-
-    hasGeoServerLogin: function(username) {
-        var isLoggedIn = false;
-        var text;
-        var engSuccessText = '<span class="username">Logged in as <span>' + username + '</span></span>';
-        var deSuccessText = '<span class="username">Angemeldet als <span>' + username + '</span></span>';
-
-        Ext.Ajax.request({
-            //url: GEOSERVER_PATH + "/web/",
-            url: SppAppClassic.app.globals.homePath,
-            async: false,
-
-            success: function(response) {
-                text = response.responseText;
-                if (text.indexOf(engSuccessText) > -1 || text.indexOf(deSuccessText) > -1 ) {
-                    isLoggedIn = true;
-                } else {  // no welcome screen
-                    isLoggedIn = false;
-                }
-            },
-
-            failure: function() {
-                console.log("AJAX Request Fail", "Contacting GeoServer failed! Server Down?");
-                isLoggedIn = false;
-            }
-        });
-        //console.log(username + " is logged in: " + isLoggedIn);
-        return isLoggedIn;  // TODO: remove async, bad practice
-    },
-
     launch: function () {
-        /*var jasmineEnv = jasmine.getEnv();
-        jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-        jasmineEnv.updateInterval = 1000;
-        jasmineEnv.execute();
-        */
-
-        // It's important to note that this type of application could use
-        // any type of storage, i.e., Cookies, LocalStorage, etc.
-        var username;
-        var isValidUser;
-        //console.log(this.geoserverPath);
-        /*
-        * validate user. first check for cookie. if cookie exists and it is
-        * "Guest", he is a valid user. if the username is something other than Guest
-        * then check if this username is still logged in geoserver. otherwise
-        * the layers won't load and the user has to re-authorize!
-        */
-        // loggedIn = localStorage.getItem("TutorialLoggedIn");
-        username = Ext.util.Cookies.get("sppCookie");
-        console.log("cookie: " + username);
-        console.log("version 0.29.7");
-
-        if (username) {
-            if (username === "guest") {  // already logged in as guest
-                isValidUser = true;
-
-            } else {  // not a guest
-
-                if (this.hasGeoServerLogin(username)) {  // has geoserver login
-                    isValidUser = true;
-
-                // still has cookie but geoserver session expired
-                } else {
-                    console.log("GeoServer Session expired. Clearing cookie!");
-                    Ext.util.Cookies.clear("sppCookie");
-                }
-            }
-
-        } else {  // no cookie found
-            isValidUser = false;
-        }
-
-        //console.log(Ext.util.Cookies.get("sppCookie"));
-        // This ternary operator determines the value of the TutorialLoggedIn key.
-        // If TutorialLoggedIn isn't true, we display the login window,
-        // otherwise, we display the main view
 
         Ext.create({
-            // if loggedIn exists, launch app-main, else launch login
-            xtype: isValidUser ? 'app-main' : 'login'
+            xtype: AuthService.isAuthenticated() ? 'app-main' : 'login'
+            //plugins: 'viewport'
         });
     },
 

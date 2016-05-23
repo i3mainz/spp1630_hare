@@ -9,12 +9,14 @@ Ext.define("SppAppClassic.MainController", {
         "Ext.button.Button",
         "SppAppClassic.view.login.Login",
         "SppAppClassic.view.main.InfoTabPanel",
-        "AuthService"
+        "AuthService",
+        "OL3MapService"
     ],
 
     control: {
         "#": {
-            afterrender: "updateLogoutInfo"
+            afterrender: "updateLogoutInfo",
+            beforedestroy: "onDestroy"
         }
     },
 
@@ -37,7 +39,7 @@ Ext.define("SppAppClassic.MainController", {
                 AuthService.logout(function() {
                     // success
                     // destroy viewport. not sure how. use workaround for panels
-                    var item = Ext.getCmp("filterPanel");
+                    /*var item = Ext.getCmp("filterPanel");
                     if (item) {
                         item.destroy();
                     }
@@ -48,7 +50,7 @@ Ext.define("SppAppClassic.MainController", {
                     item = Ext.getCmp("popupWindow");
                     if (item) {
                         item.destroy();
-                    }
+                    }*/
 
                     // destroy ol3map
                     //Ext.getCmp("geoextMap").destroy();
@@ -60,6 +62,7 @@ Ext.define("SppAppClassic.MainController", {
                     //store.removeAll();
 
                     console.log("done!");
+
                     me.getView().destroy();
 
                     // Add the Login Window
@@ -81,5 +84,29 @@ Ext.define("SppAppClassic.MainController", {
             infoPanel = Ext.create({ xtype: "infotabpanel" });
         }
         infoPanel.show();
+    },
+
+    /*
+     * clean up everything when main view gets destroyed
+     */
+    onDestroy: function() {
+        var extWindow;
+        // destroy all windows when main view gets destroyed
+        // to prevent them from still being displayed on login view
+        var extWindow = Ext.getCmp("filterPanel");
+        if (extWindow) {
+            extWindow.destroy();
+        }
+        extWindow = Ext.getCmp("gridWindow");
+        if (extWindow) {
+            extWindow.destroy();
+        }
+        extWindow = Ext.getCmp("popupWindow");
+        if (extWindow) {
+            extWindow.destroy();
+        }
+
+        OL3MapService.resetMap();
+
     }
 });

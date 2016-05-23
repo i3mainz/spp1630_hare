@@ -19,7 +19,7 @@ Ext.define("SppAppClassic.LoginController", {
         var label = Ext.getCmp("loginLabel");
         var loginButton = Ext.getCmp('loginSubmitButton');
         var guestButton = Ext.getCmp('guestSubmitButton');
-        var formData = me.lookupReference("loginform").getValues();
+        var formData = this.lookupReference("loginform").getValues();
 
         // update label
         label.setValue("Validating...");

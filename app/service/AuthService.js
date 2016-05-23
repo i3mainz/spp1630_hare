@@ -14,11 +14,10 @@ Ext.define("AuthService", {
      * returns true when user is logged in wiht an account OR as a guest
      */
     isAuthenticated: function() {
+        // TODO: also check if logged into GeoServer
         if (Ext.util.Cookies.get("sppCookie")) {
-            console.log("authorized: true");
             return true;
         } else {
-            console.log("authorized: false");
             return false;
         }
     },
@@ -31,10 +30,8 @@ Ext.define("AuthService", {
     isAuthorized: function() {
         var username = Ext.util.Cookies.get("sppCookie");
         if (username && username !== "guest") {
-            console.log("authorized: true");
             return true;
         } else {
-            console.log("authorized: false");
             return false;
         }
 
@@ -101,18 +98,31 @@ Ext.define("AuthService", {
     logout: function(success, failure) {
         //Ext.util.Cookies.clear("sppCookie");
         var me = this;
-        // send get request to j_spring_security_logout
-        Ext.Ajax.request({
-            url: me.logoutPath,
-            success: function(response) {
-                me.clearCookie();
-                success();
-            },
-            failure: function(response, request) {
-                //Ext.Msg.alert("Failed!");
-                failure();
-            }
-        });
+
+        // when guest, just clear cookie. no geoserver request needed
+        if (this.getUser("guest")) {
+            this.clearCookie();
+            success();
+        } else {
+            // send get request to j_spring_security_logout
+            Ext.Ajax.request({
+                url: me.logoutPath,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                success: function(response) {
+                    console.log("logout success!");
+                    me.clearCookie();
+                    success();
+                },
+                failure: function(response, request) {
+                    //Ext.Msg.alert("Failed!");
+                    console.log("logout failure!");
+                    failure();
+                }
+            });
+        }
+
     },
 
     /*
@@ -141,5 +151,58 @@ Ext.define("AuthService", {
 
     clearCookie: function() {
         Ext.util.Cookies.clear("sppCookie");
-    }
+    },
+
+    /*if (username) {
+            if (username === "guest") {  // already logged in as guest
+                isValidUser = true;
+
+            } else {  // not a guest
+
+                if (this.hasGeoServerLogin(username)) {  // has geoserver login
+                    isValidUser = true;
+
+                // still has cookie but geoserver session expired
+                } else {
+                    console.log("GeoServer Session expired. Clearing cookie!");
+                    Ext.util.Cookies.clear("sppCookie");
+                }
+            }
+
+        } else {  // no cookie found
+            isValidUser = false;
+        }*/
+
+    // used in Application.js and LoginController.js
+    // geoserverPath: "/geoserver";  // production path
+
+    /*hasGeoServerLogin: function(username) {
+        var isLoggedIn = false;
+        var text;
+        var engSuccessText = '<span class="username">Logged in as <span>' + username + '</span></span>';
+        var deSuccessText = '<span class="username">Angemeldet als <span>' + username + '</span></span>';
+
+        Ext.Ajax.request({
+            //url: GEOSERVER_PATH + "/web/",
+            url: SppAppClassic.app.globals.homePath,
+            async: false,
+
+            success: function(response) {
+                text = response.responseText;
+                if (text.indexOf(engSuccessText) > -1 || text.indexOf(deSuccessText) > -1 ) {
+                    isLoggedIn = true;
+                } else {  // no welcome screen
+                    isLoggedIn = false;
+                }
+            },
+
+            failure: function() {
+                console.log("AJAX Request Fail", "Contacting GeoServer failed! Server Down?");
+                isLoggedIn = false;
+            }
+        });
+        //console.log(username + " is logged in: " + isLoggedIn);
+        return isLoggedIn;  // TODO: remove async, bad practice
+    },*/
+
 });

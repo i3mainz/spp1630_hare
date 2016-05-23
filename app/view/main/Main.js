@@ -27,8 +27,8 @@ Ext.define("SppAppClassic.view.main.Main", {
 
     controller: "main",
     //viewModel: "main",
-    //plugins: "viewport",  // fullscreen
 
+    plugins: "viewport",
     title: "SPP 1630 Virtual Research Environment",
 
     layout: {
@@ -99,6 +99,9 @@ Ext.define("SppAppClassic.view.main.Main", {
                 //handler: "onClickLogout"
             }]
         });
+
+        // apply version number to title
+        this.setTitle(this.getTitle() + " (version: " + SppAppClassic.app.version + ")");
 
         //this.getController().onClickLogout();
 

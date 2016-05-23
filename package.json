@@ -4,6 +4,7 @@
   "description": "SPP Haefen Virtual Research Environment",
   "main": "app.js",
   "scripts": {
+    "start": "sencha app watch",
     "test": "karma start test/karma.conf.js"
   },
   "repository": {

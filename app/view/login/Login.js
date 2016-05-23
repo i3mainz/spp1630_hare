@@ -1,4 +1,5 @@
 "use strict";
+
 Ext.define("SppAppClassic.view.login.Login", {
     extend: "Ext.window.Window",
 

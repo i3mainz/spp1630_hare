@@ -96,7 +96,7 @@ Ext.define("SppAppClassic.view.main.MapController", {
      * ensures that ol3Map is destroyed. doesnt work
      */
     onDestroy: function() {
-        console.log("destroying geoextmap");
-        this.getView().setMap(false);
+        //console.log("destroying geoextmap");
+        //this.getView().setMap(false);
     }
 });

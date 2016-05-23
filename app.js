@@ -18,7 +18,10 @@ Ext.application({
     // will gain a "viewport" plugin if it does not extend Ext.Viewport. With the
     // modern toolkit, the main view will be added to the Viewport.
     //
-    mainView: 'SppAppClassic.view.main.Main'
+
+    // if mainView is not specified, the classes don't know where to render, so you have to assign
+    // plugins: 'viewport' to them
+    //mainView: 'SppAppClassic.view.main.Main'
 
     /*launch: function() {
 
