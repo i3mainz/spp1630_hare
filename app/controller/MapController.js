@@ -1,27 +1,14 @@
 "use strict";
 
-/*
-function getLegendUrl(layer_name) {
-    return GEOSERVER_URL + "REQUEST=GetLegendGraphic&" +
-        "VERSION=1.0.0&" +
-        "FORMAT=image/png&" +
-        "WIDTH=50&HEIGHT=50&" +
-        "TRANSPARENT=true&" +
-        "LAYER=" + layer_name + "&" +
-        "LEGEND_OPTIONS=" +
-            "fontName:arial;" +
-            "dpi:180";
-}
-*/
-// contains any view-related logic,
-// event handling of the view, and any app logic.
-
-Ext.define("SppAppClassic.view.main.GeoExtMapController", {
+Ext.define("SppAppClassic.view.main.MapController", {
     extend: "Ext.app.ViewController",
-    alias: "controller.main-geoextmap",
+    alias: "controller.main-map",
 
     requires: [  // view not needed in requirements
         //"SppAppClassic.view.main.Popup"
+        "SppAppClassic.view.main.PopupWindow",
+        "SppAppClassic.store.FeatureInfos",
+        "OL3MapService"
     ],
 
     // using lookupReference() instead of refs, see
@@ -29,13 +16,13 @@ Ext.define("SppAppClassic.view.main.GeoExtMapController", {
 
     // define listeners here instead of the view.
     // keeps view and controller logic seperated
-    control: {
+    /*control: {
         "#": {  // matches the view itself
             click: "onMapClick",
             pointermove: "onPointerMove",
             destroy: "onDestroy"
         }
-    },
+    },*/
 
     /**
      * show popup with feature infos when a feature is clicked.
@@ -45,8 +32,9 @@ Ext.define("SppAppClassic.view.main.GeoExtMapController", {
     */
     onMapClick: function(evt) {
         // this.map replaces olMap.map until GeoExt3 function exists
-        var map = this.getView().map;
-        var cookie = Ext.util.Cookies.get("sppCookie");
+        //console.log("click on map!");
+        var map = OL3MapService.getMap();
+        //var cookie = Ext.util.Cookies.get("sppCookie");
         //var pixel = map.getEventPixel(evt.originalEvent);
         var feature = map.forEachFeatureAtPixel(evt.pixel,
             function(feature, layer) {
@@ -56,6 +44,7 @@ Ext.define("SppAppClassic.view.main.GeoExtMapController", {
         );
 
         var popupWindow = Ext.getCmp("popupWindow");
+
         // lazy instanciation
         if (!popupWindow) {
             Ext.create("SppAppClassic.store.FeatureInfos");
@@ -64,15 +53,15 @@ Ext.define("SppAppClassic.view.main.GeoExtMapController", {
                 value : '123'
             });*/
             //store.add(info);
-            popupWindow = Ext.create("SppAppClassic.view.main.Popup");
+            popupWindow = Ext.create("SppAppClassic.view.main.PopupWindow");
         }
 
         if (feature) {   // clicked on feature
-
-            if (cookie === "guest") {
-                popupWindow.updateHTML(feature, true);
-            } else {
+            console.log("clicked on feature!");
+            if (AuthService.isAuthorized) {
                 popupWindow.updateHTML(feature);
+            } else {
+                popupWindow.updateHTML(feature, true);
             }
 
             popupWindow.show();

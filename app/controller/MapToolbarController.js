@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.TopToolbarController", {
+Ext.define("SppAppClassic.MapToolbarController", {
     extend: "Ext.app.ViewController",
     alias: "controller.map-toolbar",
 
@@ -10,14 +10,15 @@ Ext.define("SppAppClassic.TopToolbarController", {
         //"SppAppClassic.view.main.GridWindow",
         "SppAppClassic.view.main.FilterPanel",
         //"SppAppClassic.view.main.SettingsPanel",
-        "SppAppClassic.view.main.InfoPanel"
+        "SppAppClassic.view.main.InfoPanel",
+        "AuthService"
     ],
 
     // define listeners here instead of the view.
     // keeps view and controller logic seperated
     control: {
         "#": {
-            beforeRender: "unlockButtons"
+            beforeRender: "unlockButtons"  // unlock buttons on start
         }
     },
 
@@ -141,7 +142,7 @@ Ext.define("SppAppClassic.TopToolbarController", {
      * unlocks buttons for registred authorized users
     */
     unlockButtons: function() {
-        if (SppAppClassic.app.isAuthorized()) {
+        if (AuthService.isAuthorized()) {
             var buttonList = ["filterButton", "gridButton", "settingsButton"];
             for (var i = 0; i < buttonList.length; i++) {
                 var button = Ext.getCmp(buttonList[i]);

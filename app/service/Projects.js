@@ -18,7 +18,6 @@ Ext.define("Projects", {
             "hasData": true,
             "contact": "http://www.spp-haefen.de/de/die-projekte/kommunikationsraum-adria",
             "hasLogin": true
-
         },
         binnen: {
             "id": 2,

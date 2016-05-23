@@ -13,38 +13,23 @@ Ext.define("SppAppClassic.MainController", {
     requires: [
         "Ext.button.Button",
         "SppAppClassic.view.login.Login",
-        "SppAppClassic.view.main.InfoPanel"
+        "SppAppClassic.view.main.InfoPanel",
+        "AuthService"
     ],
 
     control: {
         "#": {
-            //afterrender: "updateLogoutInfo"
-            /*render:  function(panel) {
-                panel.body.on("click", function() {
-                    console.log("click on mainpanel!");
-                });
-            }*/
+            afterrender: "updateLogoutInfo"
         }
     },
 
     updateLogoutInfo: function() {
-        var text = "Logged in as " + Ext.util.Cookies.get("sppCookie") + ".";
-        Ext.getCmp("logoutButtonlabel").setText(text);
+        if (AuthService.isAuthenticated()) {  // double check, should always be the case
+            var text = "Logged in as " + AuthService.getUser() + ".";
+            Ext.getCmp("logoutButtonlabel").setText(text);
+        }
     },
 
-    logoutGeoServer: function() {
-        Ext.Ajax.request({
-            url: SppAppClassic.app.globals.logoutPath,
-            success: function(response) {
-                //Ext.Msg.alert("Success!!!!");
-            },
-            failure: function(response, request) {
-                //Ext.Msg.alert("Failed!");
-            }
-        });
-    },
-
-    // reverts code from LoginCOntroller.js
     onClickLogout: function() {
         //this.application.fireEvent('logincomplete');
         var me = this;
@@ -53,45 +38,43 @@ Ext.define("SppAppClassic.MainController", {
 
         Ext.MessageBox.confirm("Logout", "Are you sure you want to logout?", function(btn) {
             if (btn === "yes") {
-                console.log("logging out!");
-                // Remove the localStorage key/value
-                //localStorage.removeItem("TutorialLoggedIn");
 
-                // clear local cookie
-                Ext.util.Cookies.clear("sppCookie");
+                AuthService.logout(function() {
+                    // success
+                    // destroy viewport. not sure how. use workaround for panels
+                    var item = Ext.getCmp("filterPanel");
+                    if (item) {
+                        item.destroy();
+                    }
+                    item = Ext.getCmp("gridWindow");
+                    if (item) {
+                        item.destroy();
+                    }
+                    item = Ext.getCmp("popupWindow");
+                    if (item) {
+                        item.destroy();
+                    }
 
-                // clear geoserver login
-                me.logoutGeoServer();
+                    // destroy ol3map
+                    //Ext.getCmp("geoextMap").destroy();
+                    //Ext.getCmp("geoextMap").setMap(false);
+                    // view gets destroyed correctly, but store is still active
+                    //Ext.getCmp("SppAppClassic.store.Layers").setMap(false);
 
-                // destroy viewport. not sure how. use workaround for panels
-                var item = Ext.getCmp("filterPanel");
-                if (item) {
-                    item.destroy();
-                }
-                item = Ext.getCmp("gridWindow");
-                if (item) {
-                    item.destroy();
-                }
-                item = Ext.getCmp("popupWindow");
-                if (item) {
-                    item.destroy();
-                }
+                    //var store = Ext.data.StoreManager.lookup("treeStore");
+                    //store.removeAll();
 
-                // destroy ol3map
-                //Ext.getCmp("geoextMap").destroy();
-                //Ext.getCmp("geoextMap").setMap(false);
-                // view gets destroyed correctly, but store is still active
-                //Ext.getCmp("SppAppClassic.store.Layers").setMap(false);
+                    console.log("done!");
+                    me.getView().destroy();
 
-                //var store = Ext.data.StoreManager.lookup("treeStore");
-                //store.removeAll();
+                    // Add the Login Window
+                    Ext.create({
+                        xtype: "login"
+                    });
 
-                console.log("done!");
-                me.getView().destroy();
-
-                // Add the Login Window
-                Ext.create({
-                    xtype: "login"
+                }, function() {
+                    // failure
+                    console.log("error when trying to logout!");
                 });
             }
         });

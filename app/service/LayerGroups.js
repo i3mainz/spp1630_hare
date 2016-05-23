@@ -48,15 +48,50 @@ Ext.define("LayerGroups", {
     }),
 
     fetch: new ol.layer.Group({
-        layers: Layers.fetch,
         name: "Fetch",
+        layers: new ol.Collection([
+
+        ]),
         visible: false
     }),
 
-    // sort using OL3 groups
     basemaps: new ol.layer.Group({
-        layers: Layers.basemaps,
-        name: "Basemaps"
+        name: "Basemaps",
+        layers: new ol.Collection([
+
+            new ol.layer.Tile({
+                name: "Mapbox OSM",
+                source: new ol.source.XYZ({
+                    url: "http://api.tiles.mapbox.com/v4/shanyuan.cifqgurif027ut0lxxf08w6gz/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
+                    attributions: [new ol.Attribution({
+                        html: "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> " +
+                            "© <a href='http://www.openstreetmap.org/copyright'>" +
+                            "OpenStreetMap contributors</a>"
+                    })]
+                }),
+                legendUrl: "https://otile4-s.mqcdn.com/tiles/1.0.0/osm/4/4/7.jpg",
+                visible: true
+            }),
+
+            new ol.layer.Tile({
+                name: "MapQuest Satelite",
+                source: new ol.source.MapQuest({
+                    layer: "sat",
+                    wrapX: false
+                }),
+                legendUrl: "https://otile4-s.mqcdn.com/tiles/1.0.0/sat/4/4/7.jpg",
+                visible: false
+            })
+            /*new ol.layer.Tile({
+                name: "Stamen Watercolor",
+                source: new ol.source.Stamen({
+                    layer: "watercolor",
+                    wrapX: false
+                }),
+                legendUrl: "http://www.visualnews.com/wp-content/uploads/2012/03/Stamen-Web-App-Watercolor-Maps-1.jpg",
+                visible: false
+            }),*/
+        ])
     })
 
 });

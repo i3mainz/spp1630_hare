@@ -22,7 +22,8 @@ Ext.define("SppAppClassic.view.main.PopupWindow",{
     }]
     */
     requires: [
-        "SppAppClassic.store.FeatureInfos"
+        "SppAppClassic.store.FeatureInfos",
+        "SppAppClassic.PopupWindowController"
     ],
 
 
@@ -61,7 +62,7 @@ Ext.define("SppAppClassic.view.main.PopupWindow",{
     bodyStyle: "padding: 10px",
 
     initComponent: function () {
-        //console.log("init Feature info popup...");
+        console.log("init Feature info popup...");
 
         /*var store = Ext.StoreMgr.lookup("featureInfosStore");
         var record = Ext.create("FeatureInfo", {

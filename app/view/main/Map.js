@@ -7,9 +7,13 @@ Ext.define("SppAppClassic.view.main.Map", {
     id: "mappanel",
 
     requires: [
-        "SppAppClassic.view.main.TopToolbar",  // xtype: "maptoolbar"
-        "SppAppClassic.view.main.GeoExtMap" // xtype: "geoextmap"
+        "SppAppClassic.view.main.MapToolbar",  // xtype: "maptoolbar"
+        "GeoExt.component.Map", // xtype: "gx_component_map"
+        "GeoExt.data.store.LayersTree",
+        "OL3MapService",
+        "AuthService"
     ],
+    controller: "main-map",
 
     layout: "border",
     title: "Map",
@@ -20,16 +24,76 @@ Ext.define("SppAppClassic.view.main.Map", {
         // using initComponent
         Ext.apply(this, {
             items: {
-                xtype: "geoextmap",
+                xtype: "gx_component_map",
                 region: "center",
-                id: "geoextMap"
+                map: OL3MapService.getMap(),
+                id: "geoextMap",
+                listeners: {
+                    click: "onMapClick",
+                    pointermove: "onPointerMove",
+                    destroy: "onDestroy"
+                }
             },
             dockedItems: {
-                xtype: "toptoolbar"
+                xtype: "maptoolbar"
             }
         });
 
+        // add OL3Map layers to the layerstore so it can be displayed
+        // in the layer tree panel
+        this.setLayerTreeStore(OL3MapService.getMap().getLayerGroup());
+
+        this.appendLayerGroups();
+
         SppAppClassic.view.main.Map.superclass.initComponent.call(this);
+    },
+
+    /*
+     * creates tree store containing all ol3map layers and applies it to
+     * layer tree panel
+     */
+    setLayerTreeStore: function(layerGroup) {
+        // create treestore
+        var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
+            layerGroup: layerGroup,
+            storeId: "treeStore"  // register with storemanager
+        });
+
+        // apply to layertree
+        Ext.getCmp("layerTree").setStore(treeStore);
+    },
+
+    appendLayerGroups: function() {
+
+        if (AuthService.isAuthorized()) {
+
+            // SPP internal layer groups
+            OL3MapService.getMap().addLayer(LayerGroups.fetch);
+            OL3MapService.getMap().addLayer(LayerGroups.barrington);
+            OL3MapService.getMap().addLayer(LayerGroups.agIntern);  // empty
+            OL3MapService.getMap().addLayer(LayerGroups.spp);
+
+            // add project-specific layers to ag intern layer group
+
+            /*var projectID = SppAppClassic.app.getUsernameProjectID();
+
+            if (projectID) {  // known cookie login
+                // create ag intern layer
+                var layer = me.createAGInternLayer(projectID);
+                //me.addLayer(layer);
+                me.addLayerToLayerGroup(layer, "Project Internal");
+            }*/
+
+            // load layers into layergroup
+            //me.createLayersFromStore();
+            console.log("done loading layers for users");
+
+        } else {
+            // logged in as guest
+            OL3MapService.getMap().addLayer(LayerGroups.fetch);
+            OL3MapService.getMap().addLayer(LayerGroups.fetch);
+            console.log("done loading layers for guest");
+        }
     },
 
     listeners: {
@@ -46,10 +110,10 @@ Ext.define("SppAppClassic.view.main.Map", {
             });
 
             // add custom event for mouse movement
-            panel.body.on("pointermove", function(evt) {
+            /*panel.body.on("pointermove", function(evt) {
                 evt.pixel = [evt.browserEvent.layerX, evt.browserEvent.layerY];
                 Ext.getCmp("geoextMap").fireEvent("pointermove", evt);
-            });
+            });*/
         }
     }
 });

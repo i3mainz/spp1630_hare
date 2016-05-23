@@ -91,7 +91,9 @@
     "globals"       : {
         "Ext": true,
         "ol": true,
-        "SppAppClassic": true
+        "SppAppClassic": true,
+        "AuthService": true,
+        "OL3MapService": true
     }
 
 }

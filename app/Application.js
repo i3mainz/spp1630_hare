@@ -127,49 +127,5 @@ Ext.define('SppAppClassic.Application', {
                 }
             }
         );
-    },
-
-    /*
-     * returns true when a user is logged in with username and password
-     */
-    /*isAuthorized: function() {
-        var username = Ext.util.Cookies.get("sppCookie");
-        if (username && username !== "guest") {
-            return true;
-        } else {
-            return false;
-        }
-    },*/
-
-    /*
-     * returns true when user is logged in wiht an account OR as a guest
-     */
-    /*isAuthenticated: function() {
-        var username = Ext.util.Cookies.get("sppCookie");
-        if (username) {
-            return true;
-        } else {
-            return false;
-        }
-    },*/
-
-    /*getUsername: function() {
-       return Ext.util.Cookies.get("sppCookie");
-   },*/
-
-    /**
-     * Gets the corresponding project ID for the currently logged in username
-     */
-    /*getUsernameProjectID: function() {
-        var id;
-        var projects = Projects.projectList;
-        for (var key in projects) {
-            var project = projects[key];
-            if (Ext.util.Cookies.get("sppCookie") === key) {
-                id = project.id;
-            }
-        }
-        return id;
-    }*/
-
+    }
 });

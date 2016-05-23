@@ -1,8 +1,8 @@
 "use strict";
-Ext.define("SppAppClassic.view.main.TopToolbar", {
+Ext.define("SppAppClassic.view.main.MapToolbar", {
     extend: "Ext.Toolbar",
 
-    xtype: "toptoolbar",
+    xtype: "maptoolbar",
 
     requires: [
         "Ext.button.Button"
@@ -68,6 +68,6 @@ Ext.define("SppAppClassic.view.main.TopToolbar", {
             ]
         });
 
-        SppAppClassic.view.main.TopToolbar.superclass.initComponent.call(this);
+        SppAppClassic.view.main.MapToolbar.superclass.initComponent.call(this);
     }
 });

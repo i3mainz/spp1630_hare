@@ -46,12 +46,6 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
             }]
         }]
     },
-    initComponent: function () {
-        //console.log("init layer tree");
-
-        // store gets set later on geoextmap creation
-        SppAppClassic.view.main.LayerTree.superclass.initComponent.call(this);
-    },
     // alternative to treePanel.on('select', function())
     listeners: {
         /*checkchange: function() {
