@@ -4,7 +4,7 @@ Ext.define("SppAppClassic.view.main.InfoTabPanel", {
     extend: "Ext.tab.Panel",
     requires: [
         //"SppAppClassic.view.main.News",
-        "SppAppClassic.view.main.About",
+        "SppAppClassic.view.main.AboutPanel",
         "Ext.form.field.Checkbox",
         "SppAppClassic.view.main.NewsArticleContainer"
     ],

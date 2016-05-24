@@ -3,15 +3,7 @@
  * This class is the main view for the application. It is specified in app.js as the
  * "mainView" property. That setting automatically applies the "viewport"
  * plugin causing this view to become the body element (i.e., the viewport).
- *
- * TODO - Replace this content of this view to suite the needs of your application.
  */
-
- /*var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
-    layerGroup: olMap.getLayerGroup()
-    //layerGroup: Ext.getCmp("geoextMap").map.getLayerGroup()
-    //layerGroup: OL3Map.map.getLayerGroup()
-});*/
 
 Ext.define("SppAppClassic.view.main.Main", {
     extend: "Ext.panel.Panel",
@@ -20,15 +12,11 @@ Ext.define("SppAppClassic.view.main.Main", {
     id: "mainpanel",
     requires: [
         "Ext.plugin.Viewport",              // plugins: "viewport"
-        "Ext.window.MessageBox",
-        //"SppAppClassic.view.main.Map",      // xtype: "mappanel"
         "SppAppClassic.view.main.LayerTree",  // xtype: "layertree",
         "SppAppClassic.view.main.MapToolbar",  // xtype: "maptoolbar"
         "GeoExt.component.Map", // xtype: "gx_component_map"
         "GeoExt.data.store.LayersTree",
-        //"LayerGroups",
         "OL3MapService",
-        //"AuthService"
     ],
 
     controller: "main",
@@ -122,12 +110,6 @@ Ext.define("SppAppClassic.view.main.Main", {
                 //handler: "onClickLogout"
             }]
         });
-
-        // apply version number to title
-        this.setTitle(this.getTitle() + " (version: " + SppAppClassic.app.version + ")");
-
-        // show infos
-        //Ext.create("SppAppClassic.view.main.InfoPanel").show();
 
         SppAppClassic.view.main.Main.superclass.initComponent.call(this);
         //this.callParent();

@@ -22,7 +22,7 @@ Ext.define("NewsService", {
                      "\"The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced\" (<a href='https://en.wikipedia.org/wiki/Fetch_(geography)' target='_blank'>Wikipedia</a>). " +
                      "After talks with the Adria Project, we derived fetch layers for the entire Adriatic See for eight wind directions. " +
                      "These are selectable in the Layer Tree at \"Layers -> Fetch\".<br>",
-            image: "/resources/images/fetch.png"
+            image: "../resources/images/fetch.png"
         },{
             title: "Release Version 1.0",
             author: "i3mainz",

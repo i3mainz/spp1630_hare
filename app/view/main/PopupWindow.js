@@ -6,7 +6,7 @@ Ext.define("SppAppClassic.view.main.PopupWindow",{
     xtype: "popup",
     id: "popupWindow",
 
-    controller: "main-popup",
+    //controller: "main-popup",
 
     /*xtype: 'gridpanel',
     renderTo: document.body,
@@ -23,10 +23,7 @@ Ext.define("SppAppClassic.view.main.PopupWindow",{
     */
     requires: [
         "SppAppClassic.store.FeatureInfos",
-        "SppAppClassic.PopupWindowController"
     ],
-
-
 
     //store: {type: "features"},
     //store: Ext.data.StoreManager.lookup("featureInfosStore"),

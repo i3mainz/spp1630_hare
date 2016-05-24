@@ -33,6 +33,7 @@ var defaultPoints2 = new ol.style.Style({
 var styleCache = {};
 var statusStyleCache = {};
 var eckholdtStyleCache = {};
+var harourTypeStyleCache = {};
 
 Ext.define("LayerStyles", {
     singleton: true,
@@ -134,6 +135,43 @@ Ext.define("LayerStyles", {
         return [styleCache[project]];
     },
 
+    harbourTypeStyleFunction: function(feature, resolution) {
+        // TODO: multiply with zoom
+        // get the type from the feature properties
+        var harbourType = feature.get("place_type");
+
+        // map the income level codes to a colour value, grouping them
+        var icons = {
+            "Kanal/Schleppstrecke": "resources/icons/canal_icon_24px.png",
+            "Hafen": "resources/icons/harbours_icon_24px.png"
+        };
+
+        // provide default if attribute is missing or not specified in icons
+        if (!harbourType || !icons[harbourType]) {
+            return [defaultPoints];
+        }
+
+        if (!harourTypeStyleCache[harbourType]) {
+
+            harourTypeStyleCache[harbourType] = new ol.style.Style({
+
+                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                    //anchor: [0.5, 46],
+                    color: "#0099CC",
+                    anchor: [0.5, 0.5],
+                    //anchorXUnits: 'fraction',
+                    //anchorYUnits: 'pixels',
+                    //size: 20,  // in pixel
+                    src: icons[harbourType]
+                }))
+            });
+        }
+
+        // at this point, the style for the current level is in the cache
+        // so return it (as an array!)
+        return [harourTypeStyleCache[harbourType]];
+    },
+
     eckholdtStyleFunction: function(feature, resolution) {
         // TODO: multiply with zoom
 
@@ -172,6 +210,9 @@ Ext.define("LayerStyles", {
         // so return it (as an array!)
         return [eckholdtStyleCache[code]];
     },
+
+
+
 
     getLabelText: function(feature, resolution) {
         //var type = dom.text.value;
@@ -400,4 +441,3 @@ Ext.define("LayerStyles", {
     })
     */
 });
-

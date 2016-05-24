@@ -1,19 +1,23 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.About",{
+Ext.define("SppAppClassic.view.main.AboutPanel", {
     extend: "Ext.panel.Panel",
     xtype: "aboutpanel",
     id: "aboutpanel",
 
     autoScroll: true,
 
-    html: "<div class='about-text'>" +
-    	  	"<p>" +
-    	  		"This is the Virtual Research Environment (VRE) of the SPP 1630 Harbours Program. It visualizes harbour related data " +
+    html: null,
+
+    initComponent: function () {
+        //this.setTitle(this.getTitle() + " (version: " + SppAppClassic.app.version + ")");
+        this.html ="<div class='about-text'>" +
+    	        "<p>" +
+    	        "This is the Virtual Research Environment (VRE) of the SPP 1630 Harbours Program. It visualizes harbour related data " +
           		"compiled by participating SPP projects, as well as additional hydrological and archeological datasets. " +
           		"It is meant to act as a tool for researchers during their ongoing projects.<br>" +
           		"This website is an afford of the working group \"Data Integration\". It was conceptualised in collaboration with the University of Jena (FSU) and is currently being developed by the i3mainz." +
-          	"</p>" +
+          	    "</p>" +
 
           // logos i3mainz & uni jena
           "<div class='about-logos'>" +
@@ -39,6 +43,11 @@ Ext.define("SppAppClassic.view.main.About",{
           "</p>" +
 
           // version
-          "<br><p>Current Version:<br>1.0 Drake</p>" +
-          "</div>"
+          "<br><p>Current Version:<br>" + SppAppClassic.app.version + "</p>" +
+          "</div>";
+
+        SppAppClassic.view.main.AboutPanel.superclass.initComponent.call(this);
+    },
+
+
 });

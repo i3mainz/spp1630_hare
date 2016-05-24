@@ -43,7 +43,8 @@ Ext.define("LayerGroups", {
                     })),
                     wrapX: false  // dont repeat on X axis
                 }),
-                style: LayerStyles.redPoints,
+                //style: LayerStyles.redPoints,
+                style: LayerStyles.harbourTypeStyleFunction,
                 visible: true
             })
 
