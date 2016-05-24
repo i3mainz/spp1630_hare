@@ -10,6 +10,7 @@ Ext.define("SppAppClassic.view.main.Map", {
         "SppAppClassic.view.main.MapToolbar",  // xtype: "maptoolbar"
         "GeoExt.component.Map", // xtype: "gx_component_map"
         "GeoExt.data.store.LayersTree",
+        "LayerGroups",
         "OL3MapService",
         "AuthService"
     ],
@@ -19,10 +20,11 @@ Ext.define("SppAppClassic.view.main.Map", {
     title: "Map",
 
     initComponent: function () {
-        //console.log("init mappanel");
+        // init map in OL3MapService
+        // this is done to generate a new map after a logout and re-login
+        //OL3MapService.initMap();
+
         // good practice to add non-primivite variables
-        // using initComponent
-        //console.log("add map!");
         Ext.apply(this, {
             items: {
                 xtype: "gx_component_map",
@@ -42,9 +44,36 @@ Ext.define("SppAppClassic.view.main.Map", {
 
         // add OL3Map layers to the layerstore so it can be displayed
         // in the layer tree panel
-        this.setLayerTreeStore(OL3MapService.getMap().getLayerGroup());
+        //this.setLayerTreeStore(OL3MapService.getMap().getLayerGroup());
+        //console.log(OL3MapService.getMap().getLayerGroup().getLayers());
 
-        this.appendLayerGroups();
+        //console.log("sets store");
+
+        var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
+            layerGroup: OL3MapService.getMap().getLayerGroup(),
+            autoDestroy: true,  // destroys the store when its view is destroyed
+            storeId: "treeStore"  // register with storemanager
+        });
+
+        // apply to layertree
+        Ext.getCmp("layerTree").setStore(treeStore);
+
+
+        //this.appendLayerGroups();
+
+        /*try {
+            //OL3MapService.addLayer(LayerGroups.basemaps);
+            //OL3MapService.addLayer(LayerGroups.hydrology);
+            //OL3MapService.addLayer(LayerGroups.darmc);
+            //OL3MapService.addLayer(LayerGroups.fetch);
+            //OL3MapService.getMap().addLayer(LayerGroups.hydrology),
+            //OL3MapService.getMap().addLayer(LayerGroups.darmc),
+            //OL3MapService.getMap().addLayer(LayerGroups.fetch);
+            OL3MapService.addLayer(LayerGroups.sppOpen);
+            console.log("layers aded without error");
+        } catch (e) {
+            console.log("something went wrong trying to add layer group");
+        }*/
 
         SppAppClassic.view.main.Map.superclass.initComponent.call(this);
     },
@@ -54,34 +83,51 @@ Ext.define("SppAppClassic.view.main.Map", {
      * layer tree panel
      */
     setLayerTreeStore: function(layerGroup) {
+        //console.log(treeStore); //.removeAll();
+
+        //console.log();
         // create treestore
-        var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
+        /*var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
             layerGroup: layerGroup,
+            autoDestroy: true,  // destroys the store when its view is destroyed
             storeId: "treeStore"  // register with storemanager
-        });
+        });*/
+        //Ext.data.StoreManager.lookup('treeStore').removeAll();
+
+        //console.log(Ext.data.StoreManager.lookup('treeStore'));
 
         // apply to layertree
-        Ext.getCmp("layerTree").setStore(treeStore);
+        //Ext.getCmp("layerTree").setStore(treeStore);
     },
 
     appendLayerGroups: function() {
 
         if (AuthService.isAuthenticated()) {
+            console.log("authenticated!");
             // public
-            OL3MapService.getMap().addLayer(LayerGroups.basemaps),
-            OL3MapService.getMap().addLayer(LayerGroups.hydrology),
-            OL3MapService.getMap().addLayer(LayerGroups.darmc),
-            OL3MapService.getMap().addLayer(LayerGroups.fetch);
-            OL3MapService.getMap().addLayer(LayerGroups.sppOpen);
+            try {
+                OL3MapService.addLayer(LayerGroups.basemaps);
+                OL3MapService.addLayer(LayerGroups.hydrology);
+                OL3MapService.addLayer(LayerGroups.darmc);
+                OL3MapService.addLayer(LayerGroups.fetch);
+                //OL3MapService.getMap().addLayer(LayerGroups.hydrology),
+                //OL3MapService.getMap().addLayer(LayerGroups.darmc),
+                //OL3MapService.getMap().addLayer(LayerGroups.fetch);
+                OL3MapService.addLayer(LayerGroups.sppOpen);
+                console.log("layers aded without error");
+            } catch (e) {
+                console.log("something went wrong trying to add layer group");
+            }
+
 
             if (AuthService.isAuthorized()) {
 
                 // SPP internal layer groups
-                OL3MapService.getMap().addLayer(LayerGroups.barrington);
-                OL3MapService.getMap().addLayer(LayerGroups.spp);
+                //OL3MapService.getMap().addLayer(LayerGroups.barrington);
+                //OL3MapService.getMap().addLayer(LayerGroups.spp);
 
                 // agInternal
-                OL3MapService.getMap().addLayer(LayerGroups.agIntern);  // empty
+                //OL3MapService.getMap().addLayer(LayerGroups.agIntern);  // empty
 
                 // add project-specific layers to ag intern layer group
 
@@ -120,6 +166,7 @@ Ext.define("SppAppClassic.view.main.Map", {
                 evt.pixel = [evt.browserEvent.layerX, evt.browserEvent.layerY];
                 Ext.getCmp("geoextMap").fireEvent("pointermove", evt);
             });*/
-        }
+        },
+        beforeDestroy: "onMapDestroy"
     }
 });

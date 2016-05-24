@@ -7,17 +7,35 @@ Ext.define("AuthService", {
 
     singleton: true,
 
+    homePath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/web/",
     loginPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_check",
     logoutPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_logout",
 
     /*
-     * returns true when user is logged in wiht an account OR as a guest
+     * returns true when user is logged in wiht an account OR as a guest.
+     * this uses an async request to the geoserver, so only use for logins and on the inital start
+     * of the app. use "isAuthorized" for intermediate checks
      */
     isAuthenticated: function() {
         // TODO: also check if logged into GeoServer
-        if (Ext.util.Cookies.get("sppCookie")) {
-            return true;
+        var username = this.getCookie();
+        if (username) {
+
+            if (username === "guest") {
+                 return true;
+            } else {
+                // check for geoserver login!
+                this.checkIfLoggedIntoGeoServer(username, function() {
+                    // success
+                    return true;
+                }, function() {
+                    // failure
+                    return false;
+                });
+            }
+
         } else {
+            // no cookie found
             return false;
         }
     },
@@ -129,6 +147,7 @@ Ext.define("AuthService", {
     * checks geoservers' response text, determines if login was successfull
     * or not and calls functions accordingly.
     */
+    // TODO: replace this with an optimized checkIfLoggedIntoGeoServer() function
     hasSuccessGeoServerResponse: function(response, username) {
         //var me = this;
         var isLoggedIn = false;
@@ -144,6 +163,10 @@ Ext.define("AuthService", {
         return isLoggedIn;
     },
 
+    getCookie: function() {
+        return  Ext.util.Cookies.get("sppCookie");
+    },
+
     setCookie: function(username) {
         // expires after 10 days
         Ext.util.Cookies.set("sppCookie", username, new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 10)));
@@ -153,56 +176,34 @@ Ext.define("AuthService", {
         Ext.util.Cookies.clear("sppCookie");
     },
 
-    /*if (username) {
-            if (username === "guest") {  // already logged in as guest
-                isValidUser = true;
-
-            } else {  // not a guest
-
-                if (this.hasGeoServerLogin(username)) {  // has geoserver login
-                    isValidUser = true;
-
-                // still has cookie but geoserver session expired
-                } else {
-                    console.log("GeoServer Session expired. Clearing cookie!");
-                    Ext.util.Cookies.clear("sppCookie");
-                }
-            }
-
-        } else {  // no cookie found
-            isValidUser = false;
-        }*/
-
-    // used in Application.js and LoginController.js
-    // geoserverPath: "/geoserver";  // production path
-
-    /*hasGeoServerLogin: function(username) {
-        var isLoggedIn = false;
-        var text;
+    /*
+     * calls the success function if user is logged into GeoServer with the correct username.
+     * calls the failure callback when request fails (server down etc) or the username doesn't
+     * fit the logged in user on the geoserver
+     */
+    checkIfLoggedIntoGeoServer: function(username, success, failure) {
         var engSuccessText = '<span class="username">Logged in as <span>' + username + '</span></span>';
         var deSuccessText = '<span class="username">Angemeldet als <span>' + username + '</span></span>';
 
+        // get request to geoserver page to check if user is logged in
         Ext.Ajax.request({
-            //url: GEOSERVER_PATH + "/web/",
-            url: SppAppClassic.app.globals.homePath,
+            url: this.homePath,
             async: false,
 
             success: function(response) {
-                text = response.responseText;
-                if (text.indexOf(engSuccessText) > -1 || text.indexOf(deSuccessText) > -1 ) {
-                    isLoggedIn = true;
+                if (response.responseText.indexOf(engSuccessText) > -1 || response.responseText.indexOf(deSuccessText) > -1 ) {
+                    success();
+
                 } else {  // no welcome screen
-                    isLoggedIn = false;
+                    failure();
                 }
             },
 
             failure: function() {
-                console.log("AJAX Request Fail", "Contacting GeoServer failed! Server Down?");
-                isLoggedIn = false;
+                //console.log("AJAX Request Fail", "Contacting GeoServer failed! Server Down?");
+                failure();
             }
         });
-        //console.log(username + " is logged in: " + isLoggedIn);
-        return isLoggedIn;  // TODO: remove async, bad practice
-    },*/
+    },
 
 });

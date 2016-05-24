@@ -20,6 +20,7 @@ Ext.define("SppAppClassic.MainController", {
         }
     },
 
+    // main functions
     updateLogoutInfo: function() {
         if (AuthService.isAuthenticated()) {  // double check, should always be the case
             var text = "Logged in as " + AuthService.getUser() + ".";
@@ -28,42 +29,14 @@ Ext.define("SppAppClassic.MainController", {
     },
 
     onClickLogout: function() {
-        //this.application.fireEvent('logincomplete');
         var me = this;
-        //this.getController("SppAppClassic.view.login.Login").newMethod();
-        //SppAppClassic.app.getController("SppAppClassic.view.login.Login").newMethod();
 
         Ext.MessageBox.confirm("Logout", "Are you sure you want to logout?", function(btn) {
             if (btn === "yes") {
 
                 AuthService.logout(function() {
                     // success
-                    // destroy viewport. not sure how. use workaround for panels
-                    /*var item = Ext.getCmp("filterPanel");
-                    if (item) {
-                        item.destroy();
-                    }
-                    item = Ext.getCmp("gridWindow");
-                    if (item) {
-                        item.destroy();
-                    }
-                    item = Ext.getCmp("popupWindow");
-                    if (item) {
-                        item.destroy();
-                    }*/
-
-                    // destroy ol3map
-                    //Ext.getCmp("geoextMap").destroy();
-                    //Ext.getCmp("geoextMap").setMap(false);
-                    // view gets destroyed correctly, but store is still active
-                    //Ext.getCmp("SppAppClassic.store.Layers").setMap(false);
-
-                    //var store = Ext.data.StoreManager.lookup("treeStore");
-                    //store.removeAll();
-
-                    console.log("done!");
-
-                    me.getView().destroy();
+                    me.getView().destroy();  // onDestroy destroys everything else
 
                     // Add the Login Window
                     Ext.create({
@@ -91,8 +64,10 @@ Ext.define("SppAppClassic.MainController", {
      */
     onDestroy: function() {
         var extWindow;
+        console.log("destroy view!");
         // destroy all windows when main view gets destroyed
         // to prevent them from still being displayed on login view
+
         var extWindow = Ext.getCmp("filterPanel");
         if (extWindow) {
             extWindow.destroy();
@@ -106,7 +81,17 @@ Ext.define("SppAppClassic.MainController", {
             extWindow.destroy();
         }
 
-        OL3MapService.resetMap();
+        extWindow = Ext.getCmp("mappanel");
+        if (extWindow) {
+            extWindow.destroy();
+        }
 
+        extWindow = Ext.getCmp("layerTree");
+        if (extWindow) {
+            console.log("destroy layertree");
+            extWindow.destroy();
+        }
+
+        this.getView().destroy();
     }
 });

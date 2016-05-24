@@ -23,7 +23,7 @@ Ext.define('SppAppClassic.Application', {
         'SppAppClassic.view.main.Main'  // used in launch
     ],
 
-    version: "0.3.1",  // shown in title
+    version: "1.0.1",  // shown in title
 
     // for vars used throughout the application
     // access via "SppAppClassic.app.globals.wmsPath";

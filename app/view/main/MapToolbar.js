@@ -8,7 +8,7 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
         "Ext.button.Button"
     ],
 
-    controller: "map-toolbar",
+    controller: "main-map",  // shares controller with MapPanel
 
     defaults: {
         xtype: "button"
@@ -69,5 +69,9 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
         });
 
         SppAppClassic.view.main.MapToolbar.superclass.initComponent.call(this);
+    },
+
+    listeners: {
+        beforeRender: "unlockButtons"  // unlock buttons on start
     }
 });
