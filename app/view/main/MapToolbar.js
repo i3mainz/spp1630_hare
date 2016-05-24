@@ -8,7 +8,7 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
         "Ext.button.Button"
     ],
 
-    controller: "main-map",  // shares controller with MapPanel
+    controller: "main",  // shares controller with MapPanel and mainPanel
 
     defaults: {
         xtype: "button"

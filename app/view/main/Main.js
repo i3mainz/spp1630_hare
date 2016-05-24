@@ -21,8 +21,14 @@ Ext.define("SppAppClassic.view.main.Main", {
     requires: [
         "Ext.plugin.Viewport",              // plugins: "viewport"
         "Ext.window.MessageBox",
-        "SppAppClassic.view.main.Map",      // xtype: "mappanel"
+        //"SppAppClassic.view.main.Map",      // xtype: "mappanel"
         "SppAppClassic.view.main.LayerTree",  // xtype: "layertree",
+        "SppAppClassic.view.main.MapToolbar",  // xtype: "maptoolbar"
+        "GeoExt.component.Map", // xtype: "gx_component_map"
+        "GeoExt.data.store.LayersTree",
+        //"LayerGroups",
+        "OL3MapService",
+        //"AuthService"
     ],
 
     controller: "main",
@@ -38,16 +44,59 @@ Ext.define("SppAppClassic.view.main.Main", {
     border: true,
 
     initComponent: function () {
-        //console.log("init main panel");
+
+        // apply to layertree
+        //this.setStore(treeStore);
+        OL3MapService.initMap();  // TODO: set map in controller
+
         Ext.apply(this, {
 
             items: [{
                 xtype: "layertree",
                 region: "west",
+                //store: treeStore,
                 id: "layerTree" // used to set store later
             },{
-                xtype: "mappanel",
-                region: "center"
+                xtype: "panel",
+                region: "center",
+                title: "Map",
+                layout: "fit", // map fills entire panel
+                items: {
+                    xtype: "gx_component_map",
+                    //region: "center",
+                    map: OL3MapService.getMap(),
+                    id: "geoextMap",
+                    listeners: {
+                        click: "onMapClick",
+                        pointermove: "onPointerMove",
+                        //destroy: "onDestroy",
+                        beforerender: "onGeoExtMapRender"
+                    }
+                },
+                dockedItems: {
+                    xtype: "maptoolbar"
+                },
+                listeners: {
+                    render: function(panel) {
+                        // add custom click event
+                        panel.body.on("click", function(evt) {
+                            // add attribute pixel to event object like in OL3 click event
+                            // this way, the code in the click function works with
+                            // both, ExtJs and with direct Ol3 events
+                            evt.pixel = [evt.browserEvent.layerX, evt.browserEvent.layerY];
+                            // provide event as parameter, it is used later to get pixel
+                            Ext.getCmp("geoextMap").fireEvent("click", evt);
+                            //this.fireEvent("clickpanel");  // adds event to mappanel not this panel
+                        });
+
+                        // add custom event for mouse movement
+                        /*panel.body.on("pointermove", function(evt) {
+                            evt.pixel = [evt.browserEvent.layerX, evt.browserEvent.layerY];
+                            Ext.getCmp("geoextMap").fireEvent("pointermove", evt);
+                        });*/
+                    },
+                    beforeDestroy: "onMapPanelDestroy"
+                }
             }],
 
             tools: [{

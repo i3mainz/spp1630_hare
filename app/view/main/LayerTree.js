@@ -11,7 +11,8 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
        "GeoExt.data.store.LayersTree",
        "Ext.tree.plugin.TreeViewDragDrop",           // ptype: treeviewdragdrop
        "Ext.tree.Column",                            // xtype: "treecolumn"
-       "SppAppClassic.view.main.BasicTreeColumnLegends"  // ptype: "basic_tree_column_legend"
+       "SppAppClassic.view.main.BasicTreeColumnLegends",  // ptype: "basic_tree_column_legend"
+       "OL3MapService"
     ],
 
     //controller: "main-layertree",
@@ -46,6 +47,17 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
             }]
         }]
     },
+
+    /*initComponent: function () {
+        //console.log("init layer tree panel");
+        //console.log( OL3MapService.getMap().getLayerGroup() );
+
+
+        //console.log("done!");
+
+        SppAppClassic.view.main.Layertree.superclass.initComponent.call(this);
+    },*/
+
     // alternative to treePanel.on('select', function())
     listeners: {
         /*checkchange: function() {
