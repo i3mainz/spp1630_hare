@@ -143,7 +143,11 @@ Ext.define("LayerStyles", {
         // map the income level codes to a colour value, grouping them
         var icons = {
             "Kanal/Schleppstrecke": "resources/icons/canal_icon_24px.png",
-            "Hafen": "resources/icons/harbours_icon_24px.png"
+            "Wasserstraße": "resources/icons/canal_icon_24px.png",
+            "Hafen": "resources/icons/harbours_icon_24px.png",
+            "Hafen?": "resources/icons/harbours_icon_24px.png",
+            "Hefen": "resources/icons/harbours_icon_24px.png",
+            "Wasserfahrzeug": "resources/icons/boat_icon_24px.png"
         };
 
         // provide default if attribute is missing or not specified in icons
