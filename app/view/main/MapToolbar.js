@@ -15,7 +15,6 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
     },
 
     initComponent: function () {
-        //console.log("init toolbar...");
 
         Ext.apply(this, {
             items: [{
@@ -69,9 +68,5 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
         });
 
         SppAppClassic.view.main.MapToolbar.superclass.initComponent.call(this);
-    },
-
-    listeners: {
-        beforeRender: "unlockButtons"  // unlock buttons on start
     }
 });

@@ -5,7 +5,8 @@ Ext.define("SppAppClassic.LoginController", {
     alias: "controller.login",  // use this to reference
 
     requires: [
-        "AuthService"
+        "AuthService",
+        "SppAppClassic.view.main.InfoTabPanel"
     ],
 
     /**
@@ -30,18 +31,10 @@ Ext.define("SppAppClassic.LoginController", {
 
         AuthService.login(formData.username, formData.password, function() {
             // success
-            Ext.getCmp("loginLabel").setValue("Success!");
+            this.initMainView();
 
-            // Remove Login Window
-            this.getView().destroy();
-
-            // Add the main view to the viewport
-            Ext.create({
-                xtype: "app-main"
-            });
         }, function() {
             // failure
-
             Ext.getCmp("loginLabel").setValue("Failed!");
 
             // unlock buttons
@@ -53,36 +46,12 @@ Ext.define("SppAppClassic.LoginController", {
 
     onGuestClick: function() {
         // clear cookies and geoserver login, just in case
-        //Ext.util.Cookies.clear("sppCookie");  // TODO: replace his with logout function
+        //Ext.util.Cookies.clear("sppCookie");  // TODO: replace tis with logout function
         //this.logoutGeoServer();
         AuthService.setCookie("guest");
 
-        // update label
-        Ext.getCmp("loginLabel").setValue("Success!");
-
-        // Remove Login Window
-        this.getView().destroy();
-
-        // Add the main view to the viewport
-        Ext.create({
-            xtype: "app-main"
-        });
-
-        //this.onLoginSuccess("guest");
+        this.initMainView();
     },
-
-    /*onHelpClick: function() {
-        console.log("help click!");
-        var me = this;
-
-        var button = me.lookupReference("helpButton");
-
-        var tip = Ext.create("Ext.tip.ToolTip", {
-            html: "Login using your project's username/password or login " +
-                  "as guest with limited data access and functionality"
-        });
-        tip.showBy(button);
-    },*/
 
     onTextFieldChange: function() {
         var loginButton = Ext.getCmp("loginSubmitButton");
@@ -93,5 +62,19 @@ Ext.define("SppAppClassic.LoginController", {
         } else {
             guestButton.disable();
         }
+    },
+
+    initMainView: function() {
+        // update label
+        Ext.getCmp("loginLabel").setValue("Success!");
+
+        // Remove Login Window
+        this.getView().destroy();
+
+        // Add the main view to the viewport
+        Ext.create({xtype: "app-main"});
+
+        // open news after login
+        Ext.create({xtype: "infotabpanel"}).show();
     }
 });

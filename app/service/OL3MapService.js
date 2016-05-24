@@ -57,6 +57,7 @@ Ext.define("OL3MapService", {
                 center: ol.proj.fromLonLat([8.751278, 50.611368]),  // [0, 0],
                 zoom: 4,  // 2,
                 minZoom: 3  // prevents zoom too far out
+                //extent: [-180, -90, 180, 90]
                 //restrictedExtent: new ol.extent(-180, -90, 180, 90)  // prevents going over 'edge' of map
             })
         });
