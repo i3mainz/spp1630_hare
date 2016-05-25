@@ -15,6 +15,7 @@ Ext.define("SppAppClassic.LoginController", {
      * if login is successfull, main view will be created
      */
     onLoginClick: function() {
+        var me = this;
 
         // get components
         var label = Ext.getCmp("loginLabel");
@@ -31,7 +32,7 @@ Ext.define("SppAppClassic.LoginController", {
 
         AuthService.login(formData.username, formData.password, function() {
             // success
-            this.initMainView();
+            me.initMainView();
 
         }, function() {
             // failure

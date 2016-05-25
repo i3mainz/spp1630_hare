@@ -20,7 +20,7 @@ Ext.define("AuthService", {
         // TODO: also check if logged into GeoServer
         var username = this.getCookie();
         if (username) {
-
+            console.log("has cookie!");
             if (username === "guest") {
                  return true;
             } else {
@@ -36,6 +36,7 @@ Ext.define("AuthService", {
 
         } else {
             // no cookie found
+            console.log("has no cookie!");
             return false;
         }
     },
