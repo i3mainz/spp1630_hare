@@ -4,11 +4,12 @@ Ext.define("SppAppClassic.FilterPanelController", {
     extend: "Ext.app.ViewController",
     alias: "controller.main-filterpanel",
 
-    /*requires: [
-        "SppAppClassic.view.main.Filter.CenturySlider",
-        "SppAppClassic.view.main.Map",  // id: "geoextMap",
-        "SppAppClassic.view.main.Filter.FilterPanel"
-    ],*/
+    requires: [
+        //"SppAppClassic.view.main.Filter.CenturySlider",
+        //"SppAppClassic.view.main.Map",  // id: "geoextMap",
+        //"SppAppClassic.view.main.Filter.FilterPanel"
+        "OL3MapService"
+    ],
 
     control: {
         "#": {
@@ -16,21 +17,6 @@ Ext.define("SppAppClassic.FilterPanelController", {
             collapse: "onCollapse",
             expand: "onExpand"
         }
-    },
-
-    // TODO: keep previous qcl filter intact -> right now it gets overwritten
-    // make universal, right now it only works for harbour layer
-    applyFilterToLayer: function(layerName, filterString) {
-        var map = Ext.getCmp("geoextMap");
-        var layer = map.getLayerByName(layerName);
-        var newSource;
-        if (layerName === "Data") {
-            newSource = map.createVectorSource("Data", filterString);
-        } else {
-            console.log("unknown layer name");
-        }
-
-        layer.setSource(newSource);  // this refreshes automatically
     },
 
     onClose: function() {
@@ -89,8 +75,8 @@ Ext.define("SppAppClassic.FilterPanelController", {
         }
 
         var label = Ext.getCmp("sliderlabel");
-        label = me.lookupReference("sliderlabel");
-        console.log(label);
+        //label = me.lookupReference("sliderlabel");
+        //console.log(label);
         label.setText(labelText);
 
         //console.log(Ext.getCmp("sliderlabel"));
@@ -156,56 +142,58 @@ Ext.define("SppAppClassic.FilterPanelController", {
         if (status3) {
             statusFilterList.push("status=3");
         }
-        if (!status1 && !status2 && !status3) {  // all deselected
-            return "(status!=1 AND status!=2 AND status!=3)";
+
+        if (status1 && status2 && status3) {  // all deselected
+            return false;
         } else {  // at least one selected
             return "(" + statusFilterList.join(" OR ") + ")";
         }
-
-        /*if (statusFilterList.length > 0) {
-            return "(" + statusFilterList.join(" OR ") + ")";
-        } else {
-            return false;
-        }*/
     },
 
+    /**
+     * determine what projects are selected, return as SQL string
+     */
+     // TODO: move this function to ProjectService
     getProjectSQLQuery: function() {
-        var projectList = [];
 
-        //var counter = 1;
-        var projects = Projects.projectList;
-        for (var key in projects) {
-            var project = projects[key];
-            if (project.db_name) {
-                var componentID = "project" + project.id + "Checkbox";
-                var projectIsSelected = Ext.getCmp(componentID).getValue();
-                if (projectIsSelected) {
-                    projectList.push("project_id=" + project.id);
-                }
+        var projects = ProjectService.getProjectsWithDbName();
+
+        // get all selected projects
+        var unselectedProjects = [];
+        projects.forEach(function(project) {
+            // get checkbox id and query it
+            var componentID = "project" + project.id + "Checkbox";
+            var projectIsSelected = Ext.getCmp(componentID).getValue();
+
+            // create sql string
+            if (!projectIsSelected) {
+                unselectedProjects.push(project);
             }
-        }
-        if (projectList.length > 0) {
-            return "(" + projectList.join(" OR ") + ")";
+        })
 
-        // NOT project ID AND
+        // if all selected, do nothing, no query needed
+        if (unselectedProjects.length === 0) {  // all selected
+            return false;
+
         } else {
-            var projectList = [];
-            for (var key in projects) {
-                var project = projects[key];
-                if (project.db_name) {
-                    projectList.push("project_id!=" + project.id);
-                }
-            }
-            return "(" + projectList.join(" AND ") + ")";
+            // some are selected, some are unselected
+            var sqlList = [];
+
+            // create sql string for each project and join them later
+            unselectedProjects.forEach(function(project) {
+                // != not supported by cql, using < and > instead
+                sqlList.push("(project_id > " + project.id + " OR project_id < " + project.id + ")");
+            })
+            return "(" + sqlList.join(" AND ") + ")";
         }
     },
 
     /**
      * Gets values of filter panel and apply these to the layer 'Open'
     */
-    onApplyButtonClick: function() {
+    applyFilter: function() {
 
-        Ext.getCmp("applyFilterButton").disable();
+        //Ext.getCmp("applyFilterButton").disable();
 
         var queryList = [];
         var sql = this.getProjectSQLQuery();
@@ -229,11 +217,17 @@ Ext.define("SppAppClassic.FilterPanelController", {
         // apply filters
         //var layer = Ext.getStore("layersStore").filter("type", "GeoJSON");
         //var layer = Ext.getStore("layersStore").getAt(0);   // workaround because filter doesnt work. not sure why
-        var layer = Ext.getCmp("geoextMap").getLayerByName("Data");
+        var layer = OL3MapService.getLayerByName("Harbour data");
+        //console.log(OL3MapService.map.getLayers());
         //console.log(layer.getSource());
+        //console.log(layer.get("name"));
+        if (filterString.length > 0) {
+            OL3MapService.filterVectorSource(layer, filterString);
+        } else {
+            OL3MapService.filterVectorSource(layer, "project_id>0"); // workaround to select everything
+        }
 
-        Ext.getCmp("geoextMap").updateVectorSource(layer, filterString);
 
-        Ext.getCmp("applyFilterButton").enable();
+        //Ext.getCmp("applyFilterButton").enable();
     }
 });

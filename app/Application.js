@@ -32,7 +32,7 @@ Ext.define('SppAppClassic.Application', {
         geoserverPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver",
         homePath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/web/",
         //wmsPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?",  // former GEOSERVER_URL
-        //proxyPath: "http://haefen.i3mainz.hs-mainz.de" + "/GeojsonProxy/layer?",
+        proxyPath: "http://haefen.i3mainz.hs-mainz.de" + "/GeojsonProxy/layer?",
         loginPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_check",
         logoutPath: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_logout",
         sppLayerTitle: "Data",
@@ -43,7 +43,6 @@ Ext.define('SppAppClassic.Application', {
 
         Ext.create({
             xtype: AuthService.isAuthenticated() ? 'app-main' : 'login'
-            //plugins: 'viewport'
         });
     },
 

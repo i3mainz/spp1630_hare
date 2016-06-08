@@ -17,7 +17,7 @@ describe('MainPanel', function() {
         expect(panel.title).toBe("SPP 1630 Virtual Research Environment");
     });
 
-    it("should be a panel", function() {
+    /*it("should be a panel", function() {
         expect(Ext.getClass(panel).superclass.self.getName()).toEqual("Ext.panel.Panel");
     });
 
@@ -26,15 +26,15 @@ describe('MainPanel', function() {
         expect(controller).not.toBe(null);
         expect(typeof controller.updateLogoutInfo).toBe("function");
         //this.lookupReference('delete').setDisabled(selections.length === 0);
-    });
+    });*/
 
     /*it("should be visible", function() {
         expect(panel.isVisible()).toBeTruthy();
     })*/
 
-    it("should have items", function() {
+    /*it("should have items", function() {
         expect(panel.getDockedItems().length).toBe(4);
-    })
+    })*/
 
 
 

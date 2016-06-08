@@ -41,11 +41,11 @@ Ext.define("SppAppClassic.view.main.PopupWindow",{
 
     title: "Feature Info",
     closable: true,  // currently gets destroyed on close
-    width: 200,
+    width: 250,
     height: 350,
     //padding: "0 0 0 5",
     resizable: false,
-    //minWidth: 200,
+    minWidth: 200,
     //minHeight: 250,
     autoScroll: true,
     hideable: true,
@@ -121,7 +121,7 @@ Ext.define("SppAppClassic.view.main.PopupWindow",{
         }
         // add link to project website
         var projectName = olFeature.get("project");
-        var project = Projects.getProjectByName(projectName);
+        var project = ProjectService.getProjectByDbName(projectName);
         html += "<tr>";
         if (project && "contact" in project) {
             html += "<td><strong>Contact</strong>:</td><td><a href='" + project.contact + "' target='_blank'>Website</a></td>";

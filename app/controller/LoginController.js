@@ -30,6 +30,7 @@ Ext.define("SppAppClassic.LoginController", {
         loginButton.disable();
         guestButton.disable();
 
+        // production
         AuthService.login(formData.username, formData.password, function() {
             // success
             me.initMainView();
@@ -41,8 +42,8 @@ Ext.define("SppAppClassic.LoginController", {
             // unlock buttons
             loginButton.enable();
             guestButton.enable();
-
         });
+
     },
 
     onGuestClick: function() {
