@@ -6,7 +6,7 @@
  * Sencha Cmd when upgrading.
  */
 Ext.application({
-    name: 'SppAppClassic',
+    name: 'SppAppClassic', //
 
     extend: 'SppAppClassic.Application',
 
