@@ -9,7 +9,8 @@ Ext.define("AuthService", {
 
     geoserverPath: "http://localhost:8080/geoserver",
     homePath: "/geoserver/web/",
-    loginPath: "http://localhost:3000/login",  // custom proxy
+    //loginPath: "http://localhost:3000/login",  // custom proxy
+    loginPath: "http://localhost:8080/geoserver" + "/j_spring_security_check",
     logoutPath: "http://localhost:8080/geoserver" + "/j_spring_security_logout",
 
     /*
@@ -103,6 +104,7 @@ Ext.define("AuthService", {
             success: function(response) {
                 //console.log(username);
                 me.setCookie(username);
+                console.log(response);
                 success(response);
             },
 
