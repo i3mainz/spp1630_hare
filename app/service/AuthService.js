@@ -102,9 +102,16 @@ Ext.define("AuthService", {
 
             success: function(response) {
                 //console.log(username);
-                me.setCookie(username);
-                console.log(response.responseText);
-                success(response);
+                if (response.responseText.indexOf('<span class="username">Logged in as <span>' + username + '</span></span>') > -1) {
+                    // shows that user is logged in
+                    me.setCookie(username);
+                    //console.log(response.responseText);
+                    success(response);
+                } else {
+                    me.clearCookie();
+                    failure(response);
+                }
+
             },
 
             failure: function(response) {
