@@ -23,7 +23,7 @@ Ext.define("SppAppClassic.view.main.Main", {
     //viewModel: "main",
 
     plugins: "viewport",
-    title: "SPP 1630 Virtual Research Environment !!!",
+    title: "SPP 1630 Virtual Research Environment !!!!",
 
     layout: {
         type: "border",
