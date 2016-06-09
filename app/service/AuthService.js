@@ -7,11 +7,10 @@ Ext.define("AuthService", {
 
     singleton: true,
 
-    geoserverPath: "http://localhost:8080/geoserver",
     homePath: "/geoserver/web/",
     //loginPath: "http://localhost:3000/login",  // custom proxy
-    loginPath: "http://localhost:8080/geoserver" + "/j_spring_security_check",
-    logoutPath: "http://localhost:8080/geoserver" + "/j_spring_security_logout",
+    loginPath: "/geoserver/j_spring_security_check",
+    logoutPath: "/geoserver/j_spring_security_logout",
 
     /*
      * returns true when user is logged in wiht an account OR as a guest.
