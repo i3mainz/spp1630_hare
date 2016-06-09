@@ -103,7 +103,7 @@ Ext.define("AuthService", {
             success: function(response) {
                 //console.log(username);
                 me.setCookie(username);
-                console.log(response);
+                console.log(response.responseText);
                 success(response);
             },
 
