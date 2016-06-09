@@ -23,7 +23,7 @@ Ext.define("SppAppClassic.view.main.Main", {
     //viewModel: "main",
 
     plugins: "viewport",
-    title: "SPP 1630 Virtual Research Environment !!!!!!",
+    title: "SPP 1630 Virtual Research Environment",
 
     layout: {
         type: "border",
@@ -32,7 +32,7 @@ Ext.define("SppAppClassic.view.main.Main", {
     border: true,
 
     initComponent: function () {
-        console.log("git hook works!");
+        console.log("git hook works!!! finally!");
         // apply to layertree
         //this.setStore(treeStore);
         OL3MapService.initMap();  // TODO: set map in controller
