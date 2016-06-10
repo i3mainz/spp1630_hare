@@ -1,48 +1,119 @@
 "use strict";
 
 Ext.define("SppAppClassic.view.main.CenturySlider", {
-    extend: "Ext.slider.Multi",
-    xtype: "centuryslider",  // map.centuryslider
+    extend: "Ext.form.FieldSet",
+    xtype: "centurySelector",  // map.centuryslider
     //alias: 'widget.centuryslider',
-    reference: "centuryslider",  // used in controllers
-    id: "centuryslider",
+    //reference: "centuryslider",  // used in controllers
+    //id: "centuryslider",
 
     //controller: "main-centuryslider", // slider is a component. only containers can have controllers!
     controller: "main-filterpanel",
 
-    //hideLabel: true,  // not sure what that does
-    minWidth: 100,
-    //increment: 10,
-    minValue: 0,
-    maxValue: 13,
-    //constrainThumbs: true,
-    values: [0, 13],
-    useTips: false,  // show toolptips, default: true
-    //fieldLabel: "Century",
+    layout: "fit",
+    items: [
+        {
+            xtype: "label",
+            id: "sliderlabel",
+            text: "1BC - 13AD",  // BCE, CE
+            padding: "5 0 0 0"
+        },
+        {
+            xtype: "multislider",
+            id: "centuryslider",
+            minWidth: 100,
+            minValue: 0,
+            maxValue: 13,
+            //constrainThumbs: true,
+            values: [0, 13],
+            useTips: false,  // show toolptips, default: true
+            //fieldLabel: "Century",
 
-    tipText: function(thumb) {
-        var choices = [
-            "1st Century BC",  // 0
-            "1st Century",
-            "2nd Century",
-            "3nd Century",
-            "4th Century",
-            "5th Century",
-            "6th Century",
-            "7th Century",
-            "8th Century",
-            "9th Century",
-            "10th Century",
-            "11th Century",
-            "12th Century",
-            "13th Century"  // 13
-        ];
-        var value = Ext.String.format(choices[thumb.value]);
+            /*tipText: function(thumb) {
+                var choices = [
+                    "1st Century BC",  // 0
+                    "1st Century",
+                    "2nd Century",
+                    "3nd Century",
+                    "4th Century",
+                    "5th Century",
+                    "6th Century",
+                    "7th Century",
+                    "8th Century",
+                    "9th Century",
+                    "10th Century",
+                    "11th Century",
+                    "12th Century",
+                    "13th Century"  // 13
+                ];
+                var value = Ext.String.format(choices[thumb.value]);
 
-        return value;
+                return value;
+            },*/
+
+            listeners: {
+                scope: 'this',  // use functions in this class, not controller
+                //changecomplete: "onSliderChangeComplete"
+                change: "updateLabels",
+
+                changecomplete: function(evt) {
+                    // fire event onchangecomplete so that this triggers an
+                    // event for the parent class as well
+                    this.findParentByType("centurySelector").fireEvent("changecomplete", evt);
+                }
+            },
+
+            updateLabels: function() {
+                console.log("updating labels");
+                //var filterPanel = Ext.getCmp("filterPanel");
+                var labelText;
+                // update text next to slider
+                var value1 = this.getValues()[0];
+                var value2 = this.getValues()[1];
+
+                if (value1 === value2) {  // same century
+                    if (value1 === 0) {
+                        labelText = value1 + "BC";
+                    } else {
+                        labelText = value1 + "AD";
+                    }
+                } else if (value1 === 0) {  // different values, one is bc
+                    labelText = "1BC" + " - " + value2 + "AD";
+                } else {
+                    labelText = value1 + "AD" + " - " + value2 + "AD";
+                }
+
+                var label = Ext.getCmp("sliderlabel");
+                label.setText(labelText);
+            }
+
+        },
+        {
+            xtype: "checkbox",
+            //checked: true,
+            boxLabel: "allow propable",
+            name: "allowPropable",
+            id: "allowPropableCheckbox"
+        },{
+            xtype: "checkbox",
+            checked: false,
+            boxLabel: "only continuous",
+            name: "onlyContinuous",
+            id: "onlyContinuousCheckbox"
+        }
+    ],
+
+    // defined in FilterPanelController.js
+    listeners: {
+        scope: 'this',  // use functions in this class, not controller
+        //changecomplete: "onSliderChangeComplete"
+        changecomplete: "getSliderSQLQuery"
     },
 
-    getSQLQuery: function(includePropable, onlyContinuous) {
+    /*
+     * gets the slider's values and creates a cql query string
+     */
+    getSliderSQLQuery: function(includePropable, onlyContinuous) {
 
         /*
         "1st Century BC",   // 0
@@ -60,6 +131,8 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
         "12th Century",     // 12
         "13th Century"      // 13  date_13_Jh // ja, nein
         */
+        console.log("works!!!");
+        var slider = Ext.getCmp("centuryslider");
         var startCentury = this.getValues()[0];
         var endCentury = this.getValues()[1];
 
@@ -105,14 +178,41 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
         } else {
             return false;
         }
-    }
+    },
 
-    // defined in FilterPanelController.js
-    /*listeners: {
-        changecomplete: "onSliderChangeComplete"
-    }*/
 
+    getCenturiesSQLQuery: function() {
+        //var slider = this.lookupReference("centuryslider");
+
+        var allowPropable = Ext.getCmp("allowPropableCheckbox").getValue();
+        var onlyContinuous = Ext.getCmp("onlyContinuousCheckbox").getValue();
+
+        var sliderFilterString;
+        if (allowPropable) {  // vermutet erlaubt
+            if (onlyContinuous) {
+                sliderFilterString = this.getSQLQuery(true, true);
+            } else {
+                sliderFilterString = this.getSQLQuery(true, false);
+            }
+
+        } else {
+            if (onlyContinuous) {
+                sliderFilterString = this.getSQLQuery(false, true);
+            } else {
+                sliderFilterString = this.getSQLQuery(false, false);
+            }
+        }
+        //console.log(sliderFilterString);
+        if (sliderFilterString.length > 0) {
+            return "(" + sliderFilterString + ")";
+        } else {
+            return false;
+        }
+
+    },
 });
+
+
 
 
 

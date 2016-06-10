@@ -32,7 +32,7 @@ Ext.define("SppAppClassic.view.main.Main", {
     border: true,
 
     initComponent: function () {
-        console.log("git hook works!!! finally!");
+
         // apply to layertree
         //this.setStore(treeStore);
         OL3MapService.initMap();  // TODO: set map in controller

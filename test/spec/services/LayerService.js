@@ -7,9 +7,9 @@ describe('LayerService', function() {
     });
 
     it("getLayerByName() should return correct layer", function() {
-        var layer = LayerService.getLayerByName("Harbour data");
+        var layer = LayerService.getLayerByName("SPP: Harbours");
         expect(layer).toBeDefined();
-        expect(layer.get("name")).toBe("Harbour data");
+        expect(layer.get("name")).toBe("SPP: Harbours");
     });
 
 

@@ -31,26 +31,15 @@ Ext.define("SppAppClassic.FilterPanelController", {
         Ext.getCmp("filterButton").setPressed(true);
     },
 
-    onSliderChange: function() {
+    /*onSliderChange: function() {
 
-        /* sources appear tp be empty, since they are loaded async */
-        /* retrieving the previous source istn working because
-        of the tile loading strategy. possible to grab features but not the
-        source"s parameters. therefore a new vector source has to be created each time */
-        //console.log("changed slider!");
+        //  sources appear tp be empty, since they are loaded async
+        //  retrieving the previous source istn working because
+        // of the tile loading strategy. possible to grab features but not the
+        // source"s parameters. therefore a new vector source has to be created each time
+        // //console.log("changed slider!");
 
-        /*
-        "4th Century",   // 0, date_4_Jh
-        "5th Century",   // 1
-        "6th Century",   // 2
-        "7th Century",   // 3
-        "8th Century",   // 4
-        "9th Century",   // 5
-        "10th Century",  // 6
-        "11th Century",  // 7
-        "12th Century",  // 8
-        "13th Century"   // 9  date_13_Jh // ja, nein
-        */
+
         console.log("change!");
 
         var me = this;
@@ -82,11 +71,8 @@ Ext.define("SppAppClassic.FilterPanelController", {
         //console.log(Ext.getCmp("sliderlabel"));
 
         // apply filter -> gets applied on apply buton click
-        /*
-        var filterString = me.getQueryString(slider.getValues());
-        me.applyFilterToHarbourLayer(filterString);
-        */
-    },
+
+    },*/
 
     /**
      * Resets all filters applied to layer 'Open'.
@@ -96,35 +82,9 @@ Ext.define("SppAppClassic.FilterPanelController", {
         this.applyFilterToHarbourLayer("");  // empty filter
     },*/
 
-    getCenturiesSQLQuery: function() {
-        var slider = this.lookupReference("centuryslider");
 
-        var allowPropable = Ext.getCmp("allowPropableCheckbox").getValue();
-        var onlyContinuous = Ext.getCmp("onlyContinuousCheckbox").getValue();
 
-        var sliderFilterString;
-        if (allowPropable) {  // vermutet erlaubt
-            if (onlyContinuous) {
-                sliderFilterString = slider.getSQLQuery(true, true);
-            } else {
-                sliderFilterString = slider.getSQLQuery(true, false);
-            }
 
-        } else {
-            if (onlyContinuous) {
-                sliderFilterString = slider.getSQLQuery(false, true);
-            } else {
-                sliderFilterString = slider.getSQLQuery(false, false);
-            }
-        }
-        //console.log(sliderFilterString);
-        if (sliderFilterString.length > 0) {
-            return "(" + sliderFilterString + ")";
-        } else {
-            return false;
-        }
-
-    },
 
     getStatusSQLQuery: function() {
         var status1 = Ext.getCmp("checkboxStatus1").getValue();
@@ -204,10 +164,10 @@ Ext.define("SppAppClassic.FilterPanelController", {
         if (sql) {
             queryList.push(sql);
         }
-        sql = this.getCenturiesSQLQuery();
+        /*sql = this.getCenturiesSQLQuery();
         if (sql) {
             queryList.push(sql);
-        }
+        }*/
 
         var filterString = queryList.join(" AND ");
         //var filterString = this.getStatusSQLQuery();
@@ -217,13 +177,40 @@ Ext.define("SppAppClassic.FilterPanelController", {
         // apply filters
         //var layer = Ext.getStore("layersStore").filter("type", "GeoJSON");
         //var layer = Ext.getStore("layersStore").getAt(0);   // workaround because filter doesnt work. not sure why
-        var layer = OL3MapService.getLayerByName("Harbour data");
+        //var layer = OL3MapService.getLayerByName("Harbour data");
+
+        //var layers = OL3MapService.getMap().getLayers().getArray();
+
+        /*for (var i = 0; i < layers.length; i++) {
+            var layer = layers[i];
+            //if (layer instanceof ol.layer.Group)
+            if (layer.get("name") === "Harbours") {
+                var source = layer.getSource();
+                 //source.clear();
+
+                //console.log(source.getFeatures().length);
+                //source.clear(true);
+                //console.log(source.getFeatures().length);
+                break;
+            }
+            //console.log(layer.get("name"));
+        }*/
+
         //console.log(OL3MapService.map.getLayers());
         //console.log(layer.getSource());
+        var layer = OL3MapService.getLayerByName("SPP: Harbours");
+        //var source = ).getSource();
         //console.log(layer.get("name"));
+        //console.log(source.getFeatures().length);
+
+        //console.log("remove features from: " + layer.get("name"));
+        //console.log(layer.getSource().getFeatures().length);
+
         if (filterString.length > 0) {
+            //console.log(source.getFeatures().length);
             OL3MapService.filterVectorSource(layer, filterString);
         } else {
+            console.log("no filter!");
             OL3MapService.filterVectorSource(layer, "project_id>0"); // workaround to select everything
         }
 

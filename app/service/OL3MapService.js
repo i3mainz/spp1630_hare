@@ -324,7 +324,7 @@ Ext.define("OL3MapService", {
      * creates a ol.layer.Vector layer with a ol.source.Vector from ol.format.GeoJSON
      * as it's source
      */
-    createGeoJSONLayer: function(name, sourceName, legendUrl, layerStyle, isVisible) {
+    /*createGeoJSONLayer: function(name, sourceName, legendUrl, layerStyle, isVisible) {
         legendUrl = legendUrl || "";
         layerStyle = layerStyle || "";
         isVisible = isVisible || false;
@@ -362,7 +362,7 @@ Ext.define("OL3MapService", {
         }
 
         return layer;
-    },
+    },*/
 
     /**
      * layername needs to be complete with workspace (e.g. "SPP.Data").
@@ -372,9 +372,8 @@ Ext.define("OL3MapService", {
         // TODO: obtain layername from provided layer object
         var sourceName = "SPP:spp_harbours_intern";
 
-        //console.log("creating source!");
-        var vectorSource;
-        // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
+        console.log(layer.getSource().getFeatures().length);
+
 
         //var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
         var workspace = sourceName.split(":")[0];
@@ -384,24 +383,52 @@ Ext.define("OL3MapService", {
 
         //console.log(workspace, layerName);
         //console.log("creating source for " + sourceName + " using filter: " + filter);
-        vectorSource = new ol.source.Vector({
+        var vectorSource = new ol.source.Vector({
             format: new ol.format.GeoJSON(),
-            url: function(extent, resolution, projection) {
-                return SppAppClassic.app.globals.proxyPath +
+            url: SppAppClassic.app.globals.proxyPath +
                     "bereich=" + workspace +
                     "&layer=" + layerName +
                     "&epsg=" + EPSG +
-                    "&CQL_FILTER=" + filter;
-            },
-            strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    "&CQL_FILTER=" + filter,
+            /*strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
                 maxZoom: 19
-            }))
+            }))*/
 
 
         });
 
+        layer.setSource(vectorSource);
+
+        //this.getMap().removeLayer();
+        /*var newLayer = new ol.layer.Vector({
+           name: "Harbour data",
+           source: new ol.source.Vector({
+               format: new ol.format.GeoJSON(),
+               url: function(extent) {
+                   return proxyPath +
+                           "bereich=" + "SPP" +
+                           "&layer=" + "spp_harbours_intern" +
+                           //"&bbox=" + extent.join(",") +
+                           "&CQL_FILTER=" + filter +
+                           "&epsg=" + "4326";
+               },
+               strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                   maxZoom: 19
+               })),
+               wrapX: false  // dont repeat on X axis
+           }),
+           //style: LayerStyles.redPoints,
+           //legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+           style: LayerStyles.redPointLabelStyleFunction,
+           visible: true
+       });*/
+
+
+       //map.addLayer(newLayer);
+
         //return vectorSource;
-        layer.setSource(vectorSource);  // this refreshes automatically*/
+        //layer.getSource().clear();
+        //layer.setSource(vectorSource);  // this refreshes automatically*/
     },
 
     createAGInternLayer: function(projectID) {

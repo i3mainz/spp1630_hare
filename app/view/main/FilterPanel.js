@@ -111,12 +111,8 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
         return itemList;
     },
 
-    buildPanelItems: function () {
-        return [/*{
-                xtype: "panel", // hidden dummy panel to have the remaining closed
-                hidden: true,
-                collapsed: false
-            },*/{
+    /*buildPanelItems: function () {
+        return {
                 xtype: "panel",
                 title: "Projects",
                 id: "projectspanel",
@@ -140,13 +136,7 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
                         xtype: "centuryslider",
                         //id: "centuryslider",
                         width: 160,
-                        padding: "0 0 10 0",
-                        listeners: {
-                            /*changecomplete: function() {
-                                console.log("completed sliderchange!");
-                            },*/
-                            change: "onSliderChange"
-                        }
+                        padding: "0 0 10 0"
                     },{
                         xtype: "checkbox",
                         checked: true,
@@ -212,7 +202,7 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
                 ]
             }
         ];
-    },
+    },*/
 
     buildItems: function () {
         return [
@@ -222,12 +212,11 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
                 title: "Projects",
                 items: this.buildProjectCheckboxes()
             },{
+                xtype: "centurySelector",
                 title: "Centuries",
-                /*layout: {
-                    type: "vbox",
-                    align: "center"
-                },*/
-                items: this.buildCenturiesItems()
+                width: 160
+
+
             },{
                 title: "Status",
                 defaults: {
@@ -255,36 +244,6 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
         ];
     },
 
-    buildCenturiesItems: function() {
-        return [
-            {
-                xtype: "label",
-                //reference: "sliderlabel",
-                text: "1BC - 13AD",  // BCE, CE
-                padding: "5 0 0 0"
-            },{
-                xtype: "centuryslider",
-                width: 160,
-                padding: "0 0 10 0",
-                listeners: {
-                    //changecomplete: "onSliderChangeComplete",
-                    change: "onSliderChange"
-                }
-            },{
-                xtype: "checkbox",
-                //checked: true,
-                boxLabel: "allow propable",
-                name: "allowPropable",
-                id: "allowPropableCheckbox"
-            },{
-                xtype: "checkbox",
-                checked: false,
-                boxLabel: "only continuous",
-                name: "onlyContinuous",
-                id: "onlyContinuousCheckbox"
-            }
-        ];
-    },
     //items: [], // added on initCompoenent
 
     /*buildButtons: function() {

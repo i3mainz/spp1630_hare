@@ -31,7 +31,7 @@ Ext.define("LayerGroups", {
     layers: {
 
         spp: new ol.layer.Vector({
-            name: "Harbour data",
+            name: "SPP: Harbours",
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
