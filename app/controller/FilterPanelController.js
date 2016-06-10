@@ -31,48 +31,6 @@ Ext.define("SppAppClassic.FilterPanelController", {
         Ext.getCmp("filterButton").setPressed(true);
     },
 
-    /*onSliderChange: function() {
-
-        //  sources appear tp be empty, since they are loaded async
-        //  retrieving the previous source istn working because
-        // of the tile loading strategy. possible to grab features but not the
-        // source"s parameters. therefore a new vector source has to be created each time
-        // //console.log("changed slider!");
-
-
-        console.log("change!");
-
-        var me = this;
-        var slider = Ext.getCmp("centuryslider");
-
-        //var filterPanel = Ext.getCmp("filterPanel");
-        var labelText;
-        // update text next to slider
-        var value1 = slider.getValues()[0];
-        var value2 = slider.getValues()[1];
-
-        if (value1 === value2) {  // same century
-            if (value1 === 0) {
-                labelText = value1 + "BC";
-            } else {
-                labelText = value1 + "AD";
-            }
-        } else if (value1 === 0) {  // different values, one is bc
-            labelText = "1BC" + " - " + value2 + "AD";
-        } else {
-            labelText = value1 + "AD" + " - " + value2 + "AD";
-        }
-
-        var label = Ext.getCmp("sliderlabel");
-        //label = me.lookupReference("sliderlabel");
-        //console.log(label);
-        label.setText(labelText);
-
-        //console.log(Ext.getCmp("sliderlabel"));
-
-        // apply filter -> gets applied on apply buton click
-
-    },*/
 
     /**
      * Resets all filters applied to layer 'Open'.
@@ -81,10 +39,6 @@ Ext.define("SppAppClassic.FilterPanelController", {
     /*onResetButtonClick: function() {
         this.applyFilterToHarbourLayer("");  // empty filter
     },*/
-
-
-
-
 
     getStatusSQLQuery: function() {
         var status1 = Ext.getCmp("checkboxStatus1").getValue();
@@ -164,10 +118,10 @@ Ext.define("SppAppClassic.FilterPanelController", {
         if (sql) {
             queryList.push(sql);
         }
-        /*sql = this.getCenturiesSQLQuery();
+        sql = Ext.getCmp("centuryselector").getCenturiesSQLQuery();
         if (sql) {
             queryList.push(sql);
-        }*/
+        }
 
         var filterString = queryList.join(" AND ");
         //var filterString = this.getStatusSQLQuery();

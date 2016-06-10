@@ -13,6 +13,11 @@ Ext.define("SppAppClassic.view.main.BasicTreeColumnLegends", {
     originalCellTpl: Ext.clone(Ext.tree.Column.prototype.cellTpl).join(""),
 
     /**
+     * filter icon
+     */
+    filterButton: "<button><i class=\"fa fa-filter\" aria-hidden=\"true\"></i></button>",
+
+    /**
      * The Xtemplate strings that will be used instead of the plain {value}
      * when rendering
      */

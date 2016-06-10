@@ -111,99 +111,6 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
         return itemList;
     },
 
-    /*buildPanelItems: function () {
-        return {
-                xtype: "panel",
-                title: "Projects",
-                id: "projectspanel",
-                scrollable: true,
-                items: this.buildProjectCheckboxes()
-            },{
-                xtype: "panel",
-                title: "Centuries",
-                layout: {
-                    type: "vbox",
-                    align: "center"
-                },
-                items: [
-                    {
-                        xtype: "label",
-                        id: "sliderlabel",
-                        //reference: "sliderlabel",
-                        text: "1BC - 13AD",
-                        padding: "5 0 0 0"
-                    },{
-                        xtype: "centuryslider",
-                        //id: "centuryslider",
-                        width: 160,
-                        padding: "0 0 10 0"
-                    },{
-                        xtype: "checkbox",
-                        checked: true,
-                        boxLabel: "allow propable",
-                        name: "allowPropable",
-                        id: "allowPropableCheckbox"
-                    },{
-                        xtype: "checkbox",
-                        checked: false,
-                        boxLabel: "only continuous",
-                        name: "onlyContinuous",
-                        id: "onlyContinuousCheckbox"
-                    }
-                ]
-            },{
-                xtype: "panel",
-                title: "Status",
-                defaults: {
-                    listeners: {  // currently not working!
-                        change: function(field, newVal, oldVal) {
-                            console.log('change status!');
-                        }
-                    }
-                },
-                items: [
-                    {
-                        xtype: "checkbox",
-                        checked: true,
-                        boxLabel: "1 - complete",
-                        name: "status",
-                        //inputValue: 1,  // returns true or false
-                        id: "checkboxStatus1",
-                        listeners: {  // currently not working!
-                            change: function(field, newVal, oldVal) {
-                                console.log('change status!');
-                            }
-                        }
-                    },{
-                        xtype: "checkbox",
-                        checked: true,
-                        boxLabel: "2 - in progress",
-                        name: "status",
-                        id: "checkboxStatus2",
-                        listeners: {  // currently not working!
-                            change: function(field, newVal, oldVal) {
-                                console.log('change status!');
-                            }
-                        }
-                        //inputValue: 2
-                    },{
-                        xtype: "checkbox",
-                        checked: true,
-                        boxLabel: "3 - incomplete",
-                        name: "status",
-                        id: "checkboxStatus3",
-                        listeners: {  // currently not working!
-                            change: function(field, newVal, oldVal) {
-                                console.log('change status!');
-                            }
-                        }
-                        //inputValue: 3
-                    }
-                ]
-            }
-        ];
-    },*/
-
     buildItems: function () {
         return [
             {
@@ -213,9 +120,12 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
                 items: this.buildProjectCheckboxes()
             },{
                 xtype: "centurySelector",
+                id: "centuryselector",
                 title: "Centuries",
-                width: 160
-
+                width: 160,
+                listeners: {
+                    change: "applyFilter"
+                }
 
             },{
                 title: "Status",

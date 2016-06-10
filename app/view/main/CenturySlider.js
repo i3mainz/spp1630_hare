@@ -59,7 +59,7 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
                 changecomplete: function(evt) {
                     // fire event onchangecomplete so that this triggers an
                     // event for the parent class as well
-                    this.findParentByType("centurySelector").fireEvent("changecomplete", evt);
+                    this.findParentByType("centurySelector").fireEvent("change", evt);
                 }
             },
 
@@ -93,13 +93,27 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
             //checked: true,
             boxLabel: "allow propable",
             name: "allowPropable",
-            id: "allowPropableCheckbox"
+            id: "allowPropableCheckbox",
+            listeners: {
+                change: function(evt) {
+                    // fire event onchangecomplete so that this triggers an
+                    // event for the parent class as well
+                    this.findParentByType("centurySelector").fireEvent("change", evt);
+                }
+            }
         },{
             xtype: "checkbox",
             checked: false,
             boxLabel: "only continuous",
             name: "onlyContinuous",
-            id: "onlyContinuousCheckbox"
+            id: "onlyContinuousCheckbox",
+            listeners: {
+                change: function(evt) {
+                    // fire event onchangecomplete so that this triggers an
+                    // event for the parent class as well
+                    this.findParentByType("centurySelector").fireEvent("change", evt);
+                }
+            }
         }
     ],
 
@@ -131,10 +145,16 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
         "12th Century",     // 12
         "13th Century"      // 13  date_13_Jh // ja, nein
         */
-        console.log("works!!!");
+        //console.log("works!!!");
         var slider = Ext.getCmp("centuryslider");
-        var startCentury = this.getValues()[0];
-        var endCentury = this.getValues()[1];
+        var startCentury = slider.getValues()[0];
+        var endCentury = slider.getValues()[1];
+
+        //var includePropable = Ext.getCmp("allowPropableCheckbox").getValue();
+        //var onlyContinuous = Ext.getCmp("onlyContinuousCheckbox").getValue();
+
+        //console.log(includePropable);
+        //console.log(onlyContinuousCheckbox);
 
         var filterList = [];
         //var queryString = "";
@@ -180,7 +200,6 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
         }
     },
 
-
     getCenturiesSQLQuery: function() {
         //var slider = this.lookupReference("centuryslider");
 
@@ -190,16 +209,16 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
         var sliderFilterString;
         if (allowPropable) {  // vermutet erlaubt
             if (onlyContinuous) {
-                sliderFilterString = this.getSQLQuery(true, true);
+                sliderFilterString = this.getSliderSQLQuery(true, true);
             } else {
-                sliderFilterString = this.getSQLQuery(true, false);
+                sliderFilterString = this.getSliderSQLQuery(true, false);
             }
 
         } else {
             if (onlyContinuous) {
-                sliderFilterString = this.getSQLQuery(false, true);
+                sliderFilterString = this.getSliderSQLQuery(false, true);
             } else {
-                sliderFilterString = this.getSQLQuery(false, false);
+                sliderFilterString = this.getSliderSQLQuery(false, false);
             }
         }
         //console.log(sliderFilterString);
@@ -209,7 +228,7 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
             return false;
         }
 
-    },
+    }
 });
 
 
