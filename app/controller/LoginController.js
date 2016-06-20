@@ -20,28 +20,32 @@ Ext.define("SppAppClassic.LoginController", {
         // get components
         var label = Ext.getCmp("loginLabel");
         var loginButton = Ext.getCmp('loginSubmitButton');
-        var guestButton = Ext.getCmp('guestSubmitButton');
-        var formData = this.lookupReference("loginform").getValues();
-
+        //var guestButton = Ext.getCmp('guestSubmitButton');
+        var formData = {
+            username: Ext.getCmp('usernameField').getValue(),
+            password: Ext.getCmp('passwordField').getValue()
+        };//this.lookupReference("loginform").getValues();
+        //console.log(formData);
         // update label
         label.setValue("Validating...");
 
         // lock buttons to prevent additional clicks during validation
         loginButton.disable();
-        guestButton.disable();
+        //guestButton.disable();
 
         // production
         AuthService.login(formData.username, formData.password, function() {
             // success
             me.initMainView();
 
-        }, function() {
+        }, function(errorMessage, response) {
             // failure
-            Ext.getCmp("loginLabel").setValue("Failed!");
+            //Ext.getCmp("loginLabel").setValue(errorMessage);
+            Ext.getCmp("passwordField").setActiveError(errorMessage);
 
             // unlock buttons
             loginButton.enable();
-            guestButton.enable();
+            //guestButton.enable();
         });
 
     },
@@ -55,7 +59,7 @@ Ext.define("SppAppClassic.LoginController", {
         this.initMainView();
     },
 
-    onTextFieldChange: function() {
+    /*onTextFieldChange: function() {
         var loginButton = Ext.getCmp("loginSubmitButton");
         var guestButton = Ext.getCmp("guestSubmitButton");
 
@@ -64,7 +68,7 @@ Ext.define("SppAppClassic.LoginController", {
         } else {
             guestButton.disable();
         }
-    },
+    },*/
 
     initMainView: function() {
         // update label
