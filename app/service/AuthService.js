@@ -120,6 +120,7 @@ Ext.define("AuthService", {
             },
 
             failure: function(response) {
+                console.log("server error: " + response);
                 //console.log(response);
                 me.clearCookie();
                 failure("server error", response);
