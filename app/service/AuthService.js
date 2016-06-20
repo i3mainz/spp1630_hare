@@ -105,16 +105,16 @@ Ext.define("AuthService", {
                 //console.log(username);
                 console.log(response.responseText);
 
-                if (response.responseText.indexOf('<span class="username">Logged in as <span>' + username + '</span></span>') > -1) {
-                    console.log("worked! :)");
+                if (me.isLoggedIn(username, response.responseText)) {
+                    //console.log("worked! :)");
                     // shows that user is logged in
                     me.setCookie(username);
                     //console.log(response.responseText);
                     success(response);
                 } else {
-                    console.log("failed :/");
+                    //console.log("failed :/");
                     me.clearCookie();
-                    failure(response.responseText, response);
+                    failure("username of password incorrect", response);
                 }
 
             },
@@ -187,6 +187,16 @@ Ext.define("AuthService", {
 
     clearCookie: function() {
         Ext.util.Cookies.clear("sppCookie");
+    },
+
+    isLoggedIn: function(username, responseText) {
+        if (responseText.indexOf('<span class="username">Logged in as <span>' + username + '</span></span>') > -1) {
+            return true;
+        } else if (responseText.indexOf('<span class="username">Angemeldet als <span>' + username + '</span></span>') > -1) {
+            return true;
+        } else {
+            return false;
+        }
     },
 
     /*
