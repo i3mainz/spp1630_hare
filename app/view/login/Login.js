@@ -33,7 +33,7 @@ Ext.define("SppAppClassic.view.login.Login", {
         //paddingLeft: "50px",
         //paddingRight: "50px",
         margin: "0 auto",
-        backgroundColor: "red"
+        //backgroundColor: "red"
         //marginRight: "30px"
     },
 
