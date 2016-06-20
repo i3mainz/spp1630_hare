@@ -27,7 +27,7 @@ Ext.define("SppAppClassic.LoginController", {
         };//this.lookupReference("loginform").getValues();
         //console.log(formData);
         // update label
-        label.setValue("Validating...");
+        //label.setValue("Validating...");
 
         // lock buttons to prevent additional clicks during validation
         loginButton.disable();

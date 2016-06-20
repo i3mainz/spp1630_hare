@@ -114,7 +114,7 @@ Ext.define("AuthService", {
                 } else {
                     console.log("failed :/");
                     me.clearCookie();
-                    failure("Username or password incorrect", response);
+                    failure("Username or password incorrect :/", response);
                 }
 
             },
