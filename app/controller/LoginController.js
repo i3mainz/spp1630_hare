@@ -59,20 +59,19 @@ Ext.define("SppAppClassic.LoginController", {
         this.initMainView();
     },
 
-    /*onTextFieldChange: function() {
+    onTextFieldChange: function() {
         var loginButton = Ext.getCmp("loginSubmitButton");
-        var guestButton = Ext.getCmp("guestSubmitButton");
-
-        if (loginButton.isDisabled()) {
-            guestButton.enable();
+        //var guestButton = Ext.getCmp("guestSubmitButton");
+        if (Ext.getCmp("passwordField").getValue().length > 0 && Ext.getCmp("usernameField").getValue().length > 0) {
+            loginButton.enable();
         } else {
-            guestButton.disable();
+            loginButton.disable();
         }
-    },*/
+    },
 
     initMainView: function() {
         // update label
-        Ext.getCmp("loginLabel").setValue("Success!");
+        //Ext.getCmp("loginLabel").setValue("Success!");
 
         // Remove Login Window
         this.getView().destroy();

@@ -48,36 +48,29 @@ Ext.define("LayerGroups", {
             }),
             //style: LayerStyles.redPoints,
             legendUrl: getLegendImg("SPP:spp_harbours_intern"),
-            style: LayerStyles.redPointLabelStyleFunction,
+            style: LayerStyles.pointTypeStyleFunction, //LayerStyles.redPointLabelStyleFunction,
             visible: true
         }),
 
-        sppOpen: new ol.layer.Group({
-            name: "SPP (open)",
-            layers: new ol.Collection([
-
-                new ol.layer.Vector({
-                    name: "Harbour data (open)",
-                    source: new ol.source.Vector({
-                        format: new ol.format.GeoJSON(),
-                        url: function(extent) {
-                            return proxyPath +
-                                    "bereich=" + "SPP" +
-                                    "&layer=" + "spp_harbours_open" +
-                                    "&bbox=" + extent.join(",") +
-                                    "&epsg=" + "4326";
-                        },
-                        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                            maxZoom: 19
-                        })),
-                        wrapX: false  // dont repeat on X axis
-                    }),
-                    //style: LayerStyles.redPoints,
-                    style: LayerStyles.harbourTypeStyleFunction,
-                    visible: true
-                })
-
-            ]),
+        sppOpen: new ol.layer.Vector({
+            name: "SPP: Harbours (open)",
+            source: new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return proxyPath +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "spp_harbours_open" +  // spp_harbours_open
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            //style: LayerStyles.redPoints,
+            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            style: LayerStyles.pointTypeStyleFunction, //LayerStyles.redPointLabelStyleFunction,
             visible: true
         }),
 

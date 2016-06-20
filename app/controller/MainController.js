@@ -272,11 +272,13 @@ Ext.define("SppAppClassic.MainController", {
      * unlocks buttons for registred authorized users
     */
     unlockButtons: function() {
-        var buttonList = ["filterButton"]; // ["filterButton", "gridButton", "settingsButton"]
-        for (var i = 0; i < buttonList.length; i++) {
-            var button = Ext.getCmp(buttonList[i]);
-            if (button) {
-                button.enable();
+        if (AuthService.isAuthorized()) {
+            var buttonList = ["filterButton"]; // ["filterButton", "gridButton", "settingsButton"]
+            for (var i = 0; i < buttonList.length; i++) {
+                var button = Ext.getCmp(buttonList[i]);
+                if (button) {
+                    button.enable();
+                }
             }
         }
     },
@@ -317,7 +319,7 @@ Ext.define("SppAppClassic.MainController", {
                 //me.createLayersFromStore();
                 //console.log("done loading layers for users");
             } else {
-                //OL3MapService.addLayer(LayerGroups.sppOpen);
+                OL3MapService.addLayer(LayerGroups.layers.sppOpen);
             }
 
             //console.log("layers aded without error");

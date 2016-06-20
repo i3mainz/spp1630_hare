@@ -5,6 +5,7 @@ Ext.define("SppAppClassic.view.login.Login", {
 
     xtype: "login",  // alias
     reference: "loginWindow",
+    id: "loginwindow",
 
     requires: [
         "Ext.panel.Tool",           // tools: []
@@ -35,6 +36,8 @@ Ext.define("SppAppClassic.view.login.Login", {
         backgroundColor: "red"
         //marginRight: "30px"
     },
+
+    enableKeyEvents: true,
 
     items: [{
         // parent container used for padding outside of borders
@@ -92,6 +95,16 @@ Ext.define("SppAppClassic.view.login.Login", {
                             width: "100%",
                             //height: "100%"
                         }
+                    },{
+                        //cls: "landing-text",
+                        text: "Researchers can login using their credentials provided by " +
+                         "the developers. Curious guests can skip the login and launch the " +
+                         "app in guest-mode with fewer data and limited functions.",
+                        style: {
+                            width: "100%",
+                            marginTop: "5px"
+                            //height: "100%"
+                        }
                     }
                 ]
             },
@@ -102,7 +115,7 @@ Ext.define("SppAppClassic.view.login.Login", {
 
                 columnWidth: 0.5,
 
-
+                layout: "vbox",
 
                 style: {
                     //borderStyle: "solid",
@@ -123,7 +136,7 @@ Ext.define("SppAppClassic.view.login.Login", {
                         fieldLabel: "Username",
                         allowBlank: false,
                         listeners: {
-                            //change: "onTextFieldChange"
+                            change: "onTextFieldChange"
                         }
                     },{
                         xtype: "textfield",
@@ -135,23 +148,35 @@ Ext.define("SppAppClassic.view.login.Login", {
                         msgTarget: 'side',
 
                         listeners: {
-                            //change: "onTextFieldChange"
+                            change: "onTextFieldChange"
                         }
                     },{
                         xtype: "button",
                         text: "Login",
+                        disabled: true,
                         reference: "loginSubmitButton",  // used to lock during validation
                         id: "loginSubmitButton",
                         formBind: true,  // disable until form filled
                         tooltip: "Login using your username/password combination",
-                        handler: "onLoginClick"
-                    },{
-                        xtype: "displayfield",
-                        id: "loginLabel",
-                        cls: "loginLabel",  // css class for custom styling
-                        //padding: "0 10 0 0"
-                    }
+                        handler: "onLoginClick",
 
+                    },{
+                        xtype: "label",
+                        style: {
+                            color: "lightgrey",
+                            marginTop: "10px",
+                            cursor: "pointer"
+                        },
+                        html: "Skip and use as guest",
+                        listeners: {
+                            render: function(c) {
+                                c.getEl().on('click', function() {
+                                    Ext.getCmp("loginwindow").getController().onGuestClick();
+                                }, c);
+                            }
+                        }
+
+                    }
                 ]
             }]
         }
