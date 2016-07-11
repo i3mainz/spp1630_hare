@@ -56,6 +56,11 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
         border: false,
         defaults: {
             checked: true
+            /*listeners: {  // currently not working!
+                change: function(field, newVal, oldVal) {
+                    console.log('change status!');
+                }
+            }*/
         }
         //anchor: "100%",
         //layout: "hbox"
@@ -74,8 +79,8 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
 
     initComponent: function () {
         Ext.apply(this, {
-            items: this.buildItems(),
-            buttons: this.buildButtons()
+            items: this.buildItems()
+            //buttons: this.buildButtons()
         });
         SppAppClassic.view.main.FilterPanel.superclass.initComponent.call(this);
     },
@@ -90,108 +95,20 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
                 style: {
                     "font-weight": "normal"
                 },
-                id: "project" + index + "Checkbox"
+                id: "project" + index + "Checkbox",
+                listeners: {
+                    change: "applyFilter"
+                }
             };
         };
 
         var itemList = [];
 
-        var projects = Projects.projectList;
-        for (var key in projects) {
-            var project = projects[key];
-            if (project.db_name) {
-                itemList.push(createProject(project.db_name, project.id));
-            }
-        }
+        ProjectService.getProjectsWithDbName().forEach(function(project) {
+            itemList.push(createProject(project.db_name, project.id));
+        })
 
         return itemList;
-    },
-
-    buildPanelItems: function () {
-        return [/*{
-                xtype: "panel", // hidden dummy panel to have the remaining closed
-                hidden: true,
-                collapsed: false
-            },*/{
-                xtype: "panel",
-                title: "Projects",
-                scrollable: true,
-                items: this.buildProjectCheckboxes()
-            },{
-                xtype: "panel",
-                title: "Centuries",
-                layout: {
-                    type: "vbox",
-                    align: "center"
-                },
-                items: [
-                    {
-                        xtype: "label",
-                        id: "sliderlabel",
-                        reference: "sliderlabel",
-                        text: "1BC - 13AD",
-                        padding: "5 0 0 0"
-                    },{
-                        xtype: "centuryslider",
-                        //id: "centuryslider",
-                        width: 160,
-                        padding: "0 0 10 0",
-                        listeners: {
-                            /*changecomplete: function() {
-                                console.log("completed sliderchange!");
-                            },*/
-                            change: "onSliderChange"
-                        }
-                    },{
-                        xtype: "checkbox",
-                        checked: true,
-                        boxLabel: "allow propable",
-                        name: "allowPropable",
-                        id: "allowPropableCheckbox"
-                    },{
-                        xtype: "checkbox",
-                        checked: false,
-                        boxLabel: "only continuous",
-                        name: "onlyContinuous",
-                        id: "onlyContinuousCheckbox"
-                    }
-                ]
-            },{
-                xtype: "panel",
-                title: "Status",
-                defaults: {
-                    listeners: {  // currently not working!
-                        change: function(field, newVal, oldVal) {
-                            console.log('change status!');
-                        }
-                    }
-                },
-                items: [
-                    {
-                        xtype: "checkbox",
-                        checked: true,
-                        boxLabel: "1 - complete",
-                        name: "status",
-                        //inputValue: 1,  // returns true or false
-                        id: "checkboxStatus1"
-                    },{
-                        xtype: "checkbox",
-                        checked: true,
-                        boxLabel: "2 - in progress",
-                        name: "status",
-                        id: "checkboxStatus2"
-                        //inputValue: 2
-                    },{
-                        xtype: "checkbox",
-                        checked: true,
-                        boxLabel: "3 - incomplete",
-                        name: "status",
-                        id: "checkboxStatus3"
-                        //inputValue: 3
-                    }
-                ]
-            }
-        ];
     },
 
     buildItems: function () {
@@ -202,75 +119,50 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
                 title: "Projects",
                 items: this.buildProjectCheckboxes()
             },{
+                xtype: "centurySelector",
+                id: "centuryselector",
                 title: "Centuries",
-                /*layout: {
-                    type: "vbox",
-                    align: "center"
-                },*/
-                items: this.buildCenturiesItems()
+                width: 160,
+                listeners: {
+                    change: "applyFilter"
+                }
+
             },{
                 title: "Status",
+                defaults: {
+                    checked: true,
+                    listeners: {
+                        change: "applyFilter"
+                    }
+                },
                 items: [
                     {
                         boxLabel: "1 - complete",
                         name: "status",
-                        //inputValue: 1,  // returns true or false
                         id: "checkboxStatus1"
                     },{
                         boxLabel: "2 - in progress",
                         name: "status",
                         id: "checkboxStatus2"
-                        //inputValue: 2
                     },{
                         boxLabel: "3 - incomplete",
                         name: "status",
                         id: "checkboxStatus3"
-                        //inputValue: 3
                     }
                 ]
             }
         ];
     },
 
-    buildCenturiesItems: function() {
-        return [
-            {
-                xtype: "label",
-                //reference: "sliderlabel",
-                text: "1BC - 13AD",  // BCE, CE
-                padding: "5 0 0 0"
-            },{
-                xtype: "centuryslider",
-                width: 160,
-                padding: "0 0 10 0",
-                listeners: {
-                    //changecomplete: "onSliderChangeComplete",
-                    change: "onSliderChange"
-                }
-            },{
-                xtype: "checkbox",
-                //checked: true,
-                boxLabel: "allow propable",
-                name: "allowPropable",
-                id: "allowPropableCheckbox"
-            },{
-                xtype: "checkbox",
-                checked: false,
-                boxLabel: "only continuous",
-                name: "onlyContinuous",
-                id: "onlyContinuousCheckbox"
-            }
-        ];
-    },
     //items: [], // added on initCompoenent
 
-    buildButtons: function() {
+    /*buildButtons: function() {
         return [{
             text: "Apply",
             id: "applyFilterButton",
             handler: "onApplyButtonClick"
         }];
-    },
+    },*/
 
     /**
      * function for easier toggling. removes code in toolbarcontroller

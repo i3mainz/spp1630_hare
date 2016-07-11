@@ -3,7 +3,7 @@
 // not really a class
 // todo: make store
 
-Ext.define("Projects", {
+Ext.define("ProjectService", {
     /* singleton classes get created when they are defined. no need to Ext.create them.
     access them via the class-name directly. e.g. LayerStyles.bluePoints
     variable is globally available */
@@ -154,7 +154,7 @@ Ext.define("Projects", {
      * returns the project object that has the given name
      * as db_name
      */
-    getProjectByName: function(projectName) {
+    getProjectByDbName: function(projectName) {
         var me = this;
         for (var key in me.projectList) {
             if (!me.projectList.hasOwnProperty(key)) continue;
@@ -165,5 +165,27 @@ Ext.define("Projects", {
                 return project;
             }
         }
+    },
+
+    getProjectsWithData: function() {
+        var projects = [];
+        for (var key in this.projectList) {
+            var project = this.projectList[key];
+            if (project.hasData) {
+                projects.push(project);
+            }
+        }
+        return projects;
+    },
+
+    getProjectsWithDbName: function() {
+        var projects = [];
+        for (var key in this.projectList) {
+            var project = this.projectList[key];
+            if (project.db_name) {
+                projects.push(project);
+            }
+        }
+        return projects;
     }
 });

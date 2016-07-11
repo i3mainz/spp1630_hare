@@ -45,26 +45,7 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
                     //anchor: 'top'
                 },
                 handler: "onToggleFilter"
-            }/*,{
-                id: "gridButton", // used in GridWindow.js
-                text: "Grid",
-                glyph: "xf0ce@FontAwesome",
-                enableToggle: true,
-                pressed: false,
-                handler: "onGridClick"
-            }*/
-            /*{
-                glyph: "xf013@FontAwesome",
-                id: "settingsButton",
-                disabled: true,  // unlocked dynamically
-                enableToggle: true,
-                tooltip: {
-                    text: "Settings"
-                    //anchor: 'top'
-                },
-                handler: "onToggleSettings"
-            }*/
-            ]
+            }]
         });
 
         SppAppClassic.view.main.MapToolbar.superclass.initComponent.call(this);

@@ -22,22 +22,39 @@ module.exports = function(config) {
         "../bower_components/extjs/build/ext-all.js",
         "../bower_components/extjs/build/classic/theme-crisp/theme-crisp.js",
 
-        //"SpecRunner.html",
+        // the dynamically built bootstrap.js contains my custom classes
+
+        //"../ext/ext-bootstrap.js",
+        //"../bootstrap.js",
+        //"../bootstrap.css",
+        //"../build/development/SppAppClassic/**/*.js",
+
+        // vendor
         "http://openlayers.org/en/v3.13.0/css/ol.css",
         "http://openlayers.org/en/v3.13.0/build/ol.js",
         "../packages/remote/GeoExt/build/resources/GeoExt-all.css",
         "../packages/remote/GeoExt/build/GeoExt.js",
 
-        //"../app/Application.js",  // loads all other view, controllers etc automatically
+        // singletons have to be loaded attitionally, since they are gloabal
+        "../app/service/LayerStyles.js",
+
+        // my app
+        "../app/**/*.js",
+        "../app_test.js",  // loads all other view, controllers etc automatically
         //"..app.js",
         //"../*.*",
 
         //"../app.js",
         //"../bootstrap.js",
         // load all classes standalone
-        "../app/**/*.js",
-        "spec/**/*.js"
-        //"spec/view/Login.js"
+        //"../app/**/*.js",
+        //"spec/**/*.js"
+        "spec/basic-tests.js",
+
+        "spec/view/login/*.js",
+        "spec/view/main/*.js",
+        "spec/controllers/**/*.js",
+        "spec/services/**/*.js"
     ],
 
 

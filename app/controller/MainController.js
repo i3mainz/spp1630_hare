@@ -60,11 +60,8 @@ Ext.define("SppAppClassic.MainController", {
 
     // main functions
     updateLogoutInfo: function() {
-
-        if (AuthService.isAuthenticated()) {  // double check, should always be the case
-            var text = "Logged in as " + AuthService.getUser() + ".";
-            Ext.getCmp("logoutButtonlabel").setText(text);
-        }
+        var text = "Logged in as " + AuthService.getUser() + ".";
+        Ext.getCmp("logoutButtonlabel").setText(text);
     },
 
     onClickLogout: function() {
@@ -103,7 +100,7 @@ Ext.define("SppAppClassic.MainController", {
      */
     onMainPanelDestroy: function() {
         var extWindow;
-        console.log("destroy view!");
+        //console.log("destroy view!");
         // destroy all windows when main view gets destroyed
         // to prevent them from still being displayed on login view
 
@@ -218,7 +215,7 @@ Ext.define("SppAppClassic.MainController", {
         var filterPanel = Ext.getCmp("filterPanel");
 
         if (!filterPanel) {  // lazy instantiation
-            var mainPanel = Ext.getCmp("mainPanel");
+            var mainPanel = Ext.getCmp("mainpanel");
 
             // create filterpanel as item of main panel
             mainPanel.add([{
@@ -275,7 +272,6 @@ Ext.define("SppAppClassic.MainController", {
      * unlocks buttons for registred authorized users
     */
     unlockButtons: function() {
-        console.log("unlocking buttons!");
         if (AuthService.isAuthorized()) {
             var buttonList = ["filterButton"]; // ["filterButton", "gridButton", "settingsButton"]
             for (var i = 0; i < buttonList.length; i++) {
@@ -302,8 +298,8 @@ Ext.define("SppAppClassic.MainController", {
                 // SPP internal layer groups
                 //OL3MapService.getMap().addLayer(LayerGroups.barrington);
                 //OL3MapService.getMap().addLayer(LayerGroups.spp);
-                OL3MapService.addLayer(LayerGroups.barrington);
-                OL3MapService.addLayer(LayerGroups.spp);
+                //
+                OL3MapService.getMap().addLayer(LayerGroups.layers.spp);
 
                 // agInternal
                 //OL3MapService.getMap().addLayer(LayerGroups.agIntern);  // empty
@@ -323,10 +319,10 @@ Ext.define("SppAppClassic.MainController", {
                 //me.createLayersFromStore();
                 //console.log("done loading layers for users");
             } else {
-                OL3MapService.addLayer(LayerGroups.sppOpen);
+                OL3MapService.addLayer(LayerGroups.layers.sppOpen);
             }
 
-            console.log("layers aded without error");
+            //console.log("layers aded without error");
         } catch (e) {
             console.log("something went wrong trying to add layer group");
         }

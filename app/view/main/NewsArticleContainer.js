@@ -39,23 +39,25 @@ Ext.define("SppAppClassic.view.main.NewsArticleContainer",{
                 me.buildImage()
             ]
         });
-
         SppAppClassic.view.main.NewsArticleContainer.superclass.initComponent.call(this);
     },
 
     buildContent: function() {
         var me = this;
-        if (me.contentTitle && me.contentText && me.contentAuthor && me.contentTimestamp) {
+        if (me.contentTitle && me.contentText && me.contentTimestamp) {
             return {
                 xtype: "component",
-                html: "<h2 class='news-title'>" + me.contentTitle + "</h2>" +
-                      "<p>" +
-                        "<span class='news-author'>" + me.contentAuthor + "</span>" +
-                        "<span class='news-time'>" + me.contentTimestamp + "</span>" +
-                      "</p>" +
-                      "<p>" +
-                        "<span class='news-text'>" + me.contentText + "</span>" +
-                      "</p>"
+                html: [
+                    "<h2 class='news-title'>" + me.contentTitle + "</h2>",
+                    "<p>",
+                        "<span class='news-time'>",
+                            me.contentTimestamp,
+                        "</span>",
+                    "</p>",
+                    "<p>",
+                        "<span class='news-text'>" + me.contentText + "</span>",
+                    "</p>"
+                ].join("")
             };
         }
     },

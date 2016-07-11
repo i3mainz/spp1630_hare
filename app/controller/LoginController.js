@@ -20,29 +20,34 @@ Ext.define("SppAppClassic.LoginController", {
         // get components
         var label = Ext.getCmp("loginLabel");
         var loginButton = Ext.getCmp('loginSubmitButton');
-        var guestButton = Ext.getCmp('guestSubmitButton');
-        var formData = this.lookupReference("loginform").getValues();
-
+        //var guestButton = Ext.getCmp('guestSubmitButton');
+        var formData = {
+            username: Ext.getCmp('usernameField').getValue(),
+            password: Ext.getCmp('passwordField').getValue()
+        };//this.lookupReference("loginform").getValues();
+        //console.log(formData);
         // update label
-        label.setValue("Validating...");
+        //label.setValue("Validating...");
 
         // lock buttons to prevent additional clicks during validation
         loginButton.disable();
-        guestButton.disable();
+        //guestButton.disable();
 
+        // production
         AuthService.login(formData.username, formData.password, function() {
             // success
             me.initMainView();
 
-        }, function() {
+        }, function(errorMessage, response) {
             // failure
-            Ext.getCmp("loginLabel").setValue("Failed!");
+            //Ext.getCmp("loginLabel").setValue(errorMessage);
+            Ext.getCmp("passwordField").setActiveError(errorMessage);
 
             // unlock buttons
             loginButton.enable();
-            guestButton.enable();
-
+            //guestButton.enable();
         });
+
     },
 
     onGuestClick: function() {
@@ -56,18 +61,17 @@ Ext.define("SppAppClassic.LoginController", {
 
     onTextFieldChange: function() {
         var loginButton = Ext.getCmp("loginSubmitButton");
-        var guestButton = Ext.getCmp("guestSubmitButton");
-
-        if (loginButton.isDisabled()) {
-            guestButton.enable();
+        //var guestButton = Ext.getCmp("guestSubmitButton");
+        if (Ext.getCmp("passwordField").getValue().length > 0 && Ext.getCmp("usernameField").getValue().length > 0) {
+            loginButton.enable();
         } else {
-            guestButton.disable();
+            loginButton.disable();
         }
     },
 
     initMainView: function() {
         // update label
-        Ext.getCmp("loginLabel").setValue("Success!");
+        //Ext.getCmp("loginLabel").setValue("Success!");
 
         // Remove Login Window
         this.getView().destroy();

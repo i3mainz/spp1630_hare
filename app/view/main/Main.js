@@ -111,6 +111,10 @@ Ext.define("SppAppClassic.view.main.Main", {
             }]
         });
 
+
+        this.getController().unlockButtons();
+
+
         SppAppClassic.view.main.Main.superclass.initComponent.call(this);
         //this.callParent();
     }

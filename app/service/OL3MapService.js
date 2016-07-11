@@ -16,6 +16,10 @@ Ext.define("OL3MapService", {
 
     map: null,
 
+    setMap: function(map) {
+        this.map = map;
+    },
+
     /*
      * returns the OpenLayers 3 map object
      */
@@ -25,14 +29,15 @@ Ext.define("OL3MapService", {
 
     // required to completely reset the map on a logout
     initMap: function() {
-        this.map = new ol.Map({
+        this.setMap(new ol.Map({
             layers: [
                 // TODO: do this on startup
 
-                LayerGroups.basemaps,
-                LayerGroups.hydrology,
-                LayerGroups.darmc,
-                LayerGroups.fetch,
+                LayerGroups.layers.basemaps,
+                LayerGroups.layers.hydrology,
+                LayerGroups.layers.darmc,
+                LayerGroups.layers.barrington,
+                LayerGroups.layers.fetch,
                 // specific layer groups like ag-internal will be loaded dynamically
 
             ],  // get laoded dynamically in MapController
@@ -60,7 +65,7 @@ Ext.define("OL3MapService", {
                 //extent: [-180, -90, 180, 90]
                 //restrictedExtent: new ol.extent(-180, -90, 180, 90)  // prevents going over 'edge' of map
             })
-        });
+        }));
     },
 
     /*
@@ -162,55 +167,55 @@ Ext.define("OL3MapService", {
      * returns list of layers that are currently active (no layergroups)
      * OUTDATED: use getLayers(true) instead
      */
-    getActiveLayers: function(onlyVectors) {
+    getActiveLayers: function() {
         /* returns a list of OL3 Layer objects
         that includes all selected nodes.
         isVector: if true, only active Vectorlayers are returned,
         WMS layers are ommitted */
-        onlyVectors = onlyVectors || false;  // set default to false
+        //onlyVectors = onlyVectors || false;  // set default to false
+        return this.getLayers("visibleOnly");
+    },
+
+    /**
+     * returns list of layer. option to only return currently active layers.
+     * this overwrites the geoext3 method, which just returns the layergroups.
+     * if there are layers nested in a layergroup, they will be also be returned
+     * in the array
+     */
+    getLayers: function(visibleOnly) {
+        visibleOnly = visibleOnly || false;  // set default to false
 
         var activeLayers = [];
 
         var layerGroups = this.map.getLayers();
+
         layerGroups.forEach(function(layerGroup) {      // loop layergroups
-            var layers = layerGroup.getLayers();
-            layers.forEach(function(layer, i) {         // loop layers
-                if (layer.getVisible()) {               // skip inactive layers
-                    var source = layer.getSource();
-                    if (onlyVectors) {
-                        if (source instanceof ol.source.Vector) {
+
+            if(layerGroup instanceof ol.layer.Group) {  // is a layergroup
+                // if layergroup -> get all layers
+                // if not layer group just append the one layer
+
+                var layers = layerGroup.getLayers();
+                layers.forEach(function(layer) {         // loop layers
+                    if (visibleOnly) {
+                        if (layer.getVisible()) {               // skip inactive layers
                             activeLayers.push(layer);
                         }
                     } else {
                         activeLayers.push(layer);
                     }
-                }
-            });
-        });
-        return activeLayers;
-    },
-
-    /**
-     * returns list of layer. option to only return currently active layers.
-     * this overwrites the geoext3 method, which just returns the layergroups
-     */
-    getLayers: function(activeOnly) {
-        activeOnly = activeOnly || false;  // set default to false
-
-        var activeLayers = [];
-
-        var layerGroups = this.map.getLayers();
-        layerGroups.forEach(function(layerGroup) {      // loop layergroups
-            var layers = layerGroup.getLayers();
-            layers.forEach(function(layer) {         // loop layers
-                if (activeOnly) {
+                });
+            } else {
+                var layer = layerGroup;
+                if (visibleOnly) {
                     if (layer.getVisible()) {               // skip inactive layers
                         activeLayers.push(layer);
                     }
                 } else {
                     activeLayers.push(layer);
                 }
-            });
+            }
+
         });
         return activeLayers;
     },
@@ -262,24 +267,15 @@ Ext.define("OL3MapService", {
     /**
      * returns layer by its assigned name in layertree (not source name)
     */
-    getLayerByName: function(layername, activeOnly) {
-        activeOnly = activeOnly || true;
+    getLayerByName: function(layername) {
 
-        var resultlayer;
-        var layers;
-        if (activeOnly) {
-            layers = this.getActiveLayers(true);
-        } else {
-            this.getLayers();
-        }
-
-        layers.forEach(function(layer, i) {
-            //console.log("name: " + layer.get("name"));
+        var layers = this.getLayers();   // gets layers nested in layer groups
+        for (var i = 0; i < layers.length; i++) {
+            var layer = layers[i];
             if (layer.get("name") === layername) {
-                resultlayer = layer;
+                return layer;
             }
-        });
-        return resultlayer;
+        }
     },
 
     /**
@@ -328,7 +324,7 @@ Ext.define("OL3MapService", {
      * creates a ol.layer.Vector layer with a ol.source.Vector from ol.format.GeoJSON
      * as it's source
      */
-    createGeoJSONLayer: function(name, sourceName, legendUrl, layerStyle, isVisible) {
+    /*createGeoJSONLayer: function(name, sourceName, legendUrl, layerStyle, isVisible) {
         legendUrl = legendUrl || "";
         layerStyle = layerStyle || "";
         isVisible = isVisible || false;
@@ -366,19 +362,18 @@ Ext.define("OL3MapService", {
         }
 
         return layer;
-    },
+    },*/
 
     /**
      * layername needs to be complete with workspace (e.g. "SPP.Data").
      */
-    updateVectorSource: function(layer, filter) {
+    filterVectorSource: function(layer, filter) {
+        console.log("filtering vector source!");
         // TODO: obtain layername from provided layer object
         var sourceName = "SPP:spp_harbours_intern";
 
-        //console.log("creating source!");
-        var vectorSource;
-        // "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?bereich=SPP&layer=road&bbox=-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562&epsg=4326"
-        filter = filter || "";
+        console.log(layer.getSource().getFeatures().length);
+
 
         //var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
         var workspace = sourceName.split(":")[0];
@@ -386,41 +381,54 @@ Ext.define("OL3MapService", {
         //var BBOX = "-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562";
         var EPSG = "4326";
 
-        if (filter !== "") {
-            console.log("creating source for " + sourceName + " using filter: " + filter);
-            vectorSource = new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent, resolution, projection) {
-                    return SppAppClassic.app.globals.proxyPath +
-                        "bereich=" + workspace +
-                        "&layer=" + layerName +
-                        "&epsg=" + EPSG +
-                        "&CQL_FILTER=" + filter;
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                }))
-            });
+        //console.log(workspace, layerName);
+        //console.log("creating source for " + sourceName + " using filter: " + filter);
+        var vectorSource = new ol.source.Vector({
+            format: new ol.format.GeoJSON(),
+            url: SppAppClassic.app.globals.proxyPath +
+                    "bereich=" + workspace +
+                    "&layer=" + layerName +
+                    "&epsg=" + EPSG +
+                    "&CQL_FILTER=" + filter,
+            /*strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                maxZoom: 19
+            }))*/
 
 
+        });
 
-        } else {  // no filter
-            console.log("creating source for " + sourceName + " without any filters!");
-            vectorSource = new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent, resolution, projection) {
-                    return SppAppClassic.app.globals.proxyPath +
-                        "bereich=" + workspace +
-                        "&layer=" + layerName +
-                        "&epsg=" + EPSG;
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                }))
-            });
-        }
+        layer.setSource(vectorSource);
+
+        //this.getMap().removeLayer();
+        /*var newLayer = new ol.layer.Vector({
+           name: "Harbour data",
+           source: new ol.source.Vector({
+               format: new ol.format.GeoJSON(),
+               url: function(extent) {
+                   return proxyPath +
+                           "bereich=" + "SPP" +
+                           "&layer=" + "spp_harbours_intern" +
+                           //"&bbox=" + extent.join(",") +
+                           "&CQL_FILTER=" + filter +
+                           "&epsg=" + "4326";
+               },
+               strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                   maxZoom: 19
+               })),
+               wrapX: false  // dont repeat on X axis
+           }),
+           //style: LayerStyles.redPoints,
+           //legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+           style: LayerStyles.redPointLabelStyleFunction,
+           visible: true
+       });*/
+
+
+       //map.addLayer(newLayer);
+
         //return vectorSource;
-        layer.setSource(vectorSource);  // this refreshes automatically*/
+        //layer.getSource().clear();
+        //layer.setSource(vectorSource);  // this refreshes automatically*/
     },
 
     createAGInternLayer: function(projectID) {
@@ -480,14 +488,6 @@ Ext.define("OL3MapService", {
                 me.removeLayer(layerGroup);
             }
         });
-    },
-
-    /**
-     * creates a legend image -> or html -> based on an Open Layers
-     * style
-     */
-    createLegendImgFromOlStyle: function(style) {
-
     }
 
 });

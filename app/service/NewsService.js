@@ -8,15 +8,13 @@ Ext.define("NewsService", {
     singleton: true,
 
     _news: [
-        /*{
-            title: "Plenartreffen 2016",
-            author: "i3mainz",
-            timestamp: "17.02.2016 09:53 AM",
-            content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-        },*/{
+        {
+            title: "Try out the new filter functionality!",
+            timestamp: "11.07.2016",
+            content: "The new tool 'Filters' is available for registred users in the toolbar. It allows to filter the SPP data sets by project name, status and centuries. The slider to select centuries offers options to select all data available in one of the selected periods or to only select data that existed during all of the selected periods. The filter functionality is part of the newest update to version 1.1"
+        },{
             title: "Keep calm, Fetch is here!",
-            author: "i3mainz",
-            timestamp: "05.02.2016 10:00 AM",
+            timestamp: "05.02.2016",
             content: "Inspired by a presentation on the <a href='http://onlinelibrary.wiley.com/doi/10.1111/j.1095-9270.2012.00365.x/abstract' target='_blank'>Fetch Method</a> by <a href='http://www.spp-haefen.de/en/projects/hanoa-haefen-im-nordatlantik/team/' target='_blank'>Dr. Mirianne Nitter</a> during the International Conference " +
                      "\"Harbours as objects of interdisciplinary research\" in Kiel 2015, we decided to include fetch data in the VRE. " +
                      "\"The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced\" (<a href='https://en.wikipedia.org/wiki/Fetch_(geography)' target='_blank'>Wikipedia</a>). " +
@@ -25,8 +23,7 @@ Ext.define("NewsService", {
             image: "../resources/images/fetch.png"
         },{
             title: "Release Version 1.0",
-            author: "i3mainz",
-            timestamp: "03.01.2016 15:10 PM",
+            timestamp: "03.01.2016",
             content: "A lot has changed since the first tech demo of this WebGIS in 2013?. The first version " +
                      "was created using GXP, included in the OpenGeo Suite. It is used by " +
                      "OpenGeo in their applications, such as GeoExplorer and GeoEditor. GXP provides high " +

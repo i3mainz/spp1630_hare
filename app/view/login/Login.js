@@ -5,6 +5,7 @@ Ext.define("SppAppClassic.view.login.Login", {
 
     xtype: "login",  // alias
     reference: "loginWindow",
+    id: "loginwindow",
 
     requires: [
         "Ext.panel.Tool",           // tools: []
@@ -14,26 +15,121 @@ Ext.define("SppAppClassic.view.login.Login", {
     ],
 
     controller: "login",  // needs to be in requires
-
-    bodyPadding: 10,
-    title: "Login",
+    header: false,
+    //height: '100%',
+    //bodyPadding: 10,
+    //title: "Login",
     closable: false,  // show close-button
     autoShow: true,
-    floating: true,
+    //layout: "fit",
+    floating: false,
     //maximizable: true,
-    glyph: "xf090@fontawesome",
+    //glyph: "xf090@fontawesome",
     animate: true,  // not sure if this does anything
-    constrain: true,  // keeps window inside browser area
+    //layout: "fit",
+    style: {
+        //borderStyle: "solid",
+        //paddingTop: "30px",
+        //paddingLeft: "50px",
+        //paddingRight: "50px",
+        margin: "0 auto",
+        //backgroundColor: "red"
+        //marginRight: "30px"
+    },
 
-    initComponent: function () {
-        //console.log("init login window");
+    enableKeyEvents: true,
 
-        Ext.apply(this, {
+    items: [{
+        // parent container used for padding outside of borders
+        xtype: "container",
+        width: "80%",
+        //height: '100%',
+        style: {
+            //borderStyle: "solid",
+            paddingTop: "30px",
+            margin: "0 auto",
+            //paddingLeft: "50px",
+            //paddingRight: "50px",
+            //marginRight: "30px"
+        },
+
+        // columns within container
+        items: {
+            xtype: "container",
+            layout: 'column',
             items: [{
-                xtype: "form",
-                reference: "loginform",
+                //title: 'Column 1',
+                columnWidth: 0.5,
+
+
+                style: {
+                    marginRight: "30px",
+                    fontSize: "large"
+                },
+                layout: "vbox",
+                defaults: {
+                    xtype: "label",
+                    width: "100%"
+                },
                 items: [
                     {
+                        text: "SPP Virtual Research Environment",
+                        style: {
+                            fontSize: "30px",
+                            marginBottom: "50px"
+                        }
+                    },{
+                        //cls: "landing-text",
+                        text: "This is the Virtual Research Environment (VRE) of" +
+                         " the SPP 1630 Harbours Program. It visualizes harbour" +
+                         " related data compiled by participating SPP projects, " +
+                         "as well as additional hydrological and archeological" +
+                         " datasets. It is meant to act as a tool for " +
+                         "researchers during their ongoing projects." +
+
+                         "This website is an afford of the working group " +
+                         "\"Data Integration\". It was conceptualised in " +
+                         "collaboration with the University of Jena (FSU) and is" +
+                         " currently being developed by the i3mainz.",
+                        style: {
+                            width: "100%",
+                            //height: "100%"
+                        }
+                    },{
+                        //cls: "landing-text",
+                        text: "Researchers can login using their credentials provided by " +
+                         "the developers. Curious guests can skip the login and launch the " +
+                         "app in guest-mode with fewer data and limited functions.",
+                        style: {
+                            width: "100%",
+                            marginTop: "5px"
+                            //height: "100%"
+                        }
+                    }
+                ]
+            },
+
+
+            {
+                // right column
+
+                columnWidth: 0.5,
+
+                layout: "vbox",
+
+                style: {
+                    //borderStyle: "solid",
+                    paddingLeft: "30px",
+                    height: "100%",
+                    //marginLeft: "30px", //paddingRight: "30px",
+                    borderLeft: "solid thin black"
+                },
+
+                items: [{
+                        xtype: 'label',
+                        //forId: 'myFieldId',
+                        html: 'Login'
+                    },{
                         xtype: "textfield",
                         name: "username",
                         id: "usernameField",
@@ -42,17 +138,60 @@ Ext.define("SppAppClassic.view.login.Login", {
                         listeners: {
                             change: "onTextFieldChange"
                         }
-                    }, {
+                    },{
                         xtype: "textfield",
                         id: "passwordField",
                         name: "password",
                         inputType: "password",
                         fieldLabel: "Password",
                         allowBlank: false,
+                        msgTarget: 'side',
+
                         listeners: {
                             change: "onTextFieldChange"
                         }
+                    },{
+                        xtype: "button",
+                        text: "Login",
+                        disabled: true,
+                        reference: "loginSubmitButton",  // used to lock during validation
+                        id: "loginSubmitButton",
+                        formBind: true,  // disable until form filled
+                        tooltip: "Login using your username/password combination",
+                        handler: "onLoginClick",
+
+                    },{
+                        xtype: "label",
+                        style: {
+                            color: "lightgrey",
+                            marginTop: "10px",
+                            cursor: "pointer"
+                        },
+                        html: "Skip and use as guest",
+                        listeners: {
+                            render: function(c) {
+                                c.getEl().on('click', function() {
+                                    Ext.getCmp("loginwindow").getController().onGuestClick();
+                                }, c);
+                            }
+                        }
+
                     }
+                ]
+            }]
+        }
+    }]
+
+
+    /*initComponent: function () {
+        //console.log("init login window");
+
+        Ext.apply(this, {
+            items: [{
+                xtype: "form",
+                reference: "loginform",
+                items: [
+
                 ],
 
                 buttons: [{
@@ -79,5 +218,5 @@ Ext.define("SppAppClassic.view.login.Login", {
             }]
         }),
         SppAppClassic.view.login.Login.superclass.initComponent.call(this);
-    }
+    }*/
 });
