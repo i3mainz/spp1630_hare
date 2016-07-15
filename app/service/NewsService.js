@@ -9,7 +9,7 @@ Ext.define("NewsService", {
 
     _news: [
         {
-            title: "Try out the new filter functionality!",
+            title: "New filter functionality!",
             timestamp: "11.07.2016",
             content: "The new tool 'Filters' is available for registred users in the toolbar. It allows to filter the SPP data sets by project name, status and centuries. The slider to select centuries offers options to select all data available in one of the selected periods or to only select data that existed during all of the selected periods. The filter functionality is part of the newest update to version 1.1"
         },{

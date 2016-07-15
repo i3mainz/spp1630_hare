@@ -55,10 +55,10 @@ Ext.define("SppAppClassic.view.main.BasicTreeColumnLegends", {
             var layer = rec.data;
             var legendUrl = layer.get("legendUrl");  // get legend property defined in layers.js
             //console.log(legendUrl);
-            if (!legendUrl) {
-                legendUrl = "http://geoext.github.io/geoext2/" +
-                    "website-resources/img/GeoExt-logo.png";
-            }
+            // if (!legendUrl) {
+            //     legendUrl = "http://geoext.github.io/geoext2/" +
+            //         "website-resources/img/GeoExt-logo.png";
+            // }
 
             // apply height
             var legendClass;
@@ -71,7 +71,12 @@ Ext.define("SppAppClassic.view.main.BasicTreeColumnLegends", {
                 legendClass = "legend";
             }
 
-            return "<img class='" + legendClass + "' src='" + legendUrl + "' />";
+            // only show if legendUrl was provided
+            if (!legendUrl) {
+                return "";
+            } else {
+                return "<img class='" + legendClass + "' src='" + legendUrl + "' />";
+            }
         }
 
         /**

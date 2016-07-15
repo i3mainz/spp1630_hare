@@ -28,9 +28,9 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
     /*viewModel: {
         type: "main-filterpanel"
     },*/
-    region: "west",
-    resizable: false,
-    //closeAction: "hide",
+    //region: "west",
+    //resizable: false,
+    closeAction: "hide",
     title: "Filters",
     layout: {
         type: "anchor",

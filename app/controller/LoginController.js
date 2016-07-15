@@ -6,7 +6,7 @@ Ext.define("SppAppClassic.LoginController", {
 
     requires: [
         "AuthService",
-        "SppAppClassic.view.main.InfoTabPanel"
+        "SppAppClassic.view.main.NewsPanel"
     ],
 
     /**

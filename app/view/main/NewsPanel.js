@@ -1,10 +1,8 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.InfoTabPanel", {
-    extend: "Ext.tab.Panel",
+Ext.define("SppAppClassic.view.main.NewsPanel", {
+    extend: "Ext.panel.Panel",
     requires: [
-        //"SppAppClassic.view.main.News",
-        "SppAppClassic.view.main.AboutPanel",
         "Ext.form.field.Checkbox",
         "SppAppClassic.view.main.NewsArticleContainer"
     ],
@@ -22,13 +20,19 @@ Ext.define("SppAppClassic.view.main.InfoTabPanel", {
     closable: true,
     floating: true,
 
+    title: "News",
+
+    autoScroll: true,
+
     // dragging
     //draggable: true,
-    constrain: true,
+    constrain: false,
 
     defaults: {
         bodyPadding: 15
     },
+
+    layout: "fit",
 
     initComponent: function () {
 
@@ -37,8 +41,9 @@ Ext.define("SppAppClassic.view.main.InfoTabPanel", {
             items: [{
                 xtype: "container",
                 id: "newsPanel",
-                title: "News",
+
                 autoScroll: true,
+
                 margin: "0 0 10 0",
                 //modal: true,  // masks everthing else
                 //constrain: true,  // prevents dragging out of browser window size
@@ -49,23 +54,14 @@ Ext.define("SppAppClassic.view.main.InfoTabPanel", {
                     //padding: "5 0 5 0"
                 },
                 items: me.addNewsConainers(NewsService.getNews())
-            },{
+            }/*,{
                 xtype: "aboutpanel",
                 title: "About"
-            }]
+            }*/]
 
-            /*buttons: [{
-                xtype: "checkbox",
-                label: "Don't show again!"
-            },{
-                text: "Continue to VRE",
-                handler: "onContinueClick"
-            }]*/
         });
 
-        //this.appendNews(NewsService.getNews());
-
-        SppAppClassic.view.main.InfoTabPanel.superclass.initComponent.call(this);
+        SppAppClassic.view.main.NewsPanel.superclass.initComponent.call(this);
     },
 
     addNewsConainers: function(newsList) {
@@ -83,25 +79,6 @@ Ext.define("SppAppClassic.view.main.InfoTabPanel", {
                 contentTimestamp: article.timestamp,
                 contentText: article.content,
                 contentImage: article.image
-                //layout: "fit",
-                //margin: "10px",
-                // container css
-                /*style: {
-                    //borderColor: "#000000",
-                    borderStyle: "solid",
-                    borderWidth: "1px"
-                },*/
-                // content css
-                /*bodyStyle: {
-                    //"maxHeight": "300px",
-                    //"border-width": "5px",
-                    "padding": "10px"
-                },*/
-                //cls: "news-entry-panel",
-                //border: true,
-                //shadow: "drop",
-                //title: news.get("title"),
-                //html: html
             })
         });
         return news;

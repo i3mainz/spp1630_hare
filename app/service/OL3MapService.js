@@ -36,7 +36,7 @@ Ext.define("OL3MapService", {
                 LayerGroups.layers.basemaps,
                 LayerGroups.layers.hydrology,
                 LayerGroups.layers.darmc,
-                LayerGroups.layers.barrington,
+                LayerGroups.layers.awmc,
                 LayerGroups.layers.fetch,
                 // specific layer groups like ag-internal will be loaded dynamically
 
@@ -268,7 +268,6 @@ Ext.define("OL3MapService", {
      * returns layer by its assigned name in layertree (not source name)
     */
     getLayerByName: function(layername) {
-
         var layers = this.getLayers();   // gets layers nested in layer groups
         for (var i = 0; i < layers.length; i++) {
             var layer = layers[i];

@@ -42,8 +42,28 @@ Ext.define("SppAppClassic.view.main.Main", {
             items: [{
                 xtype: "layertree",
                 region: "west",
+                title: "Layers",
                 //store: treeStore,
-                id: "layerTree" // used to set store later
+                id: "layerTree", // used to set store later
+                autoScroll: true,
+                width: 230,
+                margin: "0 5 0 0",
+            },{
+                xtype: "panel",
+                region: "west",
+                width: 230,
+                id: "descriptionPanel",
+                title: "Description",
+                collapsible: true,
+                collapsed: true,
+                closable: true,
+                closeAction: 'hide',
+                margin: "0 5 0 0"
+            },{
+                xtype: "filterpanel",
+                region: "west",
+                margin: "0 5 0 0",
+                hidden: true
             },{
                 xtype: "panel",
                 id: "mappanel",
@@ -63,51 +83,53 @@ Ext.define("SppAppClassic.view.main.Main", {
 
             tools: [{
                 xtype: "label",
-                id: "infoLabel",
-                glyph: "xf1ea@FontAwesome",
-                html: "<a href='#'>Info</a>",
+                html: "v1.1",
                 style: {
-                    color: "#696969",
+                    "color": "#3892d4",
                     "font-size": "13px",
                     "font-weight": "bold",
-                    "margin-right": "10px"
+                    "margin-right": "10px",
+                    "cursor": "pointer"
                 },
                 listeners: {
                     element: "el", click: "onClickInfo"
                 }
-                //cls: "logoutLabel",  // css class
-                //text: // gets added before render
-                //padding: "4 5 0 0"  // 4 top is to be in line with logout button
-                //style  // used css formatting instead
+            },{
+                xtype: "label",
+                id: "infoLabel",
+                html: "News",
+                style: {
+                    "color": "#3892d4",
+                    "font-size": "13px",
+                    "font-weight": "bold",
+                    "margin-right": "10px",
+                    "cursor": "pointer"
+                },
+                listeners: {
+                    element: "el", click: "onClickInfo"
+                }
             },{
                 xtype: "label",
                 id: "logoutButtonlabel",
                 style: {
-                    color: "#696969",
+                    "color": "#696969",
                     "font-size": "13px",
                     "font-weight": "normal",
                     "margin-right": "5px"
                 }
-                //cls: "logoutLabel",  // css class
-                //text: // gets added before render
-                //padding: "4 5 0 0"  // 4 top is to be in line with logout button
-                //style  // used css formatting instead
             },{
-                //xtype: "button",
                 xtype: "label",
-                //text: "<a href='#'>Logout</a>",
-                html: "<a href='#'>Logout</a>",
+                html: "Logout",
                 align: "right",
-                //glyph: "xf08b@fontawesome",
                 style: {
-                    color: "#696969",
+                    "color": "#3892d4",
                     "font-size": "13px",
-                    "font-weight": "bold"
+                    "font-weight": "bold",
+                    "cursor": "pointer"
                 },
                 listeners: {
                     element: "el", click: "onClickLogout"
                 }
-                //handler: "onClickLogout"
             }]
         });
 

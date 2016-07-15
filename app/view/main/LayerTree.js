@@ -12,7 +12,8 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
        "Ext.tree.plugin.TreeViewDragDrop",           // ptype: treeviewdragdrop
        "Ext.tree.Column",                            // xtype: "treecolumn"
        "SppAppClassic.view.main.BasicTreeColumnLegends",  // ptype: "basic_tree_column_legend"
-       "OL3MapService"
+       "OL3MapService",
+       "LayerGroups"
     ],
 
     //controller: "main-layertree",
@@ -21,19 +22,17 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
         plugins: {ptype: "treeviewdragdrop"}  // enable drag and drop of layers
     },
 
-    title: "Layers",
+    //title: "Layers",
 
-    collapsible: true,
     rootVisible: false,
     fill: true,
-    width: 230,
-    border: false,
+    //border: false,
     hideHeaders: true,
     //flex: 1,
     lines: false,
-    autoScroll: true,
-    margin: "0 5 0 0",
-    split: false,
+    //autoScroll: true,
+    //margin: "0 5 0 0",
+    //split: false,
 
     // display legend
     columns: {
@@ -48,23 +47,23 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
         }]
     },
 
-    /*initComponent: function () {
-        //console.log("init layer tree panel");
-        //console.log( OL3MapService.getMap().getLayerGroup() );
-
-
-        //console.log("done!");
-
-        SppAppClassic.view.main.Layertree.superclass.initComponent.call(this);
-    },*/
-
     // alternative to treePanel.on('select', function())
     listeners: {
-        /*checkchange: function() {
-            //console.log("checkchange");
-        }*/
-        // refresh legend every time a node is selected
-        //checkchange: 'onNodeCheckChange' // defined in MapController
-    }
+        itemclick: function(view, record) {
+            var nodeName = record.data.text;
+            var panel = Ext.getCmp("descriptionPanel");
+            var layer = OL3MapService.getLayerByName(nodeName);
 
+            if (layer) {
+                // get layer description
+                if (layer.get("description")) {
+                    panel.setHeight(200);
+                    panel.update(layer.get("description"));
+                } else {
+                    panel.setHeight(0);
+                    panel.update("");
+                }
+            }
+        }
+    }
 });

@@ -49,6 +49,7 @@ Ext.define("LayerGroups", {
             //style: LayerStyles.redPoints,
             legendUrl: getLegendImg("SPP:spp_harbours_intern"),
             style: LayerStyles.pointTypeStyleFunction, //LayerStyles.redPointLabelStyleFunction,
+            description: "Data of the spp projects",
             visible: true
         }),
 
@@ -71,6 +72,7 @@ Ext.define("LayerGroups", {
             //style: LayerStyles.redPoints,
             legendUrl: getLegendImg("SPP:spp_harbours_intern"),
             style: LayerStyles.pointTypeStyleFunction, //LayerStyles.redPointLabelStyleFunction,
+            description: "Data of the spp projects open to anyone interested.",
             visible: true
         }),
 
@@ -93,6 +95,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: "Lakes.",
                     visible: false
                 }),
 
@@ -105,6 +108,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: "Streams.",
                     visible: false
                 }),
 
@@ -125,6 +129,7 @@ Ext.define("LayerGroups", {
                         wrapX: false  // dont repeat on X axis
                     }),
                     style: LayerStyles.eckholdtStyleFunction,
+                    description: "Description Eckhold 1980",
                     visible: false
                 }),
 
@@ -143,89 +148,117 @@ Ext.define("LayerGroups", {
             visible: false
         }),
 
-        barrington: new ol.layer.Group({
-            //layers: Layers.barrington,
-            name: "Barrington Atlas",
+        awmc: new ol.layer.Group({
+            name: "AWMC",
             layers: new ol.Collection([
                 new ol.layer.Tile({
-                    name: "Aqueducts",  // title
-                    source: new ol.source.TileWMS({
-                        url: wmsPath,
-                        params: {"LAYERS": "SPP:aqueduct", "TILED": true},
-                        serverType: "geoserver",
-                        wrapX: false   // dont repeat on X axis
+                    name: "Basemap",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.map-knmctlkh/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
+                        wrapDateLine: true,
+                        transitionEffect: "resize",
+                        attribution: "Tiles &copy; <a href='http://mapbox.com/' target='_blank'>MapBox</a> | " +
+                            "Data &copy; <a href='http://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> and contributors, CC-BY-SA |"+
+                            " Tiles and Data &copy; 2013 <a href='http://www.awmc.unc.edu' target='_blank'>AWMC</a>" +
+                            " <a href='http://creativecommons.org/licenses/by-nc/3.0/deed.en_US' target='_blank'>CC-BY-NC 3.0</a>"
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
+
+                    description: "The AWMC base map. In addition to imagery derived from OSM and Mapbox, this map has the Inland Water, River Polygons, Water Course Center Lines, Base Open Water Polygons, supplemental water polygons (not listed below, for areas far outside of the scope of the Barrington Atlas ) layers. Please see the individual listings below for data citations. It is suitable for most applications when left on its own, or  in combination with water polygons for a particular time period (archaic, Roman, etc).",
                     visible: false
                 }),
                 new ol.layer.Tile({
-                    name: "Bridges",  // title
-                    source: new ol.source.TileWMS({
-                        url: this.wmsPath,
-                        params: {"LAYERS": "SPP:bridge", "TILED": true},
-                        serverType: "geoserver",
-                        wrapX: false   // dont repeat on X axis
+                    name: "Coast Outline",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.eoupu8fr/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
-                    name: "Baths",  // title
-                    source: new ol.source.TileWMS({
-                        url: this.wmsPath,
-                        params: {"LAYERS": "SPP:bath", "TILED": true},
-                        serverType: "geoserver",
-                        wrapX: false   // dont repeat on X axis
+                    name: "Roads",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.awmc-roads/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
-                    name: "Ports",  // title
-                    source: new ol.source.TileWMS({
-                        url: this.wmsPath,
-                        params: {"LAYERS": "SPP:port", "TILED": true},
-                        serverType: "geoserver",
-                        wrapX: false   // dont repeat on X axis
+                    name: "Benthos Water",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.s5l5l8fr/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
-                    name: "Settlements",  // title
-                    source: new ol.source.TileWMS({
-                        url: this.wmsPath,
-                        params: {"LAYERS": "SPP:settlement", "TILED": true},
-                        serverType: "geoserver",
-                        wrapX: false   // dont repeat on X axis
+                    name: "Inland Water",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.awmc-inland-water/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
-                    name: "Canals",  // title
-                    source: new ol.source.TileWMS({
-                        url: this.wmsPath,
-                        params: {"LAYERS": "SPP:canal", "TILED": true},
-                        serverType: "geoserver",
-                        wrapX: false   // dont repeat on X axis
+                    name: "River Polygons",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.9e3lerk9/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
+                    description: "Significant rivers, generally following the Barrington Atlas with additions from VMap0 and OSM and further work by the AWMC.",
                     visible: false
                 }),
                 new ol.layer.Tile({
-                    name: "Roads",  // title
-                    source: new ol.source.TileWMS({
-                        url: this.wmsPath,
-                        params: {"LAYERS": "SPP:road", "TILED": true},
-                        serverType: "geoserver",
-                        wrapX: false   // dont repeat on X axis
+                    name: "Water Course Center Lines",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.awmc-water-courses/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
+                    description: "Lines following ancient rivers, generally following the Barrington Atlas with additions from VMap0 and OSM and further work by the AWMC.",
+                    visible: false
+                }),
+                new ol.layer.Tile({
+                    name: "Base Open Water Polygons",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.h0rdaemi/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
+                    }),
+                    description: "Water polygons, generally following the Barrington Atlas with additions from VMap0 and OSM and further work by the AWMC. These are shared by all time periods.",
+                    visible: false
+                }),
+                new ol.layer.Tile({
+                    name: "Archaic water",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.yyuba9k9/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
+                    }),
+                    description: "Water polygons which differ for the Archaic period only, generally following the Barrington Atlas with further work by the AWMC.",
+                    visible: false
+                }),
+                new ol.layer.Tile({
+                    name: "Classical water",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.l5xc4n29/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
+                    }),
+                    description: "Water polygons which differ for the Classical period only, generally following the Barrington Atlas with further work by the AWMC.",
+                    visible: false
+                }),
+                new ol.layer.Tile({
+                    name: "Hellenistic Water",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.gq0ssjor/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
+                    }),
+                    description: "Water polygons which differ for the Hellenistic period only, generally following the Barrington Atlas with further work by the AWMC.",
+                    visible: false
+                }),
+                new ol.layer.Tile({
+                    name: "Roman water",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.ymnrvn29/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
+                    }),
+                    description: "Water polygons which differ for the Roman period only, generally following the Barrington Atlas with further work by the AWMC.",
+                    visible: false
+                }),
+                new ol.layer.Tile({
+                    name: "Late Antiquity water",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.t12it3xr/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
+                    }),
+                    description: "Water polygons which differ for the Late Antiquity period only, generally following the Barrington Atlas with further work by the AWMC.",
                     visible: false
                 })
-            ]),
-            visible: false
+            ])
         }),
 
         darmc: new ol.layer.Group({
@@ -336,6 +369,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: "Fetch description!",
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -446,15 +480,7 @@ Ext.define("LayerGroups", {
                     legendUrl: "https://otile4-s.mqcdn.com/tiles/1.0.0/sat/4/4/7.jpg",
                     visible: false
                 })
-                /*new ol.layer.Tile({
-                    name: "Stamen Watercolor",
-                    source: new ol.source.Stamen({
-                        layer: "watercolor",
-                        wrapX: false
-                    }),
-                    legendUrl: "http://www.visualnews.com/wp-content/uploads/2012/03/Stamen-Web-App-Watercolor-Maps-1.jpg",
-                    visible: false
-                }),*/
+
             ])
         }),
 

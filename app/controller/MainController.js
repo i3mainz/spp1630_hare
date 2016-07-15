@@ -8,7 +8,7 @@ Ext.define("SppAppClassic.MainController", {
     requires: [
         "Ext.button.Button",
         "SppAppClassic.view.login.Login",
-        "SppAppClassic.view.main.InfoTabPanel",
+        "SppAppClassic.view.main.NewsPanel",
         "AuthService",
         "OL3MapService"
     ],
@@ -116,20 +116,6 @@ Ext.define("SppAppClassic.MainController", {
         if (extWindow) {
             extWindow.destroy();
         }
-
-        //layerTree
-
-        /*extWindow = Ext.getCmp("mappanel");
-        if (extWindow) {
-            extWindow.destroy();
-        }*/
-
-        //Ext.getCmp("layerTree").getStore().removeAll();
-
-
-
-
-        //this.getView().destroy();
     },
 
     onGeoExtMapRender: function() {
@@ -173,42 +159,11 @@ Ext.define("SppAppClassic.MainController", {
     /* zoomTomax extend -> get Center of map on start of app.
     then set farthest zoom level */
     onCenter: function() {
-        console.log("center in!");
         var view = Ext.getCmp("geoextMap").getView();
         view.setCenter(ol.proj.fromLonLat([8.751278, 50.611368]));
         view.setZoom(4);
         view.setRotation(0);
     },
-
-    /*onRotate: function() {
-        console.log("rotate!");
-        var view = Ext.getCmp("geoextMap").getView();
-        var currentRotation = view.getRotation();
-        console.log(currentRotation);
-        Ext.getCmp("geoextMap").getView().setRotation(currentRotation + 0.5);
-    },*/
-    /*onToggleHover: function() {
-        console.log("toggle hover!");
-        var interactions = OL3Map.map.getInteractions();
-        var selectInteraction;
-        interactions.forEach(function(interaction) {
-            if (interaction instanceof ol.interaction.Select) {
-                selectInteraction = interaction;
-            }
-        });
-        // toogle on
-        if (selectInteraction) {
-            OL3Map.map.removeInteraction(selectInteraction);
-            //Ext.getCmp("hoverButton").setText("end hover");
-        // toogle off
-        } else {
-            var newInteraction = new ol.interaction.Select({
-                condition: ol.events.condition.pointerMove  // empty -> select on click
-            });
-            OL3Map.map.addInteraction(newInteraction);
-            //Ext.getCmp("hoverButton").setText("start hover");
-        }
-    },*/
 
     onToggleFilter: function() {
         //var filterPanel = this.lookupReference("filterpanel");  // not working
@@ -235,38 +190,6 @@ Ext.define("SppAppClassic.MainController", {
         //filterPanel.toggle();
         //filterPanel.show()
     },
-
-    /*onGridClick: function() {
-        //var gridPanel = this.lookupReference("gridpanel");
-        var gridPanel = Ext.getCmp("gridWindow");
-
-        if (!gridPanel) {
-            gridPanel = Ext.create("SppAppClassic.view.main.GridWindow");
-        }
-        //filterPanel.toggle();
-
-        if (gridPanel.isHidden()) {
-            gridPanel.show();
-        } else {
-            gridPanel.hide();
-        }
-    },*/
-
-    /*onToggleSettings: function() {
-        //var filterPanel = this.lookupReference("filterpanel");  // not working
-        var panel = Ext.getCmp("settingsPanel");
-        //var main = Ext.getCmp("mainPanel");
-        //console.log(main);
-
-        if (!panel) {  // lazy instantiation
-            panel = Ext.create("SppAppClassic.view.main.Settings.SettingsPanel");
-        }
-        if (panel.isHidden()) {
-            panel.show();
-        } else {
-            panel.hide();
-        }
-    },*/
 
     /**
      * unlocks buttons for registred authorized users
@@ -327,7 +250,6 @@ Ext.define("SppAppClassic.MainController", {
             console.log("something went wrong trying to add layer group");
         }
     },
-
 
     /**
      * show popup with feature infos when a feature is clicked.
