@@ -23,6 +23,7 @@ Ext.define("SppAppClassic.MainController", {
         // mappanel
         "#mappanel": {
             render: function(panel) {
+
                 // add custom click event
                 panel.body.on("click", function(evt) {
                     // add attribute pixel to event object like in OL3 click event
@@ -222,7 +223,7 @@ Ext.define("SppAppClassic.MainController", {
                 //OL3MapService.getMap().addLayer(LayerGroups.barrington);
                 //OL3MapService.getMap().addLayer(LayerGroups.spp);
                 //
-                OL3MapService.getMap().addLayer(LayerGroups.layers.spp);
+                OL3MapService.getMap().addLayer(LayerGroups.restrictedLayers.spp);
 
                 // agInternal
                 //OL3MapService.getMap().addLayer(LayerGroups.agIntern);  // empty
@@ -242,7 +243,7 @@ Ext.define("SppAppClassic.MainController", {
                 //me.createLayersFromStore();
                 //console.log("done loading layers for users");
             } else {
-                OL3MapService.addLayer(LayerGroups.layers.sppOpen);
+                OL3MapService.addLayer(LayerGroups.restrictedLayers.sppOpen);
             }
 
             //console.log("layers aded without error");

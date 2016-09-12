@@ -17,13 +17,14 @@ Ext.define("SppAppClassic.view.main.Main", {
         "GeoExt.component.Map", // xtype: "gx_component_map"
         "GeoExt.data.store.LayersTree",
         "OL3MapService",
+        "ConfigService"
     ],
 
     controller: "main",
     //viewModel: "main",
 
     plugins: "viewport",
-    title: "SPP 1630 Virtual Research Environment",
+    title: ConfigService.texts.title,
 
     layout: {
         type: "border",

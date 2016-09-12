@@ -8,10 +8,8 @@ Ext.define("OL3MapService", {
     singleton: true,
 
     requires: [
-        //"LayerStyles"
-        "LayerGroups",
-        ////"layerStyles",
-        //"Projects"
+        "ConfigService",
+        "LayerGroups"
     ],
 
     map: null,
@@ -30,17 +28,8 @@ Ext.define("OL3MapService", {
     // required to completely reset the map on a logout
     initMap: function() {
         this.setMap(new ol.Map({
-            layers: [
-                // TODO: do this on startup
-
-                LayerGroups.layers.basemaps,
-                LayerGroups.layers.hydrology,
-                LayerGroups.layers.darmc,
-                LayerGroups.layers.awmc,
-                LayerGroups.layers.fetch,
-                // specific layer groups like ag-internal will be loaded dynamically
-
-            ],  // get laoded dynamically in MapController
+            // restricted layer groups like ag-internal will be loaded dynamically, also
+            layers: LayerGroups.layers,  // get laoded dynamically in MapController
             controls: [
                 new ol.control.ScaleLine(),
                 new ol.control.Attribution()
@@ -52,18 +41,11 @@ Ext.define("OL3MapService", {
                     condition: ol.events.condition.pointerMove  // empty -> select on click
                 })
             ]),
-
-            // renderer: CANVAS,
-            // Improve user experience by loading tiles while dragging/zooming. Will make
-            // zooming choppy on mobile or slow devices.
-            //loadTilesWhileInteracting: true,
-
             view: new ol.View({
                 center: ol.proj.fromLonLat([8.751278, 50.611368]),  // [0, 0],
                 zoom: 4,  // 2,
                 minZoom: 3  // prevents zoom too far out
                 //extent: [-180, -90, 180, 90]
-                //restrictedExtent: new ol.extent(-180, -90, 180, 90)  // prevents going over 'edge' of map
             })
         }));
     },
@@ -75,93 +57,6 @@ Ext.define("OL3MapService", {
     addLayer: function(layer) {
         this.map.addLayer(layer);
     },
-
-    /**
-     * looks up layer information from layerStore and
-     * dynamically creates wms or geoJSON layers
-     */
-   /* createLayersFromStore: function() {
-        var me = this;
-
-        // dont add restricted layers if not authorized
-        var showRestricted = false;
-        if (SppAppClassic.app.isAuthorized()) {
-            showRestricted = true;  // workaround .. only add if group exists
-        }
-
-        var layersStore = Ext.create("SppAppClassic.store.Layers");
-
-        //var currentLayers = me.getLayers();  // already existing layers
-
-
-        layersStore.each(function(layer) {
-
-            //console.log("layer: " + layer.get("layerName").split(":")[1]);
-            //console.log(me.getLayerByName(layer.get("layerName").split(":")[1]));
-            console.log("layername:" + layer.get("layerName"));
-            console.log(me.layerExists(layer.get("layerName")));
-
-
-            if (!me.getLayerByName(layer.get("layerName"))) {  // skip if layer exists already
-                var newLayer;
-                if (layer.get("type") === "WMS") {
-                    var legend = layer.get("legendName");
-                    var legendHeight = layer.get("legendHeight");
-                    if (legend) {
-                        if (typeof legend === "string" || legend instanceof String) {  // legendName specified
-                            if (legendHeight) {
-                                newLayer = me.createWMSLayer(layer.get("title"), layer.get("layerName"), layer.get("legendName"), legendHeight);
-                            } else {
-                                newLayer = me.createWMSLayer(layer.get("title"), layer.get("layerName"), layer.get("legendName"));
-                            }
-                        } else {  // legendName true, use layerName as legendName
-                            if (legendHeight) {
-                                newLayer = me.createWMSLayer(layer.get("title"), layer.get("layerName"), layer.get("layerName"), legendHeight);
-                            } else {
-                                newLayer = me.createWMSLayer(layer.get("title"), layer.get("layerName"), layer.get("layerName"));
-                            }
-                        }
-
-                    } else {
-                        newLayer = me.createWMSLayer(layer.get("title"), layer.get("layerName"));
-                    }
-
-                } else if (layer.get("type") === "GeoJSON") {
-                    //ame, sourceName, legendUrl, layerStyle, isVisible
-                    if (layer.get("layerStyle")) {
-                        newLayer = me.createGeoJSONLayer(layer.get("title"), layer.get("layerName"), false, layer.get("layerStyle"), layer.get("isVisible"));
-                    } else {
-                        newLayer = me.createGeoJSONLayer(layer.get("title"), layer.get("layerName"), false, false, layer.get("isVisible"));
-                    }
-                } else {
-                    console.log("type " + layer.get("type") + " not supported yet!");
-                }
-
-                // add layer to specified group
-                var group = me.getLayerGroupByName(layer.get("group"));
-                if (group) {  // only add if group exists
-                    group.getLayers().push(newLayer);  // push to layer collection
-                } else {
-                    console.log("group: " + layer.get("group") + " doesnt exist!");
-                }
-            }
-
-
-        });
-    },*/
-
-    /**
-     * returns url of the geoserver legend for a layer.
-     * layer string needs to be in format "<workspace>:<layername>"
-     * e.g. "SPP:harbours"
-     */
-    /*getLegendImg: function(layer, height, width) {
-        height = height || 25;
-        width = width || 25;
-        var finalWms = wms + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=" + width + "&TRANSPARENT=true&HEIGHT=" + height + "&LAYER=" + layer +
-                        "&legend_options=fontName:Arial;fontAntiAliasing:true;fontSize:6;dpi:180";
-        return finalWms;
-    },*/
 
     /**
      * returns list of layers that are currently active (no layergroups)

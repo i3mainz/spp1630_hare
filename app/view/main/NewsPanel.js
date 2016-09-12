@@ -3,6 +3,7 @@
 Ext.define("SppAppClassic.view.main.NewsPanel", {
     extend: "Ext.panel.Panel",
     requires: [
+        "ConfigService",
         "Ext.form.field.Checkbox",
         "SppAppClassic.view.main.NewsArticleContainer"
     ],
@@ -53,7 +54,7 @@ Ext.define("SppAppClassic.view.main.NewsPanel", {
                     pack: "start"
                     //padding: "5 0 5 0"
                 },
-                items: me.addNewsConainers(NewsService.getNews())
+                items: me.addNewsConainers(ConfigService.newsArticles)
             }/*,{
                 xtype: "aboutpanel",
                 title: "About"
