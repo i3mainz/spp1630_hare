@@ -13,6 +13,13 @@ function getLegendImg(layer, height, width) {
                     "&legend_options=fontName:Arial;fontAntiAliasing:true;fontSize:6;dpi:180";
 }
 
+var darmcDescription = [
+    "<strong>The Digital Atlas of Roman and Medieval Civilizations</strong><br>",
+    "A selection of layers from DARMC, mainly representing the Barrington Atlas. ",
+    'Go to the <a href="http://darmc.harvard.edu/map-sources" target=_blank>DARMC website</a> to get an overview of additional data sources included in each dataset. ',
+    'Harbour data consists of the Barrington Atlas and an older (2014) Version of “Ancient ports and harbours”.'
+].join("");
+
 /**
  * singleton classes get created when they are defined. no need to Ext.create them.
  * access them via the class-name directly. e.g. LayerStyles.bluePoints
@@ -37,7 +44,8 @@ Ext.define("LayerGroups", {
                 url: function(extent) {
                     return proxyPath +
                             "bereich=" + "SPP" +
-                            "&layer=" + "spp_harbours_intern" +
+                            //"&layer=" + "spp_harbours_intern" +
+                            "&layer=" + "spp_all" +
                             "&bbox=" + extent.join(",") +
                             "&epsg=" + "4326";
                 },
@@ -60,7 +68,8 @@ Ext.define("LayerGroups", {
                 url: function(extent) {
                     return proxyPath +
                             "bereich=" + "SPP" +
-                            "&layer=" + "spp_harbours_open" +  // spp_harbours_open
+                            //"&layer=" + "spp_harbours_open" +  // spp_harbours_open
+                            "&layer=" + "spp_all" +
                             "&bbox=" + extent.join(",") +
                             "&epsg=" + "4326";
                 },
@@ -95,7 +104,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: "Lakes.",
+                    description: 'Freshwater lakes in Europe. Provided by RGZM',
                     visible: false
                 }),
 
@@ -108,7 +117,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: "Streams.",
+                    description: 'Major waterways of Europe. Provided by RGZM',
                     visible: false
                 }),
 
@@ -129,7 +138,7 @@ Ext.define("LayerGroups", {
                         wrapX: false  // dont repeat on X axis
                     }),
                     style: LayerStyles.eckholdtStyleFunction,
-                    description: "Description Eckhold 1980",
+                    description: 'Die Schiffbarkeit von kleinen Flüssen Mitteleuropas in Römerzeit und Mittelalter lässt sich laut Martin Eckholdt anhand der Wasserführung Q [m³/s] abschätzen. Diese berechnete er nach der Fließformel von Manning-Strickler. Zu sehen sind Flüsse auf Grundlage des Ecrins-Datensatzes, welcher auf die behandelten Flüsse Eckholdts reduziert wurde. Einige seiner aufgeführten Flüsse sind in der heutigen Zeit nicht mehr vorhanden und hier nicht dargestellt. Andere Flüsse fallen aufgrund fehlender digitalisierter Datenbestände weg. Breit dargestellte Flüsse visualisieren eine nachgewiesene Schiffbarkeit, bzw. Die damals mögliche Schiffbarkeit. Mit abnehmender Strichstärke der Flüsse nimmt auch die Schiffbarkeit der Flüsse ab.',
                     visible: false
                 }),
 
@@ -171,6 +180,13 @@ Ext.define("LayerGroups", {
                     source: new ol.source.XYZ({
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.eoupu8fr/{z}/{x}/{y}.png?access_token=" + mapboxAccessToken,
                     }),
+                    description: [
+                        "<strong>Coast Outline</strong>",
+                        'Coast outline of the ancient world, generally following the ',
+                        '<a href="http://www.worldcat.org/oclc/43970336" target=_blank>Barrington Atlas</a>',
+                        ' and built from <a href="http://earth-info.nga.mil/publications/vmap0.html" target=_blank>VMap0</a> and ',
+                        '<a href="http://www.openstreetmap.org/about" target=_blank>OSM</a>, with additional work by the AWMC.'
+                    ].join(""),
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -274,6 +290,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: darmcDescription,
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -285,6 +302,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: darmcDescription,
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -296,6 +314,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: darmcDescription,
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -307,6 +326,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: darmcDescription,
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -318,6 +338,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: darmcDescription,
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -329,6 +350,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: darmcDescription,
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -340,6 +362,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: darmcDescription,
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -351,6 +374,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: darmcDescription,
                     visible: false
                 })
             ]),
@@ -369,7 +393,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: "Fetch description!",
+                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -381,6 +405,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -392,6 +417,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -403,6 +429,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -414,6 +441,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -425,6 +453,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -436,6 +465,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -447,6 +477,7 @@ Ext.define("LayerGroups", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
+                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 })
             ]),

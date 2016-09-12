@@ -7,10 +7,13 @@ Ext.define("AuthService", {
 
     singleton: true,
 
-    homePath: "/geoserver/web/",
-    //loginPath: "http://localhost:3000/login",  // custom proxy
-    loginPath: "/geoserver/j_spring_security_check",
-    logoutPath: "/geoserver/j_spring_security_logout",
+    requires: [
+        "ConfigService",
+    ],
+
+    homePath: ConfigService.paths.geoserver,
+    loginPath: ConfigService.paths.geoserverLogin,
+    logoutPath: ConfigService.paths.geoserverLogout,
 
     /*
      * returns true when user is logged in wiht an account OR as a guest.
@@ -26,40 +29,34 @@ Ext.define("AuthService", {
                  return true;
             } else {
                 // check for geoserver login!
-                /*this.checkIfLoggedIntoGeoServer(username, function() {
+                this.checkIfLoggedIntoGeoServer(username, function() {
                     // success
                     return true;
                 }, function() {
                     // failure
                     return false;
-                });*/
-                return true;
+                });
             }
 
         } else {
             // no cookie found
-            console.log("has no cookie!");
+            //console.log("has no cookie!");
             return false;
         }
     },
 
-    /*
+    /*"""""""
      * returns true when a user is logged in with username and password
      * TODO: add parameter to check if users project ID is valid for a certain
      * action
      */
     isAuthorized: function() {
         var username = Ext.util.Cookies.get("sppCookie");
-
-        // production
         if (username && username !== "guest") {
             return true;
         } else {
             return false;
         }
-
-        // development
-        //return true;
 
         //TODO: check if also logged into geoserver, and if username is the same
     },
@@ -91,9 +88,10 @@ Ext.define("AuthService", {
         var me = this;
         Ext.Ajax.request({
             url: me.loginPath,
+            //url: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_check",
             method: "POST",
-            //withCredentials: true,
-            //useDefaultXhrHeader: false,
+            withCredentials: true,
+            useDefaultXhrHeader: false,
 
             params: {
                 username: username,
@@ -101,29 +99,21 @@ Ext.define("AuthService", {
             },
 
             success: function(response) {
-                //console.log("request successfuill! :)");
-                //console.log(username);
-                console.log(response.responseText);
-
-                if (me.isLoggedIn(username, response.responseText)) {
-                    //console.log("worked! :)");
-                    // shows that user is logged in
+                // correct username + password
+                if (me.hasSuccessGeoServerResponse(response, username)) {
+                    // is logged into geoserver
                     me.setCookie(username);
-                    //console.log(response.responseText);
                     success(response);
                 } else {
-                    //console.log("failed :/");
+                    // logged into VRE but not GeoServer
                     me.clearCookie();
-                    failure("username of password incorrect", response);
+                    failure(response);
                 }
-
             },
 
             failure: function(response) {
-                console.log("server error: " + response);
-                //console.log(response);
                 me.clearCookie();
-                failure("server error", response);
+                failure(response);
             }
         });
     },
@@ -163,18 +153,20 @@ Ext.define("AuthService", {
     * or not and calls functions accordingly.
     */
     // TODO: replace this with an optimized checkIfLoggedIntoGeoServer() function
-    /*hasSuccessGeoServerResponse: function(response, username) {
+    hasSuccessGeoServerResponse: function(response, username) {
         //var me = this;
         var isLoggedIn = false;
         var text = response.responseText;
         //var gerFailText = "Ungültige Kombination von Benutzername und Kennwort.";
-        var engSuccessText = "Logged in as " + username + ".";
+        var engFailText = "Invalid username/password combination.";
 
-        if (text.indexOf(engSuccessText) > -1) {  // show logged in page
+        //var engSuccessText = "<span class='username'>Logged in as <span>" + username + "</span></span>.";
+
+        if (text.indexOf(engFailText) === -1) {  // show logged in page
             isLoggedIn = true;
         }
         return isLoggedIn;
-    },*/
+    },
 
     getCookie: function() {
         return  Ext.util.Cookies.get("sppCookie");
@@ -182,21 +174,11 @@ Ext.define("AuthService", {
 
     setCookie: function(username) {
         // expires after 10 days
-        Ext.util.Cookies.set("sppCookie", username, new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 10)), "/");
+        Ext.util.Cookies.set("sppCookie", username, new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 10)));
     },
 
     clearCookie: function() {
         Ext.util.Cookies.clear("sppCookie");
-    },
-
-    isLoggedIn: function(username, responseText) {
-        if (responseText.indexOf('<span class="username">Logged in as <span>' + username + '</span></span>') > -1) {
-            return true;
-        } else if (responseText.indexOf('<span class="username">Angemeldet als <span>' + username + '</span></span>') > -1) {
-            return true;
-        } else {
-            return false;
-        }
     },
 
     /*
@@ -212,15 +194,12 @@ Ext.define("AuthService", {
         Ext.Ajax.request({
             url: this.homePath,
             async: false,
+
             success: function(response) {
-                //console.log(response.responseText.indexOf("Logged in as>"));
-                //console.log(response.responseText);
                 if (response.responseText.indexOf(engSuccessText) > -1 || response.responseText.indexOf(deSuccessText) > -1 ) {
-                    console.log("already logged in!");
                     success();
 
                 } else {  // no welcome screen
-                    console.log("not logged in!");
                     failure();
                 }
             },

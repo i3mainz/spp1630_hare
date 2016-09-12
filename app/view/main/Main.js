@@ -56,9 +56,10 @@ Ext.define("SppAppClassic.view.main.Main", {
                 title: "Description",
                 collapsible: true,
                 collapsed: true,
-                closable: true,
+                //closable: true,
                 closeAction: 'hide',
-                margin: "0 5 0 0"
+                margin: "0 5 0 0",
+                bodyPadding: "10px"
             },{
                 xtype: "filterpanel",
                 region: "west",
@@ -82,19 +83,6 @@ Ext.define("SppAppClassic.view.main.Main", {
             }],
 
             tools: [{
-                xtype: "label",
-                html: "v1.1",
-                style: {
-                    "color": "#3892d4",
-                    "font-size": "13px",
-                    "font-weight": "bold",
-                    "margin-right": "10px",
-                    "cursor": "pointer"
-                },
-                listeners: {
-                    element: "el", click: "onClickInfo"
-                }
-            },{
                 xtype: "label",
                 id: "infoLabel",
                 html: "News",

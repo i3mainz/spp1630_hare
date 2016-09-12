@@ -11,7 +11,8 @@ Ext.define("SppAppClassic.view.login.Login", {
         "Ext.panel.Tool",           // tools: []
         "Ext.form.Panel",           // xtype: "form"
         "Ext.form.field.Text",  // xtype: "textfield"
-        "Ext.button.Button"     // buttons: []
+        "Ext.button.Button",     // buttons: []
+        "ConfigService"
     ],
 
     controller: "login",  // needs to be in requires
@@ -73,50 +74,26 @@ Ext.define("SppAppClassic.view.login.Login", {
                 },
                 items: [
                     {
-                        text: "SPP Virtual Research Environment",
+                        text: ConfigService.texts.landingTitle,
                         style: {
                             fontSize: "30px",
                             marginBottom: "50px"
                         }
                     },{
                         //cls: "landing-text",
-                        text: "This is the Virtual Research Environment (VRE) of" +
-                         " the SPP 1630 Harbours Program. It visualizes harbour" +
-                         " related data compiled by participating SPP projects, " +
-                         "as well as additional hydrological and archeological" +
-                         " datasets. It is meant to act as a tool for " +
-                         "researchers during their ongoing projects." +
-
-                         "This website is an afford of the working group " +
-                         "\"Data Integration\". It was conceptualised in " +
-                         "collaboration with the University of Jena (FSU) and is" +
-                         " currently being developed by the i3mainz.",
+                        text: ConfigService.texts.landingText,
                         style: {
                             width: "100%",
-                            //height: "100%"
-                        }
-                    },{
-                        //cls: "landing-text",
-                        text: "Researchers can login using their credentials provided by " +
-                         "the developers. Curious guests can skip the login and launch the " +
-                         "app in guest-mode with fewer data and limited functions.",
-                        style: {
-                            width: "100%",
-                            marginTop: "5px"
                             //height: "100%"
                         }
                     }
                 ]
             },
 
-
             {
                 // right column
-
                 columnWidth: 0.5,
-
                 layout: "vbox",
-
                 style: {
                     //borderStyle: "solid",
                     paddingLeft: "30px",
@@ -125,11 +102,8 @@ Ext.define("SppAppClassic.view.login.Login", {
                     borderLeft: "solid thin black"
                 },
 
-                items: [{
-                        xtype: 'label',
-                        //forId: 'myFieldId',
-                        html: 'Login'
-                    },{
+                items: [
+                    {
                         xtype: "textfield",
                         name: "username",
                         id: "usernameField",
@@ -157,9 +131,8 @@ Ext.define("SppAppClassic.view.login.Login", {
                         reference: "loginSubmitButton",  // used to lock during validation
                         id: "loginSubmitButton",
                         formBind: true,  // disable until form filled
-                        tooltip: "Login using your username/password combination",
-                        handler: "onLoginClick",
-
+                        tooltip: ConfigService.tooltips.login,
+                        handler: "onLoginClick"
                     },{
                         xtype: "label",
                         style: {
