@@ -9,7 +9,7 @@ Ext.define("OL3MapService", {
 
     requires: [
         "ConfigService",
-        "LayerGroups"
+        "LayerService"
     ],
 
     map: null,
@@ -29,7 +29,7 @@ Ext.define("OL3MapService", {
     initMap: function() {
         this.setMap(new ol.Map({
             // restricted layer groups like ag-internal will be loaded dynamically, also
-            layers: LayerGroups.layers,  // get laoded dynamically in MapController
+            layers: LayerService.layers,  // get laoded dynamically in MapController
             controls: [
                 new ol.control.ScaleLine(),
                 new ol.control.Attribution()

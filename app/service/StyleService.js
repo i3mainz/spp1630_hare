@@ -1,42 +1,29 @@
 "use strict";
+
 /**
- * singleton classes get created when they are defined. no need to Ext.create them.
- * access them via the class-name directly. e.g. LayerStyles.bluePoints
- * variable is globally available
+ * Holds OpenLayers 3 style definitions.
  */
-var defaultPoints = new ol.style.Style({
-    image: new ol.style.Circle({
-        radius: 6,
-        fill: new ol.style.Fill({
-            color: "#0099CC"
-        }),
-        stroke: new ol.style.Stroke({
-            color: "#fff",
-            width: 2
-        })
-    })
-});
-
-var defaultPoints2 = new ol.style.Style({
-    image: new ol.style.Circle({
-        radius: 6,
-        fill: new ol.style.Fill({
-            color: "#0099CC"
-        }),
-        stroke: new ol.style.Stroke({
-            color: "#AAA",
-            width: 2
-        })
-    })
-});
-
-var styleCache = {};
-var statusStyleCache = {};
-var eckholdtStyleCache = {};
-var harourTypeStyleCache = {};
-
-Ext.define("LayerStyles", {
+Ext.define("StyleService", {
     singleton: true,
+
+    defaultPoints: new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: 6,
+            fill: new ol.style.Fill({
+                color: "#0099CC"
+            }),
+            stroke: new ol.style.Stroke({
+                color: "#fff",
+                width: 2
+            })
+        })
+    }),
+
+    // containers
+    styleCache: {},
+    statusStyleCache: {},
+    eckholdtStyleCache: {},
+    harourTypeStyleCache: {},
 
     // the style function returns an array of styles
     // for the given feature and resolution.
@@ -63,16 +50,16 @@ Ext.define("LayerStyles", {
         // return the default style (in an array!)
         if (!type || !colors[type]) {
             //console.log("default for " + project);
-            return [defaultPoints];
+            return [this.defaultPoints];
         }
 
         // check the cache and create a new style for the project
         // if its not been created before.
 
-        if (!styleCache[type]) {
+        if (!this.styleCache[type]) {
             //console.log(project);
 
-            styleCache[type] = new ol.style.Style({
+            this.styleCache[type] = new ol.style.Style({
                 image: new ol.style.Circle({
                     radius: 6,
                     fill: new ol.style.Fill({
@@ -88,7 +75,7 @@ Ext.define("LayerStyles", {
 
         // at this point, the style for the current level is in the cache
         // so return it (as an array!)
-        return [styleCache[type]];
+        return [this.styleCache[type]];
     },
 
     statusStyleFunction: function(feature, resolution) {
@@ -107,16 +94,16 @@ Ext.define("LayerStyles", {
         // return the default style (in an array!)
         if (!project || !projectColors[project]) {
             //console.log("default for " + project);
-            return [defaultPoints];
+            return [this.defaultPoints];
         }
 
         // check the cache and create a new style for the project
         // if its not been created before.
 
-        if (!styleCache[project]) {
+        if (!this.styleCache[project]) {
             //console.log(project);
 
-            styleCache[project] = new ol.style.Style({
+            this.styleCache[project] = new ol.style.Style({
                 image: new ol.style.Circle({
                     radius: 6,
                     fill: new ol.style.Fill({
@@ -132,7 +119,7 @@ Ext.define("LayerStyles", {
 
         // at this point, the style for the current level is in the cache
         // so return it (as an array!)
-        return [styleCache[project]];
+        return [this.styleCache[project]];
     },
 
     harbourTypeStyleFunction: function(feature, resolution) {
@@ -152,12 +139,12 @@ Ext.define("LayerStyles", {
 
         // provide default if attribute is missing or not specified in icons
         if (!harbourType || !icons[harbourType]) {
-            return [defaultPoints];
+            return [this.defaultPoints];
         }
 
-        if (!harourTypeStyleCache[harbourType]) {
+        if (!this.harourTypeStyleCache[harbourType]) {
 
-            harourTypeStyleCache[harbourType] = new ol.style.Style({
+            this.harourTypeStyleCache[harbourType] = new ol.style.Style({
 
                 image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
                     //anchor: [0.5, 46],
@@ -173,7 +160,7 @@ Ext.define("LayerStyles", {
 
         // at this point, the style for the current level is in the cache
         // so return it (as an array!)
-        return [harourTypeStyleCache[harbourType]];
+        return [this.harourTypeStyleCache[harbourType]];
     },
 
     eckholdtStyleFunction: function(feature, resolution) {
@@ -200,9 +187,9 @@ Ext.define("LayerStyles", {
         // check the cache and create a new style for the project
         // if its not been created before.
 
-        if (!eckholdtStyleCache[code]) {
+        if (!this.eckholdtStyleCache[code]) {
 
-            eckholdtStyleCache[code] = new ol.style.Style({
+            this.eckholdtStyleCache[code] = new ol.style.Style({
                 stroke: new ol.style.Stroke({
                     color: "#4c4cff",  //"rgba(0, 0, 255, 1.0)",
                     width: codeWidths[code]
@@ -212,7 +199,7 @@ Ext.define("LayerStyles", {
 
         // at this point, the style for the current level is in the cache
         // so return it (as an array!)
-        return [eckholdtStyleCache[code]];
+        return [this.eckholdtStyleCache[code]];
     },
 
 

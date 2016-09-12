@@ -12,8 +12,7 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
        "Ext.tree.plugin.TreeViewDragDrop",           // ptype: treeviewdragdrop
        "Ext.tree.Column",                            // xtype: "treecolumn"
        "SppAppClassic.view.main.BasicTreeColumnLegends",  // ptype: "basic_tree_column_legend"
-       "OL3MapService",
-       "LayerGroups"
+       "OL3MapService"
     ],
 
     //controller: "main-layertree",

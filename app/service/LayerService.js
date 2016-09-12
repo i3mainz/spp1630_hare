@@ -11,15 +11,15 @@ function getLegendImg(layer, height, width) {
 
 /**
  * singleton classes get created when they are defined. no need to Ext.create them.
- * access them via the class-name directly. e.g. LayerStyles.bluePoints
+ * access them via the class-name directly. e.g. StyleService.bluePoints
  * variable is globally available
  */
-Ext.define("LayerGroups", {
+Ext.define("LayerService", {
     singleton: true,
 
     requires: [
         "ConfigService",
-        "LayerStyles"
+        "StyleService"
     ],
 
     layers: [
@@ -103,7 +103,7 @@ Ext.define("LayerGroups", {
                         })),
                         wrapX: false  // dont repeat on X axis
                     }),
-                    style: LayerStyles.eckholdtStyleFunction,
+                    style: StyleService.eckholdtStyleFunction,
                     description: 'Die Schiffbarkeit von kleinen Flüssen Mitteleuropas in Römerzeit und Mittelalter lässt sich laut Martin Eckholdt anhand der Wasserführung Q [m³/s] abschätzen. Diese berechnete er nach der Fließformel von Manning-Strickler. Zu sehen sind Flüsse auf Grundlage des Ecrins-Datensatzes, welcher auf die behandelten Flüsse Eckholdts reduziert wurde. Einige seiner aufgeführten Flüsse sind in der heutigen Zeit nicht mehr vorhanden und hier nicht dargestellt. Andere Flüsse fallen aufgrund fehlender digitalisierter Datenbestände weg. Breit dargestellte Flüsse visualisieren eine nachgewiesene Schiffbarkeit, bzw. Die damals mögliche Schiffbarkeit. Mit abnehmender Strichstärke der Flüsse nimmt auch die Schiffbarkeit der Flüsse ab.',
                     visible: false
                 }),
@@ -389,6 +389,8 @@ Ext.define("LayerGroups", {
             ]),
             visible: false
         }),
+
+        // Fetch
         new ol.layer.Group({
             name: "Fetch",
             layers: new ol.Collection([
@@ -513,9 +515,9 @@ Ext.define("LayerGroups", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            //style: LayerStyles.redPoints,
+            //style: StyleService.redPoints,
             legendUrl: getLegendImg("SPP:spp_harbours_intern"),
-            style: LayerStyles.pointTypeStyleFunction, //LayerStyles.redPointLabelStyleFunction,
+            style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data of the spp projects open to anyone interested.",
             visible: true
         }),
@@ -536,9 +538,9 @@ Ext.define("LayerGroups", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            //style: LayerStyles.redPoints,
+            //style: StyleService.redPoints,
             legendUrl: getLegendImg("SPP:spp_harbours_intern"),
-            style: LayerStyles.pointTypeStyleFunction, //LayerStyles.redPointLabelStyleFunction,
+            style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data of the spp projects",
             visible: true
         }),
@@ -588,8 +590,6 @@ Ext.define("LayerGroups", {
                     result.push(group);
                 }
             }
-
-
         }
 
         if (result.length > 1) {

@@ -10,6 +10,7 @@ Ext.define("SppAppClassic.MainController", {
         "SppAppClassic.view.login.Login",
         "SppAppClassic.view.main.NewsPanel",
         "AuthService",
+        "LayerService",
         "OL3MapService"
     ],
 
@@ -34,19 +35,8 @@ Ext.define("SppAppClassic.MainController", {
                     Ext.getCmp("geoextMap").fireEvent("click", evt);
                     //this.fireEvent("clickpanel");  // adds event to mappanel not this panel
                 });
-
-                // add custom event for mouse movement
-                /*panel.body.on("pointermove", function(evt) {
-                    evt.pixel = [evt.browserEvent.layerX, evt.browserEvent.layerY];
-                    Ext.getCmp("geoextMap").fireEvent("pointermove", evt);
-                });*/
             },
             beforeDestroy: "onMapPanelDestroy"
-        },
-
-        // MapToolbar
-        "#maptoolbar": {
-            beforerender: "unlockButtons" // unlock buttons on start
         },
 
         // GeoExtMap component
@@ -138,92 +128,14 @@ Ext.define("SppAppClassic.MainController", {
         Ext.getCmp("layerTree").setStore(treeStore);
     },
 
-    // Toolbar methods
-    zoomIn: function() {
-        var view = Ext.getCmp("geoextMap").getView();
-        var currentZoom = view.getZoom();
-        view.setZoom(currentZoom + 1);
-    },
-
-    zoomOut: function() {
-        var view = Ext.getCmp("geoextMap").getView();
-        var currentZoom = view.getZoom();
-        view.setZoom(currentZoom - 1);
-    },
-
-    zoomAnimated: function() {
-        var zoom = ol.animation.zoom({duration: 500, resolution: Ext.getCmp("geoextMap").getView().getResolution()});
-        //olMap.beforeRender(zoom);
-        Ext.getCmp("geoextMap").getView().setZoom(zoom);
-    },
-
-    /* zoomTomax extend -> get Center of map on start of app.
-    then set farthest zoom level */
-    onCenter: function() {
-        var view = Ext.getCmp("geoextMap").getView();
-        view.setCenter(ol.proj.fromLonLat([8.751278, 50.611368]));
-        view.setZoom(4);
-        view.setRotation(0);
-    },
-
-    onToggleFilter: function() {
-        //var filterPanel = this.lookupReference("filterpanel");  // not working
-        var filterPanel = Ext.getCmp("filterPanel");
-
-        if (!filterPanel) {  // lazy instantiation
-            var mainPanel = Ext.getCmp("mainpanel");
-
-            // create filterpanel as item of main panel
-            mainPanel.add([{
-                xtype: "filterpanel",
-                region: "west",
-                margin: "0 5 0 0"
-            }]);
-            //filterPanel = Ext.create("SppAppClassic.view.main.filter.FilterPanel");
-            //filterPanel.anchorTo(Ext.getBody(),'t-t',[-100,0]);
-            //filterPanel.alignTo(Ext.getBody(), "tr-tr");
-            //filterPanel.alignTo(Ext.getBody(), "tr");
-        } else if (filterPanel.getCollapsed()) {  // is collapsed
-            filterPanel.setCollapsed(false);
-        } else {
-            filterPanel.setCollapsed(true);
-        }
-        //filterPanel.toggle();
-        //filterPanel.show()
-    },
-
-    /**
-     * unlocks buttons for registred authorized users
-    */
-    unlockButtons: function() {
-        if (AuthService.isAuthorized()) {
-            var buttonList = ["filterButton"]; // ["filterButton", "gridButton", "settingsButton"]
-            for (var i = 0; i < buttonList.length; i++) {
-                var button = Ext.getCmp(buttonList[i]);
-                if (button) {
-                    button.enable();
-                }
-            }
-        }
-    },
-
     // map methods
     appendLayerGroups: function() {
 
         try {
-            //OL3MapService.addLayer(LayerGroups.basemaps);
-            //OL3MapService.addLayer(LayerGroups.hydrology);
-            //OL3MapService.addLayer(LayerGroups.darmc);
-            //OL3MapService.addLayer(LayerGroups.fetch);
-            //OL3MapService.getMap().addLayer(LayerGroups.hydrology),
-            //OL3MapService.getMap().addLayer(LayerGroups.darmc),
-            //OL3MapService.getMap().addLayer(LayerGroups.fetch);
+
             if (AuthService.getUser() !== "guest") {
                 // SPP internal layer groups
-                //OL3MapService.getMap().addLayer(LayerGroups.barrington);
-                //OL3MapService.getMap().addLayer(LayerGroups.spp);
-                //
-                OL3MapService.getMap().addLayer(LayerGroups.restrictedLayers.spp);
+                OL3MapService.getMap().addLayer(LayerService.restrictedLayers.spp);
 
                 // agInternal
                 //OL3MapService.getMap().addLayer(LayerGroups.agIntern);  // empty
@@ -243,10 +155,9 @@ Ext.define("SppAppClassic.MainController", {
                 //me.createLayersFromStore();
                 //console.log("done loading layers for users");
             } else {
-                OL3MapService.addLayer(LayerGroups.restrictedLayers.sppOpen);
+                OL3MapService.addLayer(LayerService.restrictedLayers.sppOpen);
             }
 
-            //console.log("layers aded without error");
         } catch (e) {
             console.log("something went wrong trying to add layer group");
         }

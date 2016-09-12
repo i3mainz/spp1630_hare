@@ -73,7 +73,7 @@ Ext.define("SppAppClassic.view.main.Main", {
                 title: "Map",
                 layout: "fit", // map fills entire panel
                 items: {
-                    xtype: "gx_component_map",
+                    xtype: "gx_component_map",  // GeoExt3 component
                     map: OL3MapService.getMap(),
                     id: "geoextMap"
                 },
@@ -121,10 +121,6 @@ Ext.define("SppAppClassic.view.main.Main", {
                 }
             }]
         });
-
-
-        this.getController().unlockButtons();
-
 
         SppAppClassic.view.main.Main.superclass.initComponent.call(this);
         //this.callParent();
