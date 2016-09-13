@@ -9,7 +9,8 @@ Ext.define("OL3MapService", {
 
     requires: [
         "ConfigService",
-        "LayerService"
+        "LayerService",
+        "StyleService"
     ],
 
     map: null,
@@ -29,8 +30,7 @@ Ext.define("OL3MapService", {
     initMap: function() {
         this.setMap(new ol.Map({
 
-            // restricted layer groups like ag-internal will be loaded dynamically, also
-            layers: LayerService.layers,  // get laoded dynamically in MapController
+            layers: this.getAuthorizedLayers(LayerService.layers),
 
             controls: [
                 new ol.control.ScaleLine(),
@@ -50,6 +50,16 @@ Ext.define("OL3MapService", {
                 //extent: [-180, -90, 180, 90]
             })
         }));
+    },
+
+    /**
+     * check for access-property and only add authorized layers
+     * @param {Object[]} layers - OpenLayers 3 layer objects
+     * @returns {Object[]} - Authorized layer objects
+     */
+     //TODO: implement
+    getAuthorizedLayers: function(layers) {
+        return layers;
     },
 
     /*
@@ -217,50 +227,6 @@ Ext.define("OL3MapService", {
     },
 
     /**
-     * creates a ol.layer.Vector layer with a ol.source.Vector from ol.format.GeoJSON
-     * as it's source
-     */
-    /*createGeoJSONLayer: function(name, sourceName, legendUrl, layerStyle, isVisible) {
-        legendUrl = legendUrl || "";
-        layerStyle = layerStyle || "";
-        isVisible = isVisible || false;
-
-        var workspace = sourceName.split(":")[0];
-        var layerName = sourceName.split(":")[1];
-
-        var layer = new ol.layer.Vector({
-            name: name,
-            source: new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + workspace +
-                            "&layer=" + layerName +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            visible: isVisible
-        });
-
-        if (layerStyle) {
-            layer.setStyle(layerStyle);
-        } else {
-            layer.setStyle("style", LayerStyles.redPoints);  // default
-        }
-
-        if (legendUrl) {
-            layer.set("legendUrl", legendUrl);
-        }
-
-        return layer;
-    },*/
-
-    /**
      * layername needs to be complete with workspace (e.g. "SPP.Data").
      */
     filterVectorSource: function(layer, filter) {
@@ -327,32 +293,6 @@ Ext.define("OL3MapService", {
         //layer.setSource(vectorSource);  // this refreshes automatically*/
     },
 
-    createAGInternLayer: function(projectID) {
-        console.log("spp_harbours_project" + projectID + "_intern");
-        var layer = new ol.layer.Vector({
-            name: "Harbours (internal)",
-            source: new ol.source.Vector({  // TODO create class for vector source
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return proxy +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "spp_harbours_project" + projectID + "_intern" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
-            //style: LayerStyles.styleFunction,
-            style: LayerStyles.orangePoints,
-            visible: false
-        });
-        return layer;
-    },
-
     addLayerToLayerGroup: function(layer, layerGroupName) {
 
         var layerGroups = this.map.getLayers();
@@ -366,24 +306,5 @@ Ext.define("OL3MapService", {
                 layerGroup.setLayers(layers);
             }
         });
-    },
-
-    /**
-     * takes a list of restricted layer group names and removes
-     * all layergroups that are in this list if they exist in the
-     * GeoExt3 map
-    */
-    removeRestrictedLayerGroups: function(restrictedGroupsList) {
-        var me = this;
-        var layerGroups = me.getLayerGroups();
-        layerGroups.forEach(function(layerGroup) {
-
-            console.log(layerGroup.get("name"));
-            if (restrictedGroupsList.indexOf(layerGroup.get("name")) > -1) {  // groupName is restricted
-                console.log("is restricted!");
-                me.removeLayer(layerGroup);
-            }
-        });
     }
-
 });

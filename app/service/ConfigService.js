@@ -29,6 +29,7 @@ Ext.define("ConfigService", {
         title: "SPP 1630 Virtual Research Environment",
         descriptionTitle: "Description",
         treeTitle: "Layers",
+        featureTitle: "Feature Info",
 
         // landing page
         landingTitle: "SPP Virtual Research Environment",
@@ -91,8 +92,16 @@ Ext.define("ConfigService", {
         }
     ],
 
-    settings: {
-
+    // colors used to style GeoJSON layers
+    layerColors: {
+        spp: {
+            "Hafen":                "#8B0000",
+            "Wasserfahrzeug":       "#a0db8e",
+            "Kanal/Schleppstrecke": "#660066",
+            "Wasserstraße":         "#660066"
+        }
     }
+
+
 
 });

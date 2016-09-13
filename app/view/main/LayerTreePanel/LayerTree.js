@@ -22,16 +22,10 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
     },
 
     title: ConfigService.texts.treeTitle,
-
-    rootVisible: true,
+    rootVisible: false,
     fill: true,
-    //border: false,
     hideHeaders: true,
-    //flex: 1,
     lines: false,
-    //autoScroll: true,
-    //margin: "0 5 0 0",
-    //split: false,
 
     // display legend
     columns: {
@@ -46,7 +40,6 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
         }]
     },
 
-    // alternative to treePanel.on('select', function())
     listeners: {
         itemclick: "onItemClick"
     }

@@ -1,47 +1,160 @@
 "use strict";
 
+var harbourStyles = {};
+var statusStyles = {};
+var eckholdStyles = {};
+
 /**
  * Holds OpenLayers 3 style definitions.
  */
 Ext.define("StyleService", {
     singleton: true,
 
-    defaultPoints: new ol.style.Style({
-        image: new ol.style.Circle({
-            radius: 6,
-            fill: new ol.style.Fill({
-                color: "#0099CC"
-            }),
-            stroke: new ol.style.Stroke({
-                color: "#fff",
-                width: 2
-            })
-        })
-    }),
+    requires: [
+        "ConfigService"
+    ],
 
-    // containers
-    styleCache: {},
-    statusStyleCache: {},
-    eckholdtStyleCache: {},
-    harourTypeStyleCache: {},
+    // points: {
+    //     default: new ol.style.Style({
+    //         image: new ol.style.Circle({
+    //             radius: 6,
+    //             fill: new ol.style.Fill({
+    //                 color: "#0099CC"
+    //             }),
+    //             stroke: new ol.style.Stroke({
+    //                 color: "#fff",
+    //                 width: 2
+    //             })
+    //         })
+    //     }),
+    //
+    //     red: new ol.style.Style({
+    //         image: new ol.style.Circle({
+    //             radius: 6,
+    //             fill: new ol.style.Fill({
+    //                 color: "#8B0000"
+    //             }),
+    //             stroke: new ol.style.Stroke({
+    //                 color: "#fff",
+    //                 width: 2
+    //             })
+    //         })
+    //     }),
+    //
+    //     blue: new ol.style.Style({
+    //         image: new ol.style.Circle({
+    //             radius: 6,
+    //             fill: new ol.style.Fill({
+    //                 color: "#0099CC"
+    //             }),
+    //             stroke: new ol.style.Stroke({
+    //                 color: "#fff",
+    //                 width: 2
+    //             })
+    //         })
+    //     }),
+    //
+    //     green: new ol.style.Style({
+    //         image: new ol.style.Circle({
+    //             radius: 6,
+    //             fill: new ol.style.Fill({
+    //                 color: "#006600"
+    //             }),
+    //             stroke: new ol.style.Stroke({
+    //                 color: "#fff",
+    //                 width: 2
+    //             })
+    //         })
+    //     }),
+    //
+    //     yellow: new ol.style.Style({
+    //         image: new ol.style.Circle({
+    //             radius: 6,
+    //             fill: new ol.style.Fill({
+    //                 color: "#b3b300"
+    //             }),
+    //             stroke: new ol.style.Stroke({
+    //                 color: "#fff",
+    //                 width: 2
+    //             })
+    //         })
+    //     }),
+    //
+    //     orange: new ol.style.Style({
+    //         image: new ol.style.Circle({
+    //             radius: 6,
+    //             fill: new ol.style.Fill({
+    //                 color: "#B27300"
+    //             }),
+    //             stroke: new ol.style.Stroke({
+    //                 color: "#fff",
+    //                 width: 2
+    //             })
+    //         })
+    //     }),
+    //
+    //     grey: new ol.style.Style({
+    //         image: new ol.style.Circle({
+    //             radius: 6,
+    //             fill: new ol.style.Fill({
+    //                 color: "#444444"
+    //             }),
+    //             stroke: new ol.style.Stroke({
+    //                 color: "#fff",
+    //                 width: 2
+    //             })
+    //         })
+    //     }),
+    //
+    //     icon: new ol.style.Style({
+    //         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+    //             anchor: [0, 0],
+    //             anchorXUnits: "pixels",
+    //             anchorYUnits: "pixels",
+    //             opacity: 0.9,
+    //             scale: 1,
+    //             //size: [15, 15],
+    //             src: "/resources/icons/harbours_icon_15px.png"
+    //         }))
+    //     })
+    // },
+    //
+    // lines: {
+    //     blue: new ol.style.Style({
+    //         stroke: new ol.style.Stroke({
+    //             color: "rgba(0, 0, 255, 1.0)",
+    //             width: 2
+    //         })
+    //     }),
+    //     red: new ol.style.Style({
+    //         stroke: new ol.style.Stroke({
+    //             color: "rgba(255, 0, 0, 1.0)",
+    //             width: 1
+    //         })
+    //     }),
+    // },
+    //
+    // polygons: {
+    //     countries: new ol.style.Style({
+    //         fill: new ol.style.Fill({
+    //             color: [0, 255, 255, 1]
+    //         }),
+    //         stroke: new ol.style.Stroke({
+    //             color: [127,127,127,1.0],
+    //             width: 1,
+    //             lineJoin: "round"
+    //         })
+    //     })
+    // },
 
     // the style function returns an array of styles
     // for the given feature and resolution.
     // Return null to hide the feature.
     // store these -> otherwise this will be done for each feature!!!
-    pointTypeStyleFunction: function(feature, resolution) {
+    pointTypeStyleFunction: function(feature) {
 
         // map the income level codes to a colour value, grouping them
-        var colors = {
-            "Hafen":                "#8B0000",
-            "Hafen?":               "#8B0000",
-            "Hefen":                "#8B0000",
-
-            "Wasserfahrzeug":       "#a0db8e",
-
-            "Kanal/Schleppstrecke": "#660066",
-            "Wasserstraße":         "#660066"
-        };
+        var colors = ConfigService.layerColors.spp;
 
         // get the projectname from the feature properties
         var type = feature.get("place_type");
@@ -49,17 +162,26 @@ Ext.define("StyleService", {
         // if there is no level or its one we don't recognize,
         // return the default style (in an array!)
         if (!type || !colors[type]) {
-            //console.log("default for " + project);
-            return [this.defaultPoints];
+            return [
+                new ol.style.Style({
+                    image: new ol.style.Circle({
+                        radius: 6,
+                        fill: new ol.style.Fill({
+                            color: "#0099CC"
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: "#fff",
+                            width: 2
+                        })
+                    })
+                })
+            ];
         }
 
         // check the cache and create a new style for the project
         // if its not been created before.
-
-        if (!this.styleCache[type]) {
-            //console.log(project);
-
-            this.styleCache[type] = new ol.style.Style({
+        if (!harbourStyles[type]) {
+            harbourStyles[type] = new ol.style.Style({
                 image: new ol.style.Circle({
                     radius: 6,
                     fill: new ol.style.Fill({
@@ -75,7 +197,7 @@ Ext.define("StyleService", {
 
         // at this point, the style for the current level is in the cache
         // so return it (as an array!)
-        return [this.styleCache[type]];
+        return [harbourStyles[type]];
     },
 
     statusStyleFunction: function(feature, resolution) {
@@ -202,9 +324,6 @@ Ext.define("StyleService", {
         return [this.eckholdtStyleCache[code]];
     },
 
-
-
-
     getLabelText: function(feature, resolution) {
         //var type = dom.text.value;
         //var maxResolution = dom.maxreso.value;
@@ -289,146 +408,5 @@ Ext.define("StyleService", {
         return [style];
     },
 
-    // point styles
-    //defaultPoints: this.bluePoints,
 
-    redPoints: new ol.style.Style({
-        image: new ol.style.Circle({
-            radius: 6,
-            fill: new ol.style.Fill({
-                color: "#8B0000"
-            }),
-            stroke: new ol.style.Stroke({
-                color: "#fff",
-                width: 2
-            })
-        })
-    }),
-
-    bluePoints: new ol.style.Style({
-        image: new ol.style.Circle({
-            radius: 6,
-            fill: new ol.style.Fill({
-                color: "#0099CC"
-            }),
-            stroke: new ol.style.Stroke({
-                color: "#fff",
-                width: 2
-            })
-        })
-    }),
-    greenPoints: new ol.style.Style({
-        image: new ol.style.Circle({
-            radius: 6,
-            fill: new ol.style.Fill({
-                color: "#006600"
-            }),
-            stroke: new ol.style.Stroke({
-                color: "#fff",
-                width: 2
-            })
-        })
-    }),
-    yellowPoints: new ol.style.Style({
-        image: new ol.style.Circle({
-            radius: 6,
-            fill: new ol.style.Fill({
-                color: "#b3b300"
-            }),
-            stroke: new ol.style.Stroke({
-                color: "#fff",
-                width: 2
-            })
-        })
-    }),
-    orangePoints: new ol.style.Style({
-        image: new ol.style.Circle({
-            radius: 6,
-            fill: new ol.style.Fill({
-                color: "#B27300"
-            }),
-            stroke: new ol.style.Stroke({
-                color: "#fff",
-                width: 2
-            })
-        })
-    }),
-    greyPoints: new ol.style.Style({
-        image: new ol.style.Circle({
-            radius: 6,
-            fill: new ol.style.Fill({
-                color: "#444444"
-            }),
-            stroke: new ol.style.Stroke({
-                color: "#fff",
-                width: 2
-            })
-        })
-    }),
-
-    // line styles
-    blueLines: new ol.style.Style({
-        stroke: new ol.style.Stroke({
-            color: "rgba(0, 0, 255, 1.0)",
-            width: 2
-        })
-    }),
-    redLines: new ol.style.Style({
-        stroke: new ol.style.Stroke({
-            color: "rgba(255, 0, 0, 1.0)",
-            width: 1
-        })
-    }),
-
-    // polygon styles
-    countryPolys: new ol.style.Style({
-        fill: new ol.style.Fill({
-            color: [0, 255, 255, 1]
-        }),
-        stroke: new ol.style.Stroke({
-            color: [127,127,127,1.0],
-            width: 1,
-            lineJoin: "round"
-        })
-    }),
-
-    // icon styles
-    iconStyle: new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0, 0],
-            anchorXUnits: "pixels",
-            anchorYUnits: "pixels",
-            opacity: 0.9,
-            scale: 1,
-            //size: [15, 15],
-            src: "/resources/icons/harbours_icon_15px.png"
-        }))
-    })
-
-    // tests
-    /*
-    selected: new ol.style.Style({
-        image: new ol.style.Circle({
-            radius: 6,
-            fill: new ol.style.Fill({
-                color: "#EE0000"
-            }),
-            stroke: new ol.style.Stroke({
-                color: "gray",
-                width: 3
-            })
-        })
-    }),
-
-    randomStyle: new ol.style.Style({
-        image: new ol.style.Icon({
-          anchor: [0.5, 0.5],
-          size: [52, 52],
-          offset: [52, 0],
-          opacity: 1,
-          scale: 0.25,
-          src: "../assets/img/dots.png"
-        })
-    })
-    */
 });

@@ -1,7 +1,6 @@
 /**
  * Generates a set of style rules for the "navigation" tab UI.
  */
-
 .x-title-icon-navigation {
     font-family: FontAwesome;
     color: #fff;
@@ -25,16 +24,6 @@
 .x-panel-header-title-navigation > .x-title-text-navigation:after {
     top: 30px;
     right: -24px;
-}
-/*
-.x-form-display-field {
-    color: #ff0000;
-}*/
-
-/* text showing logged in username next to logout button */
-.logoutLabel {
-    color: #696969;
-    font-size: 12px;
 }
 
 /* layer legends in layertree */
@@ -76,18 +65,6 @@
     border-width: 5px;
 }
 
-div.about-text {
-    text-align: left;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    margin-left: 30px;
-    margin-right: 30px;
-}
-
-div.about-logos {
-    text-align: center;
-}
-
 img.project-icon {
     height: 70px;
     margin-top: 10px;
@@ -118,14 +95,12 @@ img.news-image {
 
 /* remove folder icon from tree nodes */
 .x-tree-icon {
-    display: none !important;
+  display: none !important;
 }
 
 .filterItems {
     font-weight: normal !important;
 }
-
-
 
 h2.news-title {
     font-size: 18px;

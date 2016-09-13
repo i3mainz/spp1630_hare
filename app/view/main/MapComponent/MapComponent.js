@@ -17,13 +17,32 @@ Ext.define("SppAppClassic.view.main.MapComponent", {
         OL3MapService.initMap();  // TODO: set map in controller
         this.map = OL3MapService.getMap();
 
+        // set tree store once map is loaded
+        var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
+            layerGroup: OL3MapService.getMap().getLayerGroup(),
+            storeId: "treeStore"  // register with storemanager
+        });
+        Ext.getCmp("layerTree").setStore(treeStore);
+
         SppAppClassic.view.main.MapComponent.superclass.initComponent.call(this);
         //this.callParent();
     },
 
     listeners: {
         click: "onMapClick",
-        pointermove: "onPointerMove",
-        beforerender: "onGeoExtMapRender"
+
+        // custom listener for pointMoves to change cursor style
+        render: function(component) {
+            component.map.on("pointermove", function (evt) {
+                var hit = this.forEachFeatureAtPixel(evt.pixel, function(feature) {
+                    return true;
+                });
+                if (hit) {
+                    this.getTarget().style.cursor = 'pointer';
+                } else {
+                   this.getTarget().style.cursor = '';
+               }
+           });
+        }
     }
 });

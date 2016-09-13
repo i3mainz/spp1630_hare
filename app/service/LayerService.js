@@ -126,6 +126,7 @@ Ext.define("LayerService", {
         // AWMC
         new ol.layer.Group({
             name: "AWMC",
+            visible: false,
             layers: new ol.Collection([
                 new ol.layer.Tile({
                     name: "Basemap",
@@ -494,19 +495,15 @@ Ext.define("LayerService", {
             visible: false
         }),
 
-    ],
-
-    restrictedLayers: {
-        // SPP open
-        sppOpen: new ol.layer.Vector({
-            name: "SPP: Harbours (open)",
+        // AG intern "Rheinhafenprojekt"
+        new ol.layer.Vector({
+            name: "Rheinhafenprojekt (AG intern)",
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
                     return ConfigService.paths.proxyPath +
                             "bereich=" + "SPP" +
-                            //"&layer=" + "spp_harbours_open" +  // spp_harbours_open
-                            "&layer=" + "spp_all" +
+                            "&layer=" + "spp_ag_intern_12" +
                             "&bbox=" + extent.join(",") +
                             "&epsg=" + "4326";
                 },
@@ -518,41 +515,269 @@ Ext.define("LayerService", {
             //style: StyleService.redPoints,
             legendUrl: getLegendImg("SPP:spp_harbours_intern"),
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
-            description: "Data of the spp projects open to anyone interested.",
-            visible: true
-        }),
-        spp: new ol.layer.Vector({
-            name: "SPP: Harbours",
-            source: new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return ConfigService.paths.proxyPath +
-                            "bereich=" + "SPP" +
-                            //"&layer=" + "spp_harbours_intern" +
-                            "&layer=" + "spp_all" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            //style: StyleService.redPoints,
-            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
-            style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
-            description: "Data of the spp projects",
-            visible: true
-        }),
-
-        agIntern: new ol.layer.Group({
-            layers: [],
-            name: "Project Internal",
+            description: "Data only visible to this project's members",
+            access: "12",  // means project with id 4
             visible: false
         }),
-    },
 
+        // AG intern "Fossa Carolina"
+        new ol.layer.Vector({
+            name: "Fossa Carolina (AG intern)",
+            source: new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return ConfigService.paths.proxyPath +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "spp_ag_intern_7" +
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            //style: StyleService.redPoints,
+            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
+            description: "Data only visible to this project's members",
+            access: "7",  // means project with id 4
+            visible: false
+        }),
 
+        // AG intern "Ostseehäfen"
+        new ol.layer.Vector({
+            name: "Ostseehäfen (AG intern)",
+            source: new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return ConfigService.paths.proxyPath +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "spp_ag_intern_10" +
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            //style: StyleService.redPoints,
+            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
+            description: "Data only visible to this project's members",
+            access: "10",  // means project with id 4
+            visible: false
+        }),
+
+        // AG intern "Adria"
+        new ol.layer.Vector({
+            name: "Adria (AG intern)",
+            source: new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return ConfigService.paths.proxyPath +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "spp_ag_intern_1" +
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            //style: StyleService.redPoints,
+            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
+            description: "Data only visible to this project's members",
+            access: "1",  // means project with id 4
+            visible: false
+        }),
+
+        // AG intern "Haefen an der Balkankueste des byzantinischen Reiches"
+        new ol.layer.Vector({
+            name: "Häfen an der Balkanküste des byzantinischen Reiches",
+            source: new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return ConfigService.paths.proxyPath +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "spp_ag_intern_8" +
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            //style: StyleService.redPoints,
+            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
+            description: "Data only visible to this project's members",
+            access: "8",  // means project with id 4
+            visible: false
+        }),
+
+        // AG intern "Binnenhäfen im fränkisch-deutschen Reich"
+        new ol.layer.Vector({
+            name: "Binnenhäfen im fränkisch-deutschen Reich (AG intern)",
+            source: new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return ConfigService.paths.proxyPath +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "spp_ag_intern_2" +
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            //style: StyleService.redPoints,
+            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
+            description: "Data only visible to this project's members",
+            access: "2",
+            visible: false
+        }),
+
+        // AG intern "Effizienz und Konkurrenz"
+        new ol.layer.Vector({
+            name: "Effizienz und Konkurrenz (AG intern)",
+            source: new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return ConfigService.paths.proxyPath +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "spp_ag_intern_4" +
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            //style: StyleService.redPoints,
+            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
+            description: "Data only visible to this project's members",
+            access: "4",  // means project with id 4
+            visible: false
+        }),
+
+        // spp (sppInternal)
+        new ol.layer.Vector({
+            name: "SPP (SPP intern)",
+            source: new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                url: function(extent) {
+                    return ConfigService.paths.proxyPath +
+                            "bereich=" + "SPP" +
+                            "&layer=" + "spp_harbours_intern" +
+                            "&bbox=" + extent.join(",") +
+                            "&epsg=" + "4326";
+                },
+                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                    maxZoom: 19
+                })),
+                wrapX: false  // dont repeat on X axis
+            }),
+            //style: StyleService.redPoints,
+            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            style: StyleService.pointTypeStyleFunction,
+            description: "Data only visible to spp project members.",
+            access: "sppInternal",
+            visible: false
+        }),
+
+        // spp (public)
+        new ol.layer.Group({
+            name: "SPP (public)",
+            visible: true,
+            layers: new ol.Collection([
+                // vehicles
+                new ol.layer.Vector({
+                    name: "Vehicles",
+                    source: new ol.source.Vector({
+                        format: new ol.format.GeoJSON(),
+                        url: function(extent) {
+                            return ConfigService.paths.proxyPath +
+                                    "bereich=" + "SPP" +
+                                    "&layer=" + "spp_public_vehicles" +
+                                    "&bbox=" + extent.join(",") +
+                                    "&epsg=" + "4326";
+                        },
+                        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                            maxZoom: 19
+                        })),
+                        wrapX: false  // dont repeat on X axis
+                    }),
+                    //style: StyleService.redPoints,
+                    legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+                    style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
+                    description: "Data of the spp projects open to anyone interested.",
+                    access: "public",  // "public", "sppInternal", "projectInternal"
+                    visible: true
+                }),
+
+                // canals
+                new ol.layer.Vector({
+                    name: "Canals",
+                    source: new ol.source.Vector({
+                        format: new ol.format.GeoJSON(),
+                        url: function(extent) {
+                            return ConfigService.paths.proxyPath +
+                                    "bereich=" + "SPP" +
+                                    "&layer=" + "spp_public_canals" +
+                                    "&bbox=" + extent.join(",") +
+                                    "&epsg=" + "4326";
+                        },
+                        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                            maxZoom: 19
+                        })),
+                        wrapX: false  // dont repeat on X axis
+                    }),
+                    //style: StyleService.redPoints,
+                    legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+                    style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
+                    description: "Data of the spp projects open to anyone interested.",
+                    access: "public",  // "public", "sppInternal", "projectInternal"
+                    visible: true
+                }),
+
+                // harbours
+                new ol.layer.Vector({
+                    name: "Harbours",
+                    source: new ol.source.Vector({
+                        format: new ol.format.GeoJSON(),
+                        url: function(extent) {
+                            return ConfigService.paths.proxyPath +
+                                    "bereich=" + "SPP" +
+                                    "&layer=" + "spp_public_harbours" +  // spp_harbours_open
+                                    //"&layer=" + "spp_all" +
+                                    "&bbox=" + extent.join(",") +
+                                    "&epsg=" + "4326";
+                        },
+                        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                            maxZoom: 19
+                        })),
+                        wrapX: false  // dont repeat on X axis
+                    }),
+                    //style: StyleService.redPoints,
+                    legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+                    style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
+                    description: "Data of the spp projects open to anyone interested.",
+                    access: "public",  // "public", "sppInternal", "projectInternal"
+                    visible: true
+                })
+            ]) // end layers
+        }) // end layer group
+    ],
 
     getLayerGroupByName: function(name) {
         for (var key in this.layers) {
