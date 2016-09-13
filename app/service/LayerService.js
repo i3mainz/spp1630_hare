@@ -692,6 +692,7 @@ Ext.define("LayerService", {
             style: StyleService.pointTypeStyleFunction,
             description: "Data only visible to spp project members.",
             access: "sppInternal",
+            filterable: true,
             visible: false
         }),
 
@@ -718,10 +719,12 @@ Ext.define("LayerService", {
                         wrapX: false  // dont repeat on X axis
                     }),
                     //style: StyleService.redPoints,
-                    legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+                    //legendUrl: getLegendImg("SPP:spp_harbours_intern"),
                     style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
                     description: "Data of the spp projects open to anyone interested.",
                     access: "public",  // "public", "sppInternal", "projectInternal"
+                    id: "spp_public_vehicles",  // used by filter to get correct layer
+                    filterable: true,  // included in filter function
                     visible: true
                 }),
 
@@ -743,10 +746,12 @@ Ext.define("LayerService", {
                         wrapX: false  // dont repeat on X axis
                     }),
                     //style: StyleService.redPoints,
-                    legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+                    //legendUrl: getLegendImg("SPP:spp_harbours_intern"),
                     style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
                     description: "Data of the spp projects open to anyone interested.",
                     access: "public",  // "public", "sppInternal", "projectInternal"
+                    id: "spp_public_canals",  // used by filter to get correct layer
+                    filterable: true,
                     visible: true
                 }),
 
@@ -769,10 +774,12 @@ Ext.define("LayerService", {
                         wrapX: false  // dont repeat on X axis
                     }),
                     //style: StyleService.redPoints,
-                    legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+                    //legendUrl: getLegendImg("SPP:spp_harbours_intern"),
                     style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
                     description: "Data of the spp projects open to anyone interested.",
                     access: "public",  // "public", "sppInternal", "projectInternal"
+                    id: "spp_public_harbours",  // used by filter to get correct layer
+                    filterable: true,
                     visible: true
                 })
             ]) // end layers

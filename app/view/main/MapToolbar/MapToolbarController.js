@@ -6,7 +6,8 @@ Ext.define("SppAppClassic.MapToolbarController", {
     alias: "controller.maptoolbar",
 
     requires: [
-        "AuthService"
+        "AuthService",
+        "SppAppClassic.view.main.FilterPanel"
     ],
 
     /**
@@ -25,29 +26,25 @@ Ext.define("SppAppClassic.MapToolbarController", {
     },
 
     onToggleFilter: function() {
-        //var filterPanel = this.lookupReference("filterpanel");  // not working
+
         var filterPanel = Ext.getCmp("filterPanel");
 
         if (!filterPanel) {  // lazy instantiation
-            var mainPanel = Ext.getCmp("mainpanel");
-
-            // create filterpanel as item of main panel
-            mainPanel.add([{
-                xtype: "filterpanel",
+            filterPanel = Ext.create({
+                xtype: "app-filterpanel",
                 region: "west",
-                margin: "0 5 0 0"
-            }]);
-            //filterPanel = Ext.create("SppAppClassic.view.main.filter.FilterPanel");
-            //filterPanel.anchorTo(Ext.getBody(),'t-t',[-100,0]);
-            //filterPanel.alignTo(Ext.getBody(), "tr-tr");
-            //filterPanel.alignTo(Ext.getBody(), "tr");
-        } else if (filterPanel.getCollapsed()) {  // is collapsed
+                //margin: "0 5 0 0",
+                collapsed: false
+            });
+            // create filterpanel as item of main panel
+            Ext.getCmp("mainpanel").add(filterPanel);
+        }
+
+        if (filterPanel.getCollapsed()) {  // is collapsed
             filterPanel.setCollapsed(false);
         } else {
             filterPanel.setCollapsed(true);
         }
-        //filterPanel.toggle();
-        //filterPanel.show()
     },
 
     // Toolbar methods

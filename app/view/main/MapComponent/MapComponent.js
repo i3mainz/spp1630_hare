@@ -28,6 +28,41 @@ Ext.define("SppAppClassic.view.main.MapComponent", {
         //this.callParent();
     },
 
+    /**
+     * Gets a layer by its ID. it is not OL3 standard. given to access correct
+     * layer when applying filters and multiple layers with the same name exist.
+     * @param {string} id - Layer ID
+     * @returns {Object} OL3 Layer Object
+     */
+    getLayerByID: function(id) {
+        var layers = OL3MapService.getLayers();   // gets layers nested in layer groups
+        for (var i = 0; i < layers.length; i++) {
+            var layer = layers[i];
+
+            if (layer.get("id") === id) {
+                return layer;
+            }
+        }
+        return false;
+    },
+
+    /**
+     * Gets all filterable layers from the map. The need to have attribute
+     * filterable: true and they need an ID to identify them.
+     * @returns {Object[]} OL3 Layer Objects
+     */
+    getFilterableLayers: function() {
+        var filterableLayers = [];
+        var layers = OL3MapService.getLayers();
+        for (var i = 0; i < layers.length; i++) {
+            var layer = layers[i];
+            if (layer.get("id") && layer.get("filterable")) {
+                filterableLayers.push(layer);
+            }
+        }
+        return filterableLayers;
+    },
+
     listeners: {
         click: "onMapClick",
 

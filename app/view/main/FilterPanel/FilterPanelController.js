@@ -126,49 +126,21 @@ Ext.define("SppAppClassic.FilterPanelController", {
         var filterString = queryList.join(" AND ");
         //var filterString = this.getStatusSQLQuery();
 
-        console.log(filterString);
 
-        // apply filters
-        //var layer = Ext.getStore("layersStore").filter("type", "GeoJSON");
-        //var layer = Ext.getStore("layersStore").getAt(0);   // workaround because filter doesnt work. not sure why
-        //var layer = OL3MapService.getLayerByName("Harbour data");
 
-        //var layers = OL3MapService.getMap().getLayers().getArray();
+        //var layer = Ext.getCmp("geoextMap").getLayerByID("spp_public_harbours");
+        //console.log(layer.get("source").getKeys());
+        //console.log(layer.getSource().getKeys());
 
-        /*for (var i = 0; i < layers.length; i++) {
-            var layer = layers[i];
-            //if (layer instanceof ol.layer.Group)
-            if (layer.get("name") === "Harbours") {
-                var source = layer.getSource();
-                 //source.clear();
+        var layers = Ext.getCmp("geoextMap").getFilterableLayers();
 
-                //console.log(source.getFeatures().length);
-                //source.clear(true);
-                //console.log(source.getFeatures().length);
-                break;
+        // get all layers
+        layers.forEach(function(layer) {
+            if (filterString.length > 0) {
+                OL3MapService.filterLayer(layer, filterString);
+            } else {
+                OL3MapService.filterLayer(layer, "project_id > 0");
             }
-            //console.log(layer.get("name"));
-        }*/
-
-        //console.log(OL3MapService.map.getLayers());
-        //console.log(layer.getSource());
-        var layer = OL3MapService.getLayerByName("SPP: Harbours");
-        //var source = ).getSource();
-        //console.log(layer.get("name"));
-        //console.log(source.getFeatures().length);
-
-        //console.log("remove features from: " + layer.get("name"));
-        //console.log(layer.getSource().getFeatures().length);
-
-        if (filterString.length > 0) {
-            //console.log(source.getFeatures().length);
-            OL3MapService.filterVectorSource(layer, filterString);
-        } else {
-            console.log("no filter!");
-            OL3MapService.filterVectorSource(layer, "project_id>0"); // workaround to select everything
-        }
-
-
-        //Ext.getCmp("applyFilterButton").enable();
+        });
     }
 });

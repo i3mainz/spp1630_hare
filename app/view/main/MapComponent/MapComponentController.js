@@ -51,23 +51,5 @@ Ext.define("SppAppClassic.MapComponentController", {
                 popupWindow.hide();
             }
         }
-    },
-
-    /**
-     * changes mouse cursor to a "hand" when it's over a feature,
-     * to indicate that the feature is clickable
-    */
-    onPointerMove: function(evt) {
-        console.log("pointermove");
-        var map = this.getView().map;
-        //var pixel = map.getEventPixel(evt.originalEvent);
-        var hasFeature = map.forEachFeatureAtPixel(evt.pixel, function() {
-            return true;
-        });
-        if (hasFeature) {
-            map.getTarget().style.cursor = "pointer";
-        } else {
-            map.getTarget().style.cursor = "";
-        }
     }
 });

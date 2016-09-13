@@ -191,106 +191,21 @@ Ext.define("OL3MapService", {
     },
 
     /**
-     * creates a ol.layer.Tile layer with a ol.source.TileWMS
-     * as it's source
+     * Filters a vector layer by applying a filter.
+     * @param {Object} layer - OL3 Layer
+     * @param {String} layer.id - Layer ID, must be same as GeoServer layer name
+     * @param {string} filter - GeoServer CQL Filter String
      */
-    createWMSLayer: function(name, sourceName, legendName, legendHeight) {
-        legendName = legendName || false;
-        legendHeight = legendHeight || false;
-        var layer = new ol.layer.Tile({
-            name: name,
-            source: new ol.source.TileWMS({
-                url: wms,
-                params: {"LAYERS": sourceName, "TILED": true},
-                serverType: "geoserver",
-                wrapX: false   // dont repeat on X axis
-            }),
-            visible: false
-        });
-        if (legendName) {
-            var legendUrl;
-            if (legendHeight) {
-                if (legendHeight === "fetch") {
-                    console.log("found fetch!");
-                    legendUrl = this.getLegendImg(legendName, 10, 25);
-                    layer.set("legendHeight", legendHeight);
-                } else {
-                    legendUrl = this.getLegendImg(legendName);
-                    console.log("legendHeight: " + legendHeight + " not supported! using default height");
-                }
-            } else {  // no legendHeight specified
-                legendUrl = this.getLegendImg(legendName);
-            }
-            layer.set("legendUrl", legendUrl);
-        }
-        return layer;
-    },
-
-    /**
-     * layername needs to be complete with workspace (e.g. "SPP.Data").
-     */
-    filterVectorSource: function(layer, filter) {
-        console.log("filtering vector source!");
-        // TODO: obtain layername from provided layer object
-        var sourceName = "SPP:spp_harbours_intern";
-
-        console.log(layer.getSource().getFeatures().length);
-
-
-        //var PROXY_URL = "http://haefen.i3mainz.hs-mainz.de/GeojsonProxy/layer?";
-        var workspace = sourceName.split(":")[0];
-        var layerName = sourceName.split(":")[1];
-        //var BBOX = "-9.60676288604736,23.7369556427002,53.1956329345703,56.6836547851562";
-        var EPSG = "4326";
-
-        //console.log(workspace, layerName);
-        //console.log("creating source for " + sourceName + " using filter: " + filter);
+    filterLayer: function(layer, filter) {
         var vectorSource = new ol.source.Vector({
             format: new ol.format.GeoJSON(),
-            url: SppAppClassic.app.globals.proxyPath +
-                    "bereich=" + workspace +
-                    "&layer=" + layerName +
-                    "&epsg=" + EPSG +
-                    "&CQL_FILTER=" + filter,
-            /*strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                maxZoom: 19
-            }))*/
-
-
+            url: ConfigService.paths.proxyPath +
+                    "bereich=SPP" +
+                    "&layer=" + layer.get("id") +
+                    "&epsg=4326" +
+                    "&CQL_FILTER=" + filter
         });
-
         layer.setSource(vectorSource);
-
-        //this.getMap().removeLayer();
-        /*var newLayer = new ol.layer.Vector({
-           name: "Harbour data",
-           source: new ol.source.Vector({
-               format: new ol.format.GeoJSON(),
-               url: function(extent) {
-                   return proxyPath +
-                           "bereich=" + "SPP" +
-                           "&layer=" + "spp_harbours_intern" +
-                           //"&bbox=" + extent.join(",") +
-                           "&CQL_FILTER=" + filter +
-                           "&epsg=" + "4326";
-               },
-               strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                   maxZoom: 19
-               })),
-               wrapX: false  // dont repeat on X axis
-           }),
-           //style: LayerStyles.redPoints,
-           //legendUrl: getLegendImg("SPP:spp_harbours_intern"),
-           style: LayerStyles.redPointLabelStyleFunction,
-           visible: true
-       });*/
-
-
-       //map.addLayer(newLayer);
-
-        //return vectorSource;
-        //layer.getSource().clear();
-        //layer.setSource(vectorSource);  // this refreshes automatically*/
     },
 
     addLayerToLayerGroup: function(layer, layerGroupName) {

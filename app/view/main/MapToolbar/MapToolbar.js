@@ -37,9 +37,7 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
             disabled: true,  // unlocked dynamically
             enableToggle: true,
             pressed: false,
-            tooltip: {
-                text: "Filters"
-            },
+            tooltip: "Apply filters to spp layers",
             handler: "onToggleFilter"  // defined in controller
         }
     ],
