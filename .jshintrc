@@ -15,6 +15,7 @@
     "Ext": false,
     "describe": false,
     "it": false,
-    "jasmineEnv": false
+    "jasmineEnv": false,
+    "ConfigService": false
   }
 }

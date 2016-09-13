@@ -17,12 +17,26 @@ Ext.define("SppAppClassic.view.login.Login", {
 
     controller: "login",  // needs to be in requires
     header: false,
+
+    //height: '100%',
+    //bodyPadding: 10,
+    //title: "Login",
     closable: false,  // show close-button
     autoShow: true,
+    //layout: "fit",
     floating: false,
+    //maximizable: true,
+    //glyph: "xf090@fontawesome",
     animate: true,  // not sure if this does anything
+    //layout: "fit",
     style: {
+        //borderStyle: "solid",
+        //paddingTop: "30px",
+        //paddingLeft: "50px",
+        //paddingRight: "50px",
         margin: "0 auto",
+        //backgroundColor: "red"
+        //marginRight: "30px"
     },
 
     enableKeyEvents: true,
@@ -33,8 +47,12 @@ Ext.define("SppAppClassic.view.login.Login", {
         width: "80%",
         //height: '100%',
         style: {
+            //borderStyle: "solid",
             paddingTop: "30px",
             margin: "0 auto",
+            //paddingLeft: "50px",
+            //paddingRight: "50px",
+            //marginRight: "30px"
         },
 
         // columns within container
@@ -44,6 +62,7 @@ Ext.define("SppAppClassic.view.login.Login", {
             items: [{
                 //title: 'Column 1',
                 columnWidth: 0.5,
+
                 style: {
                     marginRight: "30px",
                     fontSize: "large"
@@ -53,6 +72,7 @@ Ext.define("SppAppClassic.view.login.Login", {
                     xtype: "label",
                     width: "100%"
                 },
+
                 items: [
                     {
                         text: ConfigService.texts.landingTitle,
@@ -72,8 +92,11 @@ Ext.define("SppAppClassic.view.login.Login", {
             },
             {
                 // right column
+
                 columnWidth: 0.5,
+
                 layout: "vbox",
+
                 style: {
                     //borderStyle: "solid",
                     paddingLeft: "30px",
@@ -82,8 +105,11 @@ Ext.define("SppAppClassic.view.login.Login", {
                     borderLeft: "solid thin black"
                 },
 
-                items: [
-                    {
+                items: [{
+                        xtype: 'label',
+                        //forId: 'myFieldId',
+                        html: 'Login'
+                    },{
                         xtype: "textfield",
                         name: "username",
                         id: "usernameField",
@@ -111,8 +137,9 @@ Ext.define("SppAppClassic.view.login.Login", {
                         reference: "loginSubmitButton",  // used to lock during validation
                         id: "loginSubmitButton",
                         formBind: true,  // disable until form filled
-                        tooltip: ConfigService.tooltips.login,
-                        handler: "onLoginClick"
+                        tooltip: "Login using your username/password combination",
+                        handler: "onLoginClick",
+
                     },{
                         xtype: "label",
                         style: {
@@ -134,5 +161,4 @@ Ext.define("SppAppClassic.view.login.Login", {
             }]
         }
     }]
-
 });

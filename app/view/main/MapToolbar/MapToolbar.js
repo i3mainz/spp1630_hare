@@ -3,9 +3,11 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
     extend: "Ext.Toolbar",
 
     xtype: "maptoolbar",
+
     requires: [
         "Ext.button.Button"
     ],
+
     controller: "maptoolbar",
 
     defaults: {
@@ -37,13 +39,12 @@ Ext.define("SppAppClassic.view.main.MapToolbar", {
             pressed: false,
             tooltip: {
                 text: "Filters"
-                //anchor: 'top'
             },
-            handler: "onToggleFilter"
+            handler: "onToggleFilter"  // defined in controller
         }
     ],
 
     listeners: {
-        beforerender: "unlockButtons"
+        beforerender: "unlockButtons"  // defined in controller
     }
 });

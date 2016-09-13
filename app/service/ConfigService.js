@@ -3,8 +3,6 @@
 Ext.define("ConfigService", {
     singleton: true,
 
-
-
     paths: {
         host: "http://haefen.i3mainz.hs-mainz.de",
 
@@ -16,7 +14,7 @@ Ext.define("ConfigService", {
 
         // proxy to fetch geojson files
         proxyPath: "http://haefen.i3mainz.hs-mainz.de" + "/GeojsonProxy/layer?"
-        
+
     },
 
     // requited to get MapBox maps
@@ -26,9 +24,19 @@ Ext.define("ConfigService", {
      * Texts used throughout the application
      */
     texts: {
+        //sppLayerName: "SPP:spp_harbours_intern"
+        // headers
         title: "SPP 1630 Virtual Research Environment",
+        descriptionTitle: "Description",
+        treeTitle: "Layers",
+
+        // landing page
         landingTitle: "SPP Virtual Research Environment",
         landingText: "This is the Virtual Research Environment (VRE) of the SPP 1630 Harbours Program. It visualizes harbour related data compiled by participating SPP projects, as well as additional hydrological and archeological datasets. It is meant to act as a tool for researchers during their ongoing projects. This website is an afford of the working group \"Data Integration\". It was conceptualised in collaboration with the University of Jena (FSU) and is currently being developed by the i3mainz. Researchers can login using their credentials provided by the developers. Curious guests can skip the login and launch the app in guest-mode with fewer data and limited functions.",
+
+        // description panel
+        descriptionPlaceholder: "Select a layer to see its description",
+
         //       // software
         //       "<br><p>Built using:<br>" +
         //       "<a href='http://boundlessgeo.com/products/opengeo-suite/' target='_blank'><img class='software-icon grayscale' title='OpenGeo Suite' src=/resources/images/opengeosuite.png /></a>" +

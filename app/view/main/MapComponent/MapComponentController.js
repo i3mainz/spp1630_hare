@@ -1,113 +1,15 @@
 "use strict";
 
-Ext.define("SppAppClassic.MainController", {
+Ext.define("SppAppClassic.MapComponentController", {
     extend: "Ext.app.ViewController",
 
-    alias: "controller.main",
+    alias: "controller.map",
 
     requires: [
-        "Ext.button.Button",
-        "SppAppClassic.view.login.Login",
-        "SppAppClassic.view.main.NewsPanel",
-        "AuthService",
-        "LayerService",
-        "OL3MapService"
+        "GeoExt.data.store.LayersTree",
+        "OL3MapService",
+        "LayerService"
     ],
-
-    control: {
-        // MainPanel
-        "#": {
-            afterrender: "updateLogoutInfo",
-            beforedestroy: "onMainPanelDestroy"
-        },
-
-        // mappanel
-        "#mappanel": {
-            render: function(panel) {
-
-                // add custom click event
-                panel.body.on("click", function(evt) {
-                    // add attribute pixel to event object like in OL3 click event
-                    // this way, the code in the click function works with
-                    // both, ExtJs and with direct Ol3 events
-                    evt.pixel = [evt.browserEvent.layerX, evt.browserEvent.layerY];
-                    // provide event as parameter, it is used later to get pixel
-                    Ext.getCmp("geoextMap").fireEvent("click", evt);
-                    //this.fireEvent("clickpanel");  // adds event to mappanel not this panel
-                });
-            },
-            beforeDestroy: "onMapPanelDestroy"
-        },
-
-        // GeoExtMap component
-        "#geoextMap": {
-            click: "onMapClick",
-            pointermove: "onPointerMove",
-            //destroy: "onDestroy",
-            beforerender: "onGeoExtMapRender"
-        }
-    },
-
-
-    // main functions
-    updateLogoutInfo: function() {
-        var text = "Logged in as " + AuthService.getUser() + ".";
-        Ext.getCmp("logoutButtonlabel").setText(text);
-    },
-
-    onClickLogout: function() {
-        var me = this;
-
-        Ext.MessageBox.confirm("Logout", "Are you sure you want to logout?", function(btn) {
-            if (btn === "yes") {
-
-                AuthService.logout(function() {
-                    // success
-                    me.getView().destroy();  // onDestroy destroys everything else
-
-                    // Add the Login Window
-                    Ext.create({
-                        xtype: "login"
-                    });
-
-                }, function() {
-                    // failure
-                    console.log("error when trying to logout!");
-                });
-            }
-        });
-    },
-
-    onClickInfo: function() {
-        var infoPanel = Ext.getCmp("infotabpanel");
-        if (!infoPanel) {
-            infoPanel = Ext.create({ xtype: "infotabpanel" });
-        }
-        infoPanel.show();
-    },
-
-    /*
-     * clean up everything when main view gets destroyed
-     */
-    onMainPanelDestroy: function() {
-        var extWindow;
-        //console.log("destroy view!");
-        // destroy all windows when main view gets destroyed
-        // to prevent them from still being displayed on login view
-
-        var extWindow = Ext.getCmp("filterPanel");
-        if (extWindow) {
-            extWindow.destroy();
-        }
-        extWindow = Ext.getCmp("gridWindow");
-        if (extWindow) {
-            extWindow.destroy();
-        }
-        extWindow = Ext.getCmp("popupWindow");
-        if (extWindow) {
-            extWindow.destroy();
-        }
-    },
 
     onGeoExtMapRender: function() {
         this.setLayersTreePanelStore();
@@ -135,7 +37,9 @@ Ext.define("SppAppClassic.MainController", {
 
             if (AuthService.getUser() !== "guest") {
                 // SPP internal layer groups
+
                 OL3MapService.getMap().addLayer(LayerService.restrictedLayers.spp);
+
 
                 // agInternal
                 //OL3MapService.getMap().addLayer(LayerGroups.agIntern);  // empty
@@ -171,7 +75,7 @@ Ext.define("SppAppClassic.MainController", {
     */
     onMapClick: function(evt) {
         // this.map replaces olMap.map until GeoExt3 function exists
-        //console.log("click on map!");
+        console.log("click on map!");
         var map = OL3MapService.getMap();
         //var cookie = Ext.util.Cookies.get("sppCookie");
         //var pixel = map.getEventPixel(evt.originalEvent);
@@ -229,14 +133,5 @@ Ext.define("SppAppClassic.MainController", {
         } else {
             map.getTarget().style.cursor = "";
         }
-    },
-
-    /**
-     * ensures that ol3Map is destroyed. doesnt work
-     */
-    onMapPanelDestroy: function() {
-        console.log("destroying mappanel");
-        //this.getView().setMap(false);
-    },
-
+    }
 });

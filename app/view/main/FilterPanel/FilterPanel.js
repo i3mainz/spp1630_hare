@@ -10,12 +10,12 @@
  */
 Ext.define("SppAppClassic.view.main.FilterPanel",{
     extend: "Ext.panel.Panel",
-    xtype: "filterpanel",
+
+    xtype: "app-filterpanel",
     //reference: "filterpanel",
     id: "filterPanel",  // TODO: use references instead
     requires: [
-        //"Ext.panel.Panel",
-        //"Ext.form.Panel",
+
         "Ext.form.Label",
         "Ext.form.FieldSet",
         "Ext.form.field.Checkbox",

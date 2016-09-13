@@ -28,8 +28,10 @@ Ext.define("OL3MapService", {
     // required to completely reset the map on a logout
     initMap: function() {
         this.setMap(new ol.Map({
+
             // restricted layer groups like ag-internal will be loaded dynamically, also
             layers: LayerService.layers,  // get laoded dynamically in MapController
+
             controls: [
                 new ol.control.ScaleLine(),
                 new ol.control.Attribution()
