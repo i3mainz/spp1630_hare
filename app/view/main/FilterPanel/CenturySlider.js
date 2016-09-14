@@ -126,7 +126,7 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
                 var sliderlabelright = Ext.getCmp("sliderlabelright");
 
                 if (sliderlabelleft.text !== labelLeft) {  // left changed
-                    console.log("trigger left");
+                    //console.log("trigger left");
                     sliderlabelleft.setText(labelLeft);
                     sliderlabelmid.setText("-");
                     sliderlabelleft.setStyle({
@@ -135,7 +135,7 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
                 }
 
                 if (sliderlabelright.text !== labelRight) {  // right changed
-                    console.log("trigger right");
+                    //console.log("trigger right");
                     sliderlabelright.setText(labelRight);
                     sliderlabelmid.setText("-");
                     sliderlabelright.setStyle({
@@ -303,35 +303,3 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
 
     }
 });
-
-
-
-
-
-/*
-toolTip.on('show', function(){
-
-    var timeout;
-
-    toolTip.getEl().on('mouseout', function(){
-        timeout = window.setTimeout(function(){
-            toolTip.hide();
-        }, 500);
-    });
-
-    toolTip.getEl().on('mouseover', function(){
-        window.clearTimeout(timeout);
-    });
-
-    Ext.get(targetId).on('mouseover', function(){
-        window.clearTimeout(timeout);
-    });
-
-    Ext.get(targetId).on('mouseout', function(){
-        timeout = window.setTimeout(function(){
-            toolTip.hide();
-        }, 500);
-    });
-
-});
-*/

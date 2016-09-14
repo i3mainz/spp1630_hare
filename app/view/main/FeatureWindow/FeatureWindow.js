@@ -31,9 +31,9 @@ Ext.define("SppAppClassic.view.main.FeatureWindow",{
      * gets all attributes of a feature and returns them as a
      * html string.
     */
-    updateFeatureInfo: function(olFeature, isGuest) {
-        isGuest = isGuest || false;
-        var excludeList = ["geometry", "gid", "project_id", "uid", "created", "modified"];
+    updateFeatureInfo: function(olFeature) {
+
+        var excludeList = ["geometry", "gid", "uid", "created", "modified"];
         var guestIncludeList = ["author", "project", "place_type"];
         var html = "";
         html += "<table>";
@@ -42,7 +42,7 @@ Ext.define("SppAppClassic.view.main.FeatureWindow",{
         for (var i = 0; i < attributes.length; i++) {
             var attr = attributes[i];
             if (excludeList.indexOf(attr) === -1) {  // not excluded
-                if (isGuest) {
+                if (AuthService.getUser() === "guest") {  // show limited info for guests
                     if (guestIncludeList.indexOf(attr) > -1) {
                         html += "<tr><td><strong>" + attr + ": </strong></td><td>" + olFeature.get(attr) + "</td></tr>";
                     }
@@ -52,7 +52,7 @@ Ext.define("SppAppClassic.view.main.FeatureWindow",{
             }
         }
         // add link to project website
-        var projectName = olFeature.get("project");
+        var projectName = olFeature.get("project"); // TODO: use project_id
         var project = ProjectService.getProjectByDbName(projectName);
         html += "<tr>";
         if (project && "contact" in project) {

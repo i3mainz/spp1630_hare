@@ -181,108 +181,44 @@ Ext.define("StyleService", {
         // check the cache and create a new style for the project
         // if its not been created before.
         if (!harbourStyles[type]) {
-            harbourStyles[type] = new ol.style.Style({
-                image: new ol.style.Circle({
-                    radius: 6,
-                    fill: new ol.style.Fill({
-                        color: colors[type]//"#CC00CC"
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: "#fff",
-                        width: 2
+            if (type === "Wasserfahrzeug") {
+                harbourStyles[type] = new ol.style.Style({
+                    image: new ol.style.RegularShape({
+                        fill: new ol.style.Fill({color:  colors[type]}),
+                        stroke: new ol.style.Stroke({color: 'black', width: 1.5}),
+                        points: 4,
+                        radius: 5,
+                        radius2: 0,
+                        angle: Math.PI / 4
+                    })
+                });
+            } else if (type === "Hafen") {
+                harbourStyles[type] = new ol.style.Style({
+                    image: new ol.style.Circle({
+                        radius: 6,
+                        fill: new ol.style.Fill({
+                            color: colors[type]//"#CC00CC"
+                        }),
+                        stroke: new ol.style.Stroke({color: 'white', width: 2})
+                    })
+                });
+            } else { // canals
+                harbourStyles[type] = new ol.style.Style({
+                    image: new ol.style.RegularShape({
+                        //size: [52, 52],
+                        fill: new ol.style.Fill({color:  colors[type]}),
+                        stroke: new ol.style.Stroke({color: 'white', width: 2}),
+                        points: 4,
+                        radius: 6,
+                        angle: Math.PI / 4
                     })
                 })
-            });
+            }
         }
 
         // at this point, the style for the current level is in the cache
         // so return it (as an array!)
         return [harbourStyles[type]];
-    },
-
-    statusStyleFunction: function(feature, resolution) {
-
-        // map the income level codes to a colour value, grouping them
-        var projectColors = {
-            "1": "#660066",
-            "2": "#007f00",
-            "3": "#ca8f42"
-        };
-
-        // get the projectname from the feature properties
-        var project = feature.get("status");
-
-        // if there is no level or its one we don't recognize,
-        // return the default style (in an array!)
-        if (!project || !projectColors[project]) {
-            //console.log("default for " + project);
-            return [this.defaultPoints];
-        }
-
-        // check the cache and create a new style for the project
-        // if its not been created before.
-
-        if (!this.styleCache[project]) {
-            //console.log(project);
-
-            this.styleCache[project] = new ol.style.Style({
-                image: new ol.style.Circle({
-                    radius: 6,
-                    fill: new ol.style.Fill({
-                        color: projectColors[project]//"#CC00CC"
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: "#fff",
-                        width: 2
-                    })
-                })
-            });
-        }
-
-        // at this point, the style for the current level is in the cache
-        // so return it (as an array!)
-        return [this.styleCache[project]];
-    },
-
-    harbourTypeStyleFunction: function(feature, resolution) {
-        // TODO: multiply with zoom
-        // get the type from the feature properties
-        var harbourType = feature.get("place_type");
-
-        // map the income level codes to a colour value, grouping them
-        var icons = {
-            "Kanal/Schleppstrecke": "resources/icons/canal_icon_24px.png",
-            "Wasserstraße": "resources/icons/canal_icon_24px.png",
-            "Hafen": "resources/icons/harbours_icon_24px.png",
-            "Hafen?": "resources/icons/harbours_icon_24px.png",
-            "Hefen": "resources/icons/harbours_icon_24px.png",
-            "Wasserfahrzeug": "resources/icons/boat_icon_24px.png"
-        };
-
-        // provide default if attribute is missing or not specified in icons
-        if (!harbourType || !icons[harbourType]) {
-            return [this.defaultPoints];
-        }
-
-        if (!this.harourTypeStyleCache[harbourType]) {
-
-            this.harourTypeStyleCache[harbourType] = new ol.style.Style({
-
-                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                    //anchor: [0.5, 46],
-                    color: "#0099CC",
-                    anchor: [0.5, 0.5],
-                    //anchorXUnits: 'fraction',
-                    //anchorYUnits: 'pixels',
-                    //size: 20,  // in pixel
-                    src: icons[harbourType]
-                }))
-            });
-        }
-
-        // at this point, the style for the current level is in the cache
-        // so return it (as an array!)
-        return [this.harourTypeStyleCache[harbourType]];
     },
 
     eckholdtStyleFunction: function(feature, resolution) {

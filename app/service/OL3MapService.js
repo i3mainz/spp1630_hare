@@ -10,7 +10,8 @@ Ext.define("OL3MapService", {
     requires: [
         "ConfigService",
         "LayerService",
-        "StyleService"
+        "StyleService",
+        "AuthService"
     ],
 
     map: null,
@@ -31,7 +32,6 @@ Ext.define("OL3MapService", {
         this.setMap(new ol.Map({
 
             layers: this.getAuthorizedLayers(LayerService.layers),
-
             controls: [
                 new ol.control.ScaleLine(),
                 new ol.control.Attribution()
@@ -59,7 +59,19 @@ Ext.define("OL3MapService", {
      */
      //TODO: implement
     getAuthorizedLayers: function(layers) {
-        return layers;
+        var authorizedLayers = [];
+        layers.forEach(function(layer) {
+            // public layers
+            if (layer.get("access") === "public" || !layer.get("access")) {
+                authorizedLayers.push(layer);
+            }
+
+            // spp internal layers
+            if (layer.get("access") === "sppInternal" && AuthService.isAuthorized()) {
+                authorizedLayers.push(layer);
+            }
+        });
+        return authorizedLayers;
     },
 
     /*

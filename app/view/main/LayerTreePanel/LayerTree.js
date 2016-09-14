@@ -22,10 +22,18 @@ Ext.define("SppAppClassic.view.main.LayerTree", {
     },
 
     title: ConfigService.texts.treeTitle,
+
+    collapsible: true,
     rootVisible: false,
     fill: true,
+    width: 230,
+    border: false,
     hideHeaders: true,
+    //flex: 1,
     lines: false,
+    autoScroll: true,
+    margin: "0 5 0 0",
+    split: false,
 
     // display legend
     columns: {

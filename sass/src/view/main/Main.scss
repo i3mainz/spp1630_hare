@@ -26,6 +26,11 @@
     right: -24px;
 }
 
+/* remove folder icon from tree nodes */
+.x-tree-icon {
+  display: none !important;
+}
+
 /* layer legends in layertree */
 .legend {
     height: 32px;
@@ -91,11 +96,6 @@ img.news-image {
     width: 100%;
     margin-top: 10px;
     border-radius: 10px;
-}
-
-/* remove folder icon from tree nodes */
-.x-tree-icon {
-  display: none !important;
 }
 
 .filterItems {

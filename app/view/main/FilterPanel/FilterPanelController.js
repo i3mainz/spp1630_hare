@@ -5,19 +5,9 @@ Ext.define("SppAppClassic.FilterPanelController", {
     alias: "controller.main-filterpanel",
 
     requires: [
-        //"SppAppClassic.view.main.Filter.CenturySlider",
-        //"SppAppClassic.view.main.Map",  // id: "geoextMap",
-        //"SppAppClassic.view.main.Filter.FilterPanel"
+        "ConfigService",
         "OL3MapService"
     ],
-
-    control: {
-        "#": {
-            close: "onClose",
-            collapse: "onCollapse",
-            expand: "onExpand"
-        }
-    },
 
     onClose: function() {
         Ext.getCmp("filterButton").setPressed(false);
@@ -70,11 +60,9 @@ Ext.define("SppAppClassic.FilterPanelController", {
      // TODO: move this function to ProjectService
     getProjectSQLQuery: function() {
 
-        var projects = ProjectService.getProjectsWithDbName();
-
         // get all selected projects
         var unselectedProjects = [];
-        projects.forEach(function(project) {
+        ConfigService.projects.forEach(function(project) {
             // get checkbox id and query it
             var componentID = "project" + project.id + "Checkbox";
             var projectIsSelected = Ext.getCmp(componentID).getValue();
@@ -83,7 +71,7 @@ Ext.define("SppAppClassic.FilterPanelController", {
             if (!projectIsSelected) {
                 unselectedProjects.push(project);
             }
-        })
+        });
 
         // if all selected, do nothing, no query needed
         if (unselectedProjects.length === 0) {  // all selected
@@ -125,22 +113,17 @@ Ext.define("SppAppClassic.FilterPanelController", {
 
         var filterString = queryList.join(" AND ");
         //var filterString = this.getStatusSQLQuery();
+        // if nothing selected, show origin layer
+        if (filterString.length === 0) {
+            filterString = "status=1 OR status=2 OR status=3";  // workaround to select everything
+        }
 
+        //console.log("project filter broken becauase project id is missing!");
 
-
-        //var layer = Ext.getCmp("geoextMap").getLayerByID("spp_public_harbours");
-        //console.log(layer.get("source").getKeys());
-        //console.log(layer.getSource().getKeys());
-
-        var layers = Ext.getCmp("geoextMap").getFilterableLayers();
-
-        // get all layers
-        layers.forEach(function(layer) {
-            if (filterString.length > 0) {
-                OL3MapService.filterLayer(layer, filterString);
-            } else {
-                OL3MapService.filterLayer(layer, "project_id > 0");
-            }
+        // apply filter to all filterable layers
+        Ext.getCmp("geoextMap").getFilterableLayers().forEach(function(layer) {
+            //console.log(layer.get("id"));
+            OL3MapService.filterLayer(layer, filterString);
         });
     }
 });

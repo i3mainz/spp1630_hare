@@ -21,6 +21,8 @@ Ext.define("SppAppClassic.MapComponentController", {
     onMapClick: function(evt) {
 
         var map = OL3MapService.getMap();
+
+        // geojson feature
         var feature = map.forEachFeatureAtPixel(evt.pixel,
             function(feature, layer) {
                 return feature;
@@ -36,12 +38,7 @@ Ext.define("SppAppClassic.MapComponentController", {
 
         // lazy instanciation of window if click was on a feature
         if (feature) {
-            if (AuthService.getUser() !== "guest") {
-                popupWindow.updateFeatureInfo(feature);  // TODO: make this a method of MapComponent
-            } else {
-                popupWindow.updateFeatureInfo(feature, true);
-            }
-
+            popupWindow.updateFeatureInfo(feature);  // TODO: make this a method of MapComponent
             popupWindow.show();
             // TODO: show popup window next to feature
             //popupPanel.showAt(evt.getXY());

@@ -39,20 +39,37 @@ Ext.define("LayerService", {
                                 "OpenStreetMap contributors</a>"
                         })]
                     }),
-                    legendUrl: "https://otile4-s.mqcdn.com/tiles/1.0.0/osm/4/4/7.jpg",
+                    legendUrl: "http://farm8.staticflickr.com/7159/6710168875_eabcbedea5.jpg",
                     visible: true
+                }),
+                new ol.layer.Tile({
+                    name: "AWMC Basemap",
+                    source: new ol.source.XYZ({
+                        projection: "EPSG:3857",
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.map-knmctlkh/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        wrapDateLine: true,
+                        transitionEffect: "resize",
+                        attribution: "Tiles &copy; <a href='http://mapbox.com/' target='_blank'>MapBox</a> | " +
+                            "Data &copy; <a href='http://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> and contributors, CC-BY-SA |"+
+                            " Tiles and Data &copy; 2013 <a href='http://www.awmc.unc.edu' target='_blank'>AWMC</a>" +
+                            " <a href='http://creativecommons.org/licenses/by-nc/3.0/deed.en_US' target='_blank'>CC-BY-NC 3.0</a>"
+                    }),
+                    legendUrl: "http://awmc.unc.edu/wordpress/tiles/files/2014/02/Screen-Shot-2014-02-02-at-8.27.27-PM-150x150.png",
+                    description: "The AWMC base map. In addition to imagery derived from OSM and Mapbox, this map has the Inland Water, River Polygons, Water Course Center Lines, Base Open Water Polygons, supplemental water polygons (not listed below, for areas far outside of the scope of the Barrington Atlas ) layers. Please see the individual listings below for data citations. It is suitable for most applications when left on its own, or  in combination with water polygons for a particular time period (archaic, Roman, etc).",
+                    visible: false
                 }),
 
                 new ol.layer.Tile({
-                    name: "MapQuest Satelite",
-                    source: new ol.source.MapQuest({
-                        layer: "sat",
+                    name: "EMODnet Atlas",
+                    source: new ol.source.TileWMS({
+                        url: "http://ows.emodnet-bathymetry.eu/wms",
+                        params: {"LAYERS": "emodnet:mean_atlas_land", "TILED": true},
                         wrapX: false
                     }),
-                    legendUrl: "https://otile4-s.mqcdn.com/tiles/1.0.0/sat/4/4/7.jpg",
+                    legendUrl: "http://eas.jrc.ec.europa.eu/blog/data/images/bathy_corsica.png",
+                    description: "This service provides bathymetric data products for the area specified by the EMODNet project. This covers the Norwegian Sea, Icelandic Sea, Celtic Seas, North Sea, Kattegat, Baltic Sea, English Channel, Bay of Biscay, Iberian Coast, West and Central Mediterranean, Adriatic Sea, Ionian Sea, Aegean Sea, Levantine Sea, Sea of Marmara, Black Sea, the Azores, Canary Islands and Madeira. The data product is provided in one eight arc minute grid, so data points are roughly 230 meters apart.",
                     visible: false
                 })
-
             ])
         }),
 
@@ -129,24 +146,10 @@ Ext.define("LayerService", {
             visible: false,
             layers: new ol.Collection([
                 new ol.layer.Tile({
-                    name: "Basemap",
-                    source: new ol.source.XYZ({
-                        url: "http://api.tiles.mapbox.com/v4/isawnyu.map-knmctlkh/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
-                        wrapDateLine: true,
-                        transitionEffect: "resize",
-                        attribution: "Tiles &copy; <a href='http://mapbox.com/' target='_blank'>MapBox</a> | " +
-                            "Data &copy; <a href='http://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> and contributors, CC-BY-SA |"+
-                            " Tiles and Data &copy; 2013 <a href='http://www.awmc.unc.edu' target='_blank'>AWMC</a>" +
-                            " <a href='http://creativecommons.org/licenses/by-nc/3.0/deed.en_US' target='_blank'>CC-BY-NC 3.0</a>"
-                    }),
-
-                    description: "The AWMC base map. In addition to imagery derived from OSM and Mapbox, this map has the Inland Water, River Polygons, Water Course Center Lines, Base Open Water Polygons, supplemental water polygons (not listed below, for areas far outside of the scope of the Barrington Atlas ) layers. Please see the individual listings below for data citations. It is suitable for most applications when left on its own, or  in combination with water polygons for a particular time period (archaic, Roman, etc).",
-                    visible: false
-                }),
-                new ol.layer.Tile({
                     name: "Coast Outline",
                     source: new ol.source.XYZ({
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.eoupu8fr/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
                     }),
                     description: [
                         "<strong>Coast Outline</strong>",
@@ -161,6 +164,7 @@ Ext.define("LayerService", {
                     name: "Roads",
                     source: new ol.source.XYZ({
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.awmc-roads/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
                     }),
                     visible: false
                 }),
@@ -168,6 +172,7 @@ Ext.define("LayerService", {
                     name: "Benthos Water",
                     source: new ol.source.XYZ({
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.s5l5l8fr/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
                     }),
                     visible: false
                 }),
@@ -175,6 +180,7 @@ Ext.define("LayerService", {
                     name: "Inland Water",
                     source: new ol.source.XYZ({
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.awmc-inland-water/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
                     }),
                     visible: false
                 }),
@@ -182,6 +188,7 @@ Ext.define("LayerService", {
                     name: "River Polygons",
                     source: new ol.source.XYZ({
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.9e3lerk9/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
                     }),
                     description: "Significant rivers, generally following the Barrington Atlas with additions from VMap0 and OSM and further work by the AWMC.",
                     visible: false
@@ -190,6 +197,7 @@ Ext.define("LayerService", {
                     name: "Water Course Center Lines",
                     source: new ol.source.XYZ({
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.awmc-water-courses/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
                     }),
                     description: "Lines following ancient rivers, generally following the Barrington Atlas with additions from VMap0 and OSM and further work by the AWMC.",
                     visible: false
@@ -198,6 +206,7 @@ Ext.define("LayerService", {
                     name: "Base Open Water Polygons",
                     source: new ol.source.XYZ({
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.h0rdaemi/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
                     }),
                     description: "Water polygons, generally following the Barrington Atlas with additions from VMap0 and OSM and further work by the AWMC. These are shared by all time periods.",
                     visible: false
@@ -206,6 +215,7 @@ Ext.define("LayerService", {
                     name: "Archaic water",
                     source: new ol.source.XYZ({
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.yyuba9k9/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
                     }),
                     description: "Water polygons which differ for the Archaic period only, generally following the Barrington Atlas with further work by the AWMC.",
                     visible: false
@@ -214,6 +224,7 @@ Ext.define("LayerService", {
                     name: "Classical water",
                     source: new ol.source.XYZ({
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.l5xc4n29/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
                     }),
                     description: "Water polygons which differ for the Classical period only, generally following the Barrington Atlas with further work by the AWMC.",
                     visible: false
@@ -222,6 +233,7 @@ Ext.define("LayerService", {
                     name: "Hellenistic Water",
                     source: new ol.source.XYZ({
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.gq0ssjor/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
                     }),
                     description: "Water polygons which differ for the Hellenistic period only, generally following the Barrington Atlas with further work by the AWMC.",
                     visible: false
@@ -230,6 +242,7 @@ Ext.define("LayerService", {
                     name: "Roman water",
                     source: new ol.source.XYZ({
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.ymnrvn29/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
                     }),
                     description: "Water polygons which differ for the Roman period only, generally following the Barrington Atlas with further work by the AWMC.",
                     visible: false
@@ -237,7 +250,8 @@ Ext.define("LayerService", {
                 new ol.layer.Tile({
                     name: "Late Antiquity water",
                     source: new ol.source.XYZ({
-                        url: "http://api.tiles.mapbox.com/v4/isawnyu.t12it3xr/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857",
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.t12it3xr/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken
                     }),
                     description: "Water polygons which differ for the Late Antiquity period only, generally following the Barrington Atlas with further work by the AWMC.",
                     visible: false
@@ -250,17 +264,6 @@ Ext.define("LayerService", {
             name: "EMODnet",
             visible: false,
             layers: new ol.Collection([
-                new ol.layer.Tile({
-                    name: "mean_atlas_land",
-                    source: new ol.source.TileWMS({
-                        url: "http://ows.emodnet-bathymetry.eu/wms",
-                        params: {"LAYERS": "emodnet:mean_atlas_land", "TILED": true},
-                        wrapX: false
-                    }),
-
-                    description: "This service provides bathymetric data products for the area specified by the EMODNet project. This covers the Norwegian Sea, Icelandic Sea, Celtic Seas, North Sea, Kattegat, Baltic Sea, English Channel, Bay of Biscay, Iberian Coast, West and Central Mediterranean, Adriatic Sea, Ionian Sea, Aegean Sea, Levantine Sea, Sea of Marmara, Black Sea, the Azores, Canary Islands and Madeira. The data product is provided in one eight arc minute grid, so data points are roughly 230 meters apart.",
-                    visible: false
-                }),
                 new ol.layer.Tile({
                     name: "mean_rainbowcolour",
                     source: new ol.source.TileWMS({
@@ -388,6 +391,20 @@ Ext.define("LayerService", {
                     visible: false
                 })
             ]),
+            visible: false
+        }),
+
+        // Ancient ports and harbours
+        new ol.layer.Tile({
+            name: "Ancient Ports and Harbours",  // title
+            source: new ol.source.TileWMS({
+                url: ConfigService.paths.wms,
+                params: {"LAYERS": "SPP:ancient_ports_and_harbours", "TILED": true},
+                serverType: "geoserver",
+                wrapX: false   // dont repeat on X axis
+            }),
+            //legendUrl = this.getLegendImg(legendName);
+            description: 'This database presents work done by Arthur de Graauw to collect, identify and locate ancient harbours and ports. It is based on a study of existing documentation. The result is a list of around 4000 ancient ports based on the writings of 68 ancient authors and a few modern authors, incl. the Barrington Atlas, Pleiades and DARE. A harbour is a place where ships can seek shelter. In the concept of "shelter" must be included anchorages, landing places on beaches and ports with structures like, access channels, breakwaters, jetties, landing stages, quays, warehouses for storage of commodities and equipment, shipsheds and slipways for ships. Shelters of interest for this catalogue include all places which may have been used by seafarers sailing over long distances. This means that shelters for e.g. local fishermen who may have landed their boats on the beach in front of their homes, are of lesser interest. Only maritime harbours are listed, but some river ports that could be reached by deep sea ships are also included. For more information, see his <a href="http://www.ancientportsantiques.com/" target="_blank">website</a>.',
             visible: false
         }),
 
@@ -671,39 +688,105 @@ Ext.define("LayerService", {
         }),
 
         // spp (sppInternal)
-        new ol.layer.Vector({
-            name: "SPP (SPP intern)",
-            source: new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
-                url: function(extent) {
-                    return ConfigService.paths.proxyPath +
-                            "bereich=" + "SPP" +
-                            "&layer=" + "spp_harbours_intern" +
-                            "&bbox=" + extent.join(",") +
-                            "&epsg=" + "4326";
-                },
-                strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                    maxZoom: 19
-                })),
-                wrapX: false  // dont repeat on X axis
-            }),
-            //style: StyleService.redPoints,
-            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
-            style: StyleService.pointTypeStyleFunction,
-            description: "Data only visible to spp project members.",
+        new ol.layer.Group({
+            name: "SPP (internal)",
             access: "sppInternal",
-            filterable: true,
-            visible: false
-        }),
+            visible: true,
+            //projection : 'EPSG:3857',
+            layers: new ol.Collection([
+                // vehicles
+                new ol.layer.Vector({
+                    name: "Wrecks",
+                    source: new ol.source.Vector({
+                        format: new ol.format.GeoJSON(),
+                        url: function(extent) {
+                            return ConfigService.paths.proxyPath +
+                                    "bereich=" + "SPP" +
+                                    "&layer=" + "spp_internal_vehicles" +
+                                    "&bbox=" + extent.join(",") +
+                                    "&epsg=" + "4326";
+                        },
+                        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                            maxZoom: 19
+                        })),
+                        projection: 'EPSG:4326',
+                        wrapX: false  // dont repeat on X axis
+                    }),
+                    //style: StyleService.redPoints,
+                    legendUrl: ConfigService.paths.legendQuery + "SPP:spp_internal_vehicles",
+                    style: StyleService.pointTypeStyleFunction,
+                    description: "Data only visible to spp project members.",
+                    id: "spp_internal_vehicles",  // used by filter to get correct layer
+                    filterable: true,
+                    visible: false
+                }),
+
+                // canals
+                new ol.layer.Vector({
+                    name: "Canals",
+                    source: new ol.source.Vector({
+                        format: new ol.format.GeoJSON(),
+                        url: function(extent) {
+                            return ConfigService.paths.proxyPath +
+                                    "bereich=" + "SPP" +
+                                    "&layer=" + "spp_internal_canals" +
+                                    "&bbox=" + extent.join(",") +
+                                    "&epsg=" + "4326";
+                        },
+                        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                            maxZoom: 19
+                        })),
+                        projection: 'EPSG:4326',
+                        wrapX: false  // dont repeat on X axis
+                    }),
+                    //style: StyleService.redPoints,
+                    legendUrl: ConfigService.paths.legendQuery + "SPP:spp_internal_canals",
+                    style: StyleService.pointTypeStyleFunction,
+                    description: "Data only visible to spp project members.",
+                    id: "spp_internal_canals",  // used by filter to get correct layer
+                    filterable: true,
+                    visible: true
+                }),
+
+                // harbours
+                new ol.layer.Vector({
+                    name: "Harbours",
+                    source: new ol.source.Vector({
+                        format: new ol.format.GeoJSON(),
+                        url: function(extent) {
+                            return ConfigService.paths.proxyPath +
+                                    "bereich=" + "SPP" +
+                                    "&layer=" + "spp_internal_harbours" +  // spp_harbours_open
+                                    //"&layer=" + "spp_all" +
+                                    "&bbox=" + extent.join(",") +
+                                    "&epsg=" + "4326";
+                        },
+                        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+                            maxZoom: 19
+                        })),
+                        projection: 'EPSG:4326',
+                        wrapX: false  // dont repeat on X axis
+                    }),
+                    //style: StyleService.redPoints,
+                    legendUrl: ConfigService.paths.legendQuery + "SPP:spp_internal_harbours",
+                    style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
+                    description: "Data only visible to spp project members.",
+                    id: "spp_internal_harbours",  // used by filter to get correct layer
+                    filterable: true,
+                    visible: true
+                })
+            ]) // end layers
+        }), // end layer group
 
         // spp (public)
         new ol.layer.Group({
             name: "SPP (public)",
             visible: true,
+            access: "public",
             layers: new ol.Collection([
                 // vehicles
                 new ol.layer.Vector({
-                    name: "Vehicles",
+                    name: "Wrecks",
                     source: new ol.source.Vector({
                         format: new ol.format.GeoJSON(),
                         url: function(extent) {
@@ -716,16 +799,15 @@ Ext.define("LayerService", {
                         strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
                             maxZoom: 19
                         })),
+                        projection: 'EPSG:4326',
                         wrapX: false  // dont repeat on X axis
                     }),
-                    //style: StyleService.redPoints,
-                    //legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+                    legendUrl: ConfigService.paths.legendQuery + "SPP:spp_public_vehicles",
                     style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
                     description: "Data of the spp projects open to anyone interested.",
-                    access: "public",  // "public", "sppInternal", "projectInternal"
                     id: "spp_public_vehicles",  // used by filter to get correct layer
                     filterable: true,  // included in filter function
-                    visible: true
+                    visible: false
                 }),
 
                 // canals
@@ -743,13 +825,12 @@ Ext.define("LayerService", {
                         strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
                             maxZoom: 19
                         })),
+                        projection: 'EPSG:4326',
                         wrapX: false  // dont repeat on X axis
                     }),
-                    //style: StyleService.redPoints,
-                    //legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+                    legendUrl: ConfigService.paths.legendQuery + "SPP:spp_public_canals",
                     style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
                     description: "Data of the spp projects open to anyone interested.",
-                    access: "public",  // "public", "sppInternal", "projectInternal"
                     id: "spp_public_canals",  // used by filter to get correct layer
                     filterable: true,
                     visible: true
@@ -771,13 +852,12 @@ Ext.define("LayerService", {
                         strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
                             maxZoom: 19
                         })),
+                        projection: 'EPSG:4326',
                         wrapX: false  // dont repeat on X axis
                     }),
-                    //style: StyleService.redPoints,
-                    //legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+                    legendUrl: ConfigService.paths.legendQuery + "SPP:spp_public_harbours",
                     style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
                     description: "Data of the spp projects open to anyone interested.",
-                    access: "public",  // "public", "sppInternal", "projectInternal"
                     id: "spp_public_harbours",  // used by filter to get correct layer
                     filterable: true,
                     visible: true

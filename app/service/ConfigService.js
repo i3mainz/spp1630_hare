@@ -11,6 +11,7 @@ Ext.define("ConfigService", {
         geoserverLogin: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_check/",
         geoserverLogout: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_logout/",
         wms: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?",
+        legendQuery:  "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=25&HEIGHT=25&TRANSPARENT=true&LAYER=",
 
         // proxy to fetch geojson files
         proxyPath: "http://haefen.i3mainz.hs-mainz.de" + "/GeojsonProxy/layer?"
@@ -95,12 +96,68 @@ Ext.define("ConfigService", {
     // colors used to style GeoJSON layers
     layerColors: {
         spp: {
-            "Hafen":                "#8B0000",
-            "Wasserfahrzeug":       "#a0db8e",
-            "Kanal/Schleppstrecke": "#660066",
-            "Wasserstraße":         "#660066"
+            "Hafen":                "#b20000",  // darkred
+            "Wasserfahrzeug":       "black",
+            "Kanal/Schleppstrecke": "#0099CC",
+            "Wasserstraße":         "#0099CC"  // lightblue
         }
-    }
+    },
+
+    // used for project-filter to get project-ID by name and contact infos for
+    // feature window
+    projects: [
+        {
+            id: 1,
+            db_name: "Adria",
+            contact: "http://www.spp-haefen.de/de/die-projekte/kommunikationsraum-adria"
+        },
+        {
+            id: 2,
+            db_name: "Binnenhäfen im fränkisch-deutschen Reich",  // auch extern/Binnenhäfen
+            contact: "http://www.spp-haefen.de/de/die-projekte/binnenhaefen-in-zentraleuropa/"
+        },
+        {
+            "id": 3,
+            "db_name": "Bremer Becken",
+            "contact": "http://www.spp-haefen.de/de/die-projekte/abgeschlossene-projekte-der-ersten-laufzeit-2012-2015/haefen-im-bremer-becken/"
+        },
+        {
+            "id": 4,
+            "db_name": "Effizienz und Konkurrenz",
+            "contact": "http://www.spp-haefen.de/de/die-projekte/abgeschlossene-projekte-der-ersten-laufzeit-2012-2015/effizienz-und-konkurrenz-italischer-hafenstaedte/"
+        },
+        {
+            "id": 5,
+            "db_name": "Fähren (Universität Bamberg)"
+        },
+        {
+            "id": 7,
+            "db_name": "Fossa Carolina",
+            "contact": "http://www.spp-haefen.de/de/die-projekte/fossa-carolina/",
+        },
+        {
+            "id": 8,
+            "db_name": "Häfen an der Balkanküste des byzantinischen Reiches",
+            "contact": "http://www.spp-haefen.de/de/die-projekte/haefen-an-der-balkankueste-des-byzantinischen-reiches/"
+        },
+        {
+            "id": 9,
+            "db_name": "HaNoA",
+            "contact": "http://www.spp-haefen.de/de/die-projekte/hanoa-haefen-im-nordatlantik/"
+        },
+        {
+            "id": 10,
+            "db_name": "Ostseehäfen",
+            "contact": "http://www.spp-haefen.de/de/die-projekte/ostseekueste/"
+        },
+        {
+            "id": 14,
+            "db_name": "Rheinhafenprojekt"
+        },{
+            "id": 19,
+            "db_name": "SPP-Binnenschiffe"
+        }
+    ]
 
 
 

@@ -14,7 +14,7 @@ Ext.define("SppAppClassic.MapToolbarController", {
      * unlocks buttons for registred authorized users
     */
     unlockButtons: function() {
-        if (!AuthService.isAuthorized()) {  // development setting
+        if (AuthService.isAuthorized()) {  // development setting
             var buttonList = ["filterButton"]; // ["filterButton", "gridButton", "settingsButton"]
             for (var i = 0; i < buttonList.length; i++) {
                 var button = Ext.getCmp(buttonList[i]);
