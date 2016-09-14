@@ -24,7 +24,7 @@ Ext.define("SppAppClassic.MapToolbarController", {
             }
         }
     },
-
+    //
     onToggleFilter: function() {
 
         var filterPanel = Ext.getCmp("filterPanel");
