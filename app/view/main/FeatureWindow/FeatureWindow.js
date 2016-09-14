@@ -7,9 +7,7 @@ Ext.define("SppAppClassic.view.main.FeatureWindow",{
     id: "popupWindow",
 
     requires: [
-        //"SppAppClassic.store.FeatureInfos",
-        "ConfigService",
-        "ProjectService"
+        "ConfigService"
     ],
 
     title: ConfigService.texts.featureTitle,

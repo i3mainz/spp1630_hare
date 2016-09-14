@@ -105,57 +105,69 @@ Ext.define("ConfigService", {
 
     // used for project-filter to get project-ID by name and contact infos for
     // feature window
+    // add to allow access to ag-internal layers
     projects: [
         {
-            id: 1,
+            id: "1",
+            login_name: "adria",
             db_name: "Adria",
             contact: "http://www.spp-haefen.de/de/die-projekte/kommunikationsraum-adria"
         },
         {
-            id: 2,
+            id: "2",
+            login_name: "binnen",
             db_name: "Binnenhäfen im fränkisch-deutschen Reich",  // auch extern/Binnenhäfen
             contact: "http://www.spp-haefen.de/de/die-projekte/binnenhaefen-in-zentraleuropa/"
         },
         {
-            "id": 3,
-            "db_name": "Bremer Becken",
-            "contact": "http://www.spp-haefen.de/de/die-projekte/abgeschlossene-projekte-der-ersten-laufzeit-2012-2015/haefen-im-bremer-becken/"
+            id: "3",
+            login_name: "bremen",
+            db_name: "Bremer Becken",
+            contact: "http://www.spp-haefen.de/de/die-projekte/abgeschlossene-projekte-der-ersten-laufzeit-2012-2015/haefen-im-bremer-becken/"
         },
         {
-            "id": 4,
-            "db_name": "Effizienz und Konkurrenz",
-            "contact": "http://www.spp-haefen.de/de/die-projekte/abgeschlossene-projekte-der-ersten-laufzeit-2012-2015/effizienz-und-konkurrenz-italischer-hafenstaedte/"
+            id: "4",
+            login_name: "effizienz",
+            db_name: "Effizienz und Konkurrenz",
+            contact: "http://www.spp-haefen.de/de/die-projekte/abgeschlossene-projekte-der-ersten-laufzeit-2012-2015/effizienz-und-konkurrenz-italischer-hafenstaedte/"
         },
         {
-            "id": 5,
-            "db_name": "Fähren (Universität Bamberg)"
+            id: "5",
+            login_name: "fähren",
+            db_name: "Fähren (Universität Bamberg)"
         },
         {
-            "id": 7,
-            "db_name": "Fossa Carolina",
-            "contact": "http://www.spp-haefen.de/de/die-projekte/fossa-carolina/",
+            id: "7",
+            login_name: "fossa",
+            db_name: "Fossa Carolina",
+            contact: "http://www.spp-haefen.de/de/die-projekte/fossa-carolina/",
         },
         {
-            "id": 8,
-            "db_name": "Häfen an der Balkanküste des byzantinischen Reiches",
-            "contact": "http://www.spp-haefen.de/de/die-projekte/haefen-an-der-balkankueste-des-byzantinischen-reiches/"
+            id: "8",
+            login_name: "balkan",
+            db_name: "Häfen an der Balkanküste des byzantinischen Reiches",
+            contact: "http://www.spp-haefen.de/de/die-projekte/haefen-an-der-balkankueste-des-byzantinischen-reiches/"
         },
         {
-            "id": 9,
-            "db_name": "HaNoA",
-            "contact": "http://www.spp-haefen.de/de/die-projekte/hanoa-haefen-im-nordatlantik/"
+            id: "9",
+            login_name: "hanoa",
+            db_name: "HaNoA",
+            contact: "http://www.spp-haefen.de/de/die-projekte/hanoa-haefen-im-nordatlantik/"
         },
         {
-            "id": 10,
-            "db_name": "Ostseehäfen",
-            "contact": "http://www.spp-haefen.de/de/die-projekte/ostseekueste/"
+            id: "10",
+            login_name: "ostsee",
+            db_name: "Ostseehäfen",
+            contact: "http://www.spp-haefen.de/de/die-projekte/ostseekueste/"
         },
         {
-            "id": 14,
-            "db_name": "Rheinhafenprojekt"
+            id: "14",
+            login_name: "rhein",
+            db_name: "Rheinhafenprojekt"
         },{
-            "id": 19,
-            "db_name": "SPP-Binnenschiffe"
+            id: "19",
+            login_name: "kröger",
+            db_name: "SPP-Binnenschiffe"
         }
     ]
 

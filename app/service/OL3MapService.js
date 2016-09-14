@@ -57,8 +57,20 @@ Ext.define("OL3MapService", {
      * @param {Object[]} layers - OpenLayers 3 layer objects
      * @returns {Object[]} - Authorized layer objects
      */
-     //TODO: implement
     getAuthorizedLayers: function(layers) {
+
+        // get project id of current user
+        var UserProjectID;
+        for (var i = 0; i < ConfigService.projects.length; i++) {
+            var project = ConfigService.projects[i];
+            if (project.login_name === AuthService.getUser().name) {
+                UserProjectID = project.id;
+                break;
+            }
+        }
+
+        console.log("users project id: " + UserProjectID);
+
         var authorizedLayers = [];
         layers.forEach(function(layer) {
             // public layers
@@ -70,6 +82,14 @@ Ext.define("OL3MapService", {
             if (layer.get("access") === "sppInternal" && AuthService.isAuthorized()) {
                 authorizedLayers.push(layer);
             }
+
+            // project internal layers
+            if (layer.get("access") && layer.get("access") !== "public" && layer.get("access") !== "sppInternal") {
+                if (AuthService.getUser().name === "admin" || layer.get("access") === UserProjectID) {
+                    authorizedLayers.push(layer);
+                }
+            }
+
         });
         return authorizedLayers;
     },
