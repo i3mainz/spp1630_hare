@@ -60,16 +60,7 @@ Ext.define("OL3MapService", {
     getAuthorizedLayers: function(layers) {
 
         // get project id of current user
-        var UserProjectID;
-        for (var i = 0; i < ConfigService.projects.length; i++) {
-            var project = ConfigService.projects[i];
-            if (project.login_name === AuthService.getUser().name) {
-                UserProjectID = project.id;
-                break;
-            }
-        }
-
-        console.log("users project id: " + UserProjectID);
+        var UserProjectID = AuthService.getUserProjectID();
 
         var authorizedLayers = [];
         layers.forEach(function(layer) {
@@ -79,7 +70,7 @@ Ext.define("OL3MapService", {
             }
 
             // spp internal layers
-            if (layer.get("access") === "sppInternal" && AuthService.isAuthorized()) {
+            if (layer.get("access") === "sppInternal" && AuthService.getUser() !== "guest") {
                 authorizedLayers.push(layer);
             }
 

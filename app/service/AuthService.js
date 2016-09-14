@@ -71,6 +71,19 @@ Ext.define("AuthService", {
        return Ext.util.Cookies.get("sppCookie");
     },
 
+    getUserProjectID: function() {
+        var UserProjectID;
+        for (var i = 0; i < ConfigService.projects.length; i++) {
+            var project = ConfigService.projects[i];
+            if (project.login_name === AuthService.getUser()) {
+                UserProjectID = project.id;
+                break;
+            }
+        }
+        return UserProjectID;
+    },
+
+
     /**
      * Gets the corresponding project ID for the currently logged in username
      */
