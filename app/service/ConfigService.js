@@ -3,6 +3,8 @@
 Ext.define("ConfigService", {
     singleton: true,
 
+    version: "v1.1",
+
     paths: {
         host: "http://haefen.i3mainz.hs-mainz.de",
 

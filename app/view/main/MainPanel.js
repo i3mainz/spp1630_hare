@@ -25,7 +25,7 @@ Ext.define("SppAppClassic.view.main.MainPanel", {
     controller: "main",
     plugins: "viewport",
 
-    title: ConfigService.texts.title,
+    title: ConfigService.texts.title + " " + ConfigService.version,
     layout: {
         type: "border",
         padding: 5
