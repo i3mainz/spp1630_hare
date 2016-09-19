@@ -4,7 +4,6 @@
  * calls Ext.application(). This is the ideal place to handle application launch and
  * initialization details.
  */
-
 Ext.define('SppAppClassic.Application', {
     extend: 'Ext.app.Application',
 
@@ -24,13 +23,7 @@ Ext.define('SppAppClassic.Application', {
         'SppAppClassic.view.main.MainPanel'  // used in launch
     ],
 
-    version: "1.0.1",  // shown in title
-
-    // access via "SppAppClassic.app.globals.wmsPath";
-    globals: {},
-
     launch: function () {
-        console.log("check if logged in");
         Ext.create({
             xtype: AuthService.isAuthenticated() ? 'app-main' : 'login'
         });

@@ -29,14 +29,11 @@ Ext.define("AuthService", {
                  return true;
             } else {
                 // check for geoserver login!
-                /*this.checkIfLoggedIntoGeoServer(username, function() {
-                    // success
+                this.checkIfLoggedIntoGeoServer(username, function success() {
                     return true;
-                }, function() {
-                    // failure
+                }, function error() {
                     return false;
-                });*/
-                return true;
+                });
             }
 
         } else {
@@ -83,22 +80,6 @@ Ext.define("AuthService", {
         return UserProjectID;
     },
 
-
-    /**
-     * Gets the corresponding project ID for the currently logged in username
-     */
-    /*getUsernameProjectID: function() {
-        var id;
-        var projects = Projects.projectList;
-        for (var key in projects) {
-            var project = projects[key];
-            if (Ext.util.Cookies.get("sppCookie") === key) {
-                id = project.id;
-            }
-        }
-        return id;
-    }*/
-
     /*
      * send ajax post request to geoserver and locks/unlocks submit buttons.
      * requires callbacks to handle what will be executed on success and failure
@@ -119,7 +100,7 @@ Ext.define("AuthService", {
             success: function(response) {
                 //console.log("request successfuill! :)");
                 //console.log(username);
-                console.log(response.responseText);
+                //console.log(response.responseText);
 
                 if (me.isLoggedIn(username, response.responseText)) {
                     //console.log("worked! :)");
@@ -160,13 +141,10 @@ Ext.define("AuthService", {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 success: function(response) {
-                    console.log("logout success!");
                     me.clearCookie();
                     success();
                 },
                 failure: function(response, request) {
-                    //Ext.Msg.alert("Failed!");
-                    console.log("logout failure!");
                     failure();
                 }
             });

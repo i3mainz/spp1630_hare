@@ -36,7 +36,7 @@ Ext.define("ConfigService", {
 
         // landing page
         landingTitle: "SPP Virtual Research Environment",
-        landingText: "This is the Virtual Research Environment (VRE) of the SPP 1630 Harbours Program. It visualizes harbour related data compiled by participating SPP projects, as well as additional hydrological and archeological datasets. It is meant to act as a tool for researchers during their ongoing projects. This website is an afford of the working group \"Data Integration\". It was conceptualised in collaboration with the University of Jena (FSU) and is currently being developed by the i3mainz. Researchers can login using their credentials provided by the developers. Curious guests can skip the login and launch the app in guest-mode with fewer data and limited functions.",
+        landingText: "This is the Virtual Research Environment (VRE) of the <a href='http://www.spp-haefen.de/' target='blank'>SPP 1630 Harbours Program</a>. It visualizes harbour related data compiled by participating SPP projects, as well as additional hydrological and archeological datasets. It is meant to act as a tool for researchers during their ongoing projects. This website is an afford of the working group \"Data Integration\". It was conceptualised in collaboration with the University of Jena (FSU) and is currently being developed by the i3mainz. Researchers can login using their credentials provided by the developers. Curious guests can skip the login and launch the app in guest-mode with fewer data and limited functions.",
 
         // description panel
         descriptionPlaceholder: "Select a layer to see its description",
@@ -65,7 +65,7 @@ Ext.define("ConfigService", {
         {
             title: "New filter functionality!",
             timestamp: "11.07.2016",
-            content: "The new tool 'Filters' is available for registred users in the toolbar. It allows to filter the SPP data sets by project name, status and centuries. The slider to select centuries offers options to select all data available in one of the selected periods or to only select data that existed during all of the selected periods. The filter functionality is part of the newest update to version 1.1"
+            content: "The new tool 'Filters' is available for registred users in the toolbar. It allows the filtering of SPP data sets by project name, status and centuries. The slider to select centuries offers options to select all data available in one of the selected periods or to only select data that existed during all of the selected periods. The filter functionality is part of the newest update to version 1.1"
         },{
             title: "Keep calm, Fetch is here!",
             timestamp: "05.02.2016",

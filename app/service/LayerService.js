@@ -42,6 +42,7 @@ Ext.define("LayerService", {
                     legendUrl: "http://farm8.staticflickr.com/7159/6710168875_eabcbedea5.jpg",
                     visible: true
                 }),
+
                 new ol.layer.Tile({
                     name: "AWMC Basemap",
                     source: new ol.source.XYZ({
@@ -698,7 +699,7 @@ Ext.define("LayerService", {
                     style: StyleService.pointTypeStyleFunction,
                     id: "spp_internal_vehicles",  // used by filter to get correct layer
                     filterable: true,
-                    visible: false
+                    visible: true
                 }),
 
                 // canals
@@ -785,7 +786,7 @@ Ext.define("LayerService", {
                     style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
                     id: "spp_public_vehicles",  // used by filter to get correct layer
                     filterable: true,  // included in filter function
-                    visible: false
+                    visible: true
                 }),
 
                 // canals
