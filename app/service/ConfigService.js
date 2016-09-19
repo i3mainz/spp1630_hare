@@ -103,6 +103,9 @@ Ext.define("ConfigService", {
         }
     },
 
+    // what feature info to show guests
+    guestFeatureInfo: ["author", "project", "place_type"],
+
     // used for project-filter to get project-ID by name and contact infos for
     // feature window
     // add to allow access to ag-internal layers

@@ -28,33 +28,37 @@ Ext.define("SppAppClassic.view.main.FeatureWindow",{
     /**
      * gets all attributes of a feature and returns them as a
      * html string.
-    */
+     * @param {Object} olFeature - OpenLayers 3 feature
+     */
     updateFeatureInfo: function(olFeature) {
 
+        // remove certain features because they are notinteresting for users
         var excludeList = ["geometry", "gid", "uid", "created", "modified"];
-        var guestIncludeList = ["author", "project", "place_type"];
+
         var html = "";
         html += "<table>";
 
-        var attributes = olFeature.getKeys();
-        for (var i = 0; i < attributes.length; i++) {
-            var attr = attributes[i];
-            if (excludeList.indexOf(attr) === -1) {  // not excluded
-                if (AuthService.getUser() === "guest") {  // show limited info for guests
-                    if (guestIncludeList.indexOf(attr) > -1) {
-                        html += "<tr><td><strong>" + attr + ": </strong></td><td>" + olFeature.get(attr) + "</td></tr>";
-                    }
-                } else {
-                    html += "<tr><td><strong>" + attr + ": </strong></td><td>" + olFeature.get(attr) + "</td></tr>";
-                }
+        // loop all features and add them to html string
+        olFeature.getKeys().forEach(function(key) {
+            // add feature if regular user or if feature is allowed as guest
+            if (excludeList.indexOf(key) === -1 && (AuthService.getUser() !== "guest" || (AuthService.getUser() === "guest" && ConfigService.guestFeatureInfo.indexOf(key) > -1))) {
+                html += "<tr><td><strong>" + key + ": </strong></td><td>" + olFeature.get(key) + "</td></tr>";
+            }
+        });
+
+        // get a project's contact information
+        var contact;
+        for (var key in ConfigService.projects) {
+            var project = ConfigService.projects[key];
+            if (parseInt(project.id) === parseInt(olFeature.get("project_id"))) {
+                contact = project.contact;
+                break;
             }
         }
-        // add link to project website
-        var projectName = olFeature.get("project"); // TODO: use project_id
-        var project = ProjectService.getProjectByDbName(projectName);
+
         html += "<tr>";
-        if (project && "contact" in project) {
-            html += "<td><strong>Contact</strong>:</td><td><a href='" + project.contact + "' target='_blank'>Website</a></td>";
+        if (contact) {
+            html += "<td><strong>Contact</strong>:</td><td><a href='" + contact + "' target='_blank'>Website</a></td>";
         } else {
             html += "<td><strong>Contact</strong>:</td><td>not available</td>";
         }
