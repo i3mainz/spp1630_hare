@@ -14,139 +14,6 @@ Ext.define("StyleService", {
         "ConfigService"
     ],
 
-    // points: {
-    //     default: new ol.style.Style({
-    //         image: new ol.style.Circle({
-    //             radius: 6,
-    //             fill: new ol.style.Fill({
-    //                 color: "#0099CC"
-    //             }),
-    //             stroke: new ol.style.Stroke({
-    //                 color: "#fff",
-    //                 width: 2
-    //             })
-    //         })
-    //     }),
-    //
-    //     red: new ol.style.Style({
-    //         image: new ol.style.Circle({
-    //             radius: 6,
-    //             fill: new ol.style.Fill({
-    //                 color: "#8B0000"
-    //             }),
-    //             stroke: new ol.style.Stroke({
-    //                 color: "#fff",
-    //                 width: 2
-    //             })
-    //         })
-    //     }),
-    //
-    //     blue: new ol.style.Style({
-    //         image: new ol.style.Circle({
-    //             radius: 6,
-    //             fill: new ol.style.Fill({
-    //                 color: "#0099CC"
-    //             }),
-    //             stroke: new ol.style.Stroke({
-    //                 color: "#fff",
-    //                 width: 2
-    //             })
-    //         })
-    //     }),
-    //
-    //     green: new ol.style.Style({
-    //         image: new ol.style.Circle({
-    //             radius: 6,
-    //             fill: new ol.style.Fill({
-    //                 color: "#006600"
-    //             }),
-    //             stroke: new ol.style.Stroke({
-    //                 color: "#fff",
-    //                 width: 2
-    //             })
-    //         })
-    //     }),
-    //
-    //     yellow: new ol.style.Style({
-    //         image: new ol.style.Circle({
-    //             radius: 6,
-    //             fill: new ol.style.Fill({
-    //                 color: "#b3b300"
-    //             }),
-    //             stroke: new ol.style.Stroke({
-    //                 color: "#fff",
-    //                 width: 2
-    //             })
-    //         })
-    //     }),
-    //
-    //     orange: new ol.style.Style({
-    //         image: new ol.style.Circle({
-    //             radius: 6,
-    //             fill: new ol.style.Fill({
-    //                 color: "#B27300"
-    //             }),
-    //             stroke: new ol.style.Stroke({
-    //                 color: "#fff",
-    //                 width: 2
-    //             })
-    //         })
-    //     }),
-    //
-    //     grey: new ol.style.Style({
-    //         image: new ol.style.Circle({
-    //             radius: 6,
-    //             fill: new ol.style.Fill({
-    //                 color: "#444444"
-    //             }),
-    //             stroke: new ol.style.Stroke({
-    //                 color: "#fff",
-    //                 width: 2
-    //             })
-    //         })
-    //     }),
-    //
-    //     icon: new ol.style.Style({
-    //         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-    //             anchor: [0, 0],
-    //             anchorXUnits: "pixels",
-    //             anchorYUnits: "pixels",
-    //             opacity: 0.9,
-    //             scale: 1,
-    //             //size: [15, 15],
-    //             src: "/resources/icons/harbours_icon_15px.png"
-    //         }))
-    //     })
-    // },
-    //
-    // lines: {
-    //     blue: new ol.style.Style({
-    //         stroke: new ol.style.Stroke({
-    //             color: "rgba(0, 0, 255, 1.0)",
-    //             width: 2
-    //         })
-    //     }),
-    //     red: new ol.style.Style({
-    //         stroke: new ol.style.Stroke({
-    //             color: "rgba(255, 0, 0, 1.0)",
-    //             width: 1
-    //         })
-    //     }),
-    // },
-    //
-    // polygons: {
-    //     countries: new ol.style.Style({
-    //         fill: new ol.style.Fill({
-    //             color: [0, 255, 255, 1]
-    //         }),
-    //         stroke: new ol.style.Stroke({
-    //             color: [127,127,127,1.0],
-    //             width: 1,
-    //             lineJoin: "round"
-    //         })
-    //     })
-    // },
-
     // the style function returns an array of styles
     // for the given feature and resolution.
     // Return null to hide the feature.
@@ -187,7 +54,7 @@ Ext.define("StyleService", {
                         fill: new ol.style.Fill({color:  colors[type]}),
                         stroke: new ol.style.Stroke({color: 'black', width: 1.5}),
                         points: 4,
-                        radius: 5,
+                        radius: 4,
                         radius2: 0,
                         angle: Math.PI / 4
                     })

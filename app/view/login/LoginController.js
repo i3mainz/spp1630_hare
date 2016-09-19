@@ -24,28 +24,18 @@ Ext.define("SppAppClassic.LoginController", {
         var formData = {
             username: Ext.getCmp('usernameField').getValue(),
             password: Ext.getCmp('passwordField').getValue()
-        };//this.lookupReference("loginform").getValues();
-        //console.log(formData);
-        // update label
-        //label.setValue("Validating...");
+        };
 
         // lock buttons to prevent additional clicks during validation
         loginButton.disable();
-        //guestButton.disable();
 
         // production
-        AuthService.login(formData.username, formData.password, function() {
-            // success
+        AuthService.login(formData.username, formData.password, function success() {
             me.initMainView();
 
-        }, function(errorMessage, response) {
-            // failure
-            //Ext.getCmp("loginLabel").setValue(errorMessage);
+        }, function error(errorMessage) {
             Ext.getCmp("passwordField").setActiveError(errorMessage);
-
-            // unlock buttons
             loginButton.enable();
-            //guestButton.enable();
         });
 
     },

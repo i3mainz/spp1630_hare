@@ -37,6 +37,7 @@ Ext.define("ConfigService", {
         // landing page
         landingTitle: "SPP Virtual Research Environment",
         landingText: "This is the Virtual Research Environment (VRE) of the <a href='http://www.spp-haefen.de/' target='blank'>SPP 1630 Harbours Program</a>. It visualizes harbour related data compiled by participating SPP projects, as well as additional hydrological and archeological datasets. It is meant to act as a tool for researchers during their ongoing projects. This website is an afford of the working group \"Data Integration\". It was conceptualised in collaboration with the University of Jena (FSU) and is currently being developed by the i3mainz. Researchers can login using their credentials provided by the developers. Curious guests can skip the login and launch the app in guest-mode with fewer data and limited functions.",
+        guestLoginText: "Skip and use as guest",
 
         // description panel
         descriptionPlaceholder: "Select a layer to see its description",

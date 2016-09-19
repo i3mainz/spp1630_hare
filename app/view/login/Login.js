@@ -4,8 +4,8 @@ Ext.define("SppAppClassic.view.login.Login", {
     extend: "Ext.window.Window",
 
     xtype: "login",  // alias
-    reference: "loginWindow",
-    id: "loginwindow",
+    //reference: "loginWindow",
+    id: "loginWindow",
 
     requires: [
         "Ext.panel.Tool",           // tools: []
@@ -17,28 +17,9 @@ Ext.define("SppAppClassic.view.login.Login", {
 
     controller: "login",  // needs to be in requires
     header: false,
-
-    //height: '100%',
-    //bodyPadding: 10,
-    //title: "Login",
     closable: false,  // show close-button
     autoShow: true,
-    //layout: "fit",
     floating: false,
-    //maximizable: true,
-    //glyph: "xf090@fontawesome",
-    animate: true,  // not sure if this does anything
-    //layout: "fit",
-    style: {
-        //borderStyle: "solid",
-        //paddingTop: "30px",
-        //paddingLeft: "50px",
-        //paddingRight: "50px",
-        margin: "0 auto",
-        //backgroundColor: "red"
-        //marginRight: "30px"
-    },
-
     enableKeyEvents: true,
 
     items: [{
@@ -59,40 +40,44 @@ Ext.define("SppAppClassic.view.login.Login", {
         items: {
             xtype: "container",
             layout: 'column',
-            items: [{
-                //title: 'Column 1',
-                columnWidth: 0.5,
+            items: [
 
-                style: {
-                    marginRight: "30px",
-                    fontSize: "large"
-                },
-                layout: "vbox",
-                defaults: {
-                    xtype: "label",
-                    width: "100%"
+                // left column
+                {
+
+                    columnWidth: 0.5,
+
+                    style: {
+                        //marginTop: "20px",
+                        //marginRight: "30px"
+                    },
+                    layout: "vbox",
+                    defaults: {
+                        xtype: "label",
+                        width: "100%"
+                    },
+                    items: [
+                        {
+                            text: ConfigService.texts.landingTitle,
+                            style: {
+                                fontSize: "30px",
+                                marginTop: "20px",
+                                paddingRight: "30px",
+                                marginBottom: "15px"
+                            }
+                        },{
+                            //cls: "landing-text",
+                            html: ConfigService.texts.landingText,
+                            style: {
+                                width: "100%",
+                                paddingRight: "30px",
+                            }
+                        }
+                    ]
                 },
 
-                items: [
-                    {
-                        text: ConfigService.texts.landingTitle,
-                        style: {
-                            fontSize: "30px",
-                            marginBottom: "50px"
-                        }
-                    },{
-                        //cls: "landing-text",
-                        text: ConfigService.texts.landingText,
-                        style: {
-                            width: "100%",
-                            //height: "100%"
-                        }
-                    }
-                ]
-            },
             {
                 // right column
-
                 columnWidth: 0.5,
 
                 layout: "vbox",
@@ -100,16 +85,15 @@ Ext.define("SppAppClassic.view.login.Login", {
                 style: {
                     //borderStyle: "solid",
                     paddingLeft: "30px",
-                    height: "100%",
+                    //height: "100%",
                     //marginLeft: "30px", //paddingRight: "30px",
                     borderLeft: "solid thin black"
                 },
 
-                items: [{
-                        xtype: 'label',
-                        //forId: 'myFieldId',
-                        html: 'Login'
-                    },{
+                items: [
+
+                    // username
+                    {
                         xtype: "textfield",
                         name: "username",
                         id: "usernameField",
@@ -118,7 +102,10 @@ Ext.define("SppAppClassic.view.login.Login", {
                         listeners: {
                             change: "onTextFieldChange"
                         }
-                    },{
+                    },
+
+                    // password
+                    {
                         xtype: "textfield",
                         id: "passwordField",
                         name: "password",
@@ -130,28 +117,34 @@ Ext.define("SppAppClassic.view.login.Login", {
                         listeners: {
                             change: "onTextFieldChange"
                         }
-                    },{
+                    },
+
+                    // login button
+                    {
                         xtype: "button",
                         text: "Login",
                         disabled: true,
                         reference: "loginSubmitButton",  // used to lock during validation
                         id: "loginSubmitButton",
                         formBind: true,  // disable until form filled
-                        tooltip: "Login using your username/password combination",
+                        tooltip: ConfigService.tooltips.login,
                         handler: "onLoginClick",
 
-                    },{
+                    },
+
+                    // guest login label
+                    {
                         xtype: "label",
                         style: {
                             color: "lightgrey",
                             marginTop: "10px",
                             cursor: "pointer"
                         },
-                        html: "Skip and use as guest",
+                        html: ConfigService.texts.guestLoginText,
                         listeners: {
                             render: function(c) {
                                 c.getEl().on('click', function() {
-                                    Ext.getCmp("loginwindow").getController().onGuestClick();
+                                    Ext.getCmp("loginWindow").getController().onGuestClick();
                                 }, c);
                             }
                         }

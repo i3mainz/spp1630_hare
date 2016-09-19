@@ -396,6 +396,20 @@ Ext.define("LayerService", {
             visible: false
         }),
 
+        // Geodatabase of shipwrecks
+        new ol.layer.Tile({
+            name: "Geodatabase of Shipwrecks",  // title
+            source: new ol.source.TileWMS({
+                url: ConfigService.paths.wms,
+                params: {"LAYERS": "SPP:shipwrecks", "TILED": true},
+                serverType: "geoserver",
+                wrapX: false   // dont repeat on X axis
+            }),
+            //legendUrl = this.getLegendImg(legendName);
+            description: '<strong>Geodatabase of Shipwrecks AD1-1500</strong><br><i></i>Michael McCormick, Giovanni Zambotti, Brendan Maione-Downing, Ece Turnator, et al.  (ed.) Digital Atlas of Roman and Medieval Civilizations<br>This summary database provides basic geographic and archaeological information on 1064 shipwrecks documented by A.J. Parker 1992 and subsequent publications. The geodatabase includes, where available, concise information about main cargoes, ship or wreck distribution sizes, ship gear, and essential bibliography.  The user should refer to the original publications for full details. This file represents the state of the geodatabase in April 2008, when M. McCormick 2012 "Movements and markets in the first millennium: information, containers and shipwrecks" was sent to press; a small number of wrecks were added down to 2010.  Our team continues to work toward future updates of the geodatabase of shipwrecks.  Additional information, corrections, and data about new wrecks will be received gratefully at darmc@harvard.edu.',
+            visible: false
+        }),
+
         // Fetch
         new ol.layer.Group({
             name: "Fetch",

@@ -40,7 +40,7 @@ Ext.define("OL3MapService", {
             interactions: ol.interaction.defaults().extend([
                 // highlight features on hover, click events are seperate -> this is just highlight
                 new ol.interaction.Select({
-                    condition: ol.events.condition.pointerMove  // empty -> select on click
+                    //condition: ol.events.condition.pointerMove  // empty -> select on click
                 })
             ]),
             view: new ol.View({
