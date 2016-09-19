@@ -9,19 +9,23 @@ Ext.define("SppAppClassic.LayerTreePanelController", {
         "OL3MapService"
     ],
 
+
     onItemClick: function(view, record) {
-        var nodeName = record.data.text;
-        var panel = Ext.getCmp("descriptionPanel");
-        var layer = OL3MapService.getLayerByName(nodeName);
+        // get the layer this node references to
+        var layer = record.getOlLayer();
+        var layerGroup = record.parentNode.getOlLayer(); // undefined if clicked node is a group
+
+        var descriptionPanel = Ext.getCmp("descriptionPanel");
 
         if (layer) {
-            // get layer description
-            if (layer.get("description")) {
-                panel.setHeight(200);
-                panel.update(layer.get("description"));
+            if (layer.get("description")) {  // layer has description
+                descriptionPanel.updateContent(layer.get("description"));
+
+            } else if (layerGroup && layerGroup.get("description")) {  // layer has no description, but it's parent has
+                descriptionPanel.updateContent(layerGroup.get("description"));
+
             } else {
-                panel.setHeight(0);
-                panel.update("");
+                descriptionPanel.clearContent();
             }
         }
     }

@@ -32,7 +32,7 @@ Ext.define("LayerService", {
                 new ol.layer.Tile({
                     name: "Mapbox OSM",
                     source: new ol.source.XYZ({
-                        url: "http://api.tiles.mapbox.com/v4/shanyuan.cifqgurif027ut0lxxf08w6gz/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        url: "https://api.mapbox.com/styles/v1/shanyuan/cit2tzp5m00312wmlw6rlt7sf/tiles/256/{z}/{x}/{y}?access_token=" + ConfigService.mapboxAccessToken,
                         attributions: [new ol.Attribution({
                             html: "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> " +
                                 "© <a href='http://www.openstreetmap.org/copyright'>" +
@@ -55,7 +55,7 @@ Ext.define("LayerService", {
                             " <a href='http://creativecommons.org/licenses/by-nc/3.0/deed.en_US' target='_blank'>CC-BY-NC 3.0</a>"
                     }),
                     legendUrl: "http://awmc.unc.edu/wordpress/tiles/files/2014/02/Screen-Shot-2014-02-02-at-8.27.27-PM-150x150.png",
-                    description: "The AWMC base map. In addition to imagery derived from OSM and Mapbox, this map has the Inland Water, River Polygons, Water Course Center Lines, Base Open Water Polygons, supplemental water polygons (not listed below, for areas far outside of the scope of the Barrington Atlas ) layers. Please see the individual listings below for data citations. It is suitable for most applications when left on its own, or  in combination with water polygons for a particular time period (archaic, Roman, etc).",
+                    description: "The <a href='http://awmc.unc.edu/wordpress/' target='_blank'>AWMC</a> base map. In addition to imagery derived from OSM and Mapbox, this map has the Inland Water, River Polygons, Water Course Center Lines, Base Open Water Polygons, supplemental water polygons (not listed below, for areas far outside of the scope of the Barrington Atlas ) layers. Please see the individual listings below for data citations. It is suitable for most applications when left on its own, or  in combination with water polygons for a particular time period (archaic, Roman, etc). (<a href='http://awmc.unc.edu/wordpress/tiles/map-tile-information' target='_blank'>Source</a>)",
                     visible: false
                 }),
 
@@ -134,6 +134,7 @@ Ext.define("LayerService", {
                         })]
                     }),
                     legendUrl: "http://wiki.openseamap.org/images/thumb/e/ec/MapFullscreen.png/400px-MapFullscreen.png",
+                    description: "<strong>OpenSeaMap</strong><br>is an open source, worldwide project to create a free nautical chart. There is a great need for freely accessible maps for navigation purposes, so in 2009, OpenSeaMap came into life. The goal of OpenSeaMap is to record interesting and useful nautical information for the sailor which is then incorporated into a free map of the world. This includes beacons, buoys and other navigation aids as well as port information, repair shops and chandlerys. OpenSeaMap is a subproject of OpenStreetMap and uses its database. (<a href='http://www.openseamap.org/' target='_blank'>Source</a>)",
                     visible: false
                 })
             ]),
@@ -144,6 +145,7 @@ Ext.define("LayerService", {
         new ol.layer.Group({
             name: "AWMC",
             visible: false,
+            description: "<strong>Ancient World Mapping Center Map Tiles</strong><br>These are a series of geographically accurate and publicly accessible map tiles that represent the ancient Mediterranean world in a variety of different periodizations, released under the Creative Commons Attribution 4.0 License license. (<a href='http://awmc.unc.edu/wordpress/tiles/about' target='_blank'>Source</a>)",
             layers: new ol.Collection([
                 new ol.layer.Tile({
                     name: "Coast Outline",
@@ -263,6 +265,7 @@ Ext.define("LayerService", {
         new ol.layer.Group({
             name: "EMODnet",
             visible: false,
+            description: "This service provides bathymetric data products for the area specified by the EMODNet project. This covers the Norwegian Sea, Icelandic Sea, Celtic Seas, North Sea, Kattegat, Baltic Sea, English Channel, Bay of Biscay, Iberian Coast, West and Central Mediterranean, Adriatic Sea, Ionian Sea, Aegean Sea, Levantine Sea, Sea of Marmara, Black Sea, the Azores, Canary Islands and Madeira. The data product is provided in one eight arc minute grid, so data points are roughly 230 meters apart.",
             layers: new ol.Collection([
                 new ol.layer.Tile({
                     name: "mean_rainbowcolour",
@@ -271,8 +274,6 @@ Ext.define("LayerService", {
                         params: {"LAYERS": "emodnet:mean_rainbowcolour", "TILED": true},
                         wrapX: false
                     }),
-
-                    description: "This service provides bathymetric data products for the area specified by the EMODNet project. This covers the Norwegian Sea, Icelandic Sea, Celtic Seas, North Sea, Kattegat, Baltic Sea, English Channel, Bay of Biscay, Iberian Coast, West and Central Mediterranean, Adriatic Sea, Ionian Sea, Aegean Sea, Levantine Sea, Sea of Marmara, Black Sea, the Azores, Canary Islands and Madeira. The data product is provided in one eight arc minute grid, so data points are roughly 230 meters apart.",
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -282,8 +283,6 @@ Ext.define("LayerService", {
                         params: {"LAYERS": "coastlines", "TILED": true},
                         wrapX: false
                     }),
-
-                    description: "This service provides bathymetric data products for the area specified by the EMODNet project. This covers the Norwegian Sea, Icelandic Sea, Celtic Seas, North Sea, Kattegat, Baltic Sea, English Channel, Bay of Biscay, Iberian Coast, West and Central Mediterranean, Adriatic Sea, Ionian Sea, Aegean Sea, Levantine Sea, Sea of Marmara, Black Sea, the Azores, Canary Islands and Madeira. The data product is provided in one eight arc minute grid, so data points are roughly 230 meters apart.",
                     visible: false
                 })
             ])
@@ -293,6 +292,8 @@ Ext.define("LayerService", {
         new ol.layer.Group({
             //layers: Layers.darmc,
             name: "DARMC",
+            access: "public",
+            description: "<strong>The Digital Atlas of Roman and Medieval Civilizations</strong><br>A selection of layers from DARMC, mainly representing the Barrington Atlas. Go to the <a href='http://darmc.harvard.edu/map-sources' target=_blank>DARMC website</a> to get an overview of additional data sources included in each dataset. Harbour data consists of the Barrington Atlas and an older (2014) Version of \“Ancient ports and harbours\”",
             layers: new ol.Collection([
                 new ol.layer.Tile({
                     name: "Aqueducts",  // title
@@ -303,7 +304,6 @@ Ext.define("LayerService", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: "<strong>The Digital Atlas of Roman and Medieval Civilizations</strong><br>A selection of layers from DARMC, mainly representing the Barrington Atlas. Go to the <a href='http://darmc.harvard.edu/map-sources' target=_blank>DARMC website</a> to get an overview of additional data sources included in each dataset. Harbour data consists of the Barrington Atlas and an older (2014) Version of \“Ancient ports and harbours\”",
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -315,7 +315,6 @@ Ext.define("LayerService", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: "<strong>The Digital Atlas of Roman and Medieval Civilizations</strong><br>A selection of layers from DARMC, mainly representing the Barrington Atlas. Go to the <a href='http://darmc.harvard.edu/map-sources' target=_blank>DARMC website</a> to get an overview of additional data sources included in each dataset. Harbour data consists of the Barrington Atlas and an older (2014) Version of \“Ancient ports and harbours\”",
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -326,8 +325,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
-                    description: "<strong>The Digital Atlas of Roman and Medieval Civilizations</strong><br>A selection of layers from DARMC, mainly representing the Barrington Atlas. Go to the <a href='http://darmc.harvard.edu/map-sources' target=_blank>DARMC website</a> to get an overview of additional data sources included in each dataset. Harbour data consists of the Barrington Atlas and an older (2014) Version of \“Ancient ports and harbours\”",
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -338,8 +335,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
-                    description: "<strong>The Digital Atlas of Roman and Medieval Civilizations</strong><br>A selection of layers from DARMC, mainly representing the Barrington Atlas. Go to the <a href='http://darmc.harvard.edu/map-sources' target=_blank>DARMC website</a> to get an overview of additional data sources included in each dataset. Harbour data consists of the Barrington Atlas and an older (2014) Version of \“Ancient ports and harbours\”",
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -350,8 +345,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
-                    description: "<strong>The Digital Atlas of Roman and Medieval Civilizations</strong><br>A selection of layers from DARMC, mainly representing the Barrington Atlas. Go to the <a href='http://darmc.harvard.edu/map-sources' target=_blank>DARMC website</a> to get an overview of additional data sources included in each dataset. Harbour data consists of the Barrington Atlas and an older (2014) Version of \“Ancient ports and harbours\”",
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -362,8 +355,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
-                    description: "<strong>The Digital Atlas of Roman and Medieval Civilizations</strong><br>A selection of layers from DARMC, mainly representing the Barrington Atlas. Go to the <a href='http://darmc.harvard.edu/map-sources' target=_blank>DARMC website</a> to get an overview of additional data sources included in each dataset. Harbour data consists of the Barrington Atlas and an older (2014) Version of \“Ancient ports and harbours\”",
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -374,8 +365,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
-                    description: "<strong>The Digital Atlas of Roman and Medieval Civilizations</strong><br>A selection of layers from DARMC, mainly representing the Barrington Atlas. Go to the <a href='http://darmc.harvard.edu/map-sources' target=_blank>DARMC website</a> to get an overview of additional data sources included in each dataset. Harbour data consists of the Barrington Atlas and an older (2014) Version of \“Ancient ports and harbours\”",
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -386,8 +375,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
-                    description: "<strong>The Digital Atlas of Roman and Medieval Civilizations</strong><br>A selection of layers from DARMC, mainly representing the Barrington Atlas. Go to the <a href='http://darmc.harvard.edu/map-sources' target=_blank>DARMC website</a> to get an overview of additional data sources included in each dataset. Harbour data consists of the Barrington Atlas and an older (2014) Version of \“Ancient ports and harbours\”",
                     visible: false
                 })
             ]),
@@ -404,13 +391,14 @@ Ext.define("LayerService", {
                 wrapX: false   // dont repeat on X axis
             }),
             //legendUrl = this.getLegendImg(legendName);
-            description: 'This database presents work done by Arthur de Graauw to collect, identify and locate ancient harbours and ports. It is based on a study of existing documentation. The result is a list of around 4000 ancient ports based on the writings of 68 ancient authors and a few modern authors, incl. the Barrington Atlas, Pleiades and DARE. A harbour is a place where ships can seek shelter. In the concept of "shelter" must be included anchorages, landing places on beaches and ports with structures like, access channels, breakwaters, jetties, landing stages, quays, warehouses for storage of commodities and equipment, shipsheds and slipways for ships. Shelters of interest for this catalogue include all places which may have been used by seafarers sailing over long distances. This means that shelters for e.g. local fishermen who may have landed their boats on the beach in front of their homes, are of lesser interest. Only maritime harbours are listed, but some river ports that could be reached by deep sea ships are also included. For more information, see his <a href="http://www.ancientportsantiques.com/" target="_blank">website</a>.',
+            description: '<strong>Ancient Ports and Harbours 2016</strong><br>This database presents work done by Arthur de Graauw to collect, identify and locate ancient harbours and ports and is published here with his friendly approval. It is based on a study of existing documentation. It contains about 4200 ancient ports based on the writings of 70 ancient authors and over 100 modern authors, incl. the Barrington Atlas. The dataset has been added to the WebGIS mainly for reference, but is missing important context-information. If you are interested in the key to the codes used for a site, please visit his <a href="http://www.ancientportsantiques.com/" target="_blank">website</a> and download the latest AncientPorts.xlsx file.',
             visible: false
         }),
 
         // Fetch
         new ol.layer.Group({
             name: "Fetch",
+            description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
             layers: new ol.Collection([
                 new ol.layer.Tile({
                     name: "Adria 45°(NE)",  // title
@@ -421,7 +409,6 @@ Ext.define("LayerService", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -433,7 +420,6 @@ Ext.define("LayerService", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -445,7 +431,6 @@ Ext.define("LayerService", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -457,7 +442,6 @@ Ext.define("LayerService", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -469,7 +453,6 @@ Ext.define("LayerService", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -481,7 +464,6 @@ Ext.define("LayerService", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -493,7 +475,6 @@ Ext.define("LayerService", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -505,7 +486,6 @@ Ext.define("LayerService", {
                         wrapX: false   // dont repeat on X axis
                     }),
                     //legendUrl = this.getLegendImg(legendName);
-                    description: 'The fetch, also called the fetch length, is the length of water over which a given wind has blown. [...] Fetch length, along with wind speed, determines the size of waves produced" (Wikipedia). Fetch can help researchers to estimate potential wave heights for harbour sites. The Fetch layers created by us can just cover limited areas and are thought as being prototypical for other areas. nIf you are interested in the fetch method please join us in our workshop at the next plenary meeting!',
                     visible: false
                 })
             ]),
@@ -692,6 +672,7 @@ Ext.define("LayerService", {
             name: "SPP (internal)",
             access: "sppInternal",
             visible: true,
+            description: "Data only visible to spp project members.",
             //projection : 'EPSG:3857',
             layers: new ol.Collection([
                 // vehicles
@@ -715,7 +696,6 @@ Ext.define("LayerService", {
                     //style: StyleService.redPoints,
                     legendUrl: ConfigService.paths.legendQuery + "SPP:spp_internal_vehicles",
                     style: StyleService.pointTypeStyleFunction,
-                    description: "Data only visible to spp project members.",
                     id: "spp_internal_vehicles",  // used by filter to get correct layer
                     filterable: true,
                     visible: false
@@ -742,7 +722,6 @@ Ext.define("LayerService", {
                     //style: StyleService.redPoints,
                     legendUrl: ConfigService.paths.legendQuery + "SPP:spp_internal_canals",
                     style: StyleService.pointTypeStyleFunction,
-                    description: "Data only visible to spp project members.",
                     id: "spp_internal_canals",  // used by filter to get correct layer
                     filterable: true,
                     visible: true
@@ -770,7 +749,6 @@ Ext.define("LayerService", {
                     //style: StyleService.redPoints,
                     legendUrl: ConfigService.paths.legendQuery + "SPP:spp_internal_harbours",
                     style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
-                    description: "Data only visible to spp project members.",
                     id: "spp_internal_harbours",  // used by filter to get correct layer
                     filterable: true,
                     visible: true
@@ -783,6 +761,7 @@ Ext.define("LayerService", {
             name: "SPP (public)",
             visible: true,
             access: "public",
+            description: "Data of the spp projects open to anyone interested.",
             layers: new ol.Collection([
                 // vehicles
                 new ol.layer.Vector({
@@ -804,7 +783,6 @@ Ext.define("LayerService", {
                     }),
                     legendUrl: ConfigService.paths.legendQuery + "SPP:spp_public_vehicles",
                     style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
-                    description: "Data of the spp projects open to anyone interested.",
                     id: "spp_public_vehicles",  // used by filter to get correct layer
                     filterable: true,  // included in filter function
                     visible: false
@@ -830,7 +808,6 @@ Ext.define("LayerService", {
                     }),
                     legendUrl: ConfigService.paths.legendQuery + "SPP:spp_public_canals",
                     style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
-                    description: "Data of the spp projects open to anyone interested.",
                     id: "spp_public_canals",  // used by filter to get correct layer
                     filterable: true,
                     visible: true
@@ -857,7 +834,6 @@ Ext.define("LayerService", {
                     }),
                     legendUrl: ConfigService.paths.legendQuery + "SPP:spp_public_harbours",
                     style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
-                    description: "Data of the spp projects open to anyone interested.",
                     id: "spp_public_harbours",  // used by filter to get correct layer
                     filterable: true,
                     visible: true
@@ -866,48 +842,48 @@ Ext.define("LayerService", {
         }) // end layer group
     ],
 
-    getLayerGroupByName: function(name) {
-        for (var key in this.layers) {
-            var group = this.layers[key];
-            if (group instanceof ol.layer.Group) {
-                if (group.get("name") === name) {
-                    return group;
-                }
-            }
-        }
-    },
+    // getLayerGroupByName: function(name) {
+    //     for (var key in this.layers) {
+    //         var group = this.layers[key];
+    //         if (group instanceof ol.layer.Group) {
+    //             if (group.get("name") === name) {
+    //                 return group;
+    //             }
+    //         }
+    //     }
+    // },
 
     /**
      * returns the layer based on the provided name.
      * this function is used to restore the origin layer's source.
      * multiple layers with the same name will not work
      */
-    getLayerByName: function(layerName) {
-        var result = [];
-
-        for (var key in this.layers) {
-            var group = this.layers[key];
-
-            if (group instanceof ol.layer.Group) {  // is group
-                var layers = group.getLayers();
-
-                //var result = [];
-                layers.forEach(function(layer) {
-                    if (layer.get("name") === layerName) {
-                        result.push(layer);
-                    }
-                })
-            } else {  // single layer
-                if (group.get("name") === layerName) {
-                    result.push(group);
-                }
-            }
-        }
-
-        if (result.length > 1) {
-            throw "Multiple layers with name: " + layerName + " found!";
-        }
-        return result[0];
-    }
+    // getLayerByName: function(layerName) {
+    //     var result = [];
+    //
+    //     for (var key in this.layers) {
+    //         var group = this.layers[key];
+    //
+    //         if (group instanceof ol.layer.Group) {  // is group
+    //             var layers = group.getLayers();
+    //
+    //             //var result = [];
+    //             layers.forEach(function(layer) {
+    //                 if (layer.get("name") === layerName) {
+    //                     result.push(layer);
+    //                 }
+    //             })
+    //         } else {  // single layer
+    //             if (group.get("name") === layerName) {
+    //                 result.push(group);
+    //             }
+    //         }
+    //     }
+    //
+    //     if (result.length > 1) {
+    //         throw "Multiple layers with name: " + layerName + " found!";
+    //     }
+    //     return result[0];
+    // }
 
 });

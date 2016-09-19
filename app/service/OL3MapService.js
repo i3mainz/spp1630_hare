@@ -196,16 +196,17 @@ Ext.define("OL3MapService", {
 
     /**
      * returns layer by its assigned name in layertree (not source name)
+     * dont use because names can be duplicates
     */
-    getLayerByName: function(layername) {
-        var layers = this.getLayers();   // gets layers nested in layer groups
-        for (var i = 0; i < layers.length; i++) {
-            var layer = layers[i];
-            if (layer.get("name") === layername) {
-                return layer;
-            }
-        }
-    },
+    // getLayerByName: function(layername) {
+    //     var layers = this.getLayers();   // gets layers nested in layer groups
+    //     for (var i = 0; i < layers.length; i++) {
+    //         var layer = layers[i];
+    //         if (layer.get("name") === layername) {
+    //             return layer;
+    //         }
+    //     }
+    // },
 
     /**
      * returns layer's source name (e.g. 'v_public_offen' for layer 'Open')

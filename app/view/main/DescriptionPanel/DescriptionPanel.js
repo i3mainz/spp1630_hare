@@ -23,5 +23,20 @@ Ext.define("SppAppClassic.view.main.DescriptionPanel", {
 
     // style
     margin: "0 5 0 0",
-    bodyPadding: "10px"
+    bodyPadding: "10px",
+
+    /**
+     * Update the panel content to show the provided description.
+     * @param {string} description - Layer description to show
+     */
+    updateContent: function(description) {
+        this.update(description);
+    },
+
+    /**
+     * Removes the panel html content.
+     */
+    clearContent: function() {
+        this.update(ConfigService.texts.descriptionPlaceholder);
+    }
 });

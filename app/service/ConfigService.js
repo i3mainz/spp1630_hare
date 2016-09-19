@@ -98,8 +98,8 @@ Ext.define("ConfigService", {
         spp: {
             "Hafen":                "#b20000",  // darkred
             "Wasserfahrzeug":       "black",
-            "Kanal/Schleppstrecke": "#0099CC",
-            "Wasserstraße":         "#0099CC"  // lightblue
+            "Kanal/Schleppstrecke": "#0000cc",
+            "Wasserstraße":         "#0000cc"  // lightblue
         }
     },
 
