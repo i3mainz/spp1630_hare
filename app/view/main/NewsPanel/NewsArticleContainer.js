@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.NewsArticleContainer",{
+Ext.define("SppAppClassic.main.NewsArticleContainer",{
     extend: "Ext.container.Container",
     xtype: "newsarticlecontainer",
     requires: [
@@ -39,7 +39,7 @@ Ext.define("SppAppClassic.view.main.NewsArticleContainer",{
                 me.buildImage()
             ]
         });
-        SppAppClassic.view.main.NewsArticleContainer.superclass.initComponent.call(this);
+        SppAppClassic.main.NewsArticleContainer.superclass.initComponent.call(this);
     },
 
     buildContent: function() {

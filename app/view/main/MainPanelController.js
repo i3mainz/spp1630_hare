@@ -7,8 +7,8 @@ Ext.define("SppAppClassic.MainPanelController", {
 
     requires: [
         "Ext.button.Button",
-        "SppAppClassic.view.login.Login",
-        "SppAppClassic.view.main.NewsPanel",
+        "SppAppClassic.login.Login",
+        "SppAppClassic.main.NewsPanel",
         "AuthService"
     ],
 

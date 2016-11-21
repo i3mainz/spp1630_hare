@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.MapComponent", {
+Ext.define("SppAppClassic.main.MapComponent", {
     extend: "GeoExt.component.Map",
     xtype: "app-map",
 
@@ -24,7 +24,7 @@ Ext.define("SppAppClassic.view.main.MapComponent", {
         });
         Ext.getCmp("layerTree").setStore(treeStore);
 
-        SppAppClassic.view.main.MapComponent.superclass.initComponent.call(this);
+        SppAppClassic.main.MapComponent.superclass.initComponent.call(this);
         //this.callParent();
     },
 

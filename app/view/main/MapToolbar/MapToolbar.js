@@ -1,5 +1,5 @@
 "use strict";
-Ext.define("SppAppClassic.view.main.MapToolbar", {
+Ext.define("SppAppClassic.main.MapToolbar", {
     extend: "Ext.Toolbar",
 
     xtype: "maptoolbar",

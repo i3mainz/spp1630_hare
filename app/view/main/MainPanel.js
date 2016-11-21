@@ -5,7 +5,7 @@
  * plugin causing this view to become the body element (i.e., the viewport).
  */
 
-Ext.define("SppAppClassic.view.main.MainPanel", {
+Ext.define("SppAppClassic.main.MainPanel", {
     extend: "Ext.panel.Panel",
 
     xtype: "app-main",
@@ -15,9 +15,9 @@ Ext.define("SppAppClassic.view.main.MainPanel", {
     requires: [
         "ConfigService",
         "Ext.plugin.Viewport",              // plugins: "viewport"
-        "SppAppClassic.view.main.LayerTree",  // xtype: "layertree",
-        "SppAppClassic.view.main.MapToolbar",  // xtype: "maptoolbar"
-        "SppAppClassic.view.main.DescriptionPanel",
+        "SppAppClassic.main.LayerTree",  // xtype: "layertree",
+        "SppAppClassic.main.MapToolbar",  // xtype: "maptoolbar"
+        "SppAppClassic.main.DescriptionPanel",
         "OL3MapService",
         "AuthService"
     ],

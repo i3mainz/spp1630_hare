@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.FeatureWindow",{
+Ext.define("SppAppClassic.main.FeatureWindow",{
     extend: "Ext.window.Window",
 
     xtype: "app-popup",

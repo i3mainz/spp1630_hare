@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.login.Login", {
+Ext.define("SppAppClassic.login.Login", {
     extend: "Ext.window.Window",
 
     xtype: "login",  // alias
@@ -140,6 +140,7 @@ Ext.define("SppAppClassic.view.login.Login", {
                             marginTop: "10px",
                             cursor: "pointer"
                         },
+
                         html: ConfigService.texts.guestLoginText,
                         listeners: {
                             render: function(c) {

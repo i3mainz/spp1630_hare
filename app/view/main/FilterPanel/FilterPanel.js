@@ -1,6 +1,6 @@
 "use strict";
 /**
- * @class SppAppClassic.view.main.Filter.FilterPanel
+ * @class SppAppClassic.main.Filter.FilterPanel
  * @extends Ext.window.Window
  *
  * Panel that holds all Filter options in an accordion layout.
@@ -8,7 +8,7 @@
  * @author Axel Kunz (c) 2015-2016
  * @license ???
  */
-Ext.define("SppAppClassic.view.main.FilterPanel",{
+Ext.define("SppAppClassic.main.FilterPanel",{
     extend: "Ext.panel.Panel",
 
     xtype: "app-filterpanel",
@@ -21,7 +21,7 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
         "Ext.form.FieldSet",
         "Ext.form.field.Checkbox",
         "Ext.button.Button",
-        "SppAppClassic.view.main.CenturySlider"
+        "SppAppClassic.main.CenturySlider"
     ],
 
     controller: "main-filterpanel",
@@ -101,7 +101,7 @@ Ext.define("SppAppClassic.view.main.FilterPanel",{
                 }
             ]
         });
-        SppAppClassic.view.main.FilterPanel.superclass.initComponent.call(this);
+        SppAppClassic.main.FilterPanel.superclass.initComponent.call(this);
     },
 
     getProjectCheckboxes: function() {

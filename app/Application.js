@@ -19,8 +19,8 @@ Ext.define('SppAppClassic.Application', {
     ],
 
     views: [
-        'SppAppClassic.view.login.Login',  // used in launch
-        'SppAppClassic.view.main.MainPanel'  // used in launch
+        'SppAppClassic.login.Login',  // used in launch
+        'SppAppClassic.main.MainPanel'  // used in launch
     ],
 
     launch: function () {

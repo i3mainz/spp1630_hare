@@ -17,44 +17,42 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
 
+        // CSS
+        'http://openlayers.org/en/master/css/ol.css',
+
+
         // ExtJS (built)
-        "../bower_components/extjs/build/classic/theme-crisp/resources/theme-crisp-all.css",
-        "../bower_components/extjs/build/ext-all.js",
-        "../bower_components/extjs/build/classic/theme-crisp/theme-crisp.js",
+        //"https://cdnjs.cloudflare.com/ajax/libs/extjs/6.2.0/classic/theme-crisp/theme-crisp.js",
+        //"https://cdnjs.cloudflare.com/ajax/libs/extjs/6.2.0/classic/theme-crisp/theme-crisp.js"
+
+        //"../bower_components/extjs/build/classic/theme-crisp/resources/theme-crisp-all.css",
+        //"../bower_components/extjs/build/ext-all.js",
+        //"../bower_components/extjs/build/classic/theme-crisp/theme-crisp.js",
+
+        "https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/classic/theme-crisp/resources/theme-crisp-all.css",
+        "https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/ext-all.js",
 
         // the dynamically built bootstrap.js contains my custom classes
 
-        //"../ext/ext-bootstrap.js",
-        //"../bootstrap.js",
-        //"../bootstrap.css",
-        //"../build/development/SppAppClassic/**/*.js",
+        // Open Layers
 
-        // vendor
-        "http://openlayers.org/en/v3.13.0/css/ol.css",
         "http://openlayers.org/en/v3.13.0/build/ol.js",
         "../packages/remote/GeoExt/build/resources/GeoExt-all.css",
         "../packages/remote/GeoExt/build/GeoExt.js",
 
-        // singletons have to be loaded attitionally, since they are gloabal
-        "../app/service/LayerStyles.js",
-
-        // my app
+        // singletons have to be loadnoed attitionally, since they are gloabal
         "../app/**/*.js",
-        "../app_test.js",  // loads all other view, controllers etc automatically
-        //"..app.js",
-        //"../*.*",
 
-        //"../app.js",
-        //"../bootstrap.js",
-        // load all classes standalone
-        //"../app/**/*.js",
-        //"spec/**/*.js"
-        "spec/basic-tests.js",
+        // my app files are loaded via Ext.loader() within the spec file
+        'loader.js',
 
-        "spec/view/login/*.js",
-        "spec/view/main/*.js",
-        "spec/controllers/**/*.js",
-        "spec/services/**/*.js"
+        {
+            pattern: 'src/**/*.js',
+            included: false
+        },
+
+        // test specs
+        "spec/services/ConfigService.spec.js"
     ],
 
 
@@ -77,10 +75,9 @@ module.exports = function(config) {
 
     plugins: [
       'karma-jasmine',
-      'karma-phantomjs-launcher',
-      //'karma-chrome-launcher',
-      'karma-mocha-reporter',
-      //'karma-firefox-launcher'
+      //'karma-phantomjs-launcher',
+      'karma-chrome-launcher',
+      'karma-mocha-reporter'
     ],
 
     // web server port
@@ -102,7 +99,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'], // 'PhantomJS'
+    browsers: ['Chrome'], // 'PhantomJS'
 
 
     // Continuous Integration mode

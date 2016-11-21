@@ -7,7 +7,7 @@ Ext.define("SppAppClassic.MapToolbarController", {
 
     requires: [
         "AuthService",
-        "SppAppClassic.view.main.FilterPanel"
+        "SppAppClassic.main.FilterPanel"
     ],
 
     /**

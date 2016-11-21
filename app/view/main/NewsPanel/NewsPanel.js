@@ -1,11 +1,11 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.NewsPanel", {
+Ext.define("SppAppClassic.main.NewsPanel", {
     extend: "Ext.panel.Panel",
     requires: [
         "ConfigService",
         "Ext.form.field.Checkbox",
-        "SppAppClassic.view.main.NewsArticleContainer"
+        "SppAppClassic.main.NewsArticleContainer"
     ],
 
     xtype: "infotabpanel",
@@ -62,7 +62,7 @@ Ext.define("SppAppClassic.view.main.NewsPanel", {
 
         });
 
-        SppAppClassic.view.main.NewsPanel.superclass.initComponent.call(this);
+        SppAppClassic.main.NewsPanel.superclass.initComponent.call(this);
     },
 
     addNewsConainers: function(newsList) {

@@ -9,9 +9,9 @@ Ext.application({
         //'SppAppClassic.view.login.Login'
     ],
 
-    appFolder: 'app',
+    appFolder: 'app',  // specifify the location of all my created classes
     controllers: [],
-    autoCreateViewport: false,
+    autoCreateViewport: false,  // dont render any html
 
     // Launch Jasmine test environment
     launch: function () {

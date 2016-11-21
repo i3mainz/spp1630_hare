@@ -1,6 +1,6 @@
 "use strict";
 
-Ext.define("SppAppClassic.view.main.CenturySlider", {
+Ext.define("SppAppClassic.main.CenturySlider", {
     extend: "Ext.form.FieldSet",
     xtype: "centurySelector",  // map.centuryslider
     //alias: 'widget.centuryslider',
@@ -34,12 +34,8 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
             minWidth: 100,
             minValue: 0,
             maxValue: 13,
-            //constrainThumbs: true,
             values: [0, 13],
             useTips: false,  // show toolptips, default: true
-            //fieldLabel: "Century",
-
-
 
             setHighlightMargins: function() {
                 var values = this.getValue();
@@ -151,13 +147,10 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
                         "font-weight": "bold"
                     });
                 }
-
             }
-
         },
         {
             xtype: "checkbox",
-            //checked: true,
             boxLabel: "allow propable",
             name: "allowPropable",
             id: "allowPropableCheckbox",
@@ -187,7 +180,6 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
     // defined in FilterPanelController.js
     listeners: {
         scope: 'this',  // use functions in this class, not controller
-        //changecomplete: "onSliderChangeComplete"
         changecomplete: "getSliderSQLQuery"
     },
 
@@ -217,15 +209,7 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
         var startCentury = slider.getValues()[0];
         var endCentury = slider.getValues()[1];
 
-        //var includePropable = Ext.getCmp("allowPropableCheckbox").getValue();
-        //var onlyContinuous = Ext.getCmp("onlyContinuousCheckbox").getValue();
-
-        //console.log(includePropable);
-        //console.log(onlyContinuousCheckbox);
-
         var filterList = [];
-        //var queryString = "";
-
         for (var century = 0; century < 14; century++) {
             if (century < startCentury || century > endCentury) {  // not selected
                 /*
@@ -274,8 +258,6 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
     },
 
     getCenturiesSQLQuery: function() {
-        //var slider = this.lookupReference("centuryslider");
-
         var allowPropable = Ext.getCmp("allowPropableCheckbox").getValue();
         var onlyContinuous = Ext.getCmp("onlyContinuousCheckbox").getValue();
 
@@ -300,6 +282,5 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
         } else {
             return false;
         }
-
     }
 });

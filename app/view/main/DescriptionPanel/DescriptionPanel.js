@@ -4,7 +4,7 @@
  * Panel that holds the description of the currently selected layer or layer
  * group.
  */
-Ext.define("SppAppClassic.view.main.DescriptionPanel", {
+Ext.define("SppAppClassic.main.DescriptionPanel", {
     extend: "Ext.panel.Panel",
 
     xtype: "app-description",
