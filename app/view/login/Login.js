@@ -2,9 +2,7 @@
 
 Ext.define("SppAppClassic.login.Login", {
     extend: "Ext.window.Window",
-
     xtype: "login",  // alias
-    //reference: "loginWindow",
     id: "loginWindow",
 
     requires: [
@@ -44,7 +42,6 @@ Ext.define("SppAppClassic.login.Login", {
 
                 // left column
                 {
-
                     columnWidth: 0.5,
 
                     style: {
@@ -83,10 +80,7 @@ Ext.define("SppAppClassic.login.Login", {
                 layout: "vbox",
 
                 style: {
-                    //borderStyle: "solid",
                     paddingLeft: "30px",
-                    //height: "100%",
-                    //marginLeft: "30px", //paddingRight: "30px",
                     borderLeft: "solid thin black"
                 },
 
@@ -127,9 +121,7 @@ Ext.define("SppAppClassic.login.Login", {
                         reference: "loginSubmitButton",  // used to lock during validation
                         id: "loginSubmitButton",
                         formBind: true,  // disable until form filled
-                        tooltip: ConfigService.tooltips.login,
                         handler: "onLoginClick",
-
                     },
 
                     // guest login label

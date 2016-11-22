@@ -25,7 +25,7 @@ Ext.define("SppAppClassic.main.MainPanel", {
     controller: "main",
     plugins: "viewport",
 
-    title: ConfigService.texts.title + " " + ConfigService.version,
+    title: ConfigService.texts.title,
     layout: {
         type: "border",
         padding: 5
@@ -36,7 +36,6 @@ Ext.define("SppAppClassic.main.MainPanel", {
         {
             region: "west",
             xtype: "app-tree",
-            //store: treeStore,
             id: "layerTree", // used to set store later
             autoScroll: true,
             width: 230,
@@ -84,25 +83,14 @@ Ext.define("SppAppClassic.main.MainPanel", {
             xtype: "label",
             id: "infoLabel",
             html: "News",
-            style: {
-                "color": "#3892d4",
-                "font-size": "13px",
-                "font-weight": "bold",
-                "margin-right": "10px",
-                "cursor": "pointer"
-            },
+            cls: "action-label",
             listeners: {
                 element: "el", click: "onNewsClick"
             }
         },{
             xtype: "label",
             id: "logoutButtonlabel",
-            style: {
-                "color": "#696969",
-                "font-size": "13px",
-                "font-weight": "normal",
-                "margin-right": "5px"
-            },
+            cls: "text-label",
             listeners: {
                 // update username after button has been added
                 added: function() {
@@ -113,18 +101,12 @@ Ext.define("SppAppClassic.main.MainPanel", {
             xtype: "label",
             html: "Logout",
             align: "right",
-            style: {
-                "color": "#3892d4",
-                "font-size": "13px",
-                "font-weight": "bold",
-                "cursor": "pointer"
-            },
+            cls: "action-label",
             listeners: {
                 element: "el", click: "onClickLogout"
             }
         }
     ],
-
     listeners: {
         beforedestroy: "onMainPanelDestroy"
     }

@@ -3,63 +3,40 @@
 Ext.define("ConfigService", {
     singleton: true,
 
-    version: "v1.1",
+    host: "http://haefen.i3mainz.hs-mainz.de",
 
-    paths: {
-        host: "http://haefen.i3mainz.hs-mainz.de",
+    paths: {},
 
-        // geoserver
-        geoserver: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/web/",
-        geoserverLogin: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_check/",
-        geoserverLogout: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/j_spring_security_logout/",
-        wms: "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/SPP/wms?",
-        legendQuery:  "http://haefen.i3mainz.hs-mainz.de" + "/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=25&HEIGHT=25&TRANSPARENT=true&LAYER=",
-
-        // proxy to fetch geojson files
-        proxyPath: "http://haefen.i3mainz.hs-mainz.de" + "/GeojsonProxy/layer?"
-
+    constructor: function() {
+        this.paths.geoserver = this.host + "/geoserver/web/";
+        this.paths.geoserverLogin = this.host + "/geoserver/j_spring_security_check/";
+        this.paths.geoserverLogout = this.host + "/geoserver/j_spring_security_logout/";
+        this.paths.wms = this.host + "/geoserver/SPP/wms?";
+        this.paths.legendQuery = this.host + "/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=10&HEIGHT=10&TRANSPARENT=true&legend_options=dpi:180&LAYER=";
+        this.paths.proxy = this.host + "/GeojsonProxy/layer?";
     },
 
-    // requited to get MapBox maps
+    // required access key for MapBox basemaps
     mapboxAccessToken: "pk.eyJ1Ijoic2hhbnl1YW4iLCJhIjoiY2lmcWd1cnFlMDI0dXRqbHliN2FzdW9kNyJ9.wPkC7amwS2ma4qKWmmWuqQ",
 
     /**
      * Texts used throughout the application
      */
     texts: {
-        //sppLayerName: "SPP:spp_harbours_intern"
+
         // headers
-        title: "SPP 1630 Virtual Research Environment",
+        title: "SPP 1630 Harbour Research Environment",
         descriptionTitle: "Description",
         treeTitle: "Layers",
         featureTitle: "Feature Info",
 
         // landing page
-        landingTitle: "SPP Virtual Research Environment",
-        landingText: "This is the Virtual Research Environment (VRE) of the <a href='http://www.spp-haefen.de/' target='blank'>SPP 1630 Harbours Program</a>. It visualizes harbour related data compiled by participating SPP projects, as well as additional hydrological and archeological datasets. It is meant to act as a tool for researchers during their ongoing projects. This website is an afford of the working group \"Data Integration\". It was conceptualised in collaboration with the University of Jena (FSU) and is currently being developed by the i3mainz. Researchers can login using their credentials provided by the developers. Curious guests can skip the login and launch the app in guest-mode with fewer data and limited functions.",
+        landingTitle: "SPP 1630 Harbour Research Environment",
+        landingText: "This is the Harbour Research Environment (HARE) of the <a href='http://www.spp-haefen.de/' target='blank'>SPP 1630 Harbours Program</a>. It visualizes harbour related data compiled by participating SPP projects, as well as additional hydrological and archeological datasets. It is meant to act as a tool for researchers during their ongoing projects. This website is an afford of the working group \"Data Integration\". It was conceptualised in collaboration with the University of Jena (FSU) and is currently being developed by the i3mainz. Researchers can login using their credentials provided by the developers. Curious guests can skip the login and launch the app in guest-mode with fewer data and limited functions.",
         guestLoginText: "Continue as guest",
 
-        // description panel
+        // main
         descriptionPlaceholder: "Select a layer to see its description",
-
-        //       // software
-        //       "<br><p>Built using:<br>" +
-        //       "<a href='http://boundlessgeo.com/products/opengeo-suite/' target='_blank'><img class='software-icon grayscale' title='OpenGeo Suite' src=/resources/images/opengeosuite.png /></a>" +
-        //       "<a href='https://www.sencha.com/products/extjs/' target='_blank'><img class='software-icon grayscale' title='Sencha Ext JS' src=/resources/images/extjs.jpg /></a>" +
-        //       "<a href='https://geoext.github.io/geoext3/' target='_blank'><img class='software-icon grayscale' title='GeoExt 3' src=/resources/images/geoext.png /></a>" +
-        //       "<a href='http://openlayers.org/' target='_blank'><img class='software-icon grayscale' title='OpenLayers 3' src=/resources/images/openlayers.png /></a>" +
-        //       "</p>" +
-        //
-        //       // software license
-        //       "<p>" +
-        //         "Software License:<br>" +
-        //         "This software is licensed under the GNU General Public License version 3 (<a href='https://www.gnu.org/licenses/gpl.html' target='_blank'>GPL v3</a>) and " +
-        //         "the source code is available on <a href='https://github.com/SHANYUAN/geoext3app' target='_blank'>GitHub</a>." +
-        //       "</p>" +
-    },
-
-    tooltips: {
-        login: "Login using your username/password combination"
     },
 
     newsArticles: [
@@ -176,7 +153,4 @@ Ext.define("ConfigService", {
             db_name: "SPP-Binnenschiffe"
         }
     ]
-
-
-
 });

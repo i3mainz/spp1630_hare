@@ -1,13 +1,4 @@
 "use strict";
-/**
- * returns the image url for a specific layer
- */
-function getLegendImg(layer, height, width) {
-    height = height || 25;
-    width = width || 25;
-    return "http://haefen.i3mainz.hs-mainz.de" + "/SPP/wms?" + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=" + width + "&TRANSPARENT=true&HEIGHT=" + height + "&LAYER=" + layer +
-                    "&legend_options=fontName:Arial;fontAntiAliasing:true;fontSize:6;dpi:180";
-}
 
 /**
  * singleton classes get created when they are defined. no need to Ext.create them.
@@ -23,7 +14,6 @@ Ext.define("LayerService", {
     ],
 
     layers: [
-
         // Basemaps
         new ol.layer.Group({
             name: "Basemaps",
@@ -39,7 +29,6 @@ Ext.define("LayerService", {
                                 "OpenStreetMap contributors</a>"
                         })]
                     }),
-                    legendUrl: "http://farm8.staticflickr.com/7159/6710168875_eabcbedea5.jpg",
                     visible: true
                 }),
 
@@ -55,7 +44,6 @@ Ext.define("LayerService", {
                             " Tiles and Data &copy; 2013 <a href='http://www.awmc.unc.edu' target='_blank'>AWMC</a>" +
                             " <a href='http://creativecommons.org/licenses/by-nc/3.0/deed.en_US' target='_blank'>CC-BY-NC 3.0</a>"
                     }),
-                    legendUrl: "http://awmc.unc.edu/wordpress/tiles/files/2014/02/Screen-Shot-2014-02-02-at-8.27.27-PM-150x150.png",
                     description: "The <a href='http://awmc.unc.edu/wordpress/' target='_blank'>AWMC</a> base map. In addition to imagery derived from OSM and Mapbox, this map has the Inland Water, River Polygons, Water Course Center Lines, Base Open Water Polygons, supplemental water polygons (not listed below, for areas far outside of the scope of the Barrington Atlas ) layers. Please see the individual listings below for data citations. It is suitable for most applications when left on its own, or  in combination with water polygons for a particular time period (archaic, Roman, etc). (<a href='http://awmc.unc.edu/wordpress/tiles/map-tile-information' target='_blank'>Source</a>)",
                     visible: false
                 }),
@@ -67,7 +55,6 @@ Ext.define("LayerService", {
                         params: {"LAYERS": "emodnet:mean_atlas_land", "TILED": true},
                         wrapX: false
                     }),
-                    legendUrl: "http://eas.jrc.ec.europa.eu/blog/data/images/bathy_corsica.png",
                     description: "This service provides bathymetric data products for the area specified by the EMODNet project. This covers the Norwegian Sea, Icelandic Sea, Celtic Seas, North Sea, Kattegat, Baltic Sea, English Channel, Bay of Biscay, Iberian Coast, West and Central Mediterranean, Adriatic Sea, Ionian Sea, Aegean Sea, Levantine Sea, Sea of Marmara, Black Sea, the Azores, Canary Islands and Madeira. The data product is provided in one eight arc minute grid, so data points are roughly 230 meters apart.",
                     visible: false
                 })
@@ -88,7 +75,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     description: 'Freshwater lakes in Europe. Provided by RGZM',
                     visible: false
                 }),
@@ -101,7 +87,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     description: 'Major waterways of Europe. Provided by RGZM',
                     visible: false
                 }),
@@ -111,7 +96,7 @@ Ext.define("LayerService", {
                     source: new ol.source.Vector({
                         format: new ol.format.GeoJSON(),
                         url: function(extent) {
-                            return ConfigService.paths.proxyPath +
+                            return ConfigService.paths.proxy +
                                     "bereich=" + "SPP" +
                                     "&layer=" + "Fluesse_Eckholdt" +
                                     "&bbox=" + extent.join(",") +
@@ -292,7 +277,6 @@ Ext.define("LayerService", {
 
         // DARMC
         new ol.layer.Group({
-            //layers: Layers.darmc,
             name: "DARMC",
             access: "public",
             description: "<strong>The Digital Atlas of Roman and Medieval Civilizations</strong><br>A selection of layers from DARMC, mainly representing the Barrington Atlas. Go to the <a href='http://darmc.harvard.edu/map-sources' target=_blank>DARMC website</a> to get an overview of additional data sources included in each dataset. Harbour data consists of the Barrington Atlas and an older (2014) Version of \“Ancient ports and harbours\”",
@@ -305,7 +289,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -316,7 +299,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -392,7 +374,6 @@ Ext.define("LayerService", {
                 serverType: "geoserver",
                 wrapX: false   // dont repeat on X axis
             }),
-            //legendUrl = this.getLegendImg(legendName);
             description: '<strong>Ancient Ports and Harbours 2016</strong><br>This database presents work done by Arthur de Graauw to collect, identify and locate ancient harbours and ports and is published here with his friendly approval. It is based on a study of existing documentation. It contains about 4200 ancient ports based on the writings of 70 ancient authors and over 100 modern authors, incl. the Barrington Atlas. The dataset has been added to the WebGIS mainly for reference, but is missing important context-information. If you are interested in the key to the codes used for a site, please visit his <a href="http://www.ancientportsantiques.com/" target="_blank">website</a> and download the latest AncientPorts.xlsx file.',
             visible: false
         }),
@@ -406,7 +387,6 @@ Ext.define("LayerService", {
                 serverType: "geoserver",
                 wrapX: false   // dont repeat on X axis
             }),
-            //legendUrl = this.getLegendImg(legendName);
             description: '<strong>Geodatabase of Shipwrecks AD1-1500</strong><br><i></i>Michael McCormick, Giovanni Zambotti, Brendan Maione-Downing, Ece Turnator, et al.  (ed.) Digital Atlas of Roman and Medieval Civilizations<br>This summary database provides basic geographic and archaeological information on 1064 shipwrecks documented by A.J. Parker 1992 and subsequent publications. The geodatabase includes, where available, concise information about main cargoes, ship or wreck distribution sizes, ship gear, and essential bibliography.  The user should refer to the original publications for full details. This file represents the state of the geodatabase in April 2008, when M. McCormick 2012 "Movements and markets in the first millennium: information, containers and shipwrecks" was sent to press; a small number of wrecks were added down to 2010.  Our team continues to work toward future updates of the geodatabase of shipwrecks.  Additional information, corrections, and data about new wrecks will be received gratefully at darmc@harvard.edu.',
             visible: false
         }),
@@ -424,7 +404,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -435,7 +414,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -446,7 +424,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -457,7 +434,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -468,7 +444,6 @@ Ext.define("LayerService", {
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
@@ -477,31 +452,28 @@ Ext.define("LayerService", {
                         url: ConfigService.paths.wms,
                         params: {"LAYERS": "SPP:fetch_270", "TILED": true},
                         serverType: "geoserver",
-                        wrapX: false   // dont repeat on X axis
+                        wrapX: false
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
-                    name: "Adria 315°(NW)",  // title
+                    name: "Adria 315°(NW)",
                     source: new ol.source.TileWMS({
                         url: ConfigService.paths.wms,
-                        params: {"LAYERS": "SPP:fetch_315", "TILED": true},
+                        params: { "LAYERS": "SPP:fetch_315", "TILED": true },
                         serverType: "geoserver",
-                        wrapX: false   // dont repeat on X axis
+                        wrapX: false
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 }),
                 new ol.layer.Tile({
-                    name: "Adria 360°(N)",  // title
+                    name: "Adria 360°(N)",
                     source: new ol.source.TileWMS({
                         url: ConfigService.paths.wms,
-                        params: {"LAYERS": "SPP:fetch_360", "TILED": true},
+                        params: { "LAYERS": "SPP:fetch_360", "TILED": true },
                         serverType: "geoserver",
-                        wrapX: false   // dont repeat on X axis
+                        wrapX: false
                     }),
-                    //legendUrl = this.getLegendImg(legendName);
                     visible: false
                 })
             ]),
@@ -514,7 +486,7 @@ Ext.define("LayerService", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return ConfigService.paths.proxyPath +
+                    return ConfigService.paths.proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "spp_ag_intern_12" +
                             "&bbox=" + extent.join(",") +
@@ -525,8 +497,8 @@ Ext.define("LayerService", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            //style: StyleService.redPoints,
-            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            // style: StyleService.redPoints,
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "12",  // means project with id 4
@@ -539,7 +511,7 @@ Ext.define("LayerService", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return ConfigService.paths.proxyPath +
+                    return ConfigService.paths.proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "spp_ag_intern_7" +
                             "&bbox=" + extent.join(",") +
@@ -550,9 +522,8 @@ Ext.define("LayerService", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            //style: StyleService.redPoints,
-            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
-            style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
+            style: StyleService.pointTypeStyleFunction, // StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "7",  // means project with id 4
             visible: false
@@ -564,7 +535,7 @@ Ext.define("LayerService", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return ConfigService.paths.proxyPath +
+                    return ConfigService.paths.proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "spp_ag_intern_10" +
                             "&bbox=" + extent.join(",") +
@@ -576,7 +547,7 @@ Ext.define("LayerService", {
                 wrapX: false  // dont repeat on X axis
             }),
             //style: StyleService.redPoints,
-            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "10",  // means project with id 4
@@ -589,7 +560,7 @@ Ext.define("LayerService", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return ConfigService.paths.proxyPath +
+                    return ConfigService.paths.proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "spp_ag_intern_1" +
                             "&bbox=" + extent.join(",") +
@@ -601,7 +572,7 @@ Ext.define("LayerService", {
                 wrapX: false  // dont repeat on X axis
             }),
             //style: StyleService.redPoints,
-            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "1",  // means project with id 4
@@ -614,7 +585,7 @@ Ext.define("LayerService", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return ConfigService.paths.proxyPath +
+                    return ConfigService.paths.proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "spp_ag_intern_8" +
                             "&bbox=" + extent.join(",") +
@@ -626,7 +597,7 @@ Ext.define("LayerService", {
                 wrapX: false  // dont repeat on X axis
             }),
             //style: StyleService.redPoints,
-            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "8",  // means project with id 4
@@ -639,7 +610,7 @@ Ext.define("LayerService", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return ConfigService.paths.proxyPath +
+                    return ConfigService.paths.proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "spp_ag_intern_2" +
                             "&bbox=" + extent.join(",") +
@@ -651,7 +622,7 @@ Ext.define("LayerService", {
                 wrapX: false  // dont repeat on X axis
             }),
             //style: StyleService.redPoints,
-            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "2",
@@ -664,7 +635,7 @@ Ext.define("LayerService", {
             source: new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
                 url: function(extent) {
-                    return ConfigService.paths.proxyPath +
+                    return ConfigService.paths.proxy +
                             "bereich=" + "SPP" +
                             "&layer=" + "spp_ag_intern_4" +
                             "&bbox=" + extent.join(",") +
@@ -676,7 +647,7 @@ Ext.define("LayerService", {
                 wrapX: false  // dont repeat on X axis
             }),
             //style: StyleService.redPoints,
-            legendUrl: getLegendImg("SPP:spp_harbours_intern"),
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "4",  // means project with id 4
@@ -697,7 +668,7 @@ Ext.define("LayerService", {
                     source: new ol.source.Vector({
                         format: new ol.format.GeoJSON(),
                         url: function(extent) {
-                            return ConfigService.paths.proxyPath +
+                            return ConfigService.paths.proxy +
                                     "bereich=" + "SPP" +
                                     "&layer=" + "spp_internal_vehicles" +
                                     "&bbox=" + extent.join(",") +
@@ -709,7 +680,6 @@ Ext.define("LayerService", {
                         projection: 'EPSG:4326',
                         wrapX: false  // dont repeat on X axis
                     }),
-                    //style: StyleService.redPoints,
                     legendUrl: ConfigService.paths.legendQuery + "SPP:spp_internal_vehicles",
                     style: StyleService.pointTypeStyleFunction,
                     id: "spp_internal_vehicles",  // used by filter to get correct layer
@@ -723,7 +693,7 @@ Ext.define("LayerService", {
                     source: new ol.source.Vector({
                         format: new ol.format.GeoJSON(),
                         url: function(extent) {
-                            return ConfigService.paths.proxyPath +
+                            return ConfigService.paths.proxy +
                                     "bereich=" + "SPP" +
                                     "&layer=" + "spp_internal_canals" +
                                     "&bbox=" + extent.join(",") +
@@ -749,7 +719,7 @@ Ext.define("LayerService", {
                     source: new ol.source.Vector({
                         format: new ol.format.GeoJSON(),
                         url: function(extent) {
-                            return ConfigService.paths.proxyPath +
+                            return ConfigService.paths.proxy +
                                     "bereich=" + "SPP" +
                                     "&layer=" + "spp_internal_harbours" +  // spp_harbours_open
                                     //"&layer=" + "spp_all" +
@@ -785,7 +755,7 @@ Ext.define("LayerService", {
                     source: new ol.source.Vector({
                         format: new ol.format.GeoJSON(),
                         url: function(extent) {
-                            return ConfigService.paths.proxyPath +
+                            return ConfigService.paths.proxy +
                                     "bereich=" + "SPP" +
                                     "&layer=" + "spp_public_vehicles" +
                                     "&bbox=" + extent.join(",") +
@@ -810,7 +780,7 @@ Ext.define("LayerService", {
                     source: new ol.source.Vector({
                         format: new ol.format.GeoJSON(),
                         url: function(extent) {
-                            return ConfigService.paths.proxyPath +
+                            return ConfigService.paths.proxy +
                                     "bereich=" + "SPP" +
                                     "&layer=" + "spp_public_canals" +
                                     "&bbox=" + extent.join(",") +
@@ -835,7 +805,7 @@ Ext.define("LayerService", {
                     source: new ol.source.Vector({
                         format: new ol.format.GeoJSON(),
                         url: function(extent) {
-                            return ConfigService.paths.proxyPath +
+                            return ConfigService.paths.proxy +
                                     "bereich=" + "SPP" +
                                     "&layer=" + "spp_public_harbours" +  // spp_harbours_open
                                     //"&layer=" + "spp_all" +
@@ -857,49 +827,5 @@ Ext.define("LayerService", {
             ]) // end layers
         }) // end layer group
     ],
-
-    // getLayerGroupByName: function(name) {
-    //     for (var key in this.layers) {
-    //         var group = this.layers[key];
-    //         if (group instanceof ol.layer.Group) {
-    //             if (group.get("name") === name) {
-    //                 return group;
-    //             }
-    //         }
-    //     }
-    // },
-
-    /**
-     * returns the layer based on the provided name.
-     * this function is used to restore the origin layer's source.
-     * multiple layers with the same name will not work
-     */
-    // getLayerByName: function(layerName) {
-    //     var result = [];
-    //
-    //     for (var key in this.layers) {
-    //         var group = this.layers[key];
-    //
-    //         if (group instanceof ol.layer.Group) {  // is group
-    //             var layers = group.getLayers();
-    //
-    //             //var result = [];
-    //             layers.forEach(function(layer) {
-    //                 if (layer.get("name") === layerName) {
-    //                     result.push(layer);
-    //                 }
-    //             })
-    //         } else {  // single layer
-    //             if (group.get("name") === layerName) {
-    //                 result.push(group);
-    //             }
-    //         }
-    //     }
-    //
-    //     if (result.length > 1) {
-    //         throw "Multiple layers with name: " + layerName + " found!";
-    //     }
-    //     return result[0];
-    // }
 
 });

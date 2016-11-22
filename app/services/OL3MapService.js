@@ -223,7 +223,7 @@ Ext.define("OL3MapService", {
     filterLayer: function(layer, filter) {
         var vectorSource = new ol.source.Vector({
             format: new ol.format.GeoJSON(),
-            url: ConfigService.paths.proxyPath +
+            url: ConfigService.paths.proxy +
                     "bereich=SPP" +
                     "&layer=" + layer.get("id") +
                     "&epsg=4326" +
