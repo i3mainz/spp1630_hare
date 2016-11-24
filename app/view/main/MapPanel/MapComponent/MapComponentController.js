@@ -6,10 +6,8 @@ Ext.define("SppAppClassic.MapComponentController", {
     alias: "controller.map",
 
     requires: [
-        "GeoExt.data.store.LayersTree",
-        "OL3MapService",
-        "LayerService",
-        "AuthService"
+        "SppAppClassic.main.FeatureWindow",
+        "MapService"
     ],
 
     /**
@@ -20,11 +18,11 @@ Ext.define("SppAppClassic.MapComponentController", {
     */
     onMapClick: function(evt) {
 
-        var map = OL3MapService.getMap();
+        var map = MapService.getMap();
 
         // geojson feature
         var feature = map.forEachFeatureAtPixel(evt.pixel,
-            function(feature, layer) {
+            function(feature) {
                 return feature;
             }
         );
@@ -32,7 +30,6 @@ Ext.define("SppAppClassic.MapComponentController", {
         var popupWindow = Ext.getCmp("popupWindow");
 
         if (!popupWindow) {
-            //Ext.create("SppAppClassic.store.FeatureInfos");
             popupWindow = Ext.create({xtype: "app-popup"});
         }
 
@@ -40,8 +37,9 @@ Ext.define("SppAppClassic.MapComponentController", {
         if (feature) {
             popupWindow.updateFeatureInfo(feature);  // TODO: make this a method of MapComponent
             popupWindow.show();
+
             // TODO: show popup window next to feature
-            //popupPanel.showAt(evt.getXY());
+            // popupPanel.showAt(evt.getXY());
 
         } else {  // clicked somewhere else
             if (popupWindow !== undefined) {  // in case it got destroyed

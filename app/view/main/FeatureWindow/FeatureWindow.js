@@ -31,9 +31,7 @@ Ext.define("SppAppClassic.main.FeatureWindow",{
      * @param {Object} olFeature - OpenLayers 3 feature
      */
     updateFeatureInfo: function(olFeature) {
-
-        // remove certain features because they are notinteresting for users
-        var excludeList = ["geometry", "gid", "uid", "created", "modified"];
+        var excludeList = ConfigService.excludeFeatureList;
 
         var html = "";
         html += "<table>";
@@ -58,14 +56,13 @@ Ext.define("SppAppClassic.main.FeatureWindow",{
 
         html += "<tr>";
         if (contact) {
-            html += "<td><strong>Contact</strong>:</td><td><a href='" + contact + "' target='_blank'>Website</a></td>";
+            html += "<td><strong>contact</strong>:</td><td><a href='" + contact + "' target='_blank'>Website</a></td>";
         } else {
-            html += "<td><strong>Contact</strong>:</td><td>not available</td>";
+            html += "<td><strong>contact</strong>:</td><td>not available</td>";
         }
         html += "</tr>";
         html += "</table>";
 
-        //this.setHtml("<p>" + html + "</p>");
         this.setHtml(html);
     }
 });

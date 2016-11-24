@@ -2,34 +2,17 @@
 
 Ext.define("SppAppClassic.FilterPanelController", {
     extend: "Ext.app.ViewController",
-    alias: "controller.main-filterpanel",
+    alias: "controller.main-filter",
 
     requires: [
         "ConfigService",
-        "OL3MapService"
+        "MapService"
     ],
-
-    onClose: function() {
-        Ext.getCmp("filterButton").setPressed(false);
-    },
-
-    onCollapse: function() {
-        Ext.getCmp("filterButton").setPressed(false);
-    },
-
-    onExpand: function() {
-        Ext.getCmp("filterButton").setPressed(true);
-    },
-
 
     /**
      * Resets all filters applied to layer 'Open'.
      * Loads layer with empty filter string.
     */
-    /*onResetButtonClick: function() {
-        this.applyFilterToHarbourLayer("");  // empty filter
-    },*/
-
     getStatusSQLQuery: function() {
         var status1 = Ext.getCmp("checkboxStatus1").getValue();
         var status2 = Ext.getCmp("checkboxStatus2").getValue();
@@ -94,9 +77,6 @@ Ext.define("SppAppClassic.FilterPanelController", {
      * Gets values of filter panel and apply these to the layer 'Open'
     */
     applyFilter: function() {
-
-        //Ext.getCmp("applyFilterButton").disable();
-
         var queryList = [];
         var sql = this.getProjectSQLQuery();
         if (sql) {
@@ -112,18 +92,14 @@ Ext.define("SppAppClassic.FilterPanelController", {
         }
 
         var filterString = queryList.join(" AND ");
-        //var filterString = this.getStatusSQLQuery();
         // if nothing selected, show origin layer
         if (filterString.length === 0) {
             filterString = "status=1 OR status=2 OR status=3";  // workaround to select everything
         }
 
-        //console.log("project filter broken becauase project id is missing!");
-
         // apply filter to all filterable layers
         Ext.getCmp("geoextMap").getFilterableLayers().forEach(function(layer) {
-            //console.log(layer.get("id"));
-            OL3MapService.filterLayer(layer, filterString);
+            MapService.filterLayer(layer, filterString);
         });
     }
 });

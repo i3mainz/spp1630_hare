@@ -6,7 +6,6 @@
  */
 Ext.define("SppAppClassic.main.DescriptionPanel", {
     extend: "Ext.panel.Panel",
-
     xtype: "app-description",
 
     requires: [
@@ -14,15 +13,16 @@ Ext.define("SppAppClassic.main.DescriptionPanel", {
     ],
 
     title: ConfigService.texts.descriptionTitle,
+    closeAction: 'hide',
+    html: ConfigService.texts.descriptionPlaceholder,
+    resizable: true,
     collapsible: true,
     collapsed: true,
-    closeAction: 'hide',
-
-    // placeholder text
-    html: ConfigService.texts.descriptionPlaceholder,
 
     // style
+    width: 230,
     margin: "0 5 0 0",
+    minWidth: 150,
     bodyPadding: "10px",
 
     /**

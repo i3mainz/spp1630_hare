@@ -52,14 +52,6 @@ Ext.define("SppAppClassic.MainPanelController", {
         // destroy all windows when main view gets destroyed
         // to prevent them from still being displayed on login view
 
-        extWindow = Ext.getCmp("filterPanel");
-        if (extWindow) {
-            extWindow.destroy();
-        }
-        extWindow = Ext.getCmp("gridWindow");
-        if (extWindow) {
-            extWindow.destroy();
-        }
         extWindow = Ext.getCmp("popupWindow");
         if (extWindow) {
             extWindow.destroy();

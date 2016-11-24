@@ -6,7 +6,7 @@ Ext.define("SppAppClassic.LayerTreePanelController", {
     alias: "controller.main-tree",
 
     requires: [
-        "OL3MapService"
+        "MapService"
     ],
 
 

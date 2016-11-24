@@ -93,7 +93,8 @@
         "ol": true,
         "SppAppClassic": true,
         "AuthService": true,
-        "OL3MapService": true,
+        "MapService": true,
+        "LayerService": true,
         "ConfigService": true,
         "_": true
     }

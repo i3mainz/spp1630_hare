@@ -2,11 +2,11 @@
 
 Ext.define("SppAppClassic.main.MapComponent", {
     extend: "GeoExt.component.Map",
-    xtype: "app-map",
+
+    xtype: "app-mapcomp",
 
     requires: [
-        "GeoExt.component.Map", // xtype: "gx_component_map"
-        "OL3MapService"
+        "MapService"
     ],
 
     controller: "map",
@@ -14,36 +14,17 @@ Ext.define("SppAppClassic.main.MapComponent", {
     map: null,  // set on init
 
     initComponent: function () {
-        OL3MapService.initMap();  // TODO: set map in controller
-        this.map = OL3MapService.getMap();
+        MapService.initMap();  // TODO: set map in controller
+        this.map = MapService.getMap();
 
         // set tree store once map is loaded
         var treeStore = Ext.create("GeoExt.data.store.LayersTree", {
-            layerGroup: OL3MapService.getMap().getLayerGroup(),
+            layerGroup: MapService.getMap().getLayerGroup(),
             storeId: "treeStore"  // register with storemanager
         });
         Ext.getCmp("layerTree").setStore(treeStore);
 
         SppAppClassic.main.MapComponent.superclass.initComponent.call(this);
-        //this.callParent();
-    },
-
-    /**
-     * Gets a layer by its ID. it is not OL3 standard. given to access correct
-     * layer when applying filters and multiple layers with the same name exist.
-     * @param {string} id - Layer ID
-     * @returns {Object} OL3 Layer Object
-     */
-    getLayerByID: function(id) {
-        var layers = OL3MapService.getLayers();   // gets layers nested in layer groups
-        for (var i = 0; i < layers.length; i++) {
-            var layer = layers[i];
-
-            if (layer.get("id") === id) {
-                return layer;
-            }
-        }
-        return false;
     },
 
     /**
@@ -53,7 +34,7 @@ Ext.define("SppAppClassic.main.MapComponent", {
      */
     getFilterableLayers: function() {
         var filterableLayers = [];
-        var layers = OL3MapService.getLayers();
+        var layers = MapService.getLayers();
         for (var i = 0; i < layers.length; i++) {
             var layer = layers[i];
             if (layer.get("id") && layer.get("filterable")) {

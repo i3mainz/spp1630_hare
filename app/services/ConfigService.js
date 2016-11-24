@@ -26,8 +26,10 @@ Ext.define("ConfigService", {
 
         // headers
         title: "SPP 1630 Harbour Research Environment",
-        descriptionTitle: "Description",
         treeTitle: "Layers",
+        descriptionTitle: "Description",
+        filterTitle: "Filters",
+        mapTitle: "Map",
         featureTitle: "Feature Info",
 
         // landing page
@@ -76,19 +78,28 @@ Ext.define("ConfigService", {
     // colors used to style GeoJSON layers
     layerColors: {
         spp: {
-            "Hafen":                "#b20000",  // darkred
+            "Hafen":                "darkred",
             "Wasserfahrzeug":       "black",
-            "Kanal/Schleppstrecke": "#0000cc",
-            "Wasserstraße":         "#0000cc"  // lightblue
+            "Kanal/Schleppstrecke": "royalblue",
+            "Wasserstraße":         "royalblue"
         }
     },
 
     // what feature info to show guests
     guestFeatureInfo: ["author", "project", "place_type"],
 
-    // used for project-filter to get project-ID by name and contact infos for
-    // feature window
-    // add to allow access to ag-internal layers
+    // what features to exclude for logged in users due to irrelevance
+    excludeFeatureList: ["geometry", "gid", "uid", "created", "modified"],
+
+    // center of map
+    mapCenterLonLat: [8.751278, 50.611368],
+    mapDefaultZoom: 4, // 0 -28 (from far to close)
+
+    /**
+     * used for project-filter to get project-ID by name and contact infos for
+     * feature window.
+     * add to allow access to ag-internal layers
+     */
     projects: [
         {
             id: "1",

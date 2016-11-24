@@ -14,72 +14,42 @@ Ext.define("SppAppClassic.main.MainPanel", {
 
     requires: [
         "ConfigService",
-        "Ext.plugin.Viewport",              // plugins: "viewport"
-        "SppAppClassic.main.LayerTree",  // xtype: "layertree",
-        "SppAppClassic.main.MapToolbar",  // xtype: "maptoolbar"
+        "AuthService",
+        "Ext.plugin.Viewport",
+        "SppAppClassic.main.LayerTree",
         "SppAppClassic.main.DescriptionPanel",
-        "OL3MapService",
-        "AuthService"
+        "SppAppClassic.main.FilterPanel",
+        "SppAppClassic.main.MapPanel"
     ],
-
     controller: "main",
     plugins: "viewport",
-
     title: ConfigService.texts.title,
     layout: {
         type: "border",
         padding: 5
     },
     border: true,
-
     items: [
         {
-            region: "west",
-            xtype: "app-tree",
             id: "layerTree", // used to set store later
-            autoScroll: true,
-            width: 230,
-            margin: "0 5 0 0",
+            region: "west",
+            xtype: "app-tree"
         },{
+            id: "descriptionPanel",
             xtype: "app-description",
-            region: "west",
-            width: 230,
-            id: "descriptionPanel"
+            region: "west"
         },{
-            xtype: "app-filterpanel",
-            region: "west",
-            margin: "0 5 0 0",
-            hidden: true
+            id: "filterPanel",
+            xtype: "app-filter",
+            region: "west"
         },{
-            xtype: "panel",
             id: "mappanel",
-            region: "center",
-            title: "Map",
-            layout: "fit", // map fills entire panel
-            items: {
-                xtype: "app-map",
-                id: "geoextMap"
-            },
-            dockedItems: {
-                xtype: "maptoolbar",
-                id: "maptoolbar"
-            },
-            listeners: {
-                render: function(panel) {
-                    // add custom click event
-                    panel.body.on("click", function(evt) {
-                        // convert a click on the mappanel to a click on the ol3 map
-                        evt.pixel = [evt.browserEvent.layerX, evt.browserEvent.layerY];
-                        // provide event as parameter, it is used later to get pixel
-                        Ext.getCmp("geoextMap").fireEvent("click", evt);
-                    });
-                }
-            }
+            xtype: "app-map",
+            region: "center"
         }
     ],
 
-    tools: [
-        {
+    tools: [{
             xtype: "label",
             id: "infoLabel",
             html: "News",
@@ -108,6 +78,7 @@ Ext.define("SppAppClassic.main.MainPanel", {
         }
     ],
     listeners: {
+        // beforerender: "addFilterPanel",
         beforedestroy: "onMainPanelDestroy"
     }
 });

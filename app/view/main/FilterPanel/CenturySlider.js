@@ -3,12 +3,8 @@
 Ext.define("SppAppClassic.main.CenturySlider", {
     extend: "Ext.form.FieldSet",
     xtype: "centurySelector",  // map.centuryslider
-    //alias: 'widget.centuryslider',
-    //reference: "centuryslider",  // used in controllers
-    //id: "centuryslider",
 
-    //controller: "main-centuryslider", // slider is a component. only containers can have controllers!
-    controller: "main-filterpanel",
+    controller: "main-filter",
 
     layout: "fit",
     items: [
@@ -50,7 +46,6 @@ Ext.define("SppAppClassic.main.CenturySlider", {
 
             listeners: {
                 scope: 'this',  // use functions in this class, not controller
-                //changecomplete: "onSliderChangeComplete"
                 change:  function() {//"updateLabels",
                     this.setHighlightMargins();
                     this.updateLabels();
@@ -93,9 +88,8 @@ Ext.define("SppAppClassic.main.CenturySlider", {
             },
 
             updateLabels: function() {
-                //console.log("updating labels");
-                //var filterPanel = Ext.getCmp("filterPanel");
                 var labelText;
+
                 // update text next to slider
                 var value1 = this.getValues()[0];
                 var value2 = this.getValues()[1];
@@ -243,8 +237,6 @@ Ext.define("SppAppClassic.main.CenturySlider", {
             queryString = filterList.join(" OR ");
         }
 
-        //return empty if default values!
-
         if (startCentury > 0 || endCentury < 13) {
             // if not empty return filter
             return queryString;
@@ -276,7 +268,7 @@ Ext.define("SppAppClassic.main.CenturySlider", {
                 sliderFilterString = this.getSliderSQLQuery(false, false);
             }
         }
-        //console.log(sliderFilterString);
+
         if (sliderFilterString.length > 0) {
             return "(" + sliderFilterString + ")";
         } else {

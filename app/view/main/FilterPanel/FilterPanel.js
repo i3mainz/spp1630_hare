@@ -10,10 +10,7 @@
  */
 Ext.define("SppAppClassic.main.FilterPanel",{
     extend: "Ext.panel.Panel",
-
-    xtype: "app-filterpanel",
-    //reference: "filterpanel",
-    id: "filterPanel",  // TODO: use references instead
+    xtype: "app-filter",
 
     requires: [
         "ConfigService",
@@ -23,33 +20,29 @@ Ext.define("SppAppClassic.main.FilterPanel",{
         "Ext.button.Button",
         "SppAppClassic.main.CenturySlider"
     ],
-
-    controller: "main-filterpanel",
-
-    /*viewModel: {
-        type: "main-filterpanel"
-    },*/
-    //region: "west",
-    //resizable: false,
+    controller: "main-filter",
+    resizable: true,
     closeAction: "hide",
-    title: "Filters",
+    title: ConfigService.texts.filterTitle,
     layout: {
         type: "anchor",
         //type: "vbox",
         align: "stretch"
     },
-    //width: 220,
-    width: 230,
-    bodyPadding: 10,
-    margin: "0 0 0 5",
-    scrollable: true,
-    closable: true,
     collapsible: true,
+    collapsed: true,
+    scrollable: true,
+
+    // style
+    bodyPadding: 10,
+    minWidth: 150,
+    width: 230,
+    margin: "0 5 0 0",
+
 
     defaults: {
         xtype: "fieldset",
         defaultType: "checkbox",
-        //labelWidth: 90,
         scrollable: true,
         checkboxToggle: false,
         collapsible: true,
@@ -105,9 +98,7 @@ Ext.define("SppAppClassic.main.FilterPanel",{
     },
 
     getProjectCheckboxes: function() {
-
         var itemList = [];
-
         ConfigService.projects.forEach(function(project) {
             itemList.push({
                 xtype: "checkbox",
@@ -123,22 +114,5 @@ Ext.define("SppAppClassic.main.FilterPanel",{
         });
 
         return itemList;
-    },
-
-    /**
-     * function for easier toggling. removes code in toolbarcontroller
-     */
-    toggle: function() {
-        if (this.isHidden()) {
-            this.show();
-        } else {
-            this.hide();
-        }
-    },
-
-    listeners: {
-        close: "onClose",
-        collapse: "onCollapse",
-        expand: "onExpand"
     }
 });
