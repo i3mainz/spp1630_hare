@@ -26,9 +26,9 @@ Ext.define("SppAppClassic.login.Login", {
             columnWidth: 0.60,
             cls: "left-column",  // wrapper
             html: [
-              "<img class='landing-logo' src='resources/images/SPP_logo_400x289-4.png' />",
+              "<img class='landing-logo' src='" + ConfigService.texts.landingLogo + "' />",
               "<h1>SPP 1630</h1>",
-              "<h2>Harbour Research Environment (HARE)</h2>",
+              "<h2>" + ConfigService.texts.landingTitle + "</h2>",
               "<p class='landing-text'>" + ConfigService.texts.landingText + "</p>",
             ].join("\n")
         },{

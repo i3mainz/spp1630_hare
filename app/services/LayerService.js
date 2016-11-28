@@ -67,47 +67,15 @@ Ext.define("LayerService", {
             description: "Layers with hydrological information.",
             layers: new ol.Collection([
 
+
                 new ol.layer.Tile({
-                    name: "Lakes",  // title
+                    name: "Eckholdt 1980",  // title
                     source: new ol.source.TileWMS({
                         url: ConfigService.paths.wms,
-                        params: {"LAYERS": "SPP:lakes", "TILED": true},
+                        params: {"LAYERS": "SPP:Fluesse_Eckholdt", "TILED": true},
                         serverType: "geoserver",
                         wrapX: false   // dont repeat on X axis
                     }),
-                    description: 'Freshwater lakes in Europe. Provided by RGZM',
-                    visible: false
-                }),
-
-                new ol.layer.Tile({
-                    name: "Streams",  // title
-                    source: new ol.source.TileWMS({
-                        url: ConfigService.paths.wms,
-                        params: {"LAYERS": "SPP:streams", "TILED": true},
-                        serverType: "geoserver",
-                        wrapX: false   // dont repeat on X axis
-                    }),
-                    description: 'Major waterways of Europe. Provided by RGZM',
-                    visible: false
-                }),
-
-                new ol.layer.Vector({
-                    name: "Eckholdt 1980",
-                    source: new ol.source.Vector({
-                        format: new ol.format.GeoJSON(),
-                        url: function(extent) {
-                            return ConfigService.paths.proxy +
-                                    "bereich=" + "SPP" +
-                                    "&layer=" + "Fluesse_Eckholdt" +
-                                    "&bbox=" + extent.join(",") +
-                                    "&epsg=" + "4326";
-                        },
-                        strategy: ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
-                            maxZoom: 19
-                        })),
-                        wrapX: false  // dont repeat on X axis
-                    }),
-                    style: StyleService.eckholdtStyleFunction,
                     description: 'Die Schiffbarkeit von kleinen Flüssen Mitteleuropas in Römerzeit und Mittelalter lässt sich laut Martin Eckholdt anhand der Wasserführung Q [m³/s] abschätzen. Diese berechnete er nach der Fließformel von Manning-Strickler. Zu sehen sind Flüsse auf Grundlage des Ecrins-Datensatzes, welcher auf die behandelten Flüsse Eckholdts reduziert wurde. Einige seiner aufgeführten Flüsse sind in der heutigen Zeit nicht mehr vorhanden und hier nicht dargestellt. Andere Flüsse fallen aufgrund fehlender digitalisierter Datenbestände weg. Breit dargestellte Flüsse visualisieren eine nachgewiesene Schiffbarkeit, bzw. Die damals mögliche Schiffbarkeit. Mit abnehmender Strichstärke der Flüsse nimmt auch die Schiffbarkeit der Flüsse ab.',
                     visible: false
                 }),
@@ -120,10 +88,29 @@ Ext.define("LayerService", {
                             html: "© <a href='http://www.openseamap.org/'>OpenSeaMap</a>"
                         })]
                     }),
-                    legendUrl: "http://wiki.openseamap.org/images/thumb/e/ec/MapFullscreen.png/400px-MapFullscreen.png",
+                    // legendUrl: "http://wiki.openseamap.org/images/thumb/e/ec/MapFullscreen.png/400px-MapFullscreen.png",
                     description: "<strong>OpenSeaMap</strong><br>is an open source, worldwide project to create a free nautical chart. There is a great need for freely accessible maps for navigation purposes, so in 2009, OpenSeaMap came into life. The goal of OpenSeaMap is to record interesting and useful nautical information for the sailor which is then incorporated into a free map of the world. This includes beacons, buoys and other navigation aids as well as port information, repair shops and chandlerys. OpenSeaMap is a subproject of OpenStreetMap and uses its database. (<a href='http://www.openseamap.org/' target='_blank'>Source</a>) <br /><br />Use <a href='http://t1.openseamap.org/seamark/{z}/{x}/{y}.png' target='_blank'>this WMS link</a> to use this layer in your Desktop GIS.",
                     visible: false
-                })
+                }),
+
+                new ol.layer.Tile({
+                    name: "River Polygons",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.9e3lerk9/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
+                    }),
+                    description: "Significant rivers, generally following the Barrington Atlas with additions from VMap0 and OSM and further work by the AWMC.",
+                    visible: false
+                }),
+                new ol.layer.Tile({
+                    name: "Water Course Center Lines",
+                    source: new ol.source.XYZ({
+                        url: "http://api.tiles.mapbox.com/v4/isawnyu.awmc-water-courses/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
+                        projection: "EPSG:3857"
+                    }),
+                    description: "Lines following ancient rivers, generally following the Barrington Atlas with additions from VMap0 and OSM and further work by the AWMC.",
+                    visible: false
+                }),
             ]),
             visible: false
         }),
@@ -173,24 +160,7 @@ Ext.define("LayerService", {
                     }),
                     visible: false
                 }),
-                new ol.layer.Tile({
-                    name: "River Polygons",
-                    source: new ol.source.XYZ({
-                        url: "http://api.tiles.mapbox.com/v4/isawnyu.9e3lerk9/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
-                        projection: "EPSG:3857"
-                    }),
-                    description: "Significant rivers, generally following the Barrington Atlas with additions from VMap0 and OSM and further work by the AWMC.",
-                    visible: false
-                }),
-                new ol.layer.Tile({
-                    name: "Water Course Center Lines",
-                    source: new ol.source.XYZ({
-                        url: "http://api.tiles.mapbox.com/v4/isawnyu.awmc-water-courses/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
-                        projection: "EPSG:3857"
-                    }),
-                    description: "Lines following ancient rivers, generally following the Barrington Atlas with additions from VMap0 and OSM and further work by the AWMC.",
-                    visible: false
-                }),
+
                 new ol.layer.Tile({
                     name: "Base Open Water Polygons",
                     source: new ol.source.XYZ({
