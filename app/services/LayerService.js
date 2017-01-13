@@ -468,7 +468,7 @@ Ext.define("LayerService", {
                 wrapX: false  // dont repeat on X axis
             }),
             // style: StyleService.redPoints,
-            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_ag_intern_14",
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "12",  // means project with id 4
@@ -492,7 +492,7 @@ Ext.define("LayerService", {
                 })),
                 wrapX: false  // dont repeat on X axis
             }),
-            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_ag_intern_7",
             style: StyleService.pointTypeStyleFunction, // StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "7",  // means project with id 4
@@ -517,7 +517,7 @@ Ext.define("LayerService", {
                 wrapX: false  // dont repeat on X axis
             }),
             //style: StyleService.redPoints,
-            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_ag_intern_10",
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "10",  // means project with id 4
@@ -542,7 +542,7 @@ Ext.define("LayerService", {
                 wrapX: false  // dont repeat on X axis
             }),
             //style: StyleService.redPoints,
-            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_ag_intern_1",
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "1",  // means project with id 4
@@ -567,7 +567,7 @@ Ext.define("LayerService", {
                 wrapX: false  // dont repeat on X axis
             }),
             //style: StyleService.redPoints,
-            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_ag_intern_8",
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "8",  // means project with id 4
@@ -592,7 +592,7 @@ Ext.define("LayerService", {
                 wrapX: false  // dont repeat on X axis
             }),
             //style: StyleService.redPoints,
-            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_ag_intern_2",
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "2",
@@ -617,7 +617,7 @@ Ext.define("LayerService", {
                 wrapX: false  // dont repeat on X axis
             }),
             //style: StyleService.redPoints,
-            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_harbours_intern",
+            legendUrl: ConfigService.paths.legendQuery + "SPP:spp_ag_intern_4",
             style: StyleService.pointTypeStyleFunction, //StyleService.redPointLabelStyleFunction,
             description: "Data only visible to this project's members",
             access: "4",  // means project with id 4
