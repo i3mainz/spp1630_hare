@@ -60,7 +60,8 @@ Ext.define("MapService", {
             }
 
             // spp internal layers
-            if (layer.get("access") === "sppInternal" && AuthService.getUser() !== "guest") {
+            //if (layer.get("access") === "sppInternal" && AuthService.getUser() !== "guest") {
+            if (layer.get("access") === "sppInternal") {
                 authorizedLayers.push(layer);
             }
 
