@@ -86,7 +86,7 @@ Ext.define("ConfigService", {
     },
 
     // what feature info to show guests
-    guestFeatureInfo: ["author", "project", "place_type"],
+    guestFeatureInfo: ["author", "project", "place_type", "name_mod"],
 
     // what features to exclude for logged in users due to irrelevance
     excludeFeatureList: ["geometry", "gid", "uid", "created", "modified"],
