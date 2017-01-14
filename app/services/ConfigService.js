@@ -158,10 +158,12 @@ Ext.define("ConfigService", {
             id: "14",
             login_name: "rhein",
             db_name: "Rheinhafenprojekt"
+            contact: "http://www.spp-haefen.de/de/die-projekte/der-rhein-als-europaeische-verkehrsachse/"
         },{
             id: "19",
             login_name: "kröger",
             db_name: "SPP-Binnenschiffe"
+            contact: "http://www.spp-haefen.de/de/die-projekte/im-netzwerk-fluvialer-haefen/"
         }
     ]
 });
