@@ -629,7 +629,7 @@ Ext.define("LayerService", {
             name: "SPP (internal)",
             access: "sppInternal",
             visible: true,
-            description: "Data only visible to spp project members.",
+            description: "SPP internal datasets. Guests can see 5 basic attributes. Full datasets only visible to spp project members. <br /><br /> The integration of these layers into a local GIS (QGIS/ARCGIS) will be available very soon (Feb.2017). A how-to will then be added to the news-section.",
             //projection : 'EPSG:3857',
             layers: new ol.Collection([
                 // vehicles
@@ -717,7 +717,7 @@ Ext.define("LayerService", {
             name: "SPP (public)",
             visible: true,
             access: "public",
-            description: "Data of the spp projects open to anyone interested.",
+            description: "Data of the spp projects open to anyone interested. The full set of attributes of each dataset is available to all visitors. <br /><br /> The integration of these layers into a local GIS (QGIS/ARCGIS) will be available very soon (Feb.2017). A how-to will then be added to the news-section.",
             layers: new ol.Collection([
                 // vehicles
                 new ol.layer.Vector({
