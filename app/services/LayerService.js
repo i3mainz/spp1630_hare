@@ -24,9 +24,11 @@ Ext.define("LayerService", {
                     source: new ol.source.XYZ({
                         url: "https://api.mapbox.com/styles/v1/shanyuan/cit2tzp5m00312wmlw6rlt7sf/tiles/256/{z}/{x}/{y}?access_token=" + ConfigService.mapboxAccessToken,
                         attributions: [new ol.Attribution({
-                            html: "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> " +
+                            html:  "<a href='http://www.spp-haefen.de/de/impressum/'>Impressum</a> " +
+                            "© <a href='https://www.mapbox.com/map-feedback/'>Mapbox</a> " +
                                 "© <a href='http://www.openstreetmap.org/copyright'>" +
                                 "OpenStreetMap contributors</a>"
+
                         })]
                     }),
                     visible: true
