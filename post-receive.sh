@@ -14,6 +14,9 @@ echo "build using sencha cmd"
 cd $INTDIR
 $SENCHADIR/sencha app build
 
+echo "get superuser"
+sudo su
+
 echo "remove old app folder"
 rm -r $WEBDIR/$ROUTE
 
