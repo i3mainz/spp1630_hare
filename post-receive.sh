@@ -5,7 +5,7 @@ SENCHADIR="~/bin/Sencha/Cmd/6.1.2.15"
 GITDIR="~/git/geoext3app.git"
 INTDIR="~/apps/SppAppClassic"
 WEBDIR="/var/lib/tomcat7/webapps"
-ROUTE="ROOT" # e.g. test or ROOT
+ROUTE="ROOT" # e.g. test or ROOT!
 
 echo "git checkout"
 git --work-tree=$INTDIR --git-dir=$GITDIR checkout -f
@@ -21,4 +21,4 @@ echo "copy build to tomcat"
 cp -r $INTDIR/build/production/SppAppClassic $WEBDIR/SppAppClassic
 
 echo "rename app to fit requested path"
-mv SppAppClassic $ROUTE
+mv $WEBDIR/SppAppClassic $WEBDIR/$ROUTE
