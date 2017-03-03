@@ -67,7 +67,9 @@ Ext.define("SppAppClassic.FilterPanelController", {
             // create sql string for each project and join them later
             unselectedProjects.forEach(function(project) {
                 // != not supported by cql, using < and > instead
-                sqlList.push("(project_id > " + project.id + " OR project_id < " + project.id + ")");
+                // sqlList.push("(project_id > " + project.id + " OR project_id < " + project.id + ")");
+                // < and > not supported, using
+                sqlList.push("(project_id gt " + project.id + " OR project_id lt " + project.id + ")");
             })
             return "(" + sqlList.join(" AND ") + ")";
         }
