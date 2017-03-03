@@ -25,7 +25,7 @@ Ext.define("ConfigService", {
     texts: {
 
         // headers
-        title: "SPP 1630 Harbour Research Environment",
+        title: "SPP 1631 Harbour Research Environment",
         treeTitle: "Layers",
         descriptionTitle: "Description",
         filterTitle: "Filters",
