@@ -19,7 +19,7 @@ Ext.define("SppAppClassic.login.Login", {
 
     layout: "column",
     defaults: {
-        height: 700,
+        height: 700
     },
     items: [
         {
@@ -29,7 +29,7 @@ Ext.define("SppAppClassic.login.Login", {
               "<img class='landing-logo' src='" + ConfigService.texts.landingLogo + "' />",
               "<h1>SPP 1630</h1>",
               "<h2>" + ConfigService.texts.landingTitle + "</h2>",
-              "<p class='landing-text'>" + ConfigService.texts.landingText + "</p>",
+              "<p class='landing-text'>" + ConfigService.texts.landingText + "</p>"
             ].join("\n")
         },{
             columnWidth: 0.40,
@@ -71,7 +71,7 @@ Ext.define("SppAppClassic.login.Login", {
                     reference: "loginSubmitButton",  // used to lock during validation
                     id: "loginSubmitButton",
                     formBind: true,  // disable until form filled
-                    handler: "onLoginClick",
+                    handler: "onLoginClick"
                 },
 
                 // guest login label

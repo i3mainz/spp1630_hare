@@ -209,7 +209,7 @@ Ext.define("StyleService", {
         });
 
         return [style];
-    },
+    }
 
 
 });

@@ -25,7 +25,7 @@ Ext.define('SppAppClassic.main.BasicTreeColumnLegends', {
         '</tpl>',
 
         // insert layer name
-        '{value}',
+        '{value}'
     ],
 
     /**

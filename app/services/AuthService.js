@@ -8,7 +8,7 @@ Ext.define("AuthService", {
     singleton: true,
 
     requires: [
-        "ConfigService",
+        "ConfigService"
     ],
 
     homePath: ConfigService.paths.geoserver,
@@ -224,6 +224,6 @@ Ext.define("AuthService", {
                 failure();
             }
         });
-    },
+    }
 
 });

@@ -56,7 +56,7 @@ Ext.define("SppAppClassic.MainPanelController", {
         if (extWindow) {
             extWindow.destroy();
         }
-    },
+    }
 
 
 });

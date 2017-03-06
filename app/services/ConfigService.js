@@ -38,7 +38,7 @@ Ext.define("ConfigService", {
         landingText: "This is the Harbour Research Environment (HARE) of the <a href='http://www.spp-haefen.de/' target='blank'>SPP 1630 Harbours Program</a>. It visualizes harbour related data compiled by participating SPP projects, as well as additional hydrological and archeological datasets. It is meant to act as a tool for researchers during their ongoing projects. This website is an afford of the working group \"Data Integration\". It was conceptualised in collaboration with the University of Jena (FSU) and is currently being developed by the i3mainz. Researchers can login using their credentials provided by the developers. Curious guests can skip the login and launch the app in demo-mode with fewer data and limited functionality.<br><br>Send us an <a href='mailto:thomas.engel@hs-mainz.de' target='_top'>email</a> if you want to contribute or have any questions/suggestions.",
 
         // main
-        descriptionPlaceholder: "Select a layer to see its description",
+        descriptionPlaceholder: "Select a layer to see its description"
     },
 
     newsArticles: [
@@ -134,7 +134,7 @@ Ext.define("ConfigService", {
             id: "7",
             login_name: "fossa",
             db_name: "Fossa Carolina",
-            contact: "http://www.spp-haefen.de/de/die-projekte/fossa-carolina/",
+            contact: "http://www.spp-haefen.de/de/die-projekte/fossa-carolina/"
         },
         {
             id: "8",

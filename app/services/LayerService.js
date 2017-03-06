@@ -111,7 +111,7 @@ Ext.define("LayerService", {
                     }),
                     description: "Lines following ancient rivers, generally following the Barrington Atlas with additions from VMap0 and OSM and further work by the AWMC.",
                     visible: false
-                }),
+                })
             ]),
             visible: false
         }),
@@ -797,6 +797,6 @@ Ext.define("LayerService", {
                 })
             ]) // end layers
         }) // end layer group
-    ],
+    ]
 
 });

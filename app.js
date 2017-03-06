@@ -8,7 +8,7 @@
 Ext.application({
     name: 'SppAppClassic', //
 
-    extend: 'SppAppClassic.Application',
+    extend: 'SppAppClassic.Application'
 
     /*requires: [
         'SppAppClassic.view.main.Main'
