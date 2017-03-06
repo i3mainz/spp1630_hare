@@ -40,10 +40,12 @@ Ext.define("LayerService", {
                         url: "http://api.tiles.mapbox.com/v4/isawnyu.map-knmctlkh/{z}/{x}/{y}.png?access_token=" + ConfigService.mapboxAccessToken,
                         wrapDateLine: true,
                         transitionEffect: "resize",
-                        attribution: "Tiles &copy; <a href='http://mapbox.com/' target='_blank'>MapBox</a> | " +
+                        attributions: [new ol.Attribution({
+                            html: "Tiles &copy; <a href='http://mapbox.com/' target='_blank'>MapBox</a> | " +
                             "Data &copy; <a href='http://www.openstreetmap.org/' target='_blank'>OpenStreetMap</a> and contributors, CC-BY-SA |"+
                             " Tiles and Data &copy; 2013 <a href='http://www.awmc.unc.edu' target='_blank'>AWMC</a>" +
                             " <a href='http://creativecommons.org/licenses/by-nc/3.0/deed.en_US' target='_blank'>CC-BY-NC 3.0</a>"
+                        })]
                     }),
                     description: "The <a href='http://awmc.unc.edu/wordpress/' target='_blank'>AWMC</a> base map. In addition to imagery derived from OSM and Mapbox, this map has the Inland Water, River Polygons, Water Course Center Lines, Base Open Water Polygons, supplemental water polygons (not listed below, for areas far outside of the scope of the Barrington Atlas ) layers. Please see the individual listings below for data citations. It is suitable for most applications when left on its own, or  in combination with water polygons for a particular time period (archaic, Roman, etc). (<a href='http://awmc.unc.edu/wordpress/tiles/map-tile-information' target='_blank'>Source</a>)",
                     visible: false
@@ -54,6 +56,9 @@ Ext.define("LayerService", {
                     source: new ol.source.TileWMS({
                         url: "http://ows.emodnet-bathymetry.eu/wms",
                         params: {"LAYERS": "emodnet:mean_atlas_land", "TILED": true},
+                        attributions: [new ol.Attribution({
+                        	html: "Land DEM source: <a ref=\"http://www.viewfinderpanoramas.org\" target=\"_blank\">http://www.viewfinderpanoramas.org</a>"
+                        })],
                         wrapX: false
                     }),
                     description: "This service provides bathymetric data products for the area specified by the EMODNet project. This covers the Norwegian Sea, Icelandic Sea, Celtic Seas, North Sea, Kattegat, Baltic Sea, English Channel, Bay of Biscay, Iberian Coast, West and Central Mediterranean, Adriatic Sea, Ionian Sea, Aegean Sea, Levantine Sea, Sea of Marmara, Black Sea, the Azores, Canary Islands and Madeira. The data product is provided in one eight arc minute grid, so data points are roughly 230 meters apart. ",
