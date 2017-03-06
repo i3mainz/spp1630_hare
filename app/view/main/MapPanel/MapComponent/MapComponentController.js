@@ -36,10 +36,12 @@ Ext.define("SppAppClassic.MapComponentController", {
         // lazy instanciation of window if click was on a feature
         if (feature) {
             popupWindow.updateFeatureInfo(feature);  // TODO: make this a method of MapComponent
-            popupWindow.show();
+            //popupWindow.show();
 
-            // TODO: show popup window next to feature
-            // popupPanel.showAt(evt.getXY());
+            // show popup window next to feature
+            popupWindow.showAt(
+              (evt.getX()-280),(evt.getY()-150)
+            );
 
         } else {  // clicked somewhere else
             if (popupWindow !== undefined) {  // in case it got destroyed
