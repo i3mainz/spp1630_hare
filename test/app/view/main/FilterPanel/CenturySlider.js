@@ -158,9 +158,9 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
         {
             xtype: "checkbox",
             //checked: true,
-            boxLabel: "allow propable",
-            name: "allowPropable",
-            id: "allowPropableCheckbox",
+            boxLabel: "allow probable",
+            name: "allowProbable",
+            id: "allowProbableCheckbox",
             listeners: {
                 change: function(evt) {
                     // fire event onchangecomplete so that this triggers an
@@ -194,7 +194,7 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
     /*
      * gets the slider's values and creates a cql query string
      */
-    getSliderSQLQuery: function(includePropable, onlyContinuous) {
+    getSliderSQLQuery: function(includeProbable, onlyContinuous) {
 
         /*
         "1st Century BC",   // 0
@@ -217,10 +217,10 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
         var startCentury = slider.getValues()[0];
         var endCentury = slider.getValues()[1];
 
-        //var includePropable = Ext.getCmp("allowPropableCheckbox").getValue();
+        //var includeProbable = Ext.getCmp("allowProbableCheckbox").getValue();
         //var onlyContinuous = Ext.getCmp("onlyContinuousCheckbox").getValue();
 
-        //console.log(includePropable);
+        //console.log(includeProbable);
         //console.log(onlyContinuousCheckbox);
 
         var filterList = [];
@@ -237,13 +237,13 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
                 */
             } else {  // within selection
                 if (century === 0) {  // special for 1st BC
-                    if (includePropable) {
+                    if (includeProbable) {
                         filterList.push("(date_1_Jhv='ja' OR date_1_Jhv='vermutet')");
                     } else {
                         filterList.push("date_1_Jhv='ja'");
                     }
                 } else {
-                    if (includePropable) {
+                    if (includeProbable) {
                         filterList.push("(date_" + century + "_Jh='ja' OR date_" + century + "_Jh='vermutet')");
                     } else {
                         filterList.push("date_" + century + "_Jh='ja'");
@@ -276,11 +276,11 @@ Ext.define("SppAppClassic.view.main.CenturySlider", {
     getCenturiesSQLQuery: function() {
         //var slider = this.lookupReference("centuryslider");
 
-        var allowPropable = Ext.getCmp("allowPropableCheckbox").getValue();
+        var allowProbable = Ext.getCmp("allowProbableCheckbox").getValue();
         var onlyContinuous = Ext.getCmp("onlyContinuousCheckbox").getValue();
 
         var sliderFilterString;
-        if (allowPropable) {  // vermutet erlaubt
+        if (allowProbable) {  // vermutet erlaubt
             if (onlyContinuous) {
                 sliderFilterString = this.getSliderSQLQuery(true, true);
             } else {
