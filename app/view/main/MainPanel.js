@@ -59,9 +59,12 @@ Ext.define("SppAppClassic.main.MainPanel", {
             }
         },{
           xtype: "label",
-          html: "<a href='http://www.spp-haefen.de/de/impressum/', text-decoration: none>Imprint</a>",
+          html: "Imprint",
           align: "right",
-          cls: "action-label"
+          cls: "action-label",
+          listeners: {
+            element: "el", click: "onImprintClick"
+          }
         },{
             xtype: "label",
             id: "logoutButtonlabel",

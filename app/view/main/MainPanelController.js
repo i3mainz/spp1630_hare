@@ -43,6 +43,10 @@ Ext.define("SppAppClassic.MainPanelController", {
         newsPanel.show();
     },
 
+    onImprintClick: function() {
+      window.open('http://www.spp-haefen.de/de/impressum/');
+    },
+
     /*
      * clean up everything when main view gets destroyed
      */
