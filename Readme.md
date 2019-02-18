@@ -1,6 +1,8 @@
 # SPP 1630 HARE
 This is the Harbour Research Environment of the SPP 1630 Harbours Program. It visualizes harbour related data compiled by participating SPP projects, as well as additional hydrological and archeological datasets. It is meant to act as a tool for researchers during their ongoing projects.
 
+[![Build Status](https://travis-ci.org/i3mainz/spp1630_hare.svg?branch=master)](https://travis-ci.org/i3mainz/spp1630_hare)
+
 ## Set up development environment
 Download and install the Sencha CMD from the Sencha website [Sencha website](https://www.sencha.com/products/extjs/cmd-download/).
 
